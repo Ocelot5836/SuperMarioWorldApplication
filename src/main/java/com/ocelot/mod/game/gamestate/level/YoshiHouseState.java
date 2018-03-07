@@ -32,8 +32,8 @@ public class YoshiHouseState extends GameState {
 	@Override
 	public void init() {
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/yoshi_house.map"));
-		level.getMap().setPosition(0, 58);
-
+		level.getMap().setTween(1).setPosition(0, 58);
+		
 		level.add(new Fruit(game, 48, 63));
 		level.add(new Fruit(game, 32, 47));
 		level.add(new Fruit(game, 97, 48));

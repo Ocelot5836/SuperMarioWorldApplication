@@ -3,6 +3,7 @@ package com.ocelot.mod.game.core.gfx;
 import java.awt.image.BufferedImage;
 
 import com.ocelot.api.utils.TextureUtils;
+import com.ocelot.mod.Lib;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -166,7 +167,7 @@ public class Sprite {
 	 * @param y
 	 *            The y position to render at
 	 */
-	public void render(int x, int y) {
+	public void render(double x, double y) {
 		render(x, y, this.getWidth(), this.getHeight());
 	}
 
@@ -182,7 +183,7 @@ public class Sprite {
 	 * @param height
 	 *            The height the sprite should fit
 	 */
-	public void render(int x, int y, int width, int height) {
+	public void render(double x, double y, int width, int height) {
 		TextureUtils.bindTexture(this.getTexture());
 		int imageWidth = 256;
 		int imageHeight = 256;
@@ -193,7 +194,7 @@ public class Sprite {
 			imageWidth = this.getWidth();
 			imageHeight = this.getHeight();
 		}
-		Gui.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, imageWidth, imageHeight);
+		Lib.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, imageWidth, imageHeight);
 	}
 
 	/**

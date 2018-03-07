@@ -43,7 +43,6 @@ public class Fruit extends Entity {
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		super.render(gui, mc, mouseX, mouseY, partialTicks);
-		animation.getSprite().render((int) x - (int) xmap * 2 - cwidth / 2, (int) y - (int) ymap * 2 - cheight / 2);
+		animation.getSprite().render(x - tileMap.getX() * 2 - cwidth / 2, y - tileMap.getY() * 2 - cheight / 2);
 	}
 }

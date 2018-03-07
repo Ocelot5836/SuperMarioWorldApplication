@@ -106,24 +106,24 @@ public class Background {
 	 */
 	public void render() {
 		if (heightScale < 0) {
-			image.render((int) x, (int) y, Game.WIDTH, Game.HEIGHT);
+			image.render(x, y, Game.WIDTH, Game.HEIGHT);
 
 			if (x < 0) {
-				image.render((int) (x + Game.WIDTH), (int) y, Game.WIDTH, Game.HEIGHT);
+				image.render(x + Game.WIDTH, y, Game.WIDTH, Game.HEIGHT);
 			}
 
 			if (x > 0) {
-				image.render((int) (x - Game.WIDTH), (int) y, Game.WIDTH, Game.HEIGHT);
+				image.render(x - Game.WIDTH, y, Game.WIDTH, Game.HEIGHT);
 			}
 		} else {
-			image.render((int) x, (int) y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
+			image.render(x, y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
 
 			if (x < 0) {
-				image.render((int) (x + Game.WIDTH), (int) y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
+				image.render(x + Game.WIDTH, y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
 			}
 
 			if (x > 0) {
-				image.render((int) (x - Game.WIDTH), (int) y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
+				image.render(x - Game.WIDTH, y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
 			}
 		}
 	}

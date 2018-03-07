@@ -28,12 +28,16 @@ public abstract class Entity {
 	protected Level level;
 	/** The tile map used in the level */
 	protected TileMap tileMap;
-	/** Te size of each tile */
+	/** The size of each tile */
 	protected int tileSize;
 	/** The x position */
 	protected double x;
 	/** The y position */
 	protected double y;
+	/** The last x position */
+	protected double lastX;
+	/** The last y position */
+	protected double lastY;
 
 	/** The width of this entity */
 	protected int cwidth;
@@ -143,10 +147,10 @@ public abstract class Entity {
 		int rightTile = (int) (x + cwidth / 2 - 1) / tileSize;
 		int topTile = (int) (y - cheight / 2) / tileSize;
 		int bottomTile = (int) (y + cheight / 2 - 1) / tileSize;
-		topLeft = tileMap.getTile(leftTile, topTile).isBottomSolid() || tileMap.getTile(leftTile, topTile).isLeftSolid();
-		topRight = tileMap.getTile(rightTile, topTile).isBottomSolid() || tileMap.getTile(rightTile, topTile).isRightSolid();
-		bottomLeft = tileMap.getTile(leftTile, bottomTile).isTopSolid() || tileMap.getTile(leftTile, bottomTile).isLeftSolid();
-		bottomRight = tileMap.getTile(rightTile, bottomTile).isTopSolid() || tileMap.getTile(rightTile, bottomTile).isRightSolid();
+		topLeft = tileMap.getTile(leftTile, topTile).isBottomSolid() || tileMap.getTile(leftTile, topTile).isRightSolid();
+		topRight = tileMap.getTile(rightTile, topTile).isBottomSolid() || tileMap.getTile(rightTile, topTile).isLeftSolid();
+		bottomLeft = tileMap.getTile(leftTile, bottomTile).isTopSolid() || tileMap.getTile(leftTile, bottomTile).isRightSolid();
+		bottomRight = tileMap.getTile(rightTile, bottomTile).isTopSolid() || tileMap.getTile(rightTile, bottomTile).isLeftSolid();
 
 		if (dy != 0) {
 			if (tileMap.getTile(currTileX, topTile).isBottomSolid()) {
@@ -167,15 +171,6 @@ public abstract class Entity {
 				tileMap.getTile(rightTile, currTileY).onEntityCollision(rightTile, currTileY, this, EnumDir.LEFT);
 			}
 		}
-
-		// tileMap.getTile(leftTile, topTile).onEntityCollision(leftTile, topTile, this, EnumDir.DOWN);
-		// tileMap.getTile(leftTile, topTile).onEntityCollision(leftTile, topTile, this, EnumDir.LEFT);
-		// tileMap.getTile(rightTile, topTile).onEntityCollision(rightTile, topTile, this, EnumDir.DOWN);
-		// tileMap.getTile(rightTile, topTile).onEntityCollision(rightTile, topTile, this, EnumDir.RIGHT);
-		// tileMap.getTile(leftTile, bottomTile).onEntityCollision(leftTile, bottomTile, this, EnumDir.UP);
-		// tileMap.getTile(leftTile, bottomTile).onEntityCollision(leftTile, bottomTile, this, EnumDir.LEFT);
-		// tileMap.getTile(rightTile, bottomTile).onEntityCollision(rightTile, bottomTile, this, EnumDir.UP);
-		// tileMap.getTile(rightTile, bottomTile).onEntityCollision(rightTile, bottomTile, this, EnumDir.LEFT);
 	}
 
 	/**
@@ -183,7 +178,7 @@ public abstract class Entity {
 	 */
 	public void onLoseFocus() {
 	}
-	
+
 	/**
 	 * @return The entity's game instance
 	 */
@@ -241,6 +236,20 @@ public abstract class Entity {
 	}
 
 	/**
+	 * @return The partial position to smooth out the x movement
+	 */
+	public double getPartialRenderX() {
+		return (x - lastX) * Minecraft.getMinecraft().getRenderPartialTicks();
+	}
+
+	/**
+	 * @return The partial position to smooth out the y movement
+	 */
+	public double getPartialRenderY() {
+		return (y - lastY) * Minecraft.getMinecraft().getRenderPartialTicks();
+	}
+
+	/**
 	 * Whether or not this entity has collided with the entity provided.
 	 * 
 	 * @param entity
@@ -276,6 +285,8 @@ public abstract class Entity {
 	 *            The new y position
 	 */
 	public void setPosition(double x, double y) {
+		this.lastX = this.x;
+		this.lastY = this.y;
 		this.x = x;
 		this.y = y;
 	}
@@ -379,7 +390,7 @@ public abstract class Entity {
 	 * @deprecated This is pretty much useless and will be removed.
 	 */
 	protected void setMapPosition() {
-		xmap = level.getMap().getX();
-		ymap = level.getMap().getY();
+		xmap = tileMap.getX();
+		ymap = tileMap.getY();
 	}
 }

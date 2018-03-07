@@ -8,6 +8,9 @@ import javax.imageio.ImageIO;
 import com.ocelot.mod.game.core.gfx.Sprite;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -60,5 +63,21 @@ public class Lib {
 			Mod.logger().warn("Could not load image " + location + ". Could cause issues later on.");
 		}
 		return new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+	}
+
+	/**
+	 * Draws a scaled, textured, tiled modal rect at z = 0. This method isn't used anywhere in vanilla code.
+	 */
+	public static void drawScaledCustomSizeModalRect(double x, double y, double u, double v, double uWidth, double vHeight, double width, double height, double tileWidth, double tileHeight) {
+		double f = 1.0 / tileWidth;
+		double f1 = 1.0 / tileHeight;
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferbuilder = tessellator.getBuffer();
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		bufferbuilder.pos(x, (y + height), 0.0D).tex((u * f), ((v + vHeight) * f1)).endVertex();
+		bufferbuilder.pos((x + width), (y + height), 0.0D).tex(((u + uWidth) * f), ((v + vHeight) * f1)).endVertex();
+		bufferbuilder.pos((x + width), y, 0.0D).tex(((u + uWidth) * f), (v * f1)).endVertex();
+		bufferbuilder.pos(x, y, 0.0D).tex((u * f), (v * f1)).endVertex();
+		tessellator.draw();
 	}
 }

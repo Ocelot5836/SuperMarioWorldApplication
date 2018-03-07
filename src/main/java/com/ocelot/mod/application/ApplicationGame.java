@@ -82,7 +82,7 @@ public class ApplicationGame extends Application {
 		GLHelper.scissor(x, y, getWidth(), getHeight());
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
-		game.render(laptop, mc, mouseX - x, mouseY - y, partialTicks);
+		game.render(laptop, mc, mouseX - x, mouseY - y, mc.getRenderPartialTicks());
 		GlStateManager.popMatrix();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		if (mouseX != oldMouseX)

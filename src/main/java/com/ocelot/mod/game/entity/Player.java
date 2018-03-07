@@ -233,7 +233,7 @@ public class Player extends Mob {
 		if (!facingRight) {
 			sprite = Lib.flipHorizontal(sprite);
 		}
-		sprite.render((int) x - (int) xmap * 2 - cwidth / 2 - 2, (int) y - (int) ymap * 2 - cheight / 2 - 10);
+		sprite.render((int) ((x - tileMap.getX() * 2 - cwidth / 2 - 2) + this.getPartialRenderX()), (int) ((y - tileMap.getY() * 2 - cheight / 2 - 10) + this.getPartialRenderY()));
 	}
 
 	private void setAnimation(int animation) {
