@@ -1,0 +1,12 @@
+{
+    "name": "Super Mario World",
+    "author": "Ocelot5836",
+    "description": "Dive into the ages and play this revolutionary 2d game from the SNES! This app hopes to add the whole game as accurately as possible. If this has any issues, please let me know!",
+    "version": "0.1",
+    "icon": "osmw:textures/app/icon/smw.png",
+    "screenshots": [
+        "https://i.imgur.com/bHBBmUu.png",
+        "https://i.imgur.com/1lDrGEZ.png",
+        "https://i.imgur.com/v1KcWwV.png"
+    ]
+}
