@@ -56,13 +56,13 @@ public class Player extends Mob {
 		this.animation = new BufferedAnimation();
 		this.loadSprites();
 
-		this.moveSpeed = 0.3;
-		this.maxSpeed = baseMaxSpeed = 1.6;
-		this.stopSpeed = baseStopSpeed = 0.4;
-		this.fallSpeed = 0.15;
-		this.maxFallSpeed = 4.0;
-		this.jumpStart = -4.8;
-		this.stopJumpSpeed = 0.3;
+		this.moveSpeed = 0.9;
+		this.maxSpeed = baseMaxSpeed = 4.8;
+		this.stopSpeed = baseStopSpeed = 1.5;
+		this.fallSpeed = 2.0;
+		this.maxFallSpeed = 15.0;
+		this.jumpStart = -16;
+		this.stopJumpSpeed = 0.9;
 
 		this.small = true;
 		this.runAnimationSpeed = 100;
@@ -168,6 +168,7 @@ public class Player extends Mob {
 
 	@Override
 	public void update() {
+		super.update();
 		getNextPosition();
 		checkTileMapCollision();
 		setPosition(xtemp, ytemp);
@@ -233,7 +234,10 @@ public class Player extends Mob {
 		if (!facingRight) {
 			sprite = Lib.flipHorizontal(sprite);
 		}
-		sprite.render((int) ((x - tileMap.getX() * 2 - cwidth / 2 - 2) + this.getPartialRenderX()), (int) ((y - tileMap.getY() * 2 - cheight / 2 - 10) + this.getPartialRenderY()));
+
+		double posX = lastX + this.getPartialRenderX();
+		double posY = lastY + this.getPartialRenderY();
+		sprite.render(posX - tileMap.getX() * 2 - cwidth / 2 - 2, posY - tileMap.getY() * 2 - cheight / 2 - 10);
 	}
 
 	private void setAnimation(int animation) {

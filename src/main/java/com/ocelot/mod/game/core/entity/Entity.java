@@ -90,6 +90,8 @@ public abstract class Entity {
 	 * Called 20 times per second. Updates the entity's logic.
 	 */
 	public void update() {
+		this.lastX = x;
+		this.lastY = y;
 	}
 
 	/**
@@ -285,8 +287,6 @@ public abstract class Entity {
 	 *            The new y position
 	 */
 	public void setPosition(double x, double y) {
-		this.lastX = this.x;
-		this.lastY = this.y;
 		this.x = x;
 		this.y = y;
 	}
