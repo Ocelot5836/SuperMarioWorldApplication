@@ -47,7 +47,13 @@ public abstract class Entity {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		this.setMapPosition();
 	}
+	
+	public void onKeyPressed(int keyCode, char typedChar) {
+	}
 
+	public void onKeyReleased(int keyCode, char typedChar) {
+	}
+	
 	protected void calculateCorners(double x, double y) {
 		int currTileX = (int) x / tileSize;
 		int currTileY = (int) y / tileSize;

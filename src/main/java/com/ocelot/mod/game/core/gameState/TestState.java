@@ -65,10 +65,12 @@ public class TestState extends GameState {
 	}
 
 	@Override
-	public void onKeyPressed(int keyCode, char typedChar) {		
+	public void onKeyPressed(int keyCode, char typedChar) {
+		level.onKeyPressed(keyCode, typedChar);
 	}
 
 	@Override
-	public void onKeyReleased(int keyCode, char typedChar) {		
+	public void onKeyReleased(int keyCode, char typedChar) {
+		level.onKeyReleased(keyCode, typedChar);
 	}
 }

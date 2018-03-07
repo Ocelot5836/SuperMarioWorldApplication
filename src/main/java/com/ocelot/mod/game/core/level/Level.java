@@ -48,6 +48,18 @@ public class Level {
 			entities.get(i).render(gui, mc, mouseX, mouseY, partialTicks);
 		}
 	}
+	
+	public void onKeyPressed(int keyCode, char typedChar) {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).onKeyPressed(keyCode, typedChar);
+		}
+	}
+
+	public void onKeyReleased(int keyCode, char typedChar) {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).onKeyReleased(keyCode, typedChar);
+		}
+	}
 
 	public void add(Entity entity) {
 		entity.init(this);
