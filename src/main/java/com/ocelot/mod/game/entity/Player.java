@@ -13,7 +13,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
-import com.ocelot.mod.game.core.gfx.gui.Guis;
+import com.ocelot.mod.game.gui.Guis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -156,7 +156,7 @@ public class Player extends Mob {
 
 	public void openGui(int id) {
 		if (game instanceof Game) {
-			((Game) game).currentDisplayedGui = Guis.INSTANCE.openClient(id, this).setSizeAndWorld(game, this);
+			((Game) game).currentDisplayedGui = Guis.INSTANCE.openGui(id, this).setSizeAndWorld(game, this);
 		}
 	}
 
@@ -229,7 +229,7 @@ public class Player extends Mob {
 			}
 		}
 
-		sprite.setData(animation.getSprite());
+		sprite.setData(animation.getImage());
 		if (!facingRight) {
 			sprite = Lib.flipHorizontal(sprite);
 		}
@@ -243,12 +243,5 @@ public class Player extends Mob {
 		}
 		this.animation.setFrames(this.sprites.get(animation));
 		this.animation.setDelay(this.delays[animation]);
-	}
-
-	public void onLoseFocus() {
-		this.left = false;
-		this.right = false;
-		this.down = false;
-		this.up = false;
 	}
 }

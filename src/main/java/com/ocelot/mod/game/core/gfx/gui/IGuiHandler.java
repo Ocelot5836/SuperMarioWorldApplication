@@ -15,23 +15,13 @@ import com.ocelot.mod.game.entity.Player;
 public interface IGuiHandler {
 
 	/**
-	 * Opens a gui client sided.
+	 * Opens a gui onto the screen.
 	 * 
 	 * @param id
 	 *            The id of the gui
 	 * @param player
 	 *            The player that opened the gui
 	 */
-	MarioGui openClient(int id, Player player);
-
-	/**
-	 * Opens a gui server sided. (Currently unused)
-	 * 
-	 * @param id
-	 *            The id of the gui
-	 * @param player
-	 *            The player that opened the gui
-	 */
-	MarioGui openServer(int id, Player player);
+	MarioGui openGui(int id, Player player);
 
 }

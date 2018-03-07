@@ -179,6 +179,12 @@ public abstract class Entity {
 	}
 
 	/**
+	 * Called when the game window loses focus.
+	 */
+	public void onLoseFocus() {
+	}
+	
+	/**
 	 * @return The entity's game instance
 	 */
 	public GameTemplate getGame() {

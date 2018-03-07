@@ -17,6 +17,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+/***
+ * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+ * 
+ * <br>
+ * </br>
+ * 
+ * Used to test the game engine.
+ * 
+ * @author Ocelot5836
+ */
 public class TestState extends GameState {
 
 	private Background bg;

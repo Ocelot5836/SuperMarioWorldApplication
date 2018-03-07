@@ -10,6 +10,16 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+/**
+ * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+ * 
+ * <br>
+ * </br>
+ * 
+ * Used as a state when something bad happens.
+ * 
+ * @author Ocelot5836
+ */
 public class ErrorState extends GameState {
 
 	public ErrorState(GameStateManager gsm, GameTemplate game) {
