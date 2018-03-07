@@ -1,6 +1,6 @@
 package com.ocelot.mod.game.core.gfx.gui;
 
-import com.ocelot.mod.game.core.entity.Player;
+import com.ocelot.mod.game.entity.Player;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>

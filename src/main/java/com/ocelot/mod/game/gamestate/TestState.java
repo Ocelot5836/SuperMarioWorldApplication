@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.core.gameState;
+package com.ocelot.mod.game.gamestate;
 
 import org.lwjgl.input.Keyboard;
 
@@ -6,6 +6,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;

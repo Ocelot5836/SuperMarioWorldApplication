@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.core.entity;
+package com.ocelot.mod.game.entity;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -10,6 +10,7 @@ import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.gfx.gui.Guis;
@@ -164,7 +165,7 @@ public class Player extends Mob {
 			((Game) game).currentDisplayedGui = null;
 		}
 	}
-	
+
 	@Override
 	public void update() {
 		getNextPosition();
@@ -242,5 +243,12 @@ public class Player extends Mob {
 		}
 		this.animation.setFrames(this.sprites.get(animation));
 		this.animation.setDelay(this.delays[animation]);
+	}
+
+	public void onLoseFocus() {
+		this.left = false;
+		this.right = false;
+		this.down = false;
+		this.up = false;
 	}
 }

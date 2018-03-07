@@ -1,12 +1,13 @@
-package com.ocelot.mod.game.core.level.tile;
+package com.ocelot.mod.game.level.tile;
 
 import com.ocelot.mod.game.core.EnumDir;
 import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.entity.Player;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.tile.BasicTile;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.PropertyEnum;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
+import com.ocelot.mod.game.entity.Player;
 
 import net.minecraft.util.IStringSerializable;
 

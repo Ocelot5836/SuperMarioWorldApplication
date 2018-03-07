@@ -7,6 +7,7 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
+import com.ocelot.mod.game.level.tile.InfoBoxTile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -16,8 +17,10 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class Tile {
 
+	/** All of the registered tiles */
 	public static final Tile[] TILES = new Tile[256];
 
+	// TODO put these all in 1 spritesheet for tiles.
 	public static final ResourceLocation YOSHI_HOUSE_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tilesets/yoshi_house/tiles.png");
 	public static final ResourceLocation MISC_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tilesets/misc.png");
 	public static final ResourceLocation GRASS_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tilesets/ground/grass.png");
@@ -54,6 +57,7 @@ public abstract class Tile {
 
 	public static final Tile INFO_BOX = new InfoBoxTile(); // 23
 
+	/** The value that stores all specific data for this block */
 	private TileStateContainer container;
 	private int id;
 	private boolean topSolid;
@@ -81,61 +85,153 @@ public abstract class Tile {
 		this.render = true;
 	}
 
+	/**
+	 * Updates the tile.
+	 */
 	public abstract void update();
 
+	/**
+	 * Renders the tile.
+	 * 
+	 * @param x
+	 *            The x position of the tile
+	 * @param y
+	 *            The y position of the tile
+	 * @param tileMap
+	 *            The tile map this tile is a part of
+	 * @param gui
+	 *            A gui instance
+	 * @param mc
+	 *            A minecraft instance
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 * @param partialTicks
+	 *            The partial ticks
+	 */
 	public abstract void render(int x, int y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks);
 
+	/**
+	 * Called when an entity collides with this tile.
+	 * 
+	 * @param x
+	 *            The x of the tile
+	 * @param y
+	 *            The y of the tile
+	 * @param entity
+	 *            The entity that collided
+	 * @param hitDirection
+	 *            The direction this block was hit from
+	 */
 	public void onEntityCollision(int x, int y, Entity entity, EnumDir hitDirection) {
 	}
-	
+
+	/**
+	 * Creates a new {@link TileStateContainer}. If you have custom properties, you MUST override this method to register them!
+	 * 
+	 * @return The container created
+	 */
 	public TileStateContainer createContainer() {
 		return new TileStateContainer(this, new IProperty[0]);
 	}
 
+	/**
+	 * @return This block's container for properties
+	 */
 	public TileStateContainer getContainer() {
 		return container;
 	}
 
+	/**
+	 * Returns the value for the specified property as specified in the {@link #container}.
+	 * 
+	 * @param property
+	 *            The property to get the value of
+	 * @return The value for this property in the {@link #container}. Will throw an exception if it is not registered with this tile
+	 * @throws IllegalArgumentException
+	 *             If the property is not in the {@link #container}
+	 */
 	protected Object getValue(IProperty property) {
 		return this.container.getValue(property);
 	}
 
+	/**
+	 * Sets the value for the property in the {@link #container}.
+	 * 
+	 * @param property
+	 *            The property to get the value of
+	 * @param value
+	 *            The new value for this property. Will throw an exception if it is not registered with this tile
+	 * @throws IllegalArgumentException
+	 *             If the property is not in the {@link #container}
+	 */
 	protected void setValue(IProperty property, Object value) {
 		this.container.setValue(property, value);
 	}
 
+	/**
+	 * @return The id for this tile
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @return If all four sides are solid
+	 */
 	public boolean isSolid() {
 		return topSolid && bottomSolid && leftSolid && rightSolid;
 	}
 
+	/**
+	 * @return If the top is solid
+	 */
 	public boolean isTopSolid() {
 		return topSolid;
 	}
 
+	/**
+	 * @return If the bottom is solid
+	 */
 	public boolean isBottomSolid() {
 		return bottomSolid;
 	}
 
+	/**
+	 * @return If the left is solid
+	 */
 	public boolean isLeftSolid() {
 		return leftSolid;
 	}
 
+	/**
+	 * @return If the right is solid
+	 */
 	public boolean isRightSolid() {
 		return rightSolid;
 	}
 
+	/**
+	 * @return Whether or not this tile should render
+	 */
 	public boolean shouldRender() {
 		return render;
 	}
 
-	public void setContainer(TileStateContainer container) {
+	/**
+	 * Sets the container for this tile. Used for proper container mapping.
+	 * 
+	 * @param container
+	 *            The new container
+	 */
+	public final void setContainer(TileStateContainer container) {
 		this.container = container;
 	}
 
+	/**
+	 * Sets all four sides to be solid.
+	 */
 	protected Tile setSolid() {
 		this.topSolid = true;
 		this.bottomSolid = true;
@@ -144,26 +240,41 @@ public abstract class Tile {
 		return this;
 	}
 
+	/**
+	 * Sets the top to be solid.
+	 */
 	protected Tile setTopSolid() {
 		this.topSolid = true;
 		return this;
 	}
 
+	/**
+	 * Sets the bottom to be solid.
+	 */
 	protected Tile setBottomSolid() {
 		this.bottomSolid = true;
 		return this;
 	}
 
+	/**
+	 * Sets the left to be solid.
+	 */
 	protected Tile setLeftSolid() {
 		this.leftSolid = true;
 		return this;
 	}
 
+	/**
+	 * Sets the right to be solid.
+	 */
 	protected Tile setRightSolid() {
 		this.rightSolid = true;
 		return this;
 	}
 
+	/**
+	 * Sets this tile to not render.
+	 */
 	protected Tile setShouldNotRender() {
 		this.render = false;
 		return this;

@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.core.entity.misc;
+package com.ocelot.mod.game.entity.misc;
 
 import java.awt.image.BufferedImage;
 

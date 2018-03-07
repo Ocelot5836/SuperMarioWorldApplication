@@ -81,7 +81,7 @@ public abstract class GameTemplate {
 	}
 
 	/**
-	 * Saves data to an NBTTagCompoundlemme
+	 * Saves data to an NBTTagCompound.
 	 * 
 	 * @param nbt
 	 *            The tag to save to
@@ -101,13 +101,6 @@ public abstract class GameTemplate {
 	 */
 	public int getHeight() {
 		return height;
-	}
-
-	/**
-	 * @return Whether or not the mod is in debig mode
-	 */
-	public static boolean isDebug() {
-		return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 	}
 
 	/**

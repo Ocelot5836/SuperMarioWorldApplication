@@ -1,7 +1,8 @@
 package com.ocelot.mod.game.core.gfx.gui;
 
-import com.ocelot.mod.game.core.entity.Player;
 import com.ocelot.mod.game.core.level.tile.Tile;
+import com.ocelot.mod.game.entity.Player;
+import com.ocelot.mod.game.gui.MarioGuiYoshiTextBubble;
 
 public class Guis implements IGuiHandler {
 

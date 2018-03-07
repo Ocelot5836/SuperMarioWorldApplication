@@ -26,6 +26,9 @@ public abstract class GameState {
 
 	public abstract void onKeyReleased(int keyCode, char typedChar);
 
+	public void onLoseFocus() {
+	}
+
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName();

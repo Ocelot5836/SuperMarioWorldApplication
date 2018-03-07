@@ -1,5 +1,6 @@
 package com.ocelot.mod.game;
 
+import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 
@@ -29,8 +30,10 @@ public class Game extends GameTemplate {
 	public void update() {
 		if (!closed) {
 			gsm.update();
-			if (currentDisplayedGui != null)
+			if (currentDisplayedGui != null) {
 				currentDisplayedGui.update();
+				gsm.onLoseFocus();
+			}
 		}
 	}
 
@@ -40,7 +43,7 @@ public class Game extends GameTemplate {
 			gsm.render(gui, mc, mouseX, mouseY, partialTicks);
 			if (currentDisplayedGui != null)
 				currentDisplayedGui.render(gui, mouseX, mouseY, partialTicks);
-			if (this.isDebug()) {
+			if (Mod.isDebug()) {
 				gui.drawString(mc.fontRenderer, "Current: " + gsm.getSelectedState().toString(), 2, 2, 0xffffffff);
 			}
 		} else {

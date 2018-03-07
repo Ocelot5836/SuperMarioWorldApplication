@@ -16,6 +16,12 @@ import com.ocelot.mod.Mod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
+/**
+ * An alternate, fixed version of the default {@link Message}.
+ * 
+ * @author Ocelot5836
+ * @author MrCrayfish
+ */
 public class DialogMessage extends Dialog {
 
 	private String messageText = "";

@@ -12,8 +12,17 @@ import com.ocelot.mod.game.core.GameTemplate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextFormatting;
 
+/**
+ * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+ * 
+ * <br>
+ * </br>
+ * 
+ * The main application class.
+ * 
+ * @author Ocelot5836
+ */
 public class ApplicationGame extends Application {
 
 	private Layout layout;
@@ -47,19 +56,19 @@ public class ApplicationGame extends Application {
 	@Override
 	public void handleKeyTyped(char character, int code) {
 		super.handleKeyTyped(character, code);
-		if(!Game.isClosed()) {
+		if (!Game.isClosed()) {
 			game.onKeyPressed(code, character);
 		}
 	}
-	
+
 	@Override
 	public void handleKeyReleased(char character, int code) {
 		super.handleKeyReleased(character, code);
-		if(!Game.isClosed()) {
+		if (!Game.isClosed()) {
 			game.onKeyReleased(code, character);
 		}
 	}
-	
+
 	@Override
 	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
 		super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
@@ -84,11 +93,11 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void load(NBTTagCompound nbt) {
-
+		game.save(nbt);
 	}
 
 	@Override
 	public void save(NBTTagCompound nbt) {
-
+		game.load(nbt);
 	}
 }

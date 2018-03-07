@@ -7,7 +7,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.ErrorState;
 import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gameState.TestState;
-import com.ocelot.mod.game.core.gameState.level.YoshiHouseState;
+import com.ocelot.mod.game.gamestate.level.YoshiHouseState;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -43,11 +43,15 @@ public class GameStateManager {
 	public void onKeyPressed(int keyCode, char typedChar) {
 		this.getSelectedState().onKeyPressed(keyCode, typedChar);
 	}
-	
+
 	public void onKeyReleased(int keyCode, char typedChar) {
 		this.getSelectedState().onKeyReleased(keyCode, typedChar);
 	}
-	
+
+	public void onLoseFocus() {
+		this.getSelectedState().onLoseFocus();
+	}
+
 	public GameState getSelectedState() {
 		return gameStates.get(selectedState);
 	}

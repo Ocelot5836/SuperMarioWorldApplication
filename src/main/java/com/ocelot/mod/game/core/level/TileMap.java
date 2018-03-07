@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.ocelot.mod.game.Game;
-import com.ocelot.mod.game.core.level.tile.QuestionMarkTile;
-import com.ocelot.mod.game.core.level.tile.QuestionMarkTile.ItemType;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
@@ -23,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
  * <br>
  * </br>
  * 
- * A class to hold the tiles in a level.
+ * A class to hold the tiles in a level. It reloads the map each time the resource manager relods.
  * 
  * @author Ocelot5836
  */
@@ -37,6 +35,7 @@ public class TileMap implements IResourceManagerReloadListener {
 	private int xmax;
 	private int ymax;
 
+	/** The speed at which the tilemap moves at */
 	private double tween;
 
 	private ResourceLocation mapLocation;
@@ -53,13 +52,25 @@ public class TileMap implements IResourceManagerReloadListener {
 	private int numRowsToDraw;
 	private int numColsToDraw;
 
+	/**
+	 * Creates a new map of tiles with the specified size for each tile.
+	 * 
+	 * @param tileSize
+	 *            The size for each tile
+	 */
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
 		this.numRowsToDraw = Game.HEIGHT / tileSize + 2;
 		this.numColsToDraw = Game.WIDTH / tileSize + 2;
-		this.tween = 1;
+		this.tween = 0.07;
 	}
 
+	/**
+	 * Loads the map from the specified location into memory.
+	 * 
+	 * @param mapLocation
+	 *            The location of the map in files
+	 */
 	public void loadMap(ResourceLocation mapLocation) {
 		this.mapLocation = mapLocation;
 		String loadedTile = "null";
@@ -97,6 +108,14 @@ public class TileMap implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Sets the position of the map to the specified position. Moves smoothly from the old position to the new position using the {@link #tween} value.
+	 * 
+	 * @param x
+	 *            The new x position of the map
+	 * @param y
+	 *            The new y position of the map
+	 */
 	public void setPosition(double x, double y) {
 		if (x < xmin)
 			x = xmin;
@@ -114,6 +133,9 @@ public class TileMap implements IResourceManagerReloadListener {
 		this.rowOffset = (int) this.y / tileSize;
 	}
 
+	/**
+	 * Updates the tiles in the tilemap.
+	 */
 	public void update() {
 		for (int y = rowOffset; y < rowOffset + numRowsToDraw; y++) {
 			for (int x = colOffset; x < colOffset + numColsToDraw; x++) {
@@ -129,6 +151,20 @@ public class TileMap implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Renders the tiles in the tilemap.
+	 * 
+	 * @param gui
+	 *            A gui instance
+	 * @param mc
+	 *            A minecraft instance
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 * @param partialTicks
+	 *            The partial ticks
+	 */
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		for (int y = rowOffset - 1; y < rowOffset + numRowsToDraw; y++) {
 			for (int x = colOffset - 1; x < colOffset + numColsToDraw; x++) {
@@ -143,34 +179,64 @@ public class TileMap implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * @return The size of each tile in the tilemap
+	 */
 	public int getTileSize() {
 		return tileSize;
 	}
 
+	/**
+	 * @return The x position of the tilemap
+	 */
 	public double getX() {
 		return x;
 	}
 
+	/**
+	 * @return The y position of the tilemap
+	 */
 	public double getY() {
 		return y;
 	}
 
+	/**
+	 * @return The width in pixels of the tilemap
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * @return The height in pixels of the tilemap
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * @return The width in tiles of the tilemap
+	 */
 	public int getNumCols() {
 		return numCols;
 	}
 
+	/**
+	 * @return The height in tiles of the tilemap
+	 */
 	public int getNumRows() {
 		return numRows;
 	}
 
+	/**
+	 * Tries to fetch a tile at the specified pos. If is is null or out of bounds, it returns {@link Tile#VOID}.
+	 * 
+	 * @param x
+	 *            The x position of the tile
+	 * @param y
+	 *            The y position of the tile
+	 * @return The tile found at that pos
+	 */
 	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= numCols || y < 0 || y >= numRows)
 			return Tile.VOID;
@@ -179,6 +245,16 @@ public class TileMap implements IResourceManagerReloadListener {
 		return Tile.TILES[map[x + y * numCols]];
 	}
 
+	/**
+	 * Tries to set a tile at the specified pos. If is is of bounds it returns and does nothing.
+	 * 
+	 * @param x
+	 *            The x position of the tile
+	 * @param y
+	 *            The y position of the tile
+	 * @param tile
+	 *            The new tile to be placed at that position
+	 */
 	public void setTile(int x, int y, Tile tile) {
 		if (x < 0 || x >= numCols || y < 0 || y >= numRows)
 			return;
@@ -186,16 +262,39 @@ public class TileMap implements IResourceManagerReloadListener {
 		containers[x + y * numCols] = tile.createContainer();
 	}
 
+	/**
+	 * Tries to set a tile property at the specified pos. If is is of bounds or null, it returns and does nothing.
+	 * 
+	 * @param x
+	 *            The x position of the tile
+	 * @param y
+	 *            The y position of the tile
+	 * @param property
+	 *            The property to fetch
+	 * @param value
+	 *            The new value for the object
+	 * @throws IllegalArgumentException
+	 *             If the property does not exist in the tile's {@link TileStateContainer} at the specified pos
+	 */
 	public void setValue(int x, int y, IProperty property, Object value) {
 		if (x < 0 || x >= numCols || y < 0 || y >= numRows || containers[x + y * numCols] == null)
 			return;
 		containers[x + y * numCols].setValue(property, value);
 	}
 
+	/**
+	 * @return The speed at which the tilemap moves at
+	 */
 	public double getTween() {
 		return tween;
 	}
 
+	/**
+	 * Sets the speed at which the tilemap moves at.
+	 * 
+	 * @param tween
+	 *            The new value
+	 */
 	public TileMap setTween(double tween) {
 		this.tween = tween;
 		return this;

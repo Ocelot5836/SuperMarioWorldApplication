@@ -5,6 +5,14 @@ import com.ocelot.mod.game.core.GameTemplate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
+/**
+ * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+ * 
+ * <br>
+ * </br>
+ * 
+ * @author Ocelot5836
+ */
 public abstract class Mob extends Entity {
 
 	private double xdest;

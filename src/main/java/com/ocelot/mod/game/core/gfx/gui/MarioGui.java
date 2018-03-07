@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.Player;
+import com.ocelot.mod.game.entity.Player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

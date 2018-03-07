@@ -3,8 +3,11 @@ package com.ocelot.mod;
 import org.apache.logging.log4j.Logger;
 
 import com.mrcrayfish.device.api.ApplicationManager;
+import com.ocelot.api.utils.GuiUtils;
 import com.ocelot.mod.application.ApplicationGame;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -53,5 +56,27 @@ public class Mod {
 	 */
 	public static Logger logger() {
 		return logger;
+	}
+	
+
+	/**
+	 * @return Whether or not the mod is in debig mode
+	 */
+	public static boolean isDebug() {
+		return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+	}
+	
+	/**
+	 * @return Whether or not the user logged in on client side is MrCrayfish
+	 */
+	public static boolean isClientUserMrCrayfish() {
+		return Usernames.MR_CRAYFISH.equalsIgnoreCase(Minecraft.getMinecraft().player.getName());
+	}
+	
+	/**
+	 * @return Whether or not the user logged in on client side is Ocelot5836
+	 */
+	public static boolean isClientUserOcelot5836() {
+		return Usernames.OCELOT5836.equalsIgnoreCase(Minecraft.getMinecraft().player.getName());
 	}
 }
