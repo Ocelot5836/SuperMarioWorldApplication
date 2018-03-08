@@ -7,6 +7,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.ErrorState;
 import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gameState.TestState;
+import com.ocelot.mod.game.gamestate.MenuState;
 import com.ocelot.mod.game.gamestate.level.YoshiHouseState;
 
 import net.minecraft.client.Minecraft;
@@ -20,6 +21,7 @@ public class GameStateManager {
 
 	public static final String ERROR = "error";
 	public static final String TEST = "test";
+	public static final String MENU = "menu";
 	public static final String YOSHI_HOUSE = "yoshi_house";
 
 	public GameStateManager(GameTemplate game) {
@@ -27,6 +29,7 @@ public class GameStateManager {
 
 		gameStates.put(ERROR, new ErrorState(this, game));
 		gameStates.put(TEST, new TestState(this, game));
+		gameStates.put(MENU, new MenuState(this, game));
 		gameStates.put(YOSHI_HOUSE, new YoshiHouseState(this, game));
 
 		this.setState(YOSHI_HOUSE);

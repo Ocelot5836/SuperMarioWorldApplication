@@ -1,5 +1,7 @@
 package com.ocelot.mod.game.gamestate.level;
 
+import org.lwjgl.input.Keyboard;
+
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Backgrounds;
 import com.ocelot.mod.game.GameStateManager;
@@ -71,6 +73,10 @@ public class YoshiHouseState extends GameState {
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
 		level.onKeyPressed(keyCode, typedChar);
+		
+		if(keyCode == Keyboard.KEY_T) {
+			gsm.setState(gsm.MENU);
+		}
 	}
 
 	@Override

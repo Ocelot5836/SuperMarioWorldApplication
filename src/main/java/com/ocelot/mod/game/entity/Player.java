@@ -21,6 +21,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class Player extends Mob {
 
+	private boolean enableKeyboardInput;
+
 	private boolean running;
 	private boolean small;
 
@@ -48,6 +50,7 @@ public class Player extends Mob {
 
 	public Player(GameTemplate game, double x, double y) {
 		super(game);
+		this.enableKeyboardInput(true);
 		this.setPosition(x, y);
 		this.setSize(12, 14);
 		this.setMaxHealth(5);
@@ -206,20 +209,22 @@ public class Player extends Mob {
 		if (left)
 			facingRight = false;
 
-		if (game instanceof Game) {
-			if (((Game) game).currentDisplayedGui == null) {
+		if (this.enableKeyboardInput) {
+			if (game instanceof Game) {
+				if (((Game) game).currentDisplayedGui == null) {
+					this.left = Keyboard.isKeyDown(Keyboard.KEY_A);
+					this.right = Keyboard.isKeyDown(Keyboard.KEY_D);
+					this.running = Keyboard.isKeyDown(Keyboard.KEY_E);
+
+					this.jumping = Keyboard.isKeyDown(Keyboard.KEY_SPACE);
+				}
+			} else {
 				this.left = Keyboard.isKeyDown(Keyboard.KEY_A);
 				this.right = Keyboard.isKeyDown(Keyboard.KEY_D);
 				this.running = Keyboard.isKeyDown(Keyboard.KEY_E);
 
 				this.jumping = Keyboard.isKeyDown(Keyboard.KEY_SPACE);
 			}
-		} else {
-			this.left = Keyboard.isKeyDown(Keyboard.KEY_A);
-			this.right = Keyboard.isKeyDown(Keyboard.KEY_D);
-			this.running = Keyboard.isKeyDown(Keyboard.KEY_E);
-
-			this.jumping = Keyboard.isKeyDown(Keyboard.KEY_SPACE);
 		}
 	}
 
@@ -250,5 +255,14 @@ public class Player extends Mob {
 		}
 		this.animation.setFrames(this.sprites.get(animation));
 		this.animation.setDelay(this.delays[animation]);
+	}
+
+	public Player enableKeyboardInput(boolean enableKeyboardInput) {
+		this.enableKeyboardInput = enableKeyboardInput;
+		return this;
+	}
+
+	public boolean isKeyboardInputEnabled() {
+		return enableKeyboardInput;
 	}
 }

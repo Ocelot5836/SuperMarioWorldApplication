@@ -71,6 +71,8 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
+		partialTicks = mc.getRenderPartialTicks();
+		
 		super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
 
 		if (mouseX < x || mouseX >= x + this.getWidth() || mouseY < y || mouseY >= y + this.getHeight()) {
@@ -82,7 +84,7 @@ public class ApplicationGame extends Application {
 		GLHelper.scissor(x, y, getWidth(), getHeight());
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
-		game.render(laptop, mc, mouseX - x, mouseY - y, mc.getRenderPartialTicks());
+		game.render(laptop, mc, mouseX - x, mouseY - y, partialTicks);
 		GlStateManager.popMatrix();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		if (mouseX != oldMouseX)
