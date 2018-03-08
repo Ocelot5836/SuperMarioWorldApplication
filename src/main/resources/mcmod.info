@@ -1,14 +1,14 @@
 [
-{
-  "modid": "osmw",
-  "name": "Super Mario World",
-  "description": "A mod that adds a Super Mario World application from the SNES into the laptop.",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Ocelot5836"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+	{
+	  "modid": "osmw",
+	  "name": "Super Mario World",
+	  "description": "A mod that adds a Super Mario World application from the SNES into the laptop.",
+	  "url": "",
+	  "updateUrl": "",
+	  "authorList": ["Ocelot5836"],
+	  "credits": "Special thanks to MrCrayfish for helping me with the code to improve and make the game better!",
+	  "logoFile": "",
+	  "screenshots": [],
+	  "dependencies": []
+	}
 ]

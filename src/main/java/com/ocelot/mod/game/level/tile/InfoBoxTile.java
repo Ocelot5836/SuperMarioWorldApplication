@@ -16,7 +16,7 @@ public class InfoBoxTile extends BasicTile {
 	public static final PropertyEnum<TextType> TEXT = PropertyEnum.<TextType>create("text", TextType.class);
 
 	public InfoBoxTile() {
-		super(new Sprite(MISC_LOCATION, 0, 0, 16, 16));
+		super(new Sprite(TILES_SHEET.getSubimage(32, 0, 16, 16)));
 		this.setSolid();
 	}
 

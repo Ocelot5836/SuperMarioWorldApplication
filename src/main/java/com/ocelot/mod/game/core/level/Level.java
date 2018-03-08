@@ -38,7 +38,6 @@ public class Level {
 		this.tileMap.loadMap(mapLocation);
 	}
 
-	// TODO only update once per tick instead of 3 times
 	/**
 	 * Updates the tilemap as well as the entities.
 	 */

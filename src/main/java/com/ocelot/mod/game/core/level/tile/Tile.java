@@ -1,5 +1,8 @@
 package com.ocelot.mod.game.core.level.tile;
 
+import java.awt.image.BufferedImage;
+
+import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.EnumDir;
 import com.ocelot.mod.game.core.entity.Entity;
@@ -20,11 +23,11 @@ public abstract class Tile {
 	/** All of the registered tiles */
 	public static final Tile[] TILES = new Tile[256];
 
-	// TODO put these all in 1 spritesheet for tiles.
-	public static final ResourceLocation YOSHI_HOUSE_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tilesets/yoshi_house/tiles.png");
-	public static final ResourceLocation MISC_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tilesets/misc.png");
-	public static final ResourceLocation GRASS_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tilesets/ground/grass.png");
-	public static final ResourceLocation GRASS_MISC_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tilesets/ground/misc.png");
+	public static final ResourceLocation TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tiles.png");
+	public static final BufferedImage TILES_SHEET = Lib.loadImage(TILES_LOCATION);
+
+	public static final ResourceLocation CONNECTED_TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/connected_tiles.png");
+	public static final BufferedImage CONNECTED_TILES_SHEET = Lib.loadImage(CONNECTED_TILES_LOCATION);
 
 	private static int nextId = 0;
 
@@ -32,30 +35,29 @@ public abstract class Tile {
 	public static final Tile VOID = new VoidTile(); // 1
 	public static final Tile TEST_DIRT = new BasicTile(new ItemStack(Blocks.DIRT)).setSolid(); // 2
 
-	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(YOSHI_HOUSE_LOCATION, 0, 0, 16, 16)).setSolid(); // 3
-	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(YOSHI_HOUSE_LOCATION, 16, 0, 16, 16)).setSolid(); // 4
+	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET.getSubimage(0, 0, 16, 16))).setSolid(); // 3
+	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16))).setSolid(); // 4
+	public static final Tile INFO_BOX = new InfoBoxTile(); // 5
 
-	public static final Tile GRASS_TOP_LEFT = new BasicTile(new Sprite(GRASS_LOCATION, 0, 0, 16, 16)).setSolid(); // 5
-	public static final Tile GRASS_TOP_MIDDLE = new BasicTile(new Sprite(GRASS_LOCATION, 16, 0, 16, 16)).setSolid(); // 6
-	public static final Tile GRASS_TOP_RIGHT = new BasicTile(new Sprite(GRASS_LOCATION, 32, 0, 16, 16)).setSolid(); // 7
-	public static final Tile GRASS_CENTER_LEFT = new BasicTile(new Sprite(GRASS_LOCATION, 0, 16, 16, 16)).setSolid(); // 8
-	public static final Tile GRASS_CENTER_MIDDLE = new BasicTile(new Sprite(GRASS_LOCATION, 16, 16, 16, 16)).setSolid(); // 9
-	public static final Tile GRASS_CENTER_RIGHT = new BasicTile(new Sprite(GRASS_LOCATION, 32, 16, 16, 16)).setSolid(); // 10
-	public static final Tile GRASS_BOTTOM_LEFT = new BasicTile(new Sprite(GRASS_LOCATION, 0, 32, 16, 16)).setSolid(); // 11
-	public static final Tile GRASS_BOTTOM_MIDDLE = new BasicTile(new Sprite(GRASS_LOCATION, 16, 32, 16, 16)).setSolid(); // 12
-	public static final Tile GRASS_BOTTOM_RIGHT = new BasicTile(new Sprite(GRASS_LOCATION, 32, 32, 16, 16)).setSolid(); // 13
+	public static final Tile GRASS_TOP_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(0, 0, 16, 16))).setSolid(); // 6
+	public static final Tile GRASS_TOP_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(16, 0, 16, 16))).setSolid(); // 7
+	public static final Tile GRASS_TOP_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(32, 0, 16, 16))).setSolid(); // 8
+	public static final Tile GRASS_CENTER_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(0, 16, 16, 16))).setSolid(); // 9
+	public static final Tile GRASS_CENTER_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(16, 16, 16, 16))).setSolid(); // 10
+	public static final Tile GRASS_CENTER_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(32, 16, 16, 16))).setSolid(); // 11
+	public static final Tile GRASS_BOTTOM_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(0, 32, 16, 16))).setSolid(); // 12
+	public static final Tile GRASS_BOTTOM_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(16, 32, 16, 16))).setSolid(); // 13
+	public static final Tile GRASS_BOTTOM_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(32, 32, 16, 16))).setSolid(); // 14
 
-	public static final Tile GRASS_WALL_TOP_LEFT = new BasicTile(new Sprite(GRASS_LOCATION, 48, 0, 16, 16)).setTopSolid(); // 14
-	public static final Tile GRASS_WALL_TOP_MIDDLE = new BasicTile(new Sprite(GRASS_LOCATION, 64, 0, 16, 16)).setTopSolid(); // 15
-	public static final Tile GRASS_WALL_TOP_RIGHT = new BasicTile(new Sprite(GRASS_LOCATION, 80, 0, 16, 16)).setTopSolid(); // 16
-	public static final Tile GRASS_WALL_CENTER_LEFT = new BasicTile(new Sprite(GRASS_LOCATION, 48, 16, 16, 16)); // 17
-	public static final Tile GRASS_WALL_CENTER_MIDDLE = new BasicTile(new Sprite(GRASS_LOCATION, 64, 16, 16, 16)); // 18
-	public static final Tile GRASS_WALL_CENTER_RIGHT = new BasicTile(new Sprite(GRASS_LOCATION, 80, 16, 16, 16)); // 19
-	public static final Tile GRASS_WALL_BOTTOM_LEFT = new BasicTile(new Sprite(GRASS_LOCATION, 48, 32, 16, 16)).setBottomSolid(); // 20
-	public static final Tile GRASS_WALL_BOTTOM_MIDDLE = new BasicTile(new Sprite(GRASS_LOCATION, 64, 32, 16, 16)).setBottomSolid(); // 21
-	public static final Tile GRASS_WALL_BOTTOM_RIGHT = new BasicTile(new Sprite(GRASS_LOCATION, 80, 32, 16, 16)).setBottomSolid(); // 22
-
-	public static final Tile INFO_BOX = new InfoBoxTile(); // 23
+	public static final Tile GRASS_WALL_TOP_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(48, 0, 16, 16))).setTopSolid(); // 15
+	public static final Tile GRASS_WALL_TOP_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(64, 0, 16, 16))).setTopSolid(); // 16
+	public static final Tile GRASS_WALL_TOP_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(80, 0, 16, 16))).setTopSolid(); // 17
+	public static final Tile GRASS_WALL_CENTER_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(48, 16, 16, 16))); // 18
+	public static final Tile GRASS_WALL_CENTER_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(64, 16, 16, 16))); // 19
+	public static final Tile GRASS_WALL_CENTER_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(80, 16, 16, 16))); // 20
+	public static final Tile GRASS_WALL_BOTTOM_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(48, 32, 16, 16))).setBottomSolid(); // 21
+	public static final Tile GRASS_WALL_BOTTOM_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(64, 32, 16, 16))).setBottomSolid(); // 22
+	public static final Tile GRASS_WALL_BOTTOM_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(80, 32, 16, 16))).setBottomSolid(); // 23
 
 	/** The value that stores all specific data for this block */
 	private TileStateContainer container;
@@ -125,6 +127,24 @@ public abstract class Tile {
 	 *            The direction this block was hit from
 	 */
 	public void onEntityCollision(int x, int y, Entity entity, EnumDir hitDirection) {
+	}
+
+	/**
+	 * Called when the tile is added to the tilemap.
+	 * 
+	 * @param tileMap
+	 *            The tilemap instance
+	 */
+	public void onAdd(TileMap tileMap) {
+	}
+
+	/**
+	 * Called when the tile is removed from the tilemap.
+	 * 
+	 * @param tileMap
+	 *            The tilemap instance
+	 */
+	public void onRemove(TileMap tileMap) {
 	}
 
 	/**

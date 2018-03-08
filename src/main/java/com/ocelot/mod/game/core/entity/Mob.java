@@ -151,6 +151,55 @@ public abstract class Mob extends Entity {
 	public long getFlinchElapsedTime() {
 		return (System.nanoTime() - flinchTimer) / 1000000;
 	}
+	
+	/**
+	 * @return Whether or not the mob is flinching
+	 */
+	public boolean isFlinching() {
+		return flinching;
+	}
+
+	/**
+	 * @return if the mob is moving left or not.
+	 */
+	public boolean isLeft() {
+		return left;
+	}
+
+	/**
+	 * @return if the mob is moving right or not.
+	 */
+	public boolean isRight() {
+		return right;
+	}
+
+	/**
+	 * @return if the mob is moving up or not.
+	 */
+	public boolean isUp() {
+		return up;
+	}
+
+	/**
+	 * @return if the mob is moving down or not.
+	 */
+	public boolean isDown() {
+		return down;
+	}
+
+	/**
+	 * @return if the mob is jumping or not.
+	 */
+	public boolean isJumping() {
+		return jumping;
+	}
+
+	/**
+	 * @return if the mob is falling or not.
+	 */
+	public boolean isFalling() {
+		return falling;
+	}
 
 	/**
 	 * Sets the entity's health.
@@ -170,6 +219,48 @@ public abstract class Mob extends Entity {
 	 */
 	protected void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
+	}
+
+	/**
+	 * Sets the mob to move left or not.
+	 */
+	public void setLeft(boolean left) {
+		this.left = left;
+	}
+
+	/**
+	 * Sets the mob to move right or not.
+	 */
+	public void setRight(boolean right) {
+		this.right = right;
+	}
+
+	/**
+	 * Sets the mob to move up or not.
+	 */
+	public void setUp(boolean up) {
+		this.up = up;
+	}
+
+	/**
+	 * Sets the mob to move down or not.
+	 */
+	public void setDown(boolean down) {
+		this.down = down;
+	}
+
+	/**
+	 * Sets the mob to jump or not.
+	 */
+	public void setJumping(boolean jumping) {
+		this.jumping = jumping;
+	}
+
+	/**
+	 * Sets the mob to fall or not.
+	 */
+	public void setFalling(boolean falling) {
+		this.falling = falling;
 	}
 
 	@Override

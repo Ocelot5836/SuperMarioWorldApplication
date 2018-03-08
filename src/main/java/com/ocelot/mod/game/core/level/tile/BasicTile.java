@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 
 public class BasicTile extends Tile {
 
-	private Sprite sprite;
+	protected Sprite sprite;
 
 	public BasicTile(ItemStack stack) {
 		this(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(stack).getParticleTexture()));

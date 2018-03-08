@@ -96,8 +96,7 @@ public class TileMap implements IResourceManagerReloadListener {
 				String line = br.readLine();
 				String[] tokens = line.split(" ");
 				for (int x = 0; x < numCols; x++) {
-					map[x + y * numCols] = Integer.parseInt(tokens[x]);
-					containers[x + y * numCols] = getTile(x, y).createContainer();
+					setTile(x, y, Tile.TILES[Integer.parseInt(tokens[x])]);
 					loadedTile = tokens[x];
 					lastX = y;
 					lastY = x;
@@ -256,8 +255,11 @@ public class TileMap implements IResourceManagerReloadListener {
 	 *            The new tile to be placed at that position
 	 */
 	public void setTile(int x, int y, Tile tile) {
-		if (x < 0 || x >= numCols || y < 0 || y >= numRows)
+		if (x < 0 || x >= numCols || y < 0 || y >= numRows || this.getTile(x, y) == tile)
 			return;
+
+		this.getTile(x, y).onRemove(this);
+		tile.onAdd(this);
 		map[x + y * numCols] = tile.getId();
 		containers[x + y * numCols] = tile.createContainer();
 	}

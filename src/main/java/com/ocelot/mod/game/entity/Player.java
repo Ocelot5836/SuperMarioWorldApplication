@@ -56,13 +56,13 @@ public class Player extends Mob {
 		this.animation = new BufferedAnimation();
 		this.loadSprites();
 
-		this.moveSpeed = 0.9;
-		this.maxSpeed = baseMaxSpeed = 4.8;
-		this.stopSpeed = baseStopSpeed = 1.5;
-		this.fallSpeed = 2.0;
-		this.maxFallSpeed = 15.0;
-		this.jumpStart = -16;
-		this.stopJumpSpeed = 0.9;
+		this.moveSpeed = 0.3;
+		this.maxSpeed = baseMaxSpeed = 1.6;
+		this.stopSpeed = baseStopSpeed = 0.4;
+		this.fallSpeed = 0.15;
+		this.maxFallSpeed = 4.0;
+		this.jumpStart = -4.8;
+		this.stopJumpSpeed = 0.3;
 
 		this.small = true;
 		this.runAnimationSpeed = 100;
@@ -144,6 +144,9 @@ public class Player extends Mob {
 				runAnimationSpeed = 100;
 			}
 		}
+
+		checkTileMapCollision();
+		setPosition(xtemp, ytemp);
 	}
 
 	private void setRunningAnimations() {
@@ -170,8 +173,8 @@ public class Player extends Mob {
 	public void update() {
 		super.update();
 		getNextPosition();
-		checkTileMapCollision();
-		setPosition(xtemp, ytemp);
+		getNextPosition();
+		getNextPosition();
 
 		if (dy > 0) {
 			if (currentAction != FALLING_SMALL) {

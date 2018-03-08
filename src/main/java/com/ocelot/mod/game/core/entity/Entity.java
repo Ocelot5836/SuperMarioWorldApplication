@@ -238,14 +238,14 @@ public abstract class Entity {
 	}
 
 	/**
-	 * @return The partial position to smooth out the x movement
+	 * @return The partial x position to smooth out the x movement
 	 */
 	public double getPartialRenderX() {
 		return (x - lastX) * Minecraft.getMinecraft().getRenderPartialTicks();
 	}
 
 	/**
-	 * @return The partial position to smooth out the y movement
+	 * @return The partial y position to smooth out the y movement
 	 */
 	public double getPartialRenderY() {
 		return (y - lastY) * Minecraft.getMinecraft().getRenderPartialTicks();
