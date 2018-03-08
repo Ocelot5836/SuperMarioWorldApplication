@@ -27,6 +27,8 @@ import net.minecraft.util.ResourceLocation;
  */
 public class TileMap implements IResourceManagerReloadListener {
 
+	private double lastX;
+	private double lastY;
 	private double x;
 	private double y;
 
@@ -136,6 +138,9 @@ public class TileMap implements IResourceManagerReloadListener {
 	 * Updates the tiles in the tilemap.
 	 */
 	public void update() {
+		this.lastX = x;
+		this.lastY = y;
+
 		for (int y = rowOffset; y < rowOffset + numRowsToDraw; y++) {
 			for (int x = colOffset; x < colOffset + numColsToDraw; x++) {
 				if (x >= numCols)
@@ -197,6 +202,34 @@ public class TileMap implements IResourceManagerReloadListener {
 	 */
 	public double getY() {
 		return y;
+	}
+
+	/**
+	 * @return The x position of the tilemap last tick
+	 */
+	public double getLastX() {
+		return lastX;
+	}
+
+	/**
+	 * @return The y position of the tilemap last tick
+	 */
+	public double getLastY() {
+		return lastY;
+	}
+
+	/**
+	 * @return The partial x position to smooth out the x movement
+	 */
+	public double getPartialRenderX() {
+		return (x - lastX) * Minecraft.getMinecraft().getRenderPartialTicks();
+	}
+
+	/**
+	 * @return The partial y position to smooth out the y movement
+	 */
+	public double getPartialRenderY() {
+		return (y - lastY) * Minecraft.getMinecraft().getRenderPartialTicks();
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.time.StopWatch;
 
 import com.ocelot.mod.Mod;
+import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.MobMover;
@@ -31,19 +32,18 @@ public class MenuState extends GameState {
 	public void init() {
 		timer = StopWatch.createStarted();
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
-		level.add(player = new Player(game, 0, 50).enableKeyboardInput(false));
-		bot = new MobMover(player);
-
-		bot.addPos(200, 0, 1, 1);
-		bot.addPos(-150, 0, 1, 1);
+		level.add(player = new Player(game, 0, 50).enableKeyboardInput(true));
+		bot = new MobMover(player).addPos(200, 0, 2, 0).addPos(-150, 0).addPos(50, 0, 1, 0);
 	}
 
 	@Override
 	public void update() {
 		level.update();
 		bot.update(timer.getTime());
-		
-		if(this.getMenuTime() == 1) {
+
+		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
+
+		if (this.getMenuTime() == 1) {
 			player.setJumping(true);
 		}
 	}
