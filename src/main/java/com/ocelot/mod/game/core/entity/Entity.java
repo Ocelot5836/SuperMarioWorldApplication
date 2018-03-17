@@ -1,7 +1,10 @@
 package com.ocelot.mod.game.core.entity;
 
 import java.awt.Rectangle;
+import java.util.Map;
 
+import com.google.common.collect.Maps;
+import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDir;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.level.Level;
@@ -21,6 +24,8 @@ import net.minecraft.client.gui.Gui;
  * @author Ocelot5836
  */
 public abstract class Entity {
+
+	private static Map<String, IFileSummonable> summonables = Maps.<String, IFileSummonable>newHashMap();
 
 	/** The game's instance */
 	protected GameTemplate game;
@@ -45,18 +50,6 @@ public abstract class Entity {
 	protected int cheight;
 	/** Collision variables */ // TODO redo collisions so they are more flexible
 	protected boolean topLeft, topRight, bottomLeft, bottomRight;
-	/**
-	 * The x position in the map
-	 * 
-	 * @deprecated This is not a good way to declare my coords. Will be removed.
-	 */
-	protected double xmap;
-	/**
-	 * The y position in the map
-	 * 
-	 * @deprecated This is not a good way to declare my coords. Will be removed.
-	 */
-	protected double ymap;
 
 	/** The current collumn this entity is in */
 	protected int currCol;
@@ -109,7 +102,6 @@ public abstract class Entity {
 	 *            The partial ticks
 	 */
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		this.setMapPosition();
 	}
 
 	/**
@@ -385,12 +377,27 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Sets the x and y map position of the entity.
+	 * Registers a summonable.
 	 * 
-	 * @deprecated This is pretty much useless and will be removed.
+	 * @param key
+	 *            The id
+	 * @param summonable
+	 *            The summonable
 	 */
-	protected void setMapPosition() {
-		xmap = tileMap.getX();
-		ymap = tileMap.getY();
+	public static void registerSummonable(String key, IFileSummonable summonable) {
+		if (!summonables.containsKey(key)) {
+			summonables.put(key, summonable);
+		} else {
+			Game.stop(new RuntimeException("Tried to register summonable " + key + " over an already existing one!"), "Could not register summonables.");
+		}
+	}
+
+	/**
+	 * @param key
+	 *            The id of the summonable to get
+	 * @return The summonable
+	 */
+	public static IFileSummonable getSummonable(String key) {
+		return summonables.get(key);
 	}
 }

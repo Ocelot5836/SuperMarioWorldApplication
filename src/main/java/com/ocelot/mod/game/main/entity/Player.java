@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.entity;
+package com.ocelot.mod.game.main.entity;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -10,10 +10,13 @@ import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.FileSummonException;
+import com.ocelot.mod.game.core.entity.IFileSummonable;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
-import com.ocelot.mod.game.gui.Guis;
+import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.main.gui.Guis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -168,6 +171,7 @@ public class Player extends Mob {
 
 	public void closeGui() {
 		if (game instanceof Game) {
+			((Game) game).currentDisplayedGui.onClosed();
 			((Game) game).currentDisplayedGui = null;
 		}
 	}
@@ -264,5 +268,20 @@ public class Player extends Mob {
 
 	public boolean isKeyboardInputEnabled() {
 		return enableKeyboardInput;
+	}
+
+	public static class Summonable implements IFileSummonable {
+		@Override
+		public void summon(GameTemplate game, Level level, String[] args) throws FileSummonException {
+			if (args.length > 1) {
+				try {
+					level.add(new Player(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
+				} catch (Exception e) {
+					throwSummonException("Can not summon a Player at non-numerical coords!");
+				}
+			} else {
+				level.add(new Player(game));
+			}
+		}
 	}
 }

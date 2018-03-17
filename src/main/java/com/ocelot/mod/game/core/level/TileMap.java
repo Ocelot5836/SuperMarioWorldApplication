@@ -178,7 +178,9 @@ public class TileMap implements IResourceManagerReloadListener {
 				if (!getTile(x, y).shouldRender())
 					continue;
 
-				this.getTile(x, y).render((int) -this.x + x * this.tileSize, (int) -this.y + y * this.tileSize, this, gui, mc, mouseX, mouseY, partialTicks);
+				double posX = this.lastX + this.getPartialRenderX();
+				double posY = this.lastY + this.getPartialRenderY();
+				this.getTile(x, y).render(-posX + x * this.tileSize, -posY + y * this.tileSize, this, gui, mc, mouseX, mouseY, partialTicks);
 			}
 		}
 	}

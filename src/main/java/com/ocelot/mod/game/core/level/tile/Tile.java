@@ -10,7 +10,7 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
-import com.ocelot.mod.game.level.tile.InfoBoxTile;
+import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -95,9 +95,9 @@ public abstract class Tile {
 	/**
 	 * Renders the tile.
 	 * 
-	 * @param x
+	 * @param d
 	 *            The x position of the tile
-	 * @param y
+	 * @param e
 	 *            The y position of the tile
 	 * @param tileMap
 	 *            The tile map this tile is a part of
@@ -112,7 +112,7 @@ public abstract class Tile {
 	 * @param partialTicks
 	 *            The partial ticks
 	 */
-	public abstract void render(int x, int y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks);
+	public abstract void render(double d, double e, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks);
 
 	/**
 	 * Called when an entity collides with this tile.

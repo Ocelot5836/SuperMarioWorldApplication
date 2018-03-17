@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.level.tile;
+package com.ocelot.mod.game.main.level.tile;
 
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.tile.BasicTile;

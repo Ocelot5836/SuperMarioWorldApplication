@@ -40,6 +40,8 @@ public class Lib {
 				}
 			}
 			sprite.setData(returned);
+		} else {
+			Mod.logger().warn("Can not flip sprite with type " + sprite.getType());
 		}
 		return sprite;
 	}

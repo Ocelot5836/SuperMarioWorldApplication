@@ -7,8 +7,8 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.ErrorState;
 import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gameState.TestState;
-import com.ocelot.mod.game.gamestate.MenuState;
-import com.ocelot.mod.game.gamestate.level.YoshiHouseState;
+import com.ocelot.mod.game.main.gamestate.MenuState;
+import com.ocelot.mod.game.main.gamestate.level.YoshiHouseState;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

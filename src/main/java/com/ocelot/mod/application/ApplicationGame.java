@@ -72,7 +72,7 @@ public class ApplicationGame extends Application {
 	@Override
 	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
 		partialTicks = mc.getRenderPartialTicks();
-		
+
 		super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
 
 		if (mouseX < x || mouseX >= x + this.getWidth() || mouseY < y || mouseY >= y + this.getHeight()) {

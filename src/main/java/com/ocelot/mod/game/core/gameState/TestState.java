@@ -9,7 +9,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.entity.Player;
+import com.ocelot.mod.game.main.entity.Player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

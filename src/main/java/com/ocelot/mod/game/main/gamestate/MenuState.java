@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.gamestate;
+package com.ocelot.mod.game.main.gamestate;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +11,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.MobMover;
 import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.entity.Player;
+import com.ocelot.mod.game.main.entity.Player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -23,7 +23,7 @@ public class MenuState extends GameState {
 	private Level level;
 	private Player player;
 	private MobMover bot;
-
+	
 	public MenuState(GameStateManager gsm, GameTemplate game) {
 		super(gsm, game);
 	}
@@ -32,6 +32,7 @@ public class MenuState extends GameState {
 	public void init() {
 		timer = StopWatch.createStarted();
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
+		level.getMap().setTween(0.25);
 		level.add(player = new Player(game, 0, 50).enableKeyboardInput(true));
 		bot = new MobMover(player).addPos(200, 0, 2, 0).addPos(-150, 0).addPos(50, 0, 1, 0);
 	}
@@ -55,12 +56,12 @@ public class MenuState extends GameState {
 
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
-
+		level.onKeyPressed(keyCode, typedChar);
 	}
 
 	@Override
 	public void onKeyReleased(int keyCode, char typedChar) {
-
+		level.onKeyReleased(keyCode, typedChar);
 	}
 
 	private long getMenuTime() {

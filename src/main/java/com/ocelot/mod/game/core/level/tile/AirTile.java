@@ -16,6 +16,6 @@ public class AirTile extends Tile {
 	}
 
 	@Override
-	public void render(int x, int y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void render(double x, double y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 	}
 }

@@ -3,7 +3,7 @@ package com.ocelot.mod.game.core.gfx.gui;
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.entity.Player;
+import com.ocelot.mod.game.main.entity.Player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -81,6 +81,12 @@ public class MarioGui {
 	 *            The partial ticks
 	 */
 	public void render(Gui gui, int mouseX, int mouseY, float partialTicks) {
+	}
+
+	/**
+	 * Called when the gui is about to close.
+	 */
+	public void onClosed() {		
 	}
 
 	/**

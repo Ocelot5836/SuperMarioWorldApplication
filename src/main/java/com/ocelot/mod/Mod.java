@@ -3,10 +3,12 @@ package com.ocelot.mod;
 import org.apache.logging.log4j.Logger;
 
 import com.mrcrayfish.device.api.ApplicationManager;
-import com.ocelot.api.utils.GuiUtils;
 import com.ocelot.mod.application.ApplicationGame;
+import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.main.entity.Fruit;
+import com.ocelot.mod.game.main.entity.Player;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -48,35 +50,37 @@ public class Mod {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		Entity.registerSummonable("Fruit", new Fruit.Summonable());
+		Entity.registerSummonable("Player", new Player.Summonable());
+		
 		ApplicationManager.registerApplication(GAME_ID, ApplicationGame.class);
 	}
 
 	/**
-	 * @return A logger that uses the mod's id as the name
+	 * @return A logger that uses the mod id as the name
 	 */
 	public static Logger logger() {
 		return logger;
 	}
-	
 
 	/**
-	 * @return Whether or not the mod is in debig mode
+	 * @return Whether or not the mod is in a deobfuscated environment
 	 */
 	public static boolean isDebug() {
 		return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 	}
-	
+
 	/**
-	 * @return Whether or not the user logged in on client side is MrCrayfish
+	 * @return Whether or not the player is MrCrayfish
 	 */
-	public static boolean isClientUserMrCrayfish() {
-		return Usernames.MR_CRAYFISH.equalsIgnoreCase(Minecraft.getMinecraft().player.getName());
+	public static boolean isUserMrCrayfish(EntityPlayer player) {
+		return Usernames.MR_CRAYFISH.equalsIgnoreCase(player.getName());
 	}
-	
+
 	/**
-	 * @return Whether or not the user logged in on client side is Ocelot5836
+	 * @return Whether or not the player is Ocelot5836
 	 */
-	public static boolean isClientUserOcelot5836() {
-		return Usernames.OCELOT5836.equalsIgnoreCase(Minecraft.getMinecraft().player.getName());
+	public static boolean isUserOcelot5836(EntityPlayer player) {
+		return Usernames.OCELOT5836.equalsIgnoreCase(player.getName());
 	}
 }

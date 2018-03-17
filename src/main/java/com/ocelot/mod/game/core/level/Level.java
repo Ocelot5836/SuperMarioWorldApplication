@@ -83,6 +83,15 @@ public class Level {
 	}
 
 	/**
+	 * Called when the window loses focus.
+	 */
+	public void onLoseFocus() {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).onLoseFocus();
+		}
+	}
+
+	/**
 	 * Called when a key is pressed.
 	 * 
 	 * @param keyCode

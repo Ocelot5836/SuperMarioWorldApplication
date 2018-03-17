@@ -1,9 +1,9 @@
-package com.ocelot.mod.game.gui;
+package com.ocelot.mod.game.main.gui;
 
 import com.ocelot.mod.game.core.gfx.gui.IGuiHandler;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.tile.Tile;
-import com.ocelot.mod.game.entity.Player;
+import com.ocelot.mod.game.main.entity.Player;
 
 public class Guis implements IGuiHandler {
 

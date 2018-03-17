@@ -17,8 +17,8 @@ public class VoidTile extends Tile {
 	}
 
 	@Override
-	public void render(int x, int y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		gui.drawRect(x, y, x + 16, y + 16, 0xff000000);
+	public void render(double x, double y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		gui.drawRect((int) x, (int) y, (int) x + 16, (int) y + 16, 0xff000000);
 		GlStateManager.color(1, 1, 1, 1);
 	}
 }

@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.entity.misc;
+package com.ocelot.mod.game.main.entity;
 
 import java.awt.image.BufferedImage;
 
@@ -6,8 +6,11 @@ import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.core.entity.FileSummonException;
+import com.ocelot.mod.game.core.entity.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.Level;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -44,5 +47,20 @@ public class Fruit extends Entity {
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		animation.getSprite().render(x - tileMap.getX() * 2 - cwidth / 2, y - tileMap.getY() * 2 - cheight / 2);
+	}
+
+	public static class Summonable implements IFileSummonable { 
+		@Override
+		public void summon(GameTemplate game, Level level, String[] args) throws FileSummonException {
+			if (args.length > 1) {
+				try {
+					level.add(new Fruit(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
+				} catch (Exception e) {
+					throwSummonException("Can not summon a Fruit at non-numerical coords!");
+				}
+			} else {
+				level.add(new Fruit(game));
+			}
+		}
 	}
 }
