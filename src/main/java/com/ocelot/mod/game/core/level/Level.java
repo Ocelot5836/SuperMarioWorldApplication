@@ -1,9 +1,16 @@
 package com.ocelot.mod.game.core.level;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.core.entity.fx.EntityFX;
+import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.lib.MemoryLib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -21,9 +28,11 @@ import net.minecraft.util.ResourceLocation;
  * @author Ocelot5836
  */
 public class Level {
-
+	
 	private TileMap tileMap;
+	private List<EntityFX> effects = Lists.<EntityFX>newArrayList();
 	private List<Entity> entities = Lists.<Entity>newArrayList();
+	private List<Player> players = Lists.<Player>newArrayList();
 
 	/**
 	 * Creates a new level with the specified map.
@@ -52,6 +61,24 @@ public class Level {
 				i--;
 			}
 		}
+
+		for (int i = 0; i < players.size(); i++) {
+			Player p = players.get(i);
+			p.update();
+			if (p.isDead()) {
+				players.remove(p);
+				i--;
+			}
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			EntityFX e = effects.get(i);
+			e.update();
+			if (e.isDead()) {
+				effects.remove(e);
+				i--;
+			}
+		}
 	}
 
 	/**
@@ -70,15 +97,20 @@ public class Level {
 	 */
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		this.tileMap.render(gui, mc, mouseX, mouseY, partialTicks);
-		GlStateManager.pushMatrix();
-		GlStateManager.translate((int) tileMap.getX(), (int) tileMap.getY(), 0);
 		this.renderEntities(gui, mc, mouseX, mouseY, partialTicks);
-		GlStateManager.popMatrix();
 	}
 
 	private void renderEntities(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).render(gui, mc, mouseX, mouseY, partialTicks);
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).render(gui, mc, mouseX, mouseY, partialTicks);
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).render(gui, mc, mouseX, mouseY, partialTicks);
 		}
 	}
 
@@ -88,6 +120,14 @@ public class Level {
 	public void onLoseFocus() {
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).onLoseFocus();
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).onLoseFocus();
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).onLoseFocus();
 		}
 	}
 
@@ -103,6 +143,14 @@ public class Level {
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).onKeyPressed(keyCode, typedChar);
 		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).onKeyPressed(keyCode, typedChar);
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).onKeyPressed(keyCode, typedChar);
+		}
 	}
 
 	/**
@@ -117,6 +165,14 @@ public class Level {
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).onKeyReleased(keyCode, typedChar);
 		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).onKeyReleased(keyCode, typedChar);
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).onKeyReleased(keyCode, typedChar);
+		}
 	}
 
 	/**
@@ -127,7 +183,22 @@ public class Level {
 	 */
 	public void add(Entity entity) {
 		entity.init(this);
-		entities.add(entity);
+		if (entity instanceof Player) {
+			players.add((Player) entity);
+		} else {
+			entities.add(entity);
+		}
+	}
+
+	/**
+	 * Adds an effect to the level.
+	 * 
+	 * @param effect
+	 *            The entity to add
+	 */
+	public void add(EntityFX effect) {
+		effect.init(this);
+		effects.add(effect);
 	}
 
 	/**
@@ -135,5 +206,143 @@ public class Level {
 	 */
 	public TileMap getMap() {
 		return tileMap;
+	}
+
+	/**
+	 * Searches for the nearest entity that is not the checker at a point.
+	 * 
+	 * @param checker
+	 *            The entity to check
+	 * @return The nearest entity that is not the checker to that point
+	 */
+	@Nullable
+	public Entity getNearestEntity(Entity checker) {
+		Comparator<Entity> comparator = MemoryLib.GET_NEAREST_ENTITY_ENTITY.get(checker.getX() + "," + checker.getY());
+		if (comparator == null) {
+			comparator = new Comparator<Entity>() {
+				@Override
+				public int compare(Entity e1, Entity e2) {
+					int dist1 = (int) Math.sqrt(Math.pow(checker.getX() - e1.getX(), 2) + Math.pow(checker.getY() - e1.getY(), 2));
+					int dist2 = (int) Math.sqrt(Math.pow(checker.getX() - e2.getX(), 2) + Math.pow(checker.getY() - e2.getY(), 2));
+
+					if (checker == e1 || checker == e2)
+						return -1;
+					if (dist1 < dist2)
+						return -1;
+					if (dist1 > dist2)
+						return 1;
+					return 0;
+				}
+			};
+			MemoryLib.GET_NEAREST_ENTITY_ENTITY.put(checker.getX() + "," + checker.getY(), comparator);
+		}
+		return entities.size() > 0 ? Collections.min(entities, comparator) : null;
+	}
+
+	/**
+	 * Searches for the nearest entity at a point.
+	 * 
+	 * @param x
+	 *            The x position to check
+	 * @param y
+	 *            The y position to check
+	 * @return The nearest entity to that point
+	 */
+	@Nullable
+	public Entity getNearestEntity(double x, double y) {
+		Comparator<Entity> comparator = MemoryLib.GET_NEAREST_ENTITY_POINT.get(x + "," + y);
+		if (comparator == null) {
+			comparator = new Comparator<Entity>() {
+				@Override
+				public int compare(Entity e1, Entity e2) {
+					int dist1 = (int) Math.sqrt(Math.pow(x - e1.getX(), 2) + Math.pow(y - e1.getY(), 2));
+					int dist2 = (int) Math.sqrt(Math.pow(x - e2.getX(), 2) + Math.pow(y - e2.getY(), 2));
+
+					if (dist1 < dist2)
+						return -1;
+					if (dist1 > dist2)
+						return 1;
+					return 0;
+				}
+			};
+			MemoryLib.GET_NEAREST_ENTITY_POINT.put(x + "," + y, comparator);
+		}
+		return entities.size() > 0 ? Collections.min(entities, comparator) : null;
+	}
+
+	/**
+	 * Searches for the nearest player that is not the checker at a point.
+	 * 
+	 * @param checker
+	 *            The entity to check
+	 * @return The nearest entity that is not the checker to that point
+	 */
+	@Nullable
+	public Player getNearestPlayer(Entity checker) {
+		Comparator<Player> comparator = MemoryLib.GET_NEAREST_PLAYER_ENTITY.get(checker.getX() + "," + checker.getY());
+		if (comparator == null) {
+			comparator = new Comparator<Player>() {
+				@Override
+				public int compare(Player e1, Player e2) {
+					int dist1 = (int) Math.sqrt(Math.pow(checker.getX() - e1.getX(), 2) + Math.pow(checker.getY() - e1.getY(), 2));
+					int dist2 = (int) Math.sqrt(Math.pow(checker.getX() - e2.getX(), 2) + Math.pow(checker.getY() - e2.getY(), 2));
+
+					if (checker == e1 || checker == e2)
+						return -1;
+					if (dist1 < dist2)
+						return -1;
+					if (dist1 > dist2)
+						return 1;
+					return 0;
+				}
+			};
+			MemoryLib.GET_NEAREST_PLAYER_ENTITY.put(checker.getX() + "," + checker.getY(), comparator);
+		}
+		return players.size() > 0 ? Collections.min(players, comparator) : null;
+	}
+
+	/**
+	 * Searches for the nearest player at a point.
+	 * 
+	 * @param x
+	 *            The x position to check
+	 * @param y
+	 *            The y position to check
+	 * @return The nearest entity to that point
+	 */
+	@Nullable
+	public Player getNearestPlayer(double x, double y) {
+		Comparator<Player> comparator = MemoryLib.GET_NEAREST_PLAYER_POINT.get(x + "," + y);
+		if (comparator == null) {
+			comparator = new Comparator<Player>() {
+				@Override
+				public int compare(Player e1, Player e2) {
+					int dist1 = (int) Math.sqrt(Math.pow(x - e1.getX(), 2) + Math.pow(y - e1.getY(), 2));
+					int dist2 = (int) Math.sqrt(Math.pow(x - e2.getX(), 2) + Math.pow(y - e2.getY(), 2));
+
+					if (dist1 < dist2)
+						return -1;
+					if (dist1 > dist2)
+						return 1;
+					return 0;
+				}
+			};
+			MemoryLib.GET_NEAREST_PLAYER_POINT.put(x + "," + y, comparator);
+		}
+		return players.size() > 0 ? Collections.min(players, comparator) : null;
+	}
+
+	/**
+	 * @return The entities array. Plz no hax or breaks
+	 */
+	public List<Entity> getEntities() {
+		return entities;
+	}
+
+	/**
+	 * @return The players array. Plz no hax or breaks
+	 */
+	public List<Player> getPlayers() {
+		return players;
 	}
 }

@@ -12,13 +12,13 @@ import com.ocelot.mod.game.core.level.LevelTemplate;
  * 
  * @author Ocelot5836
  */
-public class FileSummonException extends Exception {
+public class SummonException extends Exception {
 
-	public FileSummonException() {
-		this("Attempted to summon a mob with improper arguments.");
+	public SummonException() {
+		this("Attempted to summon an entity with improper arguments.");
 	}
 
-	public FileSummonException(String message) {
+	public SummonException(String message) {
 		super(message);
 	}
 }

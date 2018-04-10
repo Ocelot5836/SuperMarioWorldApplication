@@ -2,19 +2,22 @@ package com.ocelot.mod.game.main.entity;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.entity.FileSummonException;
 import com.ocelot.mod.game.core.entity.IFileSummonable;
+import com.ocelot.mod.game.core.entity.ISpawnerEntity;
+import com.ocelot.mod.game.core.entity.Spawner;
+import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
+import scala.util.Random;
 
 public class Fruit extends Entity {
 
@@ -41,17 +44,23 @@ public class Fruit extends Entity {
 
 	@Override
 	public void update() {
+		super.update();
+		
 		animation.update();
 	}
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		animation.getSprite().render(x - tileMap.getX() * 2 - cwidth / 2, y - tileMap.getY() * 2 - cheight / 2);
+		super.render(gui, mc, mouseX, mouseY, partialTicks);
+
+		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
+		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
+		animation.getSprite().render(x - tileMapX - cwidth / 2, y - tileMapY - cheight / 2);
 	}
 
 	public static class Summonable implements IFileSummonable { 
 		@Override
-		public void summon(GameTemplate game, Level level, String[] args) throws FileSummonException {
+		public void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException {
 			if (args.length > 1) {
 				try {
 					level.add(new Fruit(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
@@ -61,6 +70,15 @@ public class Fruit extends Entity {
 			} else {
 				level.add(new Fruit(game));
 			}
+		}
+	}
+
+	public static class Spawnable implements ISpawnerEntity {
+		private static Random random = new Random();
+		
+		@Override
+		public void create(GameTemplate game, Level level, Spawner spawner, double x, double y, Object... args) {
+			level.add(new Fruit(game, x + random.nextGaussian(), y + random.nextGaussian()));
 		}
 	}
 }

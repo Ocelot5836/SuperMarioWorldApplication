@@ -1,0 +1,6 @@
+# The amount of time mario has left in the level before he automatically loses
+time;300
+
+# The level music
+music;osmw:music.normal.overworld
+music_fast;osmw:music.fast.overworld

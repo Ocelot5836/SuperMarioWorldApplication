@@ -2,9 +2,9 @@ package com.ocelot.mod.game;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -21,4 +21,7 @@ public class Backgrounds {
 	public static final Sprite GREEN_MOUNTAINS = new Sprite(SHEET.getSubimage(516, 1306, 512, 432));
 	public static final Sprite CASTLE = new Sprite(SHEET.getSubimage(2, 1740, 512, 432));
 
+	public static class Animated {
+
+	}
 }

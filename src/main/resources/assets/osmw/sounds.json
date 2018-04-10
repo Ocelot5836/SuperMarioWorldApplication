@@ -1,0 +1,72 @@
+{
+	"music.normal.overworld": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:music/normal/overworld",
+			"stream": true
+		}]
+	},
+	"music.fast.overworld": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:music/fast/overworld",
+			"stream": true
+		}]
+	},
+	"test": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:test",
+			"stream": true
+		}]
+	},
+	"entity.mario.jump": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/jump",
+			"stream": true
+		}]
+	},
+	"entity.mario.kick": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/kick",
+			"stream": true
+		}]
+	},
+	"entity.mario.stomp": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/stomp",
+			"stream": true
+		}]
+	},
+	"entity.mario.stomp_spin": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/stomp_spin",
+			"stream": true
+		}]
+	},
+	"entity.koopa.shell_ricochet": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/koopa/shell_ricochet",
+			"stream": true
+		}]
+	},
+	"entity.item.collect.one_up": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/item/collect/one_up",
+			"stream": true
+		}]
+	},
+	"entity.item.collect.coin": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/item/collect/coin",
+			"stream": true
+		}]
+	}
+}

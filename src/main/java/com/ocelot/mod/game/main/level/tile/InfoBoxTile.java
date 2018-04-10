@@ -1,13 +1,16 @@
 package com.ocelot.mod.game.main.level.tile;
 
-import com.ocelot.mod.game.core.EnumDir;
+import java.util.Locale;
+
+import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.tile.BasicTile;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.PropertyEnum;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
-import com.ocelot.mod.game.main.entity.Player;
+import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.game.main.gui.Guis;
 
 import net.minecraft.util.IStringSerializable;
 
@@ -21,11 +24,14 @@ public class InfoBoxTile extends BasicTile {
 	}
 
 	@Override
-	public void onEntityCollision(int x, int y, Entity entity, EnumDir hitDirection) {
+	public void onEntityCollision(int x, int y, Entity entity, EnumDirection hitDirection) {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			if (hitDirection == EnumDir.DOWN) {
-				player.openGui(0);
+			if (hitDirection == EnumDirection.DOWN) {
+				TextType type = (TextType) getValue(TEXT);
+				if (type != null) {
+					player.openGui(type.getGuiId());
+				}
 			}
 		}
 	}
@@ -36,11 +42,21 @@ public class InfoBoxTile extends BasicTile {
 	}
 
 	public enum TextType implements IStringSerializable {
-		YOSHI_HOUSE();
+		YOSHI_HOUSE(Guis.YOSHI_TEXT_BUBBLE), MR_CRAYFISH_HELLO(Guis.MR_CRAYFISH_HELLO);
+
+		private int guiId;
+
+		private TextType(int guiId) {
+			this.guiId = guiId;
+		}
+
+		public int getGuiId() {
+			return guiId;
+		}
 
 		@Override
 		public String getName() {
-			return this.name().toLowerCase();
+			return this.name().toLowerCase(Locale.ROOT);
 		}
 	}
 }

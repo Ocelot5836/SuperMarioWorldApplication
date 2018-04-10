@@ -14,7 +14,8 @@ import com.ocelot.mod.game.Game;
  */
 public class Background {
 
-	private Sprite image;
+	private Sprite[] images;
+	private Animation animation;
 
 	private double x;
 	private double y;
@@ -47,9 +48,42 @@ public class Background {
 	 *            The scale of the height in pixels. Used for advanced backgrounds
 	 */
 	public Background(Sprite image, double moveScale, double heightScale) {
-		this.image = image;
+		this(new Sprite[] { image }, -1, moveScale, heightScale);
+	}
+
+	/**
+	 * Creates a new background with the specified sprite and move scale.
+	 * 
+	 * @param frames
+	 *            The images to render in an animation pattern
+	 * @param delay
+	 *            The time it takes to switch from 1 sprite to another
+	 * @param moveScale
+	 *            The scale at which is moves when it's position is set
+	 */
+	public Background(Sprite[] frames, long delay, double moveScale) {
+		this(frames, delay, moveScale, -1);
+	}
+
+	/**
+	 * Creates a new background with the specified sprite, move scale, and height scale.
+	 * 
+	 * @param frames
+	 *            The images to render in an animation pattern
+	 * @param delay
+	 *            The time it takes to switch from 1 sprite to another
+	 * @param moveScale
+	 *            The scale at which is moves when it's position is set
+	 * @param heightScale
+	 *            The scale of the height in pixels. Used for advanced backgrounds
+	 */
+	public Background(Sprite[] frames, long delay, double moveScale, double heightScale) {
+		this.images = frames;
 		this.moveScale = moveScale;
 		this.heightScale = heightScale;
+		this.animation = new Animation();
+		this.animation.setFrames(images);
+		this.animation.setDelay(delay);
 	}
 
 	/**
@@ -59,7 +93,7 @@ public class Background {
 	 *            The background to clone
 	 */
 	public Background(Background bg) {
-		this.image = bg.image;
+		this.images = bg.images;
 		this.moveScale = bg.moveScale;
 		this.x = bg.x;
 		this.y = bg.y;
@@ -77,8 +111,8 @@ public class Background {
 	 *            The new y position of the background
 	 */
 	public void setPosition(double x, double y) {
-		this.x = (x * moveScale) % Game.WIDTH;
-		this.y = (y * moveScale) % Game.HEIGHT;
+		this.x = -(x * moveScale) % Game.WIDTH;
+		this.y = -(y * moveScale) % Game.HEIGHT;
 	}
 
 	/**
@@ -95,16 +129,18 @@ public class Background {
 	}
 
 	/**
-	 * Updates the background. Used only if it has a vector not equal to zero.
+	 * Updates the background. Used only if it has a vector not equal to zero or if the background is animated.
 	 */
 	public void update() {
-		setPosition(x + dx, y + dy);
+		this.animation.update();
+		this.setPosition(x + dx, y + dy);
 	}
 
 	/**
 	 * Renders the background to the screen.
 	 */
 	public void render() {
+		Sprite image = animation.getSprite();
 		if (heightScale < 0) {
 			image.render(x, y, Game.WIDTH, Game.HEIGHT);
 

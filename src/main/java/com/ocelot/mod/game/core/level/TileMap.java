@@ -76,8 +76,8 @@ public class TileMap implements IResourceManagerReloadListener {
 	public void loadMap(ResourceLocation mapLocation) {
 		this.mapLocation = mapLocation;
 		String loadedTile = "null";
-		int lastX = 0;
-		int lastY = 0;
+		int lastX = -1;
+		int lastY = -1;
 		try {
 			InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(mapLocation).getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -103,6 +103,10 @@ public class TileMap implements IResourceManagerReloadListener {
 					lastX = y;
 					lastY = x;
 				}
+			}
+
+			for (int i = 0; i < map.length; i++) {
+				Tile.TILES[map[i]].onAdd(this);
 			}
 		} catch (Exception e) {
 			Game.stop(e, "Could not load map " + mapLocation + "! Tile errored at " + loadedTile + "-" + lastX + ":" + lastY);
@@ -146,10 +150,6 @@ public class TileMap implements IResourceManagerReloadListener {
 				if (x >= numCols)
 					break;
 
-				if (x > 0 && x < numCols && y > 0 && y < numRows) {
-					this.getTile(x, y).setContainer(containers[x + y * numCols]);
-				}
-
 				this.getTile(x, y).update();
 			}
 		}
@@ -174,6 +174,11 @@ public class TileMap implements IResourceManagerReloadListener {
 			for (int x = colOffset - 1; x < colOffset + numColsToDraw; x++) {
 				if (x >= numCols)
 					break;
+				
+				if (x > 0 && x < numCols && y > 0 && y < numRows) {
+					Tile containerTile = this.getTile(x, y);
+					containerTile.setContainer(containerTile.modifyContainer(x, y, this, containers[x + y * numCols]));
+				}
 
 				if (!getTile(x, y).shouldRender())
 					continue;

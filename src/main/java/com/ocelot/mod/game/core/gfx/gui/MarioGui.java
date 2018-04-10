@@ -3,7 +3,7 @@ package com.ocelot.mod.game.core.gfx.gui;
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.main.entity.Player;
+import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

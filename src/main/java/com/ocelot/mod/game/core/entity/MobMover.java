@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
  * @author Ocelot5836
  */
 public class MobMover {
-	
+
 	private Mob mob;
 	private List<Double> xPoses;
 	private List<Double> yPoses;
@@ -42,7 +42,7 @@ public class MobMover {
 		this.xWaits = Lists.newArrayList();
 		this.yWaits = Lists.newArrayList();
 	}
-	
+
 	/**
 	 * Moves the mob.
 	 * 
@@ -95,7 +95,7 @@ public class MobMover {
 					yPoses.remove(yEntry);
 					yWaits.remove(yWait);
 				} else {
-					yWait--;
+					yWait -= 50;
 				}
 			} else {
 				if (newY < ytemp) {
@@ -122,8 +122,8 @@ public class MobMover {
 	public MobMover addPos(int x, int y, double xWait, double yWait) {
 		xPoses.add(Double.valueOf(x));
 		yPoses.add(Double.valueOf(y));
-		xWaits.add(Long.valueOf((long)(xWait * 1000)));
-		yWaits.add(Long.valueOf((long)(yWait * 1000)));
+		xWaits.add(Long.valueOf((long) (xWait * 1000)));
+		yWaits.add(Long.valueOf((long) (yWait * 1000)));
 		return this;
 	}
 
@@ -137,5 +137,12 @@ public class MobMover {
 	 */
 	public MobMover addPos(int x, int y) {
 		return this.addPos(x, y, 0, 0);
+	}
+
+	/**
+	 * @return Whether or not the mob is moving
+	 */
+	public boolean isMoving() {
+		return xPoses.size() > 0 && yPoses.size() > 0;
 	}
 }

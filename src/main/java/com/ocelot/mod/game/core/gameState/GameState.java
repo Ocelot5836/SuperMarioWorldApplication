@@ -5,6 +5,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -86,6 +87,24 @@ public abstract class GameState {
 	 * Called when the game window loses focus.
 	 */
 	public void onLoseFocus() {
+	}
+
+	/**
+	 * Loads the data from the tag compound.
+	 * 
+	 * @param nbt
+	 *            The tag compound to read from
+	 */
+	public void load(NBTTagCompound nbt) {
+	}
+
+	/**
+	 * Saves the data to the tag compound.
+	 * 
+	 * @param nbt
+	 *            The tag compound to save to
+	 */
+	public void save(NBTTagCompound nbt) {
 	}
 
 	@Override

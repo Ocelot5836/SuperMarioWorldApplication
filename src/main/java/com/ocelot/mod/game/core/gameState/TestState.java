@@ -9,7 +9,8 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.main.entity.Player;
+import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.game.main.gamestate.IDebugSelectStateLevel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -27,7 +28,7 @@ import net.minecraft.util.ResourceLocation;
  * 
  * @author Ocelot5836
  */
-public class TestState extends GameState {
+public class TestState extends GameState implements IDebugSelectStateLevel {
 
 	private Background bg;
 	private Level level;

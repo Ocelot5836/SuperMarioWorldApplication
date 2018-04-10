@@ -5,13 +5,16 @@ import org.lwjgl.opengl.GL11;
 import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Layout;
 import com.mrcrayfish.device.core.Laptop;
-import com.mrcrayfish.device.util.GLHelper;
+import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -47,7 +50,7 @@ public class ApplicationGame extends Application {
 		game.update();
 		if (Game.isClosed()) {
 			if (getActiveDialog() == null) {
-				DialogMessage dialog = new DialogMessage("An exception was thrown that has caused the game to forcefully close. Please restart and notify the author if the problem continues.\n\nError: \n" + Game.getCloseInfo());
+				DialogCrashLog dialog = new DialogCrashLog("An exception was thrown that has caused the game to forcefully close. Please restart Minecraft and notify the author if the problem continues.\n\nError: \n" + Game.getCloseInfo());
 				openDialog(dialog);
 			}
 		}
@@ -81,12 +84,13 @@ public class ApplicationGame extends Application {
 		}
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		GLHelper.scissor(x, y, getWidth(), getHeight());
+		Lib.scissor(x, y, getWidth(), getHeight());
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 		game.render(laptop, mc, mouseX - x, mouseY - y, partialTicks);
 		GlStateManager.popMatrix();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+
 		if (mouseX != oldMouseX)
 			oldMouseX = mouseX;
 		if (mouseY != oldMouseY)
@@ -95,11 +99,19 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void load(NBTTagCompound nbt) {
-		game.save(nbt);
+		game.load(nbt);
 	}
 
 	@Override
 	public void save(NBTTagCompound nbt) {
-		game.load(nbt);
+		game.save(nbt);
+	}
+
+	@Override
+	public void onClose() {
+		super.onClose();
+		markDirty();
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			Jukebox.stopMusic();
 	}
 }

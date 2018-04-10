@@ -2,3 +2,13 @@ The following is here to give credit to the awesome people who ripped the sprite
 
 - Mario and Luigi sprites ripped by Mister Man
 - SMW Yoshi's House ripped by Bubbad00d
+- Mario Map Sprite ripped by DJ Coco
+- Enemy sprites ripped by Davias, Murphmario, and Tonberry2k
+
+All sounds except for test sounds provided by:
+
+https://themushroomkingdom.net/media/smw/wav
+
+All music provided by:
+
+https://archive.org/details/SuperMarioWorldSNESMusicUndergroundThemeYoshi

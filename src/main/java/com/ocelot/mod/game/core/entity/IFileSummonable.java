@@ -16,7 +16,7 @@ import com.ocelot.mod.game.core.level.Level;
 public interface IFileSummonable {
 
 	/**
-	 * Called to summon the mob.
+	 * Called to summon the mob from file.
 	 * 
 	 * @param game
 	 *            The game instance
@@ -24,19 +24,19 @@ public interface IFileSummonable {
 	 *            The level instance
 	 * @param args
 	 *            The arguments passed.
-	 * @throws FileSummonException
+	 * @throws SummonException
 	 *             If the mob cannot be summoned, throw this.
 	 */
-	void summon(GameTemplate game, Level level, String[] args) throws FileSummonException;
+	void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException;
 
 	/**
 	 * Throws an exception if the mob cannot be summoned.
 	 * 
-	 * @throws FileSummonException
+	 * @throws SummonException
 	 *             If the mob cannot be summoned, throw this.
 	 */
-	default void throwSummonException() throws FileSummonException {
-		throw new FileSummonException();
+	default void throwSummonException() throws SummonException {
+		throw new SummonException();
 	}
 
 	/**
@@ -44,10 +44,10 @@ public interface IFileSummonable {
 	 * 
 	 * @param message
 	 *            The error message to why the mob cannot be summoned
-	 * @throws FileSummonException
+	 * @throws SummonException
 	 *             If the mob cannot be summoned, throw this.
 	 */
-	default void throwSummonException(String message) throws FileSummonException {
-		throw new FileSummonException(message);
+	default void throwSummonException(String message) throws SummonException {
+		throw new SummonException(message);
 	}
 }

@@ -1,12 +1,12 @@
 package com.ocelot.mod.game.core;
 
-import com.mrcrayfish.device.core.Laptop;
 import com.ocelot.mod.Mod;
+import com.ocelot.mod.config.ModConfig;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class GameTemplate {
@@ -125,7 +125,48 @@ public abstract class GameTemplate {
 		Mod.logger().catching(new Throwable(info, e));
 		closeInfo = "" + TextFormatting.BLUE + e + "\n" + TextFormatting.DARK_RED + info;
 		closed = true;
-		Laptop.getSystem().closeContext();
+	}
+
+	/**
+	 * Plays the specified sound on the client side. Plays at the default sound volume.
+	 * 
+	 * @param sound
+	 *            The sound to be played
+	 * @param pitch
+	 *            The pitch of the sound
+	 */
+	public void playSound(SoundEvent sound, float pitch) {
+		playSound(sound, (float) ModConfig.marioSFXVolume, pitch);
+	}
+
+	/**
+	 * Plays the specified sound on the client side.
+	 * 
+	 * @param sound
+	 *            The sound to be played
+	 * @param volume
+	 *            The volume of the sound
+	 * @param pitch
+	 *            The pitch of the sound
+	 */
+	public void playSound(SoundEvent sound, float volume, float pitch) {
+		if (ModConfig.enableMarioSFX) {
+			Minecraft.getMinecraft().player.playSound(sound, volume, pitch);
+		}
+	}
+
+	/**
+	 * Plays the specified sound on the server.
+	 * 
+	 * @param sound
+	 *            The sound to be played
+	 * @param volume
+	 *            The volume of the sound
+	 * @param pitch
+	 *            The pitch of the sound
+	 */
+	public void playServerSound(SoundEvent sound, float volume, float pitch) {
+		playSound(sound, volume, pitch);
 	}
 
 	/**

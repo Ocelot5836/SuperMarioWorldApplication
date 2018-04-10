@@ -10,7 +10,7 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.main.entity.Player;
+import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -68,6 +68,10 @@ public class TestState extends GameState {
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
 		level.onKeyPressed(keyCode, typedChar);
+		
+		if (keyCode == Keyboard.KEY_Y) {
+			init();
+		}
 	}
 
 	@Override

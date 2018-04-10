@@ -3,9 +3,9 @@ package com.ocelot.mod.game.core.gfx;
 import java.awt.image.BufferedImage;
 
 import com.ocelot.api.utils.TextureUtils;
-import com.ocelot.mod.Lib;
+import com.ocelot.mod.lib.Lib;
+import com.ocelot.mod.lib.MemoryLib;
 
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -23,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class Sprite {
 
+	private BufferedImage image;
 	private DynamicTexture dynamicTexture;
 	private ResourceLocation texture;
 	private int u;
@@ -35,8 +36,7 @@ public class Sprite {
 	 * Creates a new sprite with the missing image texture.
 	 */
 	public Sprite() {
-		this(TextureUtils.getMissingSprite());
-		this.type = EnumType.MISSING;
+		this.setData();
 	}
 
 	/**
@@ -54,12 +54,7 @@ public class Sprite {
 	 *            The height of the sprite
 	 */
 	public Sprite(ResourceLocation texture, int u, int v, int width, int height) {
-		this.texture = texture;
-		this.u = u;
-		this.v = v;
-		this.width = width;
-		this.height = height;
-		this.type = EnumType.RESOURCE_LOCATION;
+		this.setData(texture, u, v, width, height);
 	}
 
 	/**
@@ -69,14 +64,7 @@ public class Sprite {
 	 *            The sprite to use
 	 */
 	public Sprite(TextureAtlasSprite sprite) {
-		if (sprite == null)
-			sprite = TextureUtils.getMissingSprite();
-		this.texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
-		this.u = sprite.getOriginX();
-		this.v = sprite.getOriginY();
-		this.width = sprite.getIconWidth();
-		this.height = sprite.getIconHeight();
-		this.type = EnumType.TEXTURE_ATLAS_SPRITE;
+		this.setData(sprite);
 	}
 
 	/**
@@ -86,13 +74,7 @@ public class Sprite {
 	 *            The image to use
 	 */
 	public Sprite(BufferedImage image) {
-		this.dynamicTexture = new DynamicTexture(image);
-		this.texture = TextureUtils.createBufferedImageTexture(this.dynamicTexture);
-		this.u = 0;
-		this.v = 0;
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-		this.type = EnumType.BUFFERED_IMAGE;
+		this.setData(image);
 	}
 
 	/**
@@ -150,8 +132,19 @@ public class Sprite {
 	 *            The image to use
 	 */
 	public void setData(BufferedImage image) {
-		this.dynamicTexture = new DynamicTexture(image);
-		this.texture = TextureUtils.createBufferedImageTexture(this.dynamicTexture);
+		this.dynamicTexture = MemoryLib.SPRITE_DYNAMIC_TEXTURES.get(image);
+		if (this.dynamicTexture == null) {
+			this.dynamicTexture = new DynamicTexture(image);
+			MemoryLib.SPRITE_DYNAMIC_TEXTURES.put(image, this.dynamicTexture);
+		}
+
+		this.texture = MemoryLib.SPRITE_DYNAMIC_TEXTURE_LOCATIONS.get(this.dynamicTexture);
+		if (this.texture == null) {
+			this.texture = TextureUtils.createBufferedImageTexture(this.dynamicTexture);
+			MemoryLib.SPRITE_DYNAMIC_TEXTURE_LOCATIONS.put(this.dynamicTexture, this.texture);
+		}
+
+		this.image = image;
 		this.u = 0;
 		this.v = 0;
 		this.width = image.getWidth();
@@ -195,6 +188,16 @@ public class Sprite {
 			imageHeight = this.getHeight();
 		}
 		Lib.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, imageWidth, imageHeight);
+	}
+
+	/**
+	 * Flips the sprite in the direction specified. The direction does not currently function.
+	 * 
+	 * @param direction
+	 *            The direction to flip
+	 */
+	public void flip(int direction) {
+		Lib.flipHorizontal(this);
 	}
 
 	/**
@@ -247,6 +250,22 @@ public class Sprite {
 			return this.dynamicTexture.getTextureData();
 		} else {
 			return new int[0];
+		}
+	}
+
+	@Override
+	protected final void finalize() throws Throwable {
+		super.finalize();
+		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(texture)) {
+			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.remove(texture);
+		}
+
+		if (MemoryLib.SPRITE_DYNAMIC_TEXTURES.containsKey(image)) {
+			MemoryLib.SPRITE_DYNAMIC_TEXTURES.remove(image);
+		}
+		
+		if (MemoryLib.SPRITE_DYNAMIC_TEXTURE_LOCATIONS.containsKey(dynamicTexture)) {
+			MemoryLib.SPRITE_DYNAMIC_TEXTURE_LOCATIONS.remove(dynamicTexture);
 		}
 	}
 

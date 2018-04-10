@@ -1,0 +1,109 @@
+package com.ocelot.mod.game.core.level;
+
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Stopwatch;
+import com.ocelot.mod.audio.Jukebox;
+
+import net.minecraft.util.ResourceLocation;
+
+/**
+ * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+ * 
+ * <br>
+ * </br>
+ * 
+ * Contains the basic properties most level will require.
+ * 
+ * @author Ocelot5836
+ */
+public class LevelProperties {
+
+	private long time;
+	private long currTime;
+	private ResourceLocation music;
+	private ResourceLocation musicFast;
+
+	private boolean playing;
+	private int startLoop;
+	private int endLoop;
+
+	private Stopwatch timer;
+
+	public LevelProperties(long time, ResourceLocation music, ResourceLocation musicFast, int startLoop, int endLoop) {
+		this.time = time;
+		this.currTime = time;
+		this.music = music;
+		this.musicFast = musicFast;
+
+		this.playing = false;
+		this.startLoop = startLoop;
+		this.endLoop = endLoop;
+
+		this.timer = Stopwatch.createStarted();
+	}
+
+	public void update() {
+		if (this.timer.elapsed(TimeUnit.MILLISECONDS) >= 600 && this.currTime > 0) {
+			this.currTime--;
+			this.timer.reset().start();
+		}
+
+		if (this.currTime < 0) {
+			this.currTime = 0;
+		}
+
+		if (playing) {
+			if (musicFast != null && musicFast != music) {
+				if (Jukebox.isPlaying(music)) {
+					if (currTime <= 100) {
+						Jukebox.stopMusic();
+						Jukebox.playMusic(musicFast);
+					}
+				}
+			}
+		}
+	}
+
+	public void playMusic() {
+		playing = true;
+		if (currTime > 100) {
+			if (music != null) {
+				if (endLoop > 0) {
+					Jukebox.playMusic(music);
+				} else {
+					Jukebox.playMusic(music);
+				}
+			}
+		} else {
+			if (musicFast != null) {
+				if (endLoop > 0) {
+					Jukebox.playMusic(musicFast);
+				} else {
+					Jukebox.playMusic(musicFast);
+				}
+			}
+		}
+	}
+
+	public void stopMusic() {
+		playing = false;
+		Jukebox.stopMusic();
+	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public long getCurrTime() {
+		return currTime;
+	}
+
+	public ResourceLocation getMusic() {
+		return music;
+	}
+
+	public ResourceLocation getMusicFast() {
+		return musicFast;
+	}
+}

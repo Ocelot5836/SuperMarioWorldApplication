@@ -6,14 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
-public class VoidTile extends Tile {
+public class VoidTile extends BasicTile {
 
 	public VoidTile() {
 		this.setSolid();
-	}
-
-	@Override
-	public void update() {
 	}
 
 	@Override

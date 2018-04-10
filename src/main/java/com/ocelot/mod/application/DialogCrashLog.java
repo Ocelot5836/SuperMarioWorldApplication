@@ -22,7 +22,7 @@ import net.minecraft.client.gui.Gui;
  * @author Ocelot5836
  * @author MrCrayfish
  */
-public class DialogMessage extends Dialog {
+public class DialogCrashLog extends Dialog {
 
 	private String messageText = "";
 
@@ -30,7 +30,8 @@ public class DialogMessage extends Dialog {
 	private Button buttonPositive;
 	private Button buttonSaveStackTrace;
 
-	public DialogMessage(String messageText) {
+	public DialogCrashLog(String messageText) {
+		this.setTitle("Crash Report");
 		this.messageText = messageText;
 		defaultLayout.width = 250;
 	}

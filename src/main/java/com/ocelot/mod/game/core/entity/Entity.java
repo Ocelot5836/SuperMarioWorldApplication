@@ -1,11 +1,10 @@
 package com.ocelot.mod.game.core.entity;
 
-import java.awt.Rectangle;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.ocelot.mod.game.Game;
-import com.ocelot.mod.game.core.EnumDir;
+import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.TileMap;
@@ -27,6 +26,11 @@ public abstract class Entity {
 
 	private static Map<String, IFileSummonable> summonables = Maps.<String, IFileSummonable>newHashMap();
 
+	/** The x position the entity wants to move to */
+	protected double xdest;
+	/** The y position the entity wants to move to */
+	protected double ydest;
+
 	/** The game's instance */
 	protected GameTemplate game;
 	/** The level this entity is currently in */
@@ -44,11 +48,16 @@ public abstract class Entity {
 	/** The last y position */
 	protected double lastY;
 
+	/** The temporary new x */
+	protected double xtemp;
+	/** The temporary new y */
+	protected double ytemp;
+
 	/** The width of this entity */
 	protected int cwidth;
 	/** The height of this entity */
 	protected int cheight;
-	/** Collision variables */ // TODO redo collisions so they are more flexible
+	/** Collision variables */
 	protected boolean topLeft, topRight, bottomLeft, bottomRight;
 
 	/** The current collumn this entity is in */
@@ -60,6 +69,9 @@ public abstract class Entity {
 	protected double dx;
 	/** The y speed */
 	protected double dy;
+
+	/** Whether or not the entity is falling */
+	protected boolean falling;
 
 	private boolean dead;
 
@@ -88,7 +100,7 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Renders the tntity to the screen.
+	 * Renders the entity to the screen.
 	 * 
 	 * @param gui
 	 *            A gui instance
@@ -137,32 +149,90 @@ public abstract class Entity {
 	protected void calculateCorners(double x, double y) {
 		int currTileX = (int) x / tileSize;
 		int currTileY = (int) y / tileSize;
-		int leftTile = (int) (x - cwidth / 2) / tileSize;
-		int rightTile = (int) (x + cwidth / 2 - 1) / tileSize;
-		int topTile = (int) (y - cheight / 2) / tileSize;
-		int bottomTile = (int) (y + cheight / 2 - 1) / tileSize;
+		int leftTile = (int) ((x - cwidth / 2 <= 0 ? x - cwidth / 2 - 15 : x - cwidth / 2) / tileSize);
+		int rightTile = (int) ((x + cwidth / 2 - 1) / tileSize);
+		int topTile = (int) ((y - cheight / 2) / tileSize);
+		int bottomTile = (int) ((y + cheight / 2 - 1) / tileSize);
 		topLeft = tileMap.getTile(leftTile, topTile).isBottomSolid() || tileMap.getTile(leftTile, topTile).isRightSolid();
 		topRight = tileMap.getTile(rightTile, topTile).isBottomSolid() || tileMap.getTile(rightTile, topTile).isLeftSolid();
 		bottomLeft = tileMap.getTile(leftTile, bottomTile).isTopSolid() || tileMap.getTile(leftTile, bottomTile).isRightSolid();
 		bottomRight = tileMap.getTile(rightTile, bottomTile).isTopSolid() || tileMap.getTile(rightTile, bottomTile).isLeftSolid();
 
-		if (dy != 0) {
-			if (tileMap.getTile(currTileX, topTile).isBottomSolid()) {
-				tileMap.getTile(currTileX, topTile).onEntityCollision(currTileX, topTile, this, EnumDir.DOWN);
+		if (dy != ytemp) {
+			if (dy > 0 || tileMap.getTile(currTileX, topTile).isBottomSolid()) {
+				tileMap.getTile(currTileX, topTile).onEntityCollision(currTileX, topTile, this, EnumDirection.DOWN);
 			}
 
-			// if (tileMap.getTile(currTileX, bottomTile).isTopSolid()) {
-			// tileMap.getTile(currTileX, bottomTile).onEntityCollision(currTileX, bottomTile, this, EnumDir.UP);
-			// }
+			if (dy < 0 || tileMap.getTile(currTileX, bottomTile).isTopSolid()) {
+				tileMap.getTile(currTileX, bottomTile).onEntityCollision(currTileX, bottomTile, this, EnumDirection.UP);
+			}
 		}
 
-		if (dx != 0) {
-			if (tileMap.getTile(leftTile, currTileY).isRightSolid()) {
-				tileMap.getTile(leftTile, currTileY).onEntityCollision(leftTile, currTileY, this, EnumDir.RIGHT);
+		if (dx != xtemp) {
+			if (dx < 0 || tileMap.getTile(leftTile, currTileY).isRightSolid()) {
+				tileMap.getTile(leftTile, currTileY).onEntityCollision(leftTile, currTileY, this, EnumDirection.RIGHT);
 			}
 
-			if (tileMap.getTile(rightTile, currTileY).isLeftSolid()) {
-				tileMap.getTile(rightTile, currTileY).onEntityCollision(rightTile, currTileY, this, EnumDir.LEFT);
+			if (dx > 0 || tileMap.getTile(rightTile, currTileY).isLeftSolid()) {
+				tileMap.getTile(rightTile, currTileY).onEntityCollision(rightTile, currTileY, this, EnumDirection.LEFT);
+			}
+		}
+	}
+
+	/**
+	 * Checks whether or not the entity has collided with the tile map.
+	 */
+	protected void checkTileMapCollision() {
+		currCol = (int) x / tileSize;
+		currRow = (int) y / tileSize;
+
+		xdest = x + dx;
+		ydest = y + dy;
+
+		xtemp = x;
+		ytemp = y;
+
+		calculateCorners(x, ydest);
+		if (dy < 0) {
+			if (topLeft || topRight) {
+				dy = 0;
+				ytemp = currRow * tileSize + cheight / 2;
+			} else {
+				ytemp += dy;
+			}
+		}
+		if (dy > 0) {
+			if (bottomLeft || bottomRight) {
+				dy = 0;
+				falling = false;
+				ytemp = (currRow + 1) * tileSize - cheight / 2;
+			} else {
+				ytemp += dy;
+			}
+		}
+
+		calculateCorners(xdest, y);
+		if (dx < 0) {
+			if (topLeft || bottomLeft) {
+				dx = 0;
+				xtemp = currCol * tileSize + cwidth / 2;
+			} else {
+				xtemp += dx;
+			}
+		}
+		if (dx > 0) {
+			if (topRight || bottomRight) {
+				dx = 0;
+				xtemp = (currCol + 1) * tileSize - cwidth / 2;
+			} else {
+				xtemp += dx;
+			}
+		}
+
+		if (!falling) {
+			calculateCorners(x, ydest + 1);
+			if (!bottomLeft && !bottomRight) {
+				falling = true;
 			}
 		}
 	}
@@ -251,16 +321,7 @@ public abstract class Entity {
 	 * @return Whether or not these two objects have collided
 	 */
 	public boolean intersects(Entity entity) {
-		return this.getCollisionBox().intersects(entity.getCollisionBox());
-	}
-
-	/**
-	 * @deprecated This is a very bad way of doing collisions. Try not to use it.
-	 * 
-	 * @return The x, y, width, and height put into a rectangle
-	 */
-	public Rectangle getCollisionBox() {
-		return new Rectangle((int) x, (int) y, cwidth, cheight);
+		return this.x - this.cwidth / 2 < entity.x + entity.cwidth / 2 && this.x + this.cwidth / 2 > entity.x - entity.cwidth / 2 && this.y - this.cheight / 2 < entity.y + entity.cheight / 2 && this.y + this.cheight / 2 > entity.y - entity.cheight / 2;
 	}
 
 	/**
@@ -339,8 +400,20 @@ public abstract class Entity {
 	/**
 	 * Remove this entity the next time it is updated.
 	 */
-	public void setDead() {
+	public Entity setDead() {
 		this.dead = true;
+		return this;
+	}
+
+	/**
+	 * Removes the entity if you want it to be dead.
+	 * 
+	 * @param dead
+	 *            Whether or not the entity is dead
+	 */
+	public Entity setDead(boolean dead) {
+		this.dead = dead;
+		return this;
 	}
 
 	/**
@@ -349,8 +422,9 @@ public abstract class Entity {
 	 * @param dx
 	 *            The new x speed of the entity
 	 */
-	public void setDX(double dx) {
+	public Entity setDX(double dx) {
 		this.dx = dx;
+		return this;
 	}
 
 	/**
@@ -359,8 +433,9 @@ public abstract class Entity {
 	 * @param dy
 	 *            The new y speed of the entity
 	 */
-	public void setDY(double dy) {
+	public Entity setDY(double dy) {
 		this.dy = dy;
+		return this;
 	}
 
 	/**
@@ -371,9 +446,10 @@ public abstract class Entity {
 	 * @param dy
 	 *            The new y speed of the entity
 	 */
-	public void setVector(double dx, double dy) {
+	public Entity setVector(double dx, double dy) {
 		this.dx = dx;
 		this.dy = dy;
+		return this;
 	}
 
 	/**
@@ -399,5 +475,10 @@ public abstract class Entity {
 	 */
 	public static IFileSummonable getSummonable(String key) {
 		return summonables.get(key);
+	}
+
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + "[" + x + "," + y + "]";
 	}
 }

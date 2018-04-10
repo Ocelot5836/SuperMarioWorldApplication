@@ -35,7 +35,7 @@ public class BufferedAnimation {
 	public void update() {
 		if (delay < 0)
 			return;
-
+		
 		long elapsed = (System.nanoTime() - startTime) / 1000000;
 		if (elapsed > delay) {
 			currentFrame++;

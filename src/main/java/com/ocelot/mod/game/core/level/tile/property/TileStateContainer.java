@@ -12,7 +12,7 @@ import com.ocelot.mod.game.core.level.tile.Tile;
  * <br>
  * </br>
  * 
- * The basic handler for tile properties.
+ * The basic handler for tile properties. Stores all data within a map and allows tiles to read and write to these container that are per tile.
  * 
  * @author Ocelot5836
  */
@@ -29,7 +29,7 @@ public class TileStateContainer {
 	 * @param properties
 	 *            The properties to be bound to the tile
 	 */
-	public TileStateContainer(Tile tile, IProperty[] properties) {
+	public TileStateContainer(Tile tile, IProperty... properties) {
 		this.tile = tile;
 		for (int i = 0; i < properties.length; i++) {
 			this.properties.put(properties[i].getName(), properties[i]);

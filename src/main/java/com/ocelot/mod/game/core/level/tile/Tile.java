@@ -2,22 +2,36 @@ package com.ocelot.mod.game.core.level.tile;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
-import com.ocelot.mod.game.core.EnumDir;
+import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
+import com.ocelot.mod.game.main.level.tile.GrassWallTile;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
+import com.ocelot.mod.game.main.level.tile.TileCoin;
+import com.ocelot.mod.game.main.level.tile.QuestionBlockTile;
+import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+ * 
+ * <br>
+ * </br>
+ * 
+ * A basic block that can be placed into a level that renders a sprite and entities collide with it.
+ * 
+ * @author Ocelot5836
+ */
 public abstract class Tile {
 
 	/** All of the registered tiles */
@@ -38,28 +52,16 @@ public abstract class Tile {
 	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET.getSubimage(0, 0, 16, 16))).setSolid(); // 3
 	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16))).setSolid(); // 4
 	public static final Tile INFO_BOX = new InfoBoxTile(); // 5
+	public static final Tile COIN = new TileCoin(); // 6
+	public static final Tile GRASS = new ConnectedTile(CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 48)).setSolid(); // 7
+	public static final Tile GRASS_WALL = new GrassWallTile(); // 8
+	public static final Tile QUESTION_BLOCK = new QuestionBlockTile(); // 9
 
-	public static final Tile GRASS_TOP_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(0, 0, 16, 16))).setSolid(); // 6
-	public static final Tile GRASS_TOP_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(16, 0, 16, 16))).setSolid(); // 7
-	public static final Tile GRASS_TOP_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(32, 0, 16, 16))).setSolid(); // 8
-	public static final Tile GRASS_CENTER_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(0, 16, 16, 16))).setSolid(); // 9
-	public static final Tile GRASS_CENTER_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(16, 16, 16, 16))).setSolid(); // 10
-	public static final Tile GRASS_CENTER_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(32, 16, 16, 16))).setSolid(); // 11
-	public static final Tile GRASS_BOTTOM_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(0, 32, 16, 16))).setSolid(); // 12
-	public static final Tile GRASS_BOTTOM_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(16, 32, 16, 16))).setSolid(); // 13
-	public static final Tile GRASS_BOTTOM_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(32, 32, 16, 16))).setSolid(); // 14
-
-	public static final Tile GRASS_WALL_TOP_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(48, 0, 16, 16))).setTopSolid(); // 15
-	public static final Tile GRASS_WALL_TOP_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(64, 0, 16, 16))).setTopSolid(); // 16
-	public static final Tile GRASS_WALL_TOP_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(80, 0, 16, 16))).setTopSolid(); // 17
-	public static final Tile GRASS_WALL_CENTER_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(48, 16, 16, 16))); // 18
-	public static final Tile GRASS_WALL_CENTER_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(64, 16, 16, 16))); // 19
-	public static final Tile GRASS_WALL_CENTER_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(80, 16, 16, 16))); // 20
-	public static final Tile GRASS_WALL_BOTTOM_LEFT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(48, 32, 16, 16))).setBottomSolid(); // 21
-	public static final Tile GRASS_WALL_BOTTOM_MIDDLE = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(64, 32, 16, 16))).setBottomSolid(); // 22
-	public static final Tile GRASS_WALL_BOTTOM_RIGHT = new BasicTile(new Sprite(CONNECTED_TILES_SHEET.getSubimage(80, 32, 16, 16))).setBottomSolid(); // 23
-
-	/** The value that stores all specific data for this block */
+	/**
+	 * The class that stores all specific data and data properties for this tile. It has an unlimited amount of storage for properties and can be used to make advanced tiles.
+	 * 
+	 * @see TileStateContainer
+	 */
 	private TileStateContainer container;
 	private int id;
 	private boolean topSolid;
@@ -126,7 +128,7 @@ public abstract class Tile {
 	 * @param hitDirection
 	 *            The direction this block was hit from
 	 */
-	public void onEntityCollision(int x, int y, Entity entity, EnumDir hitDirection) {
+	public void onEntityCollision(int x, int y, Entity entity, EnumDirection hitDirection) {
 	}
 
 	/**
@@ -145,6 +147,18 @@ public abstract class Tile {
 	 *            The tilemap instance
 	 */
 	public void onRemove(TileMap tileMap) {
+	}
+
+	/**
+	 * Called to modify any properties in the tileStateContainer.
+	 * 
+	 * @param tileMap
+	 *            The tilemap instance
+	 * @param container
+	 *            The container that is being modified
+	 */
+	public TileStateContainer modifyContainer(int x, int y, TileMap tileMap, TileStateContainer container) {
+		return container;
 	}
 
 	/**
@@ -173,21 +187,7 @@ public abstract class Tile {
 	 *             If the property is not in the {@link #container}
 	 */
 	protected Object getValue(IProperty property) {
-		return this.container.getValue(property);
-	}
-
-	/**
-	 * Sets the value for the property in the {@link #container}.
-	 * 
-	 * @param property
-	 *            The property to get the value of
-	 * @param value
-	 *            The new value for this property. Will throw an exception if it is not registered with this tile
-	 * @throws IllegalArgumentException
-	 *             If the property is not in the {@link #container}
-	 */
-	protected void setValue(IProperty property, Object value) {
-		this.container.setValue(property, value);
+		return this.container == null ? null : this.container.getValue(property);
 	}
 
 	/**
@@ -195,6 +195,20 @@ public abstract class Tile {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	/**
+	 * @return The name before it is localized
+	 */
+	public String getUnlocalizedName() {
+		return "tile." + Mod.MOD_ID + "." + this.id + ".name";
+	}
+
+	/**
+	 * @return The name of the tile converted to the proper language
+	 */
+	public String getLocalizedName() {
+		return I18n.format(this.getUnlocalizedName());
 	}
 
 	/**
@@ -250,6 +264,17 @@ public abstract class Tile {
 	}
 
 	/**
+	 * Sets all four sides to not be solid.
+	 */
+	protected Tile setPassable() {
+		this.topSolid = false;
+		this.bottomSolid = false;
+		this.leftSolid = false;
+		this.rightSolid = false;
+		return this;
+	}
+
+	/**
 	 * Sets all four sides to be solid.
 	 */
 	protected Tile setSolid() {
@@ -300,8 +325,33 @@ public abstract class Tile {
 		return this;
 	}
 
+	/**
+	 * Sets the value for the property in the {@link #container}.
+	 * 
+	 * @param property
+	 *            The property to get the value of
+	 * @param value
+	 *            The new value for this property. Will throw an exception if it is not registered with this tile
+	 * @throws IllegalArgumentException
+	 *             If the property is not in the {@link #container}
+	 */
+	protected void setValue(IProperty property, Object value) {
+		if (this.container != null) {
+			this.container.setValue(property, value);
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Tile) {
+			Tile tile = (Tile) obj;
+			return tile.getId() == this.getId();
+		}
+		return super.equals(obj);
+	}
+
 	@Override
 	public String toString() {
-		return "Tile:" + this.getId();
+		return "Tile[" + this.getLocalizedName() + "/" + this.getUnlocalizedName() + ":" + this.getId() + "]";
 	}
 }

@@ -1,0 +1,29 @@
+
+language.name=English
+language.region=United States
+language.code=en_us
+
+tile.osmw.0.name=Air
+tile.osmw.1.name=Void
+tile.osmw.2.name=Test Dirt
+tile.osmw.3.name=Yoshi House Grass
+tile.osmw.4.name=Yoshi House Dirt
+tile.osmw.5.name=Info Box
+tile.osmw.6.name=Coin
+tile.osmw.7.name=Grass
+tile.osmw.8.name=Grass Wall
+tile.osmw.9.name=? Block
+
+gui.osmw.config.title=Super Mario World Configuration
+gui.osmw.config.category.sounds=Sounds
+gui.osmw.config.category.sounds.tooltip=All sound settings
+
+gui.osmw.config.sounds.enable_mario_music.name=Enable mario music
+gui.osmw.config.sounds.enable_mario_music.comment=Allow music to play inside of the application
+gui.osmw.config.sounds.enable_mario_sfx.name=Enable mario sfx
+gui.osmw.config.sounds.enable_mario_sfx.comment=Allow sound effects to play inside of the application
+
+gui.osmw.config.sounds.mario_music_volume.name=Mario music volume
+gui.osmw.config.sounds.mario_music_volume.comment=Set the percentage of maximum music that will play
+gui.osmw.config.sounds.mario_sfx_volume.name=Mario sfx volume
+gui.osmw.config.sounds.mario_sfx_volume.comment=Set the percentage of maximum sfx that will play.

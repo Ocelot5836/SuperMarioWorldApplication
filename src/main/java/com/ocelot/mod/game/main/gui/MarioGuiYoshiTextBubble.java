@@ -2,11 +2,11 @@ package com.ocelot.mod.game.main.gui;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Lib;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
+import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
