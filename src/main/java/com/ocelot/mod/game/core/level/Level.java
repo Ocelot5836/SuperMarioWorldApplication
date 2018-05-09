@@ -10,11 +10,12 @@ import com.google.common.collect.Lists;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.fx.EntityFX;
 import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.lib.AxisAlignedBB;
 import com.ocelot.mod.lib.MemoryLib;
+import com.ocelot.mod.lib.RenderHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -28,7 +29,9 @@ import net.minecraft.util.ResourceLocation;
  * @author Ocelot5836
  */
 public class Level {
-	
+
+	private LevelProperties properties;
+
 	private TileMap tileMap;
 	private List<EntityFX> effects = Lists.<EntityFX>newArrayList();
 	private List<Entity> entities = Lists.<Entity>newArrayList();
@@ -48,7 +51,7 @@ public class Level {
 	}
 
 	/**
-	 * Updates the tilemap as well as the entities.
+	 * Updates the tile map as well as the entities.
 	 */
 	public void update() {
 		tileMap.update();
@@ -101,16 +104,35 @@ public class Level {
 	}
 
 	private void renderEntities(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		boolean showCollisionBoxes = false;
+
 		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).render(gui, mc, mouseX, mouseY, partialTicks);
+			Entity e = entities.get(i);
+			if (e.isOnScreen()) {
+				e.render(gui, mc, mouseX, mouseY, partialTicks);
+			}
+			if (showCollisionBoxes) {
+				AxisAlignedBB box = e.getEntityBox();
+				RenderHelper.drawRect(box.getX() - tileMap.getX(), box.getY() - tileMap.getY(), box.getXMax() - tileMap.getX(), box.getYMax() - tileMap.getY(), 0xff7f007f);
+			}
 		}
 
 		for (int i = 0; i < players.size(); i++) {
-			players.get(i).render(gui, mc, mouseX, mouseY, partialTicks);
+			Player p = players.get(i);
+			if (p.isOnScreen()) {
+				p.render(gui, mc, mouseX, mouseY, partialTicks);
+			}
+			if (showCollisionBoxes) {
+				AxisAlignedBB box = p.getEntityBox();
+				RenderHelper.drawRect(box.getX() - tileMap.getX(), box.getY() - tileMap.getY(), box.getXMax() - tileMap.getX(), box.getYMax() - tileMap.getY(), 0xff7f007f);
+			}
 		}
 
 		for (int i = 0; i < effects.size(); i++) {
-			effects.get(i).render(gui, mc, mouseX, mouseY, partialTicks);
+			EntityFX e = effects.get(i);
+			if (e.isOnScreen()) {
+				e.render(gui, mc, mouseX, mouseY, partialTicks);
+			}
 		}
 	}
 

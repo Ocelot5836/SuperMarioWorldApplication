@@ -2,9 +2,6 @@ package com.ocelot.mod.application;
 
 import java.awt.Color;
 import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import com.mrcrayfish.device.api.app.Dialog;
 import com.mrcrayfish.device.api.app.Layout.Background;
@@ -12,6 +9,7 @@ import com.mrcrayfish.device.api.app.component.Button;
 import com.mrcrayfish.device.api.app.component.Text;
 import com.mrcrayfish.device.api.app.listener.ClickListener;
 import com.ocelot.mod.Mod;
+import com.ocelot.mod.game.Game;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -41,7 +39,7 @@ public class DialogCrashLog extends Dialog {
 		super.init();
 
 		int lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(messageText, getWidth() - 10).size();
-		defaultLayout.height += (lines - 1) * 10;
+		defaultLayout.height += (lines - 1) * 10 + 20;
 
 		super.init();
 
@@ -64,12 +62,13 @@ public class DialogCrashLog extends Dialog {
 		});
 		this.addComponent(buttonPositive);
 
-		buttonSaveStackTrace = new Button(5, getHeight() - 20, "Open Pastebin");
-		buttonSaveStackTrace.setToolTip("Why Open Pastebin?", "You can input the error and send it to the developer to help fix bugs.");
+		buttonSaveStackTrace = new Button(5, getHeight() - 20, "Log");
+		buttonSaveStackTrace.setToolTip("Open the log file", "Tells you the issue that happened to the developer can fix it.");
 		buttonSaveStackTrace.setClickListener((mouseX, mouseY, mouseButton) -> {
 			try {
-				Desktop.getDesktop().browse(new URI("https://pastebin.com/"));
+				Desktop.getDesktop().open(Game.getErrorFile());
 			} catch (Exception e) {
+				openDialog(new Dialog.Message("Could not open error log"));
 				Mod.logger().catching(e);
 			}
 		});

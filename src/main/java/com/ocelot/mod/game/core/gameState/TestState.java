@@ -52,21 +52,6 @@ public class TestState extends GameState implements IDebugSelectStateLevel {
 
 		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
 		bg.setPosition(level.getMap().getX(), 0);
-
-		if (Mod.isDebug()) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-				player.setY(player.getY() - 10);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-				player.setY(player.getY() + 10);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-				player.setX(player.getX() - 10);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-				player.setX(player.getX() + 10);
-			}
-		}
 	}
 
 	@Override

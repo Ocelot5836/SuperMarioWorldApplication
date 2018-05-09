@@ -105,9 +105,9 @@ public interface IItemCarriable {
 
 		EntityItem item = (EntityItem) this;
 		if (player.isFacingRight()) {
-			item.setPosition(item.getX() + 5, player.getY() - 1);
+			item.setPosition(item.getX() + 5, player.getY() - 4);
 		} else {
-			item.setPosition(item.getX() - 5, player.getY() - 1);
+			item.setPosition(item.getX() - 5, player.getY() - 4);
 		}
 		item.setDirection(0, 0);
 	}

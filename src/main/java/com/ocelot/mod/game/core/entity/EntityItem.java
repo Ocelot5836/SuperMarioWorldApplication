@@ -57,19 +57,24 @@ public class EntityItem extends Entity {
 	}
 
 	private void getNextPosition() {
-		calculateCorners(xdest, y);
-		if (topLeft || bottomLeft || topRight || bottomRight) {
-			xSpeed = -xSpeed;
-			currentXBoostSpeed = 0;
-			this.onXBounce();
+		if (xSpeed != 0) {
+			calculateCorners(xdest, y);
+			if (topLeft || bottomLeft || topRight || bottomRight) {
+				xSpeed = -xSpeed;
+				currentXBoostSpeed = 0;
+				this.onXBounce();
+			}
+		}
+
+		if (ySpeed != 0) {
+			calculateCorners(x, ydest);
+			if (topLeft || topRight || bottomLeft || bottomRight) {
+				ySpeed = -ySpeed;
+				this.onYBounce();
+			}
 		}
 
 		calculateCorners(x, ydest);
-		if (topLeft || topRight || bottomLeft || bottomRight) {
-			ySpeed = -ySpeed;
-			this.onYBounce();
-		}
-
 		if (topLeft || topRight) {
 			currentYBoostSpeed = 0;
 		}
@@ -146,6 +151,13 @@ public class EntityItem extends Entity {
 	public void setDirection(double xSpeed, double ySpeed) {
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
+	}
+
+	/**
+	 * Flips the moving direction.
+	 */
+	public void flipDir() {
+		this.xSpeed = -xSpeed;
 	}
 
 	/**

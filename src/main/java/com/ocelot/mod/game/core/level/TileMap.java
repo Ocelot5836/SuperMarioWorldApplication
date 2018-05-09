@@ -64,7 +64,7 @@ public class TileMap implements IResourceManagerReloadListener {
 		this.tileSize = tileSize;
 		this.numRowsToDraw = Game.HEIGHT / tileSize + 2;
 		this.numColsToDraw = Game.WIDTH / tileSize + 2;
-		this.tween = 0.07;
+		this.tween = 1;
 	}
 
 	/**
@@ -134,8 +134,8 @@ public class TileMap implements IResourceManagerReloadListener {
 		this.x += (x - this.x) * this.tween;
 		this.y += (y - this.y) * this.tween;
 
-		this.colOffset = (int) this.x / tileSize;
-		this.rowOffset = (int) this.y / tileSize;
+		this.colOffset = (int) this.x / tileSize - 1;
+		this.rowOffset = (int) this.y / tileSize - 1;
 	}
 
 	/**
@@ -170,12 +170,12 @@ public class TileMap implements IResourceManagerReloadListener {
 	 *            The partial ticks
 	 */
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		for (int y = rowOffset - 1; y < rowOffset + numRowsToDraw; y++) {
-			for (int x = colOffset - 1; x < colOffset + numColsToDraw; x++) {
+		for (int y = rowOffset; y < rowOffset + numRowsToDraw; y++) {
+			for (int x = colOffset; x < colOffset + numColsToDraw; x++) {
 				if (x >= numCols)
 					break;
 				
-				if (x > 0 && x < numCols && y > 0 && y < numRows) {
+				if (x >= 0 && x < numCols && y >= 0 && y < numRows) {
 					Tile containerTile = this.getTile(x, y);
 					containerTile.setContainer(containerTile.modifyContainer(x, y, this, containers[x + y * numCols]));
 				}

@@ -18,6 +18,8 @@ public class Guis implements IGuiHandler {
 		double y = player.getY();
 		Tile tile = player.getLevel().getMap().getTile((int) x / player.getLevel().getMap().getTileSize(), (int) y / player.getLevel().getMap().getTileSize());
 
+		System.out.println(id);
+		
 		if (id == YOSHI_TEXT_BUBBLE)
 			return new MarioGuiYoshiTextBubble();
 		if (id == MR_CRAYFISH_HELLO)

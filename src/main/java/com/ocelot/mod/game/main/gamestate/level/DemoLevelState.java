@@ -12,8 +12,9 @@ import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
+import com.ocelot.mod.game.main.entity.item.ItemCheese;
+import com.ocelot.mod.game.main.entity.item.ItemCracker;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
-import com.ocelot.mod.game.main.entity.item.ItemKoopaSpawner;
 import com.ocelot.mod.game.main.gamestate.IDebugSelectStateLevel;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 
@@ -35,7 +36,8 @@ public class DemoLevelState extends BasicLevel implements IDebugSelectStateLevel
 		}
 
 		level.getLevel().add(new ItemCrayfish(game, 400, 50));
-		level.getLevel().add(new ItemKoopaSpawner(game, 420, 50));
+		level.getLevel().add(new ItemCheese(game, 420, 50));
+		level.getLevel().add(new ItemCracker(game, 440, 50));
 
 		if (level.getLevel().getMap().getTile(35, 2) == Tile.INFO_BOX) {
 			level.getLevel().getMap().setValue(35, 2, InfoBoxTile.TEXT, InfoBoxTile.TextType.MR_CRAYFISH_HELLO);

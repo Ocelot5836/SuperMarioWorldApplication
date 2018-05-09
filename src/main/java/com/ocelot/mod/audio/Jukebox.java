@@ -16,10 +16,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * <br>
  * </br>
  * 
- * The new and improved audio player. Plays audio and keeps track of it to remove later.
+ * The new and improved audio player. Plays audio and keeps track of it to stop and remove later.
  * 
  * @author Ocelot5836
  */
+@SideOnly(Side.CLIENT)
 public class Jukebox {
 
 	private static List<MarioMusic> musics = Lists.newArrayList();
@@ -68,6 +69,7 @@ public class Jukebox {
 	 *            The sound to check for
 	 * @return Whether or not it is playing
 	 */
+	@SideOnly(Side.CLIENT)
 	public static boolean isPlaying(ResourceLocation sound) {
 		for (int i = 0; i < musics.size(); i++) {
 			if (musics.get(i).getSoundLocation().equals(sound)) {

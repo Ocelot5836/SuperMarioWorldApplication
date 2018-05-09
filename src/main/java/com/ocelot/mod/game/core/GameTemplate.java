@@ -1,16 +1,32 @@
 package com.ocelot.mod.game.core;
 
+import java.io.File;
+import java.io.FileWriter;
+
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.config.ModConfig;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.Loader;
 
+/**
+ * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+ * 
+ * <br>
+ * </br>
+ * 
+ * The base of any game. Has the basic capability to save and catch error.
+ * 
+ * @author Ocelot5836
+ */
 public abstract class GameTemplate {
 
+	protected static File errorFile;
 	protected static String closeInfo;
 	protected static boolean closed;
 
@@ -109,8 +125,8 @@ public abstract class GameTemplate {
 	 * @param e
 	 *            The exception thrown, null if none
 	 */
-	public static void stop(Exception e) {
-		stop(e, "No information provided");
+	public static void stop(Throwable e) {
+		stop(e, I18n.format("exception." + Mod.MOD_ID + ".noinfo"));
 	}
 
 	/**
@@ -121,9 +137,29 @@ public abstract class GameTemplate {
 	 * @param info
 	 *            The information provided that may be the cause of close or crash
 	 */
-	public static void stop(Exception e, String info) {
+	public static void stop(Throwable e, String info) {
 		Mod.logger().catching(new Throwable(info, e));
 		closeInfo = "" + TextFormatting.BLUE + e + "\n" + TextFormatting.DARK_RED + info;
+		errorFile = new File(Loader.instance().getConfigDir(), Mod.MOD_ID + "/latest-crash.log");
+
+		try {
+			if (!errorFile.getParentFile().exists()) {
+				errorFile.getParentFile().mkdirs();
+			}
+
+			if (!errorFile.exists()) {
+				if (errorFile.createNewFile()) {
+				} else {
+				}
+			}
+
+			FileWriter writer = new FileWriter(errorFile);
+			writer.write(closeInfo);
+			writer.close();
+		} catch (Exception e1) {
+			Mod.logger().catching(e1);
+		}
+
 		closed = true;
 	}
 
@@ -151,22 +187,10 @@ public abstract class GameTemplate {
 	 */
 	public void playSound(SoundEvent sound, float volume, float pitch) {
 		if (ModConfig.enableMarioSFX) {
-			Minecraft.getMinecraft().player.playSound(sound, volume, pitch);
+			Minecraft.getMinecraft().addScheduledTask(() -> {
+				Minecraft.getMinecraft().player.playSound(sound, volume, pitch);
+			});
 		}
-	}
-
-	/**
-	 * Plays the specified sound on the server.
-	 * 
-	 * @param sound
-	 *            The sound to be played
-	 * @param volume
-	 *            The volume of the sound
-	 * @param pitch
-	 *            The pitch of the sound
-	 */
-	public void playServerSound(SoundEvent sound, float volume, float pitch) {
-		playSound(sound, volume, pitch);
 	}
 
 	/**
@@ -181,5 +205,12 @@ public abstract class GameTemplate {
 	 */
 	public static String getCloseInfo() {
 		return closeInfo;
+	}
+
+	/**
+	 * @return The file the error info was written to. null if no error has happened
+	 */
+	public static File getErrorFile() {
+		return errorFile;
 	}
 }

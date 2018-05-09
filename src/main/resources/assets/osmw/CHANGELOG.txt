@@ -1,0 +1,37 @@
+0.0.1
+-initial version
+
+0.0.2
+-improved engine
+-fixed bugs
+
+0.0.3
+-fixed memory leakage from sprites
+
+0.0.4
+-added demo level
+-fixed bugs
+
+0.0.5
+-shells no longer cause noise when they are not on screen
+-small tweaks
+-fixed bugs
+
+0.0.6
+-reverted to old collisions
+-added more config options
+-optimized effect rendering
+-completed ui rendering
+-added bugs
+
+0.0.7
+-increased configuration maximum entity count
+-fixed item position when holding an item
+-fixed item position when placing it down
+-made backgrounds smooth
+-removed hard-coded values
+-removed debug entities
+-fixed particle physics
+-fixed particle life span
+-added the ability for shels thrown by the player to collect coins
+-added "secret" features ;D

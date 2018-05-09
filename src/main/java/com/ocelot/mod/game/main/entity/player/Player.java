@@ -28,6 +28,7 @@ import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class Player extends Mob {
@@ -309,6 +310,20 @@ public class Player extends Mob {
 
 		this.animation.update();
 
+		if (this.down) {
+			if (this.cheight != 8) {
+				this.y += 3;
+				this.lastY = y;
+			}
+			this.setSize(12, 8);
+		} else {
+			if (this.cheight != 14) {
+				this.y -= 3;
+				this.lastY = y;
+			}
+			this.setSize(12, 14);
+		}
+
 		if (right)
 			facingRight = true;
 		if (left)
@@ -325,11 +340,7 @@ public class Player extends Mob {
 			}
 			item.updateLastPosition();
 			item.setPosition(x, y);
-			if (facingRight) {
-				item.setPosition(x + item.getWidth() - 4, y - (down ? -1 : 2));
-			} else {
-				item.setPosition(x - item.getWidth() + 4, y - (down ? -1 : 2));
-			}
+			item.setPosition(x + (facingRight ? 1 : -1) * (item.getWidth() / 2 + 4), y - 2);
 		}
 
 		if (this.properties.isHolding()) {
@@ -386,11 +397,6 @@ public class Player extends Mob {
 			if (!e.intersects(this))
 				continue;
 
-			if (e.isDead()) {
-				entities.remove(e);
-				i--;
-			}
-
 			if (e instanceof IPlayerDamager) {
 				IPlayerDamager damagable = (IPlayerDamager) e;
 				if (!damagable.damagePlayer(this, direction, false, false)) {
@@ -437,9 +443,7 @@ public class Player extends Mob {
 
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
-		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
-		sprite.render(posX - tileMapX - cwidth / 2 - 2, posY - tileMapY - cheight / 2 - 10);
+		sprite.render(posX - this.getTileMapX() - cwidth / 2 - 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight());
 	}
 
 	private void setAnimation(int animation) {
@@ -495,7 +499,7 @@ public class Player extends Mob {
 				try {
 					level.add(new Player(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
 				} catch (NumberFormatException e) {
-					throwSummonException("Can not summon a Player at non-numerical coords!");
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".player.summon.numerical"));
 				} catch (Exception e) {
 					Mod.logger().catching(e);
 				}
@@ -505,7 +509,7 @@ public class Player extends Mob {
 						player.enableKeyboardInput(Boolean.parseBoolean(args[2]));
 						level.add(player);
 					} catch (NumberFormatException e) {
-						throwSummonException("Can not summon a Player at non-numerical coords!");
+						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".player.summon.numerical"));
 					} catch (Exception e) {
 						Mod.logger().catching(e);
 					}

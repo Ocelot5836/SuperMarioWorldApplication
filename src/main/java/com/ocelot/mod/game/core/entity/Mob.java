@@ -1,6 +1,11 @@
 package com.ocelot.mod.game.core.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.ai.IAI;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -49,20 +54,45 @@ public abstract class Mob extends Entity {
 	/** Used to time flinching to know when to stop */
 	protected long flinchTimer;
 
+	private List<IAI> ais;
+
 	public Mob(GameTemplate game) {
 		super(game);
 		this.flinchTimer = 1000;
+		this.ais = new ArrayList<IAI>();
+		this.initAI();
+	}
+
+	public void initAI() {
+	}
+
+	public void registerAI(IAI ai) {
+		for (IAI currentAi : ais) {
+			if (currentAi.getName().equalsIgnoreCase(ai.getName())) {
+				Game.stop(new RuntimeException("Cannot register ai " + ai.getName() + " over existing ai for entity " + this.toString()), "Error when trying to register entity AI");
+			}
+		}
+		if (ai == null)
+			Game.stop(new RuntimeException("AI for entity " + this.toString() + " was found to be null. This should NOT happen. Please to report to the mod author about this if you encounter it."), "Fatal Error Occured");
+		
+		ai.setMob(this);
+		ai.initAI();
+		ais.add(ai);
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		
-		if(flinching) {
+
+		if (flinching) {
 			long elapsed = getFlinchElapsedTime();
-			if(elapsed > 2000) {
+			if (elapsed > 2000) {
 				flinching = false;
 			}
+		}
+		
+		for(IAI ai : ais) {
+			ai.update();
 		}
 	}
 

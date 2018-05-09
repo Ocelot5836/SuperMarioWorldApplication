@@ -11,6 +11,7 @@ import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class MarioGuiMrCrayfishHello extends MarioGui {
@@ -48,7 +49,7 @@ public class MarioGuiMrCrayfishHello extends MarioGui {
 
 	@Override
 	public void render(Gui gui, int mouseX, int mouseY, float partialTicks) {
-		String message = "Hello " + Minecraft.getMinecraft().player.getName() + ", I hope you enjoy what I have here to show off so far! Play around and see what happens when you do certain things (; This is a very early stage of the demo level and may be used in the beta release!";
+		String message = I18n.format("gui.osmw.hello", Minecraft.getMinecraft().player.getName());
 		if (animation.hasPlayedOnce()) {
 			FULL.render(width / 2 - FULL.getWidth() / 2, height / 2 - FULL.getHeight() / 2);
 			mc.fontRenderer.drawSplitString(message, width / 2 - FULL.getWidth() / 2 + 5, height / 2 - FULL.getHeight() / 2 + 5, 150, 0xffffff);

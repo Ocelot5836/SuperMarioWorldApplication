@@ -1,13 +1,13 @@
 {
 	"music.normal.overworld": {
-		"category": "player",
+		"category": "music",
 		"sounds": [{
 			"name": "osmw:music/normal/overworld",
 			"stream": true
 		}]
 	},
 	"music.fast.overworld": {
-		"category": "player",
+		"category": "music",
 		"sounds": [{
 			"name": "osmw:music/fast/overworld",
 			"stream": true

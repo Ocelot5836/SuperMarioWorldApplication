@@ -49,7 +49,7 @@ public abstract class Particle extends EntityFX {
 	/** The y position the particle wants to travel to. */
 	protected double ya;
 	/** Used for physics */
-	protected double xx, yy, zz, lastZ, za;
+	protected double xx, yy, zz, za;
 
 	/** Particle attributes. */
 	protected double tileBouncePower, weight, dragPercentLoss;
@@ -66,7 +66,7 @@ public abstract class Particle extends EntityFX {
 		this.yy = y;
 		this.lastX = x;
 		this.lastY = y;
-		this.life = (life + (random.nextInt(lifeDifference) - lifeDifference / 2)) / 20;
+		this.life = (int) (life + random.nextGaussian() * lifeDifference);
 		this.tileBouncePower = tileBouncePower;
 		this.weight = weight;
 		this.dragPercentLoss = Math.min(dragPercentLoss, 1.0);
@@ -74,7 +74,7 @@ public abstract class Particle extends EntityFX {
 
 		this.xa = random.nextGaussian();
 		this.ya = random.nextGaussian();
-		this.zz = random.nextFloat() * bounce;
+		this.zz = random.nextGaussian() * bounce;
 
 		this.timer = Stopwatch.createStarted();
 	}
@@ -82,9 +82,8 @@ public abstract class Particle extends EntityFX {
 	@Override
 	public void update() {
 		super.update();
-		this.lastZ = zz;
 
-		if (timer.elapsed(TimeUnit.SECONDS) >= life) {
+		if (timer.elapsed(TimeUnit.MILLISECONDS) >= life * 50) {
 			setDead();
 		}
 
@@ -113,15 +112,13 @@ public abstract class Particle extends EntityFX {
 		this.x = xx;
 		this.y = yy - zz;
 
-		move(x, y);
+		this.move(x, y);
 	}
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
-		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
-		sprite.render(posX - tileMapX - cwidth / 2, posY - tileMapY - cheight / 2);
+		sprite.render(posX - this.getTileMapX() - cwidth, posY - this.getTileMapY() - cheight);
 	}
 }

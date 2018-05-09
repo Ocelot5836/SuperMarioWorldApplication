@@ -37,6 +37,8 @@ public class PlayerBounceFX extends EntityFX {
 	public PlayerBounceFX(GameTemplate game, double x, double y) {
 		super(game);
 		this.setPosition(x, y);
+		this.lastX = x;
+		this.lastY = y;
 		this.sprite = new Sprite(BOUNCE_IMAGE);
 
 		this.timer = Stopwatch.createStarted();
@@ -53,8 +55,6 @@ public class PlayerBounceFX extends EntityFX {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
-		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
-		this.sprite.render(posX - tileMapX - sprite.getWidth() / 2, posY - tileMapY - sprite.getHeight() / 2);
+		this.sprite.render(posX - this.getTileMapX() - sprite.getWidth() / 2, posY- this.getTileMapY() - sprite.getHeight() / 2);
 	}
 }

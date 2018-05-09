@@ -14,6 +14,7 @@ import com.ocelot.mod.Usernames;
 import com.ocelot.mod.game.core.gfx.Sprite;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -126,50 +127,26 @@ public class Lib {
 		} catch (IOException e) {
 			Mod.logger().warn("Could not load image " + location + ". Could cause issues later on.");
 		}
-		return new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+		return new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
 	}
 
-	/**
-	 * Draws a scaled, textured, tiled modal rect at z = 0. This method isn't used anywhere in vanilla code.
-	 */
-	public static void drawScaledCustomSizeModalRect(double x, double y, double u, double v, double uWidth, double vHeight, double width, double height, double tileWidth, double tileHeight) {
-		double f = 1.0 / tileWidth;
-		double f1 = 1.0 / tileHeight;
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos(x, (y + height), 0.0D).tex((u * f), ((v + vHeight) * f1)).endVertex();
-		bufferbuilder.pos((x + width), (y + height), 0.0D).tex(((u + uWidth) * f), ((v + vHeight) * f1)).endVertex();
-		bufferbuilder.pos((x + width), y, 0.0D).tex(((u + uWidth) * f), (v * f1)).endVertex();
-		bufferbuilder.pos(x, y, 0.0D).tex((u * f), (v * f1)).endVertex();
-		tessellator.draw();
-	}
-	
 	public static int getScoreFromJumps(int enemyJumpCount) {
-		if(enemyJumpCount == 1)
+		if (enemyJumpCount == 1)
 			return 200;
-		if(enemyJumpCount == 2)
+		if (enemyJumpCount == 2)
 			return 400;
-		if(enemyJumpCount == 3)
+		if (enemyJumpCount == 3)
 			return 800;
-		if(enemyJumpCount == 4)
+		if (enemyJumpCount == 4)
 			return 1000;
-		if(enemyJumpCount == 5)
+		if (enemyJumpCount == 5)
 			return 2000;
-		if(enemyJumpCount == 6)
+		if (enemyJumpCount == 6)
 			return 4000;
-		if(enemyJumpCount == 7)
+		if (enemyJumpCount == 7)
 			return 8000;
 		return 0;
 	}
-	
-    public static void scissor(int x, int y, int width, int height)
-    {
-        Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution resolution = new ScaledResolution(mc);
-        int scale = resolution.getScaleFactor();
-        GL11.glScissor(x * scale, mc.displayHeight - y * scale - height * scale, width * scale, height *scale);
-    }
 
 	/**
 	 * @return Whether or not the player is MrCrayfish

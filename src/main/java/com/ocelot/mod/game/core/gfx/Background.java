@@ -2,6 +2,8 @@ package com.ocelot.mod.game.core.gfx;
 
 import com.ocelot.mod.game.Game;
 
+import net.minecraft.client.Minecraft;
+
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
  * 
@@ -17,6 +19,8 @@ public class Background {
 	private Sprite[] images;
 	private Animation animation;
 
+	private double lastX;
+	private double lastY;
 	private double x;
 	private double y;
 	private double dx;
@@ -111,8 +115,8 @@ public class Background {
 	 *            The new y position of the background
 	 */
 	public void setPosition(double x, double y) {
-		this.x = -(x * moveScale) % Game.WIDTH;
-		this.y = -(y * moveScale) % Game.HEIGHT;
+		this.x = x * moveScale % Game.WIDTH;
+		this.y = y * moveScale % Game.HEIGHT;
 	}
 
 	/**
@@ -133,6 +137,8 @@ public class Background {
 	 */
 	public void update() {
 		this.animation.update();
+		this.lastX = x;
+		this.lastY = y;
 		this.setPosition(x + dx, y + dy);
 	}
 
@@ -141,6 +147,8 @@ public class Background {
 	 */
 	public void render() {
 		Sprite image = animation.getSprite();
+		double x = -(lastX + (this.x - lastX) * Minecraft.getMinecraft().getRenderPartialTicks());
+		double y = -(lastY + (this.y - lastY) * Minecraft.getMinecraft().getRenderPartialTicks());
 		if (heightScale < 0) {
 			image.render(x, y, Game.WIDTH, Game.HEIGHT);
 

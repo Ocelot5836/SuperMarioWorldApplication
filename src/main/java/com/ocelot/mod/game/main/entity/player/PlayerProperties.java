@@ -18,6 +18,8 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 	private int enemyJumpCount;
 	private byte lives;
 	private byte coins;
+	private byte dragonCoins;
+	private byte bonus;
 	private int score;
 
 	public PlayerProperties(GameTemplate game) {
@@ -34,6 +36,8 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		this.enemyJumpCount = 0;
 		this.lives = 4;
 		this.coins = 0;
+		this.dragonCoins = 0;
+		this.bonus = 0;
 		this.score = 0;
 	}
 
@@ -79,6 +83,14 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 
 	public byte getCoins() {
 		return coins;
+	}
+
+	public byte getDragonCoins() {
+		return dragonCoins;
+	}
+
+	public byte getBonus() {
+		return bonus;
 	}
 
 	public int getScore() {
@@ -146,6 +158,26 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		this.coins = (byte) coins;
 	}
 
+	public void setDragonCoins(int coins) {
+		if (coins < 0) {
+			coins = 0;
+		}
+		if (coins > 4) {
+			coins = 4;
+		}
+		this.dragonCoins = (byte) coins;
+	}
+
+	public void setBonus(int bonus) {
+		if (bonus < 0) {
+			bonus = 0;
+		}
+		if (bonus > 100) {
+			coins = 100;
+		}
+		this.bonus = (byte) bonus;
+	}
+
 	public void setScore(int score) {
 		if (score < 0) {
 			score = 0;
@@ -187,6 +219,22 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		setCoins(this.coins - 1);
 	}
 
+	public void increaseDragonCoins() {
+		setDragonCoins(this.dragonCoins + 1);
+	}
+
+	public void decreaseDragonCoins() {
+		setDragonCoins(this.dragonCoins - 1);
+	}
+
+	public void increaseBonus() {
+		setBonus(this.bonus + 1);
+	}
+
+	public void decreaseBonus() {
+		setBonus(this.bonus - 1);
+	}
+
 	public void increaseScore(int amount) {
 		setScore(this.score + amount);
 	}
@@ -201,6 +249,8 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		nbt.setByte("powerupId", this.powerupId);
 		nbt.setByte("lives", this.lives);
 		nbt.setByte("coins", this.coins);
+		nbt.setByte("dragonCoins", this.dragonCoins);
+		nbt.setByte("bonus", this.bonus);
 		nbt.setInteger("score", this.score);
 		return nbt;
 	}
@@ -210,6 +260,8 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		this.powerupId = nbt.getByte("powerupId");
 		this.lives = nbt.getByte("lives");
 		this.coins = nbt.getByte("coins");
+		this.dragonCoins = nbt.getByte("dragonCoins");
+		this.bonus = nbt.getByte("bonus");
 		this.score = nbt.getInteger("score");
 	}
 }

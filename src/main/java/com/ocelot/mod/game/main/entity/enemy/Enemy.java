@@ -30,7 +30,7 @@ public abstract class Enemy extends Mob {
 	 * 
 	 * @param source
 	 *            The source of damage
-	 * @return Whetheror not the source can do any damage
+	 * @return Whether or not the source can do any damage
 	 */
 	public boolean canDamage(MarioDamageSource source) {
 		return source != MarioDamageSource.ENEMY;

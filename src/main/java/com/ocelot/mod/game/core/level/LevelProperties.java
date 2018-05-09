@@ -44,7 +44,7 @@ public class LevelProperties {
 	}
 
 	public void update() {
-		if (this.timer.elapsed(TimeUnit.MILLISECONDS) >= 600 && this.currTime > 0) {
+		if (this.timer.elapsed(TimeUnit.SECONDS) >= 1 && this.currTime > 0) {
 			this.currTime--;
 			this.timer.reset().start();
 		}

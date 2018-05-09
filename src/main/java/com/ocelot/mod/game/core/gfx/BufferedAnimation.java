@@ -2,6 +2,8 @@ package com.ocelot.mod.game.core.gfx;
 
 import java.awt.image.BufferedImage;
 
+import scala.sys.process.processInternal;
+
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
  * 

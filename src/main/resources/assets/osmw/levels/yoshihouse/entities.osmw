@@ -9,3 +9,6 @@ Fruit;112;79
 
 # The Player
 Player;50;100
+
+# Extras
+ItemCrayfish;50;50;true

@@ -51,14 +51,14 @@ public class ModConfigGuiFactory implements IModGuiFactory {
 	private static List<IConfigElement> getConfigElements() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		for (ConfigCategory category : ConfigCategory.configs) {
-			CategoryEntryDefault.setConfigCategory(category);
 			list.add(new DummyCategoryElement(I18n.format("gui." + Mod.MOD_ID + ".config.category." + category.getName()), "gui." + Mod.MOD_ID + ".config.category." + category.getName(), category.getClazz()));
 		}
 		return list;
 	}
 
 	public static class CategoryEntryDefault extends CategoryEntry {
-		protected static ConfigCategory category;
+
+		protected ConfigCategory category;
 
 		public CategoryEntryDefault(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 			super(owningScreen, owningEntryList, configElement);
@@ -66,15 +66,20 @@ public class ModConfigGuiFactory implements IModGuiFactory {
 
 		@Override
 		protected GuiScreen buildChildScreen() {
+			this.category = ModConfig.CATEGORY_SOUNDS;
+			for (ConfigCategory cat : ConfigCategory.configs) {
+				String catName = I18n.format("gui." + Mod.MOD_ID + ".config.category." + cat.getName());
+				if (catName.equalsIgnoreCase(configElement.getName())) {
+					this.category = cat;
+					break;
+				}
+			}
+
 			Configuration config = ModConfig.getConfig();
 			ConfigElement category = new ConfigElement(config.getCategory(this.category.getName()));
 			List<IConfigElement> propertiesOnScreen = category.getChildElements();
 			String windowTitle = I18n.format("gui." + Mod.MOD_ID + ".config.category." + category.getName());
 			return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart, windowTitle);
-		}
-
-		public static void setConfigCategory(ConfigCategory category) {
-			CategoryEntryDefault.category = category;
 		}
 	}
 

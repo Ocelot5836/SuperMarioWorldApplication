@@ -1,15 +1,13 @@
 package com.ocelot.mod.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
 
 public class ConfigCategory {
 
-	public static List<ConfigCategory> configs = Lists.<ConfigCategory>newArrayList();
+	public static List<ConfigCategory> configs = new ArrayList<ConfigCategory>();
 
 	private String name;
 	private Class clazz;

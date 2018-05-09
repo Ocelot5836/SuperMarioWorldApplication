@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ocelot.mod.Mod;
 import com.ocelot.mod.Sounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
@@ -16,6 +17,7 @@ import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Enemy;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
@@ -26,6 +28,7 @@ import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 
 public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlayerDamager, IPlayerDamagable {
 
@@ -66,7 +69,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 		this.lastX = x;
 		this.lastY = y;
 		if (type == KoopaType.KAMIKAZE) {
-			Game.stop(new IllegalArgumentException("There is no such thing as a kamakazi koopa shell. This has caused the shell to fail initialization."), "Error while initializing koopa shell.");
+			Game.stop(new IllegalArgumentException(I18n.format("exception." + Mod.MOD_ID + ".item_koopa_shell.illegal_type")), "Error while initializing koopa shell.");
 		}
 
 		this.type = type;
@@ -108,7 +111,9 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 
 	@Override
 	protected void onXBounce() {
-		game.playSound(Sounds.KOOPA_SHELL_RICOCHET, 1.0F);
+		if (this.isOnScreen()) {
+			game.playSound(Sounds.KOOPA_SHELL_RICOCHET, 1.0F);
+		}
 	}
 
 	@Override
@@ -179,14 +184,15 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		super.render(gui, mc, mouseX, mouseY, partialTicks);
-
 		sprite.setData(animation.getImage());
+
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
-		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
-		sprite.render(posX - tileMapX - cwidth / 2, posY - tileMapY - cheight / 2);
+		sprite.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() - cheight / 2);
+	}
+	
+	public Player getThrowingPlayer() {
+		return throwingPlayer;
 	}
 
 	private void setAnimation(int animation) {
@@ -257,6 +263,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 		}
 
 		if (this.xSpeed == 0 && player.getHeldItem() != this) {
+			this.throwingPlayer = player;
 			game.playSound(Sounds.PLAYER_KICK, 1.0F);
 			resetDirections();
 			numEnemiesHit = 0;
@@ -269,7 +276,6 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 					player.setFalling(false);
 					player.setJumping(true);
 					this.xSpeed = 0;
-					this.throwingPlayer = player;
 					this.defaultStompEnemy(player);
 				}
 			}

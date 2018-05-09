@@ -4,14 +4,18 @@ import org.lwjgl.opengl.GL11;
 
 import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Layout;
+import com.mrcrayfish.device.api.utils.RenderUtil;
 import com.mrcrayfish.device.core.Laptop;
+import com.ocelot.api.utils.TextureUtils;
+import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.lib.Lib;
+import com.ocelot.mod.lib.RenderHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,12 +37,9 @@ public class ApplicationGame extends Application {
 
 	private int oldMouseX, oldMouseY;
 
-	public ApplicationGame() {
-		game = new Game();
-	}
-
 	@Override
 	public void init() {
+		game = new Game();
 		game.init();
 		layout = new Layout(game.getWidth(), game.getHeight());
 		setCurrentLayout(layout);
@@ -47,10 +48,17 @@ public class ApplicationGame extends Application {
 	@Override
 	public void onTick() {
 		super.onTick();
-		game.update();
+		try {
+			game.update();
+		} catch (Throwable e) {
+			Game.stop(e, "Error while updating");
+		}
 		if (Game.isClosed()) {
 			if (getActiveDialog() == null) {
-				DialogCrashLog dialog = new DialogCrashLog("An exception was thrown that has caused the game to forcefully close. Please restart Minecraft and notify the author if the problem continues.\n\nError: \n" + Game.getCloseInfo());
+				DialogCrashLog dialog = new DialogCrashLog(I18n.format("exception." + Mod.MOD_ID + ".dialog", Game.getCloseInfo()));
+				dialog.setPositiveListener((mouseButton, mouseX, mouseY) -> {
+					this.init();
+				});
 				openDialog(dialog);
 			}
 		}
@@ -60,7 +68,11 @@ public class ApplicationGame extends Application {
 	public void handleKeyTyped(char character, int code) {
 		super.handleKeyTyped(character, code);
 		if (!Game.isClosed()) {
-			game.onKeyPressed(code, character);
+			try {
+				game.onKeyPressed(code, character);
+			} catch (Throwable e) {
+				Game.stop(e, "Error when key pressed");
+			}
 		}
 	}
 
@@ -68,7 +80,11 @@ public class ApplicationGame extends Application {
 	public void handleKeyReleased(char character, int code) {
 		super.handleKeyReleased(character, code);
 		if (!Game.isClosed()) {
-			game.onKeyReleased(code, character);
+			try {
+				game.onKeyReleased(code, character);
+			} catch (Throwable e) {
+				Game.stop(e, "Error when key released");
+			}
 		}
 	}
 
@@ -77,17 +93,21 @@ public class ApplicationGame extends Application {
 		partialTicks = mc.getRenderPartialTicks();
 
 		super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
-
+		
 		if (mouseX < x || mouseX >= x + this.getWidth() || mouseY < y || mouseY >= y + this.getHeight()) {
 			mouseX = oldMouseX;
 			mouseY = oldMouseY;
 		}
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		Lib.scissor(x, y, getWidth(), getHeight());
+		RenderHelper.scissor(x, y, getWidth(), getHeight());
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
-		game.render(laptop, mc, mouseX - x, mouseY - y, partialTicks);
+		try {
+			game.render(laptop, mc, mouseX - x, mouseY - y, partialTicks);
+		} catch (Throwable e) {
+			Game.stop(e, "Error while rendering");
+		}
 		GlStateManager.popMatrix();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
@@ -99,19 +119,28 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void load(NBTTagCompound nbt) {
-		game.load(nbt);
+		try {
+			game.load(nbt);
+		} catch (Throwable e) {
+			Game.stop(e, "Error while loading");
+		}
 	}
 
 	@Override
 	public void save(NBTTagCompound nbt) {
-		game.save(nbt);
+		try {
+			game.save(nbt);
+		} catch (Throwable e) {
+			Game.stop(e, "Error while saving");
+		}
 	}
 
 	@Override
 	public void onClose() {
 		super.onClose();
 		markDirty();
-		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			Jukebox.stopMusic();
+		}
 	}
 }

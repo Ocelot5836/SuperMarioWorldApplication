@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import com.ocelot.api.utils.TextureUtils;
 import com.ocelot.mod.lib.Lib;
 import com.ocelot.mod.lib.MemoryLib;
+import com.ocelot.mod.lib.RenderHelper;
 
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -187,7 +188,7 @@ public class Sprite {
 			imageWidth = this.getWidth();
 			imageHeight = this.getHeight();
 		}
-		Lib.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, imageWidth, imageHeight);
+		RenderHelper.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, imageWidth, imageHeight);
 	}
 
 	/**

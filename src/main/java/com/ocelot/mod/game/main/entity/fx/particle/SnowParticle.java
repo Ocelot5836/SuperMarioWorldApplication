@@ -24,11 +24,9 @@ public class SnowParticle extends Particle {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
-		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(posX - tileMapX - cwidth / 2, posY - tileMapY - cheight / 2, 0);
+		GlStateManager.translate(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapX() - cheight / 2, 0);
 		GlStateManager.rotate(rotation, 0, 0, 1);
 		sprite.render(0, 0);
 		GlStateManager.popMatrix();

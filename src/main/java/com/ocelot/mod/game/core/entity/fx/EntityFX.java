@@ -2,7 +2,6 @@ package com.ocelot.mod.game.core.entity.fx;
 
 import java.util.Random;
 
-import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.TileMap;
@@ -137,7 +136,8 @@ public abstract class EntityFX {
 		for (int c = 0; c < 4; c++) {
 			int xt = (int) (((x - width / 2) - c % 2 * (width / 2)) / tileSize);
 			int yt = (int) (((y - height / 2) - c / 2 * (height / 2)) / tileSize);
-			if (tileMap.getTile(xt, yt).isSolid()) {
+			Tile tile = tileMap.getTile(xt, yt);
+			if (tile.isLeftSolid() || tile.isRightSolid() || tile.isTopSolid() || tile.isBottomSolid()) {
 				solid = true;
 			}
 		}
@@ -201,10 +201,34 @@ public abstract class EntityFX {
 	}
 
 	/**
+	 * @return The tile map x position
+	 */
+	public double getTileMapX() {
+		return tileMap.getLastX() + tileMap.getPartialRenderX();
+	}
+
+	/**
+	 * @return The tile map y position
+	 */
+	public double getTileMapY() {
+		return tileMap.getLastY() + tileMap.getPartialRenderY();
+	}
+
+	/**
 	 * @return If this entity needs to be removed from the level
 	 */
 	public boolean isDead() {
 		return dead;
+	}
+
+	/**
+	 * Checks if the effect is on the screen.
+	 * 
+	 * @return Whether or not the effect is on screen
+	 */
+	public boolean isOnScreen() {
+		return this.x >= tileMap.getX() && this.x < tileMap.getX() + tileMap.getWidth() && this.y >= tileMap.getY() && this.y < tileMap.getY() + tileMap.getHeight();
+		// return true;
 	}
 
 	/**

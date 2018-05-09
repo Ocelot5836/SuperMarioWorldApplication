@@ -1,6 +1,10 @@
 package com.ocelot.mod.game.core.level.tile;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.EnumDirection;
@@ -11,8 +15,9 @@ import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 import com.ocelot.mod.game.main.level.tile.GrassWallTile;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
-import com.ocelot.mod.game.main.level.tile.TileCoin;
 import com.ocelot.mod.game.main.level.tile.QuestionBlockTile;
+import com.ocelot.mod.game.main.level.tile.TileCoin;
+import com.ocelot.mod.lib.AxisAlignedBB;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
@@ -36,6 +41,8 @@ public abstract class Tile {
 
 	/** All of the registered tiles */
 	public static final Tile[] TILES = new Tile[256];
+
+	public static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 16, 16);
 
 	public static final ResourceLocation TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tiles.png");
 	public static final BufferedImage TILES_SHEET = Lib.loadImage(TILES_LOCATION);
@@ -80,7 +87,7 @@ public abstract class Tile {
 		if (TILES[id] == null) {
 			TILES[id] = this;
 		} else {
-			throw new RuntimeException("Attempted to register a tile over another. OLD: " + id + ", NEW: " + id);
+			throw new RuntimeException("Attempted to register a tile over another. OLD: " + Tile.TILES[id].getLocalizedName() + ", NEW: " + this.getLocalizedName());
 		}
 		this.topSolid = false;
 		this.bottomSolid = false;
@@ -129,6 +136,56 @@ public abstract class Tile {
 	 *            The direction this block was hit from
 	 */
 	public void onEntityCollision(int x, int y, Entity entity, EnumDirection hitDirection) {
+	}
+
+	/**
+	 * Adds the collision boxes to a list to test with entity collisions.
+	 * 
+	 * @param entity
+	 *            The entity colliding with the tile
+	 * @param entityBox
+	 *            The entity's collision box
+	 * @param collisionBoxes
+	 *            The list of collision boxes
+	 */
+	public void addCollisionBoxToList(@Nullable Entity entity, AxisAlignedBB entityBox, List<AxisAlignedBB> collisionBoxes) {
+		if (this != AIR) {
+			this.addCollisionBoxToList(entity, entityBox, collisionBoxes, FULL_AABB);
+		}
+	}
+
+	/**
+	 * Adds the collision boxes to a list to test with entity collisions.
+	 * 
+	 * @param entity
+	 *            The entity colliding with the tile
+	 * @param entityBox
+	 *            The entity's collision box
+	 * @param collisionBoxes
+	 *            The list of collision boxes
+	 */
+	public void addCollisionBoxToList(@Nullable Entity entity, AxisAlignedBB collisionBox, List<AxisAlignedBB> collisionBoxes, AxisAlignedBB newBox) {
+		if (collisionBox != AxisAlignedBB.EMPTY_AABB) {
+			AxisAlignedBB tempBox = new AxisAlignedBB(collisionBox.getX() + newBox.getX(), collisionBox.getY() + newBox.getY(), newBox.getWidth(), newBox.getHeight());
+			if (entity != null && collisionBox.intersects(tempBox)) {
+				collisionBoxes.add(tempBox);
+			}
+		}
+	}
+
+	/**
+	 * Adds the collision boxes to a list to test with entity collisions and returns the list they were added to.
+	 * 
+	 * @param entity
+	 *            The entity colliding with the tile
+	 * @param entityBox
+	 *            The entity's collision box
+	 * @return The list created
+	 */
+	public List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entity, AxisAlignedBB collisonBox) {
+		List<AxisAlignedBB> list = new ArrayList<AxisAlignedBB>();
+		this.addCollisionBoxToList(entity, collisonBox, list);
+		return list;
 	}
 
 	/**

@@ -86,11 +86,17 @@ public class GuiOverlay extends MarioGui {
 		hudSprite.render(0, 0);
 		renderSprite(MARIO, 16, 15);
 		renderSprite(COIN, 200, 15);
-		
+
 		renderNumber(WHITE_0, player.getProperties().getLives(), 40, 23);
 		renderNumber(YELLOW_0, (int) level.getProperties().getCurrTime(), 168, 23);
 		renderNumber(WHITE_0, player.getProperties().getCoins(), 232, 15);
+		renderNumber(WHITE_0_TALL, (int) player.getProperties().getBonus(), 104, 14);
 		renderNumber(WHITE_0, player.getProperties().getScore(), 232, 23);
+		
+		int dragonCoins = player.getProperties().getDragonCoins();
+		for(int i = 0; i < dragonCoins; i++) {
+			renderSprite(COIN, 64 + i * 8, 15);
+		}
 	}
 
 	@Override

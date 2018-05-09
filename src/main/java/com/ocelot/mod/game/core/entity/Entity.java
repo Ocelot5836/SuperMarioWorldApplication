@@ -8,6 +8,7 @@ import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.TileMap;
+import com.ocelot.mod.lib.AxisAlignedBB;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -179,6 +180,72 @@ public abstract class Entity {
 		}
 	}
 
+	// /**
+	// * Whether or not the entity has collided in the specified directions.
+	// *
+	// * @param x
+	// * The x point to check
+	// * @param y
+	// * The y point to check
+	// * @param xa
+	// * The new x position
+	// * @param ya
+	// * The new y position
+	// * @param axis
+	// * The axis to check
+	// * @return Whether or not that position is solid
+	// */
+	// protected boolean hasCollided(double x, double y, double xa, double ya, EnumAxis axis) {
+	// if (xa != 0 && ya != 0) {
+	// if (hasCollided(x, y, xa, 0, axis))
+	// return true;
+	// if (hasCollided(x, y, 0, ya, axis))
+	// return true;
+	// return false;
+	// }
+	//
+	// boolean xAxis = axis.isVerticalAxis();
+	// boolean yAxis = axis.isHorizontalAxis();
+	//
+	// int nextTileX = (int) (x + xa) / tileSize;
+	// int nextTileY = (int) (y + ya) / tileSize;
+	// int currTileX = (int) x / tileSize;
+	// int currTileY = (int) y / tileSize;
+	//
+	// List<AxisAlignedBB> collisionBoxes = new ArrayList<AxisAlignedBB>();
+	//
+	// for (int xx = -1; xx < 2; xx++) {
+	// for (int yy = -1; yy < 2; yy++) {
+	// int tileX = (xAxis ? currTileX : nextTileX);
+	// int tileY = (yAxis ? currTileY : nextTileY);
+	// Tile tempTile = tileMap.getTile(tileX, tileY);
+	// tempTile.addCollisionBoxToList(this, new AxisAlignedBB(this.entityBox.getX() + tileX, this.entityBox.getY() + tileY, this.entityBox.getWidth(), this.entityBox.getWidth()), collisionBoxes);
+	// }
+	// }
+	//
+	// return collisionBoxes.size() > 0;
+	// }
+	//
+	// public void move(double xa, double ya) {
+	// if (xa != 0 && ya != 0) {
+	// move(xa, 0);
+	// move(0, ya);
+	// return;
+	// }
+	//
+	// for (int y = 0; y < Math.abs(ya); y++) {
+	// if (!this.hasCollided(this.x, this.y, xa, MarioCollisionHelper.abs(ya), EnumAxis.X)) {
+	// this.setPosition(this.x, this.y + MarioCollisionHelper.abs(ya));
+	// }
+	// }
+	//
+	// for (int x = 0; x < Math.abs(xa); x++) {
+	// if (!this.hasCollided(this.x, this.y, MarioCollisionHelper.abs(xa), ya, EnumAxis.Y)) {
+	// this.setPosition(this.x + MarioCollisionHelper.abs(xa), this.y);
+	// }
+	// }
+	// }
+
 	/**
 	 * Checks whether or not the entity has collided with the tile map.
 	 */
@@ -201,6 +268,7 @@ public abstract class Entity {
 				ytemp += dy;
 			}
 		}
+
 		if (dy > 0) {
 			if (bottomLeft || bottomRight) {
 				dy = 0;
@@ -220,6 +288,7 @@ public abstract class Entity {
 				xtemp += dx;
 			}
 		}
+
 		if (dx > 0) {
 			if (topRight || bottomRight) {
 				dx = 0;
@@ -229,8 +298,8 @@ public abstract class Entity {
 			}
 		}
 
+		calculateCorners(x, y + 1);
 		if (!falling) {
-			calculateCorners(x, ydest + 1);
 			if (!bottomLeft && !bottomRight) {
 				falling = true;
 			}
@@ -314,6 +383,27 @@ public abstract class Entity {
 	}
 
 	/**
+	 * @return The tile map x position
+	 */
+	public double getTileMapX() {
+		return tileMap.getLastX() + tileMap.getPartialRenderX();
+	}
+
+	/**
+	 * @return The tile map y position
+	 */
+	public double getTileMapY() {
+		return tileMap.getLastY() + tileMap.getPartialRenderY();
+	}
+
+	/**
+	 * @return The entity's collision box
+	 */
+	public AxisAlignedBB getEntityBox() {
+		return new AxisAlignedBB(this.x - this.cwidth / 2, this.y - this.cheight / 2, this.cwidth, this.cheight);
+	}
+
+	/**
 	 * Whether or not this entity has collided with the entity provided.
 	 * 
 	 * @param entity
@@ -321,7 +411,16 @@ public abstract class Entity {
 	 * @return Whether or not these two objects have collided
 	 */
 	public boolean intersects(Entity entity) {
-		return this.x - this.cwidth / 2 < entity.x + entity.cwidth / 2 && this.x + this.cwidth / 2 > entity.x - entity.cwidth / 2 && this.y - this.cheight / 2 < entity.y + entity.cheight / 2 && this.y + this.cheight / 2 > entity.y - entity.cheight / 2;
+		return this.getEntityBox().intersects(entity.getEntityBox());
+	}
+
+	/**
+	 * Checks if the entity is on the screen.
+	 * 
+	 * @return Whether or not the entity is on screen
+	 */
+	public boolean isOnScreen() {
+		return this.x + this.cwidth / 2 >= tileMap.getX() && this.x - this.cwidth / 2 < tileMap.getX() + tileMap.getWidth() && this.y - this.cheight / 2 >= tileMap.getY() && this.y + this.cheight / 2 < tileMap.getY() + tileMap.getHeight();
 	}
 
 	/**

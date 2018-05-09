@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
 
+import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -14,6 +15,7 @@ import com.ocelot.mod.game.core.gameState.GameState;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 
 public class DebugSelectLevelState extends GameState {
 
@@ -44,7 +46,7 @@ public class DebugSelectLevelState extends GameState {
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		Gui.drawRect(3, 12, 3 + Game.WIDTH - 6, 12 + Game.HEIGHT - 16, Color.DARK_GRAY.getRGB());
-		mc.fontRenderer.drawString("Select Level", Game.WIDTH / 2 - mc.fontRenderer.getStringWidth("Select Level") / 2, 18, 0xffffff);
+		mc.fontRenderer.drawString(I18n.format("state." + Mod.MOD_ID + ".select.selectlevel"), Game.WIDTH / 2 - mc.fontRenderer.getStringWidth(I18n.format("state." + Mod.MOD_ID + ".select.selectlevel")) / 2, 18, 0xffffff);
 		int i = 0;
 		for (Entry<Integer, GameState> e : levels.entrySet()) {
 			GameState level = e.getValue();

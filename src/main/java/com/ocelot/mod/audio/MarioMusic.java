@@ -23,7 +23,6 @@ public class MarioMusic implements ISound {
 	protected Sound sound;
 	@Nullable
 	private SoundEventAccessor soundEvent;
-	protected SoundCategory category;
 	protected ResourceLocation soundLocation;
 	protected float pitch;
 	protected int repeatDelay;
@@ -35,7 +34,6 @@ public class MarioMusic implements ISound {
 	public MarioMusic(ResourceLocation soundLocation) {
 		this.pitch = 1.0F;
 		this.soundLocation = soundLocation;
-		this.category = SoundCategory.PLAYERS;
 	}
 
 	public ResourceLocation getSoundLocation() {
@@ -59,7 +57,7 @@ public class MarioMusic implements ISound {
 	}
 
 	public SoundCategory getCategory() {
-		return this.category;
+		return SoundCategory.VOICE;
 	}
 
 	public boolean canRepeat() {
@@ -79,19 +77,19 @@ public class MarioMusic implements ISound {
 	}
 
 	public float getXPosF() {
-		return (float) Minecraft.getMinecraft().player.posX;
+		return 0;
 	}
 
 	public float getYPosF() {
-		return (float) Minecraft.getMinecraft().player.posY;
+		return 0;
 	}
 
 	public float getZPosF() {
-		return (float) Minecraft.getMinecraft().player.posZ;
+		return 0;
 	}
 
 	public ISound.AttenuationType getAttenuationType() {
-		return ISound.AttenuationType.LINEAR;
+		return ISound.AttenuationType.NONE;
 	}
 	
 	public MarioMusic setPitch(float pitch) {

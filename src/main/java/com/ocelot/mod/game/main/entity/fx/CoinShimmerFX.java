@@ -67,8 +67,6 @@ public class CoinShimmerFX extends EntityFX {
 		
 		double posX = lastX + this.getPartialRenderX() - level.getMap().getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY() - level.getMap().getPartialRenderY();
-		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
-		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
-		this.sprite.render(posX - tileMapX - sprite.getWidth() / 2, posY - tileMapY - sprite.getHeight());
+		this.sprite.render(posX - this.getTileMapX() -sprite.getWidth() / 2, posY - this.getTileMapY() -sprite.getHeight());
 	}
 }

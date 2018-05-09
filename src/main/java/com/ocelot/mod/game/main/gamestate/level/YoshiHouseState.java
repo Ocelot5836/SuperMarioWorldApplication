@@ -12,6 +12,9 @@ import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.core.level.tile.Tile;
+import com.ocelot.mod.game.main.entity.enemy.Bowser;
+import com.ocelot.mod.game.main.entity.enemy.Koopa;
+import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
 import com.ocelot.mod.game.main.gamestate.IDebugSelectStateLevel;
 import com.ocelot.mod.game.main.gui.GuiOverlay;
@@ -37,15 +40,13 @@ public class YoshiHouseState extends GameState implements IDebugSelectStateLevel
 		template = new LevelTemplate(game, new ResourceLocation(Mod.MOD_ID, "levels/yoshihouse"));
 
 		template.getLevel().getMap().setTween(1).setPosition(0, 58);
-		template.getLevel().add(new ItemCrayfish(game));
-		// template.getLevel().add(new Koopa(game, KoopaType.KAMIKAZE, 200, 50));
+		template.getLevel().add(new Bowser(game, 50, 50));
 
 		if (template.getLevel().getMap().getTile(8, 8) == Tile.INFO_BOX) {
 			template.getLevel().getMap().setValue(8, 8, InfoBoxTile.TEXT, InfoBoxTile.TextType.YOSHI_HOUSE);
 		}
 
 		background = new Background(Backgrounds.MUSHROOM_MOUNTAINS, 1, 0.5);
-		background.setPosition(-Backgrounds.MUSHROOM_MOUNTAINS.getWidth() / 2, -120);
 
 		overlay = new GuiOverlay(template).setSizeAndWorld(game, template.getLevel().getPlayers().get(0));
 
@@ -54,6 +55,8 @@ public class YoshiHouseState extends GameState implements IDebugSelectStateLevel
 
 	@Override
 	public void update() {
+		background.setPosition(Backgrounds.MUSHROOM_MOUNTAINS.getWidth() / 2, 120);
+		background.update();
 		template.update();
 		overlay.update();
 	}

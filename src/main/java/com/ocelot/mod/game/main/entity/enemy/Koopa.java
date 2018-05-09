@@ -9,20 +9,26 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
+import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.IFileSummonable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
 
 public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
@@ -73,11 +79,11 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		this.movingRight = true;
 
 		if (this.hasWings && this.climbing) {
-			Game.stop(new IllegalArgumentException("A koopa can only have either the wing bit or the climbing bit. You cannot add them together!"), "Koopa attempted to become multiple types at once");
+			Game.stop(new IllegalArgumentException("A koopa can only have either the wing bit or the climbing bit. You cannot add them together!"), "Koopa attempted to have multiple attributes at once");
 		}
 
 		if (type == KoopaType.KAMIKAZE && (this.hasWings || this.climbing)) {
-			Game.stop(new IllegalArgumentException("A kamikaze koopa cannot have wings OR climb. These values are both not valid for this type of koopa."), "Koopa attempted to spawn as kamikaze while having either flying or climbing attributes");
+			Game.stop(new IllegalArgumentException("A kamikaze koopa cannot have wings OR climb. These values are both prohibited!"), "Koopa attempted to spawn as kamikaze while having either flying or climbing attributes");
 		}
 
 		this.sprite = new Sprite();
@@ -139,6 +145,12 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 	}
 
 	private void getNextPosition() {
+		calculateCorners(xdest, y);
+
+		if ((topLeft && topRight) || (bottomLeft && bottomRight)) {
+			facingRight = !facingRight;
+		}
+
 		if (left) {
 			dx -= moveSpeed;
 			if (dx < -maxSpeed) {
@@ -233,10 +245,10 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 				stopSpeed = 1;
 			}
 
-			// calculateCorners(x + (left ? -1 : 1), y);
-			// if (topLeft || bottomLeft || topRight || bottomRight) {
-			// movingRight = !movingRight;
-			// }
+			calculateCorners(x + (left ? -1 : 1), y);
+			if (topLeft || bottomLeft || topRight || bottomRight) {
+				movingRight = !movingRight;
+			}
 		}
 
 		this.animation.update();
@@ -264,9 +276,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		double tileMapX = tileMap.getLastX() + tileMap.getPartialRenderX();
-		double tileMapY = tileMap.getLastY() + tileMap.getPartialRenderY();
-		sprite.render(posX - tileMapX - cwidth / 2, posY - tileMapY - cheight / 2 - (type == KoopaType.KAMIKAZE ? 0 : 3));
+		sprite.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight());
 	}
 
 	private void setAnimation(int animation) {
@@ -287,7 +297,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		return type;
 	}
 
-	public enum KoopaType {
+	public enum KoopaType implements IStringSerializable {
 		GREEN(0, "green"), RED(1, "red"), BLUE(2, "blue"), YELLOW(3, "yellow"), KAMIKAZE(4, "kamikaze");
 
 		private int id;
@@ -304,6 +314,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 			return id;
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
@@ -323,8 +334,8 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		}
 
 		static {
-			for (KoopaType direction : values()) {
-				NAME_LOOKUP.put(direction.getName().toLowerCase(Locale.ROOT), direction);
+			for (KoopaType type : values()) {
+				NAME_LOOKUP.put(type.getName().toLowerCase(Locale.ROOT), type);
 			}
 		}
 	}
@@ -366,6 +377,70 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 					player.setFalling(false);
 				}
 				defaultSpinStompEnemy(player);
+			}
+		}
+	}
+	
+	@Override
+	public boolean canDamage(MarioDamageSource source) {
+		return this.type != KoopaType.KAMIKAZE;
+	}
+
+	public static class Summonable implements IFileSummonable {
+		@Override
+		public void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException {
+			if (args.length > 0) {
+				KoopaType type = null;
+				try {
+					type = KoopaType.byId(Integer.parseInt(args[0]));
+				} catch (NumberFormatException e) {
+					try {
+						type = KoopaType.byName(args[0]);
+					} catch (Exception e1) {
+						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[0]));
+					}
+				} catch (Exception e) {
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[0]));
+				}
+				if (type == null) {
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[0] + "=null"));
+				}
+
+				if (args.length > 1) {
+					if (args.length > 2) {
+						try {
+							level.add(new Koopa(game, type, Double.parseDouble(args[1]), Double.parseDouble(args[2])));
+							return;
+						} catch (NumberFormatException e) {
+							throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.numerical"));
+						} catch (Exception e) {
+							throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_args", args[1] + ", " + args[2]));
+						}
+						if (args.length > 3) {
+							try {
+								level.add(new Koopa(game, type, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Integer.parseInt(args[3])));
+								return;
+							} catch (NumberFormatException e) {
+								throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.numerical"));
+							} catch (Exception e) {
+								throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_args", args[1] + ", " + args[2] + ", " + args[3]));
+							}
+						}
+					}
+					try {
+						level.add(new Koopa(game, type, Integer.parseInt(args[1])));
+						return;
+					} catch (NumberFormatException e) {
+						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.numerical_attrib"));
+					} catch (Exception e) {
+						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[1]));
+					}
+				} else {
+					level.add(new Koopa(game, type));
+					return;
+				}
+			} else {
+				throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.low_args"));
 			}
 		}
 	}

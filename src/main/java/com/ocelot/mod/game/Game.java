@@ -3,11 +3,12 @@ package com.ocelot.mod.game;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
+import com.ocelot.mod.game.core.save.SaveFileManager;
 import com.ocelot.mod.game.main.entity.player.PlayerProperties;
-import com.ocelot.mod.game.main.gui.GuiOverlay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class Game extends GameTemplate {
@@ -16,18 +17,22 @@ public class Game extends GameTemplate {
 	public static final int HEIGHT = 150;
 
 	private GameStateManager gsm;
+	private SaveFileManager saveFileManager;
 	private PlayerProperties playerProperties;
+
 	public MarioGui currentDisplayedGui;
 
 	public Game() {
 		super(WIDTH, HEIGHT);
-		playerProperties = new PlayerProperties(this);
 	}
 
 	@Override
 	public void init() {
-		gsm = new GameStateManager(this);
-		currentDisplayedGui = null;
+		this.gsm = new GameStateManager(this);
+		this.saveFileManager = new SaveFileManager(this);
+		this.playerProperties = new PlayerProperties(this);
+
+		this.currentDisplayedGui = null;
 	}
 
 	@Override
@@ -51,7 +56,7 @@ public class Game extends GameTemplate {
 				gui.drawString(mc.fontRenderer, "Current: " + gsm.getSelectedState().toString(), 2, 2, 0xffffffff);
 			}
 		} else {
-			gui.drawCenteredString(mc.fontRenderer, "An exception was thrown!", WIDTH / 2, HEIGHT / 2 - 8, 0xffdd0000);
+			gui.drawCenteredString(mc.fontRenderer, I18n.format("exception." + Mod.MOD_ID + ".thrown"), WIDTH / 2, HEIGHT / 2 - 8, 0xffdd0000);
 		}
 	}
 
@@ -71,17 +76,25 @@ public class Game extends GameTemplate {
 
 	@Override
 	public void load(NBTTagCompound nbt) {
-		gsm.load(nbt);
-		this.playerProperties.deserializeNBT(nbt.getCompoundTag("playerProperties"));
+		gsm.load(this.saveFileManager.getSaveCompound());
+		this.playerProperties.deserializeNBT(this.saveFileManager.getSaveCompound().getCompoundTag("playerProperties"));
+		
+		this.saveFileManager.deserializeNBT(nbt.getCompoundTag("saveFiles"));
 	}
 
 	@Override
 	public void save(NBTTagCompound nbt) {
-		gsm.save(nbt);
-		nbt.setTag("playerProperties", this.playerProperties.serializeNBT());
+		gsm.save(this.saveFileManager.getSaveCompound());
+		this.saveFileManager.save("playerProperties", this.playerProperties.serializeNBT());
+		
+		nbt.setTag("saveFiles", this.saveFileManager.serializeNBT());
 	}
 
 	public PlayerProperties getPlayerProperties() {
 		return playerProperties;
+	}
+
+	public SaveFileManager getSaveFileManager() {
+		return saveFileManager;
 	}
 }
