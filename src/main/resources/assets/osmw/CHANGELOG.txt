@@ -47,3 +47,6 @@
 -added brick blocks
 -added more sounds
 -added secret new enemies
+
+0.0.9
+-updated application banner
