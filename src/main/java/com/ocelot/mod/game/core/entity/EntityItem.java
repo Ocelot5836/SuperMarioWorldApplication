@@ -20,6 +20,7 @@ public class EntityItem extends Entity {
 	private double maxFallSpeed;
 	private double currentFallSpeed;
 	private double boostSpeed;
+
 	private double currentXBoostSpeed;
 	private double currentYBoostSpeed;
 
@@ -77,6 +78,15 @@ public class EntityItem extends Entity {
 		calculateCorners(x, ydest);
 		if (topLeft || topRight) {
 			currentYBoostSpeed = 0;
+		}
+
+		calculateCorners(xdest, y);
+		if (topLeft || bottomLeft) {
+			currentXBoostSpeed = 0;
+		}
+
+		if (topRight || bottomRight) {
+			currentXBoostSpeed = 0;
 		}
 
 		if (falling && fallSpeed > 0) {

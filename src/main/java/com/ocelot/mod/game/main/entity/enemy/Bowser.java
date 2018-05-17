@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class Bowser extends Enemy {
 
-	public static final BufferedImage BOWSER_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/bowser.png"));
+	public static final BufferedImage BOWSER_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/bowser.png"));
 
 	private static List<BufferedImage[]> sprites;
 

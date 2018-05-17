@@ -9,6 +9,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.lib.MemoryLib;
 import com.ocelot.mod.lib.RenderHelper;
 
 import net.minecraft.client.Minecraft;
@@ -136,6 +137,7 @@ public class ApplicationGame extends Application {
 	@Override
 	public void onClose() {
 		super.onClose();
+		MemoryLib.clear();
 		markDirty();
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			Jukebox.stopMusic();

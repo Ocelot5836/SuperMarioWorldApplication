@@ -35,4 +35,24 @@ public class MemoryLib {
 
 	public static final Map<String, BufferedImage> COLORIZER_REPLACE_BUFFERED_PIXELS = Maps.<String, BufferedImage>newHashMap();
 	public static final Map<String, BufferedImage> COLORIZE_8 = Maps.<String, BufferedImage>newHashMap();
+
+	/**
+	 * Clears all the caches to help with memory
+	 */
+	public static void clear() {
+		GET_NEAREST_ENTITY_ENTITY.clear();
+		GET_NEAREST_ENTITY_POINT.clear();
+		GET_NEAREST_PLAYER_ENTITY.clear();
+		GET_NEAREST_PLAYER_POINT.clear();
+
+		LOADED_IMAGES.clear();
+		FLIP_SPRITE_HORIZONTAL_IMAGES.clear();
+		FLIP_BUFFERED_IMAGE_HORIZONTAL_IMAGES.clear();
+
+		SPRITE_DYNAMIC_TEXTURES.clear();
+		SPRITE_DYNAMIC_TEXTURE_LOCATIONS.clear();
+
+		COLORIZER_REPLACE_BUFFERED_PIXELS.clear();
+		COLORIZE_8.clear();
+	}
 }

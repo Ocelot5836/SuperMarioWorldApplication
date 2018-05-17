@@ -50,3 +50,5 @@
 
 0.0.9
 -updated application banner
+-added the clearing of caches when the game application is closed
+-fixed bugs

@@ -136,6 +136,22 @@ public class RenderHelper {
 	}
 
 	/**
+	 * The exact same as the {@link Gui} method, except that is takes in doubles instead of integers.
+	 * 
+	 * @see Gui#drawTexturedModalRect(int, int, TextureAtlasSprite, int, int)
+	 */
+	public static void drawTexturedModalRect(double x, double y, TextureAtlasSprite textureSprite, double width, double height) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferbuilder = tessellator.getBuffer();
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		bufferbuilder.pos(x, y, 0).tex((double) textureSprite.getMinU(), (double) textureSprite.getMaxV()).endVertex();
+		bufferbuilder.pos(x + width, y + height, 0).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMaxV()).endVertex();
+		bufferbuilder.pos(x + width, y, 0).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMinV()).endVertex();
+		bufferbuilder.pos(x, y, 0).tex((double) textureSprite.getMinU(), (double) textureSprite.getMinV()).endVertex();
+		tessellator.draw();
+	}
+
+	/**
 	 * Cuts out the specified region. Will be removed soon
 	 * 
 	 * <br>

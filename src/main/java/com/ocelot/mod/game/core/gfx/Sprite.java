@@ -26,6 +26,7 @@ public class Sprite {
 
 	private BufferedImage image;
 	private DynamicTexture dynamicTexture;
+	private TextureAtlasSprite textureAtlasSprite;
 	private ResourceLocation texture;
 	private int u;
 	private int v;
@@ -118,6 +119,7 @@ public class Sprite {
 	public void setData(TextureAtlasSprite sprite) {
 		if (sprite == null)
 			sprite = TextureUtils.getMissingSprite();
+		this.textureAtlasSprite = sprite;
 		this.texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
 		this.u = (int) sprite.getMinU();
 		this.v = (int) sprite.getMinV();
@@ -178,6 +180,10 @@ public class Sprite {
 	 *            The height the sprite should fit
 	 */
 	public void render(double x, double y, double width, double height) {
+		if(this.type == EnumType.TEXTURE_ATLAS_SPRITE || this.type == EnumType.MISSING) {
+			RenderHelper.drawTexturedModalRect(x, y, this.textureAtlasSprite, width, height);
+		}
+		
 		TextureUtils.bindTexture(this.getTexture());
 		double imageWidth = this.type == EnumType.BUFFERED_IMAGE ? this.getWidth() : 256;
 		double imageHeight = this.type == EnumType.BUFFERED_IMAGE ? this.getHeight() : 256;
