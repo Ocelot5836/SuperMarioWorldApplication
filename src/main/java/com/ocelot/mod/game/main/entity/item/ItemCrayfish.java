@@ -69,6 +69,11 @@ public class ItemCrayfish extends EntityItem implements IItemCarriable {
 		return true;
 	}
 
+	@Override
+	public boolean canHold(Player player) {
+		return true;
+	}
+
 	public static class Spawnable implements ISpawnerEntity {
 		@Override
 		public void create(GameTemplate game, Level level, Spawner spawner, double x, double y, Object... args) throws SummonException {

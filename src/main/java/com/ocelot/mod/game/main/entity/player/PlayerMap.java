@@ -61,7 +61,7 @@ public class PlayerMap extends Mob {
 	}
 
 	private void loadSprites() {
-		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/mario_map.png")), 16, 24, numFrames));
+		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/mario_map.png")), 16, 24, numFrames));
 		this.animation.setFrames(this.sprites.get(0));
 	}
 

@@ -4,9 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Layout;
-import com.mrcrayfish.device.api.utils.RenderUtil;
 import com.mrcrayfish.device.core.Laptop;
-import com.ocelot.api.utils.TextureUtils;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
@@ -93,7 +91,7 @@ public class ApplicationGame extends Application {
 		partialTicks = mc.getRenderPartialTicks();
 
 		super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
-		
+
 		if (mouseX < x || mouseX >= x + this.getWidth() || mouseY < y || mouseY >= y + this.getHeight()) {
 			mouseX = oldMouseX;
 			mouseY = oldMouseY;

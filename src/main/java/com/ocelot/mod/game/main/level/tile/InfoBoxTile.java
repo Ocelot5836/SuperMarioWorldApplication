@@ -2,10 +2,12 @@ package com.ocelot.mod.game.main.level.tile;
 
 import java.util.Locale;
 
+import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.tile.BasicTile;
+import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.PropertyEnum;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
@@ -19,7 +21,7 @@ public class InfoBoxTile extends BasicTile {
 	public static final PropertyEnum<TextType> TEXT = PropertyEnum.<TextType>create("text", TextType.class);
 
 	public InfoBoxTile() {
-		super(new Sprite(TILES_SHEET.getSubimage(32, 0, 16, 16)));
+		super(new Sprite(Tile.TILES_SHEET.getSubimage(32, 0, 16, 16)));
 		this.setSolid();
 	}
 
@@ -31,6 +33,7 @@ public class InfoBoxTile extends BasicTile {
 				TextType type = (TextType) getValue(TEXT);
 				if (type != null) {
 					player.openGui(type.getGuiId());
+					player.getGame().playSound(Sounds.TILE_MESSAGE_HIT, 1.0F);
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 package com.ocelot.mod.game.main.entity.player;
 
-import com.ocelot.mod.Sounds;
+import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.GameTemplate;
 
 import net.minecraft.nbt.NBTTagCompound;

@@ -58,8 +58,9 @@ public abstract class Entity {
 	protected int cwidth;
 	/** The height of this entity */
 	protected int cheight;
+	
 	/** Collision variables */
-	protected boolean topLeft, topRight, bottomLeft, bottomRight;
+	public boolean topLeft, topRight, bottomLeft, bottomRight;
 
 	/** The current collumn this entity is in */
 	protected int currCol;
@@ -147,7 +148,7 @@ public abstract class Entity {
 	 * @param y
 	 *            The y position to check
 	 */
-	protected void calculateCorners(double x, double y) {
+	public void calculateCorners(double x, double y) {
 		int currTileX = (int) x / tileSize;
 		int currTileY = (int) y / tileSize;
 		int leftTile = (int) ((x - cwidth / 2 <= 0 ? x - cwidth / 2 - 15 : x - cwidth / 2) / tileSize);

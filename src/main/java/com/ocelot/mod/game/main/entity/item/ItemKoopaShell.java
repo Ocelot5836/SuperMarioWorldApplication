@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ocelot.mod.Mod;
-import com.ocelot.mod.Sounds;
+import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -17,7 +17,6 @@ import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
-import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Enemy;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
@@ -190,7 +189,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 		double posY = lastY + this.getPartialRenderY();
 		sprite.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() - cheight / 2);
 	}
-	
+
 	public Player getThrowingPlayer() {
 		return throwingPlayer;
 	}
@@ -245,6 +244,11 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 	@Override
 	public boolean canPickup(Player player) {
 		return this.xSpeed == 0;
+	}
+
+	@Override
+	public boolean canHold(Player player) {
+		return true;
 	}
 
 	@Override

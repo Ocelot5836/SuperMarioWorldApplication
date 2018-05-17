@@ -180,6 +180,22 @@ public abstract class Mob extends Entity {
 	public boolean isFacingRight() {
 		return facingRight;
 	}
+	
+	public double getMoveSpeed() {
+		return moveSpeed;
+	}
+	
+	public double getMaxSpeed() {
+		return maxSpeed;
+	}
+	
+	public double getFallSpeed() {
+		return fallSpeed;
+	}
+	
+	public double getMaxFallSpeed() {
+		return maxFallSpeed;
+	}
 
 	/**
 	 * Sets the entity's health.

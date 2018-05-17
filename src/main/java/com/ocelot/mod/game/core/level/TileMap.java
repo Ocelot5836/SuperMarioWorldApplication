@@ -1,8 +1,11 @@
 package com.ocelot.mod.game.core.level;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import javax.annotation.Nullable;
 
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.level.tile.Tile;
@@ -98,16 +101,18 @@ public class TileMap implements IResourceManagerReloadListener {
 				String line = br.readLine();
 				String[] tokens = line.split(" ");
 				for (int x = 0; x < numCols; x++) {
-					setTile(x, y, Tile.TILES[Integer.parseInt(tokens[x])]);
-					loadedTile = tokens[x];
 					lastX = y;
 					lastY = x;
+					loadedTile = tokens[x];
+					this.setTile(x, y, Tile.TILES[Integer.parseInt(tokens[x]) & 0xff]);
 				}
 			}
 
 			for (int i = 0; i < map.length; i++) {
 				Tile.TILES[map[i]].onAdd(this);
 			}
+		} catch (IOException e) {
+			Game.stop(e, "Could not load map from \'" + mapLocation + "\'");
 		} catch (Exception e) {
 			Game.stop(e, "Could not load map " + mapLocation + "! Tile errored at " + loadedTile + "-" + lastX + ":" + lastY);
 		}
@@ -174,7 +179,7 @@ public class TileMap implements IResourceManagerReloadListener {
 			for (int x = colOffset; x < colOffset + numColsToDraw; x++) {
 				if (x >= numCols)
 					break;
-				
+
 				if (x >= 0 && x < numCols && y >= 0 && y < numRows) {
 					Tile containerTile = this.getTile(x, y);
 					containerTile.setContainer(containerTile.modifyContainer(x, y, this, containers[x + y * numCols]));
@@ -298,6 +303,10 @@ public class TileMap implements IResourceManagerReloadListener {
 		if (x < 0 || x >= numCols || y < 0 || y >= numRows || this.getTile(x, y) == tile)
 			return;
 
+		if (tile == null) {
+			tile = Tile.VOID;
+		}
+
 		this.getTile(x, y).onRemove(this);
 		tile.onAdd(this);
 		map[x + y * numCols] = tile.getId();
@@ -322,6 +331,22 @@ public class TileMap implements IResourceManagerReloadListener {
 		if (x < 0 || x >= numCols || y < 0 || y >= numRows || containers[x + y * numCols] == null)
 			return;
 		containers[x + y * numCols].setValue(property, value);
+	}
+
+	/**
+	 * Attempts to get the container for a tile at a specified position.
+	 * 
+	 * @param x
+	 *            The x position of the container
+	 * @param y
+	 *            The y position of the container
+	 * @return The container found. Null of out of bounds or there is no container
+	 */
+	@Nullable
+	public TileStateContainer getContainer(int x, int y) {
+		if (x < 0 || x >= numCols || y < 0 || y >= numRows || containers[x + y * numCols] == null)
+			return null;
+		return containers[x + y * numCols];
 	}
 
 	/**

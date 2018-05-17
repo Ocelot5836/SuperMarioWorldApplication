@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Gui;
 public class AirTile extends BasicTile {
 
 	public AirTile() {
+		super();
 		this.setShouldNotRender();
 	}
 }

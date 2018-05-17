@@ -7,18 +7,14 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.lwjgl.opengl.GL11;
-
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.Usernames;
 import com.ocelot.mod.game.core.gfx.Sprite;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,7 +28,17 @@ import net.minecraft.util.ResourceLocation;
  * 
  * @author Ocelot5836
  */
-public class Lib {
+public class Lib implements IResourceManagerReloadListener {
+
+	/** The instance of this class */
+	public static final Lib INSTANCE = new Lib();
+
+	/**
+	 * Initializes the lib. This should only be called once.
+	 */
+	public static void pre() {
+		((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(INSTANCE);
+	}
 
 	/**
 	 * Loads all the sprites specified from a buffered image.
@@ -120,8 +126,12 @@ public class Lib {
 	 * @return The image that was found
 	 */
 	public static BufferedImage loadImage(ResourceLocation location) {
+		return loadImage(location, true);
+	}
+
+	private static BufferedImage loadImage(ResourceLocation location, boolean checkCache) {
 		try {
-			if (!MemoryLib.LOADED_IMAGES.containsKey(location))
+			if (!MemoryLib.LOADED_IMAGES.containsKey(location) || !checkCache)
 				MemoryLib.LOADED_IMAGES.put(location, ImageIO.read(Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream()));
 			return MemoryLib.LOADED_IMAGES.get(location);
 		} catch (IOException e) {
@@ -130,6 +140,24 @@ public class Lib {
 		return new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
 	}
 
+	/**
+	 * @param obj
+	 *            The objects to put into an array.
+	 * @param <T>
+	 *            The type of array that will be returned
+	 * @return The array generated with the params
+	 */
+	public static <T> T[] asArray(T... obj) {
+		return obj;
+	}
+
+	/**
+	 * Helps when calculating the score obtained from multiple jumps.
+	 * 
+	 * @param enemyJumpCount
+	 *            The number of jumps to get the score for
+	 * @return The amount of score calculated from the jumps
+	 */
 	public static int getScoreFromJumps(int enemyJumpCount) {
 		if (enemyJumpCount == 1)
 			return 200;
@@ -149,6 +177,8 @@ public class Lib {
 	}
 
 	/**
+	 * @param player
+	 *            The player to check the username of
 	 * @return Whether or not the player is MrCrayfish
 	 */
 	public static boolean isUserMrCrayfish(EntityPlayer player) {
@@ -156,9 +186,18 @@ public class Lib {
 	}
 
 	/**
+	 * @param player
+	 *            The player to check the username of
 	 * @return Whether or not the player is Ocelot5836
 	 */
 	public static boolean isUserOcelot5836(EntityPlayer player) {
 		return Usernames.OCELOT5836.equalsIgnoreCase(player.getName());
+	}
+
+	@Override
+	public void onResourceManagerReload(IResourceManager resourceManager) {
+		for (ResourceLocation key : MemoryLib.LOADED_IMAGES.keySet()) {
+			loadImage(key, false);
+		}
 	}
 }

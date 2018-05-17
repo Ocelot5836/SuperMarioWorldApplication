@@ -23,15 +23,20 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.lib.Colorizer;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
+// TODO recode the movement AI	
 public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
+
+	public static final BufferedImage KOOPA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/koopa.png"));
 
 	public static final byte WING_BIT = 0x01;
 	public static final byte CLMBING_BIT = 0x02;
@@ -40,6 +45,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 	private Sprite sprite;
 	private BufferedAnimation animation;
 
+	private static int[][] colors = { { 0xff007800, 0xff00B800, 0xff00F800 }, { 0xff880000, 0xffB80000, 0xffF80000 }, { 0xff4040D8, 0xff6868D8, 0xff8888F8 }, { 0xffF87800, 0xffF8C000, 0xffF8F800 } };
 	private static int[] delays = { 150, 250, 250, -1, -1, -1 };
 	private static List<List<BufferedImage[]>> sprites;
 
@@ -113,28 +119,28 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 			List<BufferedImage[]> sprites = new ArrayList<BufferedImage[]>();
 			BufferedImage[] walkingNormal = new BufferedImage[2];
 			BufferedImage[] walkingWinged = new BufferedImage[2];
-			int yOffset = i * 36 + i;
 
-			walkingNormal[0] = ENEMY_SHEET.getSubimage(27, 523 + yOffset, 16, 32);
-			walkingNormal[1] = ENEMY_SHEET.getSubimage(46, 523 + yOffset, 16, 32);
+			walkingNormal[0] = this.addColor(KOOPA_SHEET.getSubimage(16, 0, 16, 28), i);
+			walkingNormal[1] = this.addColor(KOOPA_SHEET.getSubimage(32, 0, 16, 28), i);
 
-			walkingWinged[0] = ENEMY_SHEET.getSubimage(65, 524 + yOffset, 22, 32);
-			walkingWinged[1] = ENEMY_SHEET.getSubimage(90, 524 + yOffset, 17, 32);
+			walkingWinged[0] = this.addColor(KOOPA_SHEET.getSubimage(0, 28, 17, 28), i);
+			walkingWinged[1] = this.addColor(KOOPA_SHEET.getSubimage(17, 28, 22, 28), i);
 
-			sprites.add(new BufferedImage[] { ENEMY_SHEET.getSubimage(9, 523 + yOffset, 16, 32) });
+			sprites.add(Lib.asArray(this.addColor(KOOPA_SHEET.getSubimage(0, 0, 16, 28), i)));
 			sprites.add(walkingNormal);
 			sprites.add(walkingWinged);
-			sprites.add(new BufferedImage[] { walkingNormal[0] });
-			sprites.add(new BufferedImage[] { walkingNormal[0] });
-			sprites.add(new BufferedImage[] { walkingNormal[0] });
+			sprites.add(Lib.asArray(walkingNormal[0]));
+			sprites.add(Lib.asArray(walkingNormal[0]));
+			sprites.add(Lib.asArray(walkingNormal[0]));
 			this.sprites.add(sprites);
 		}
 
+		// TODO finish using the colorizer to recolor the same texture for this bit here
 		List<BufferedImage[]> sprites = new ArrayList<BufferedImage[]>();
 		BufferedImage[] spinning = new BufferedImage[8];
-		spinning[0] = ENEMY_SHEET.getSubimage(429, 541, 16, 16);
-		spinning[1] = ENEMY_SHEET.getSubimage(429, 579, 16, 16);
-		spinning[2] = ENEMY_SHEET.getSubimage(483, 617, 16, 16);
+		spinning[0] = this.addColor(KOOPA_SHEET.getSubimage(0, 0, 16, 16), 0xff007800, 0xff00B800, 0xff00F800);
+		spinning[1] = this.addColor(KOOPA_SHEET.getSubimage(0, 0, 16, 16), 0xff880000, 0xffB80000, 0xffF80000);
+		spinning[2] = this.addColor(KOOPA_SHEET.getSubimage(16, 0, 16, 16), 0xff4040D8, 0xff6868D8, 0xff8888F8);
 		spinning[3] = ENEMY_SHEET.getSubimage(483, 655, 16, 16);
 		spinning[4] = ENEMY_SHEET.getSubimage(681, 541, 16, 16);
 		spinning[5] = ENEMY_SHEET.getSubimage(681, 579, 16, 16);
@@ -142,6 +148,14 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		spinning[7] = Lib.flipHorizontal(ENEMY_SHEET.getSubimage(573, 655, 16, 16));
 		sprites.add(spinning);
 		this.sprites.add(sprites);
+	}
+
+	private BufferedImage addColor(BufferedImage image, int koopaType) {
+		return this.addColor(image, colors[koopaType][0], colors[koopaType][1], colors[koopaType][2]);
+	}
+
+	private BufferedImage addColor(BufferedImage image, int color1, int color2, int color3) {
+		return Colorizer.replacePixels(Colorizer.replacePixels(Colorizer.replacePixels(image, 0xff464646, color1), 0xff6C6C6C, color2), 0xff919191, color3);
 	}
 
 	private void getNextPosition() {
@@ -380,7 +394,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean canDamage(MarioDamageSource source) {
 		return this.type != KoopaType.KAMIKAZE;

@@ -1,5 +1,10 @@
 package com.ocelot.mod;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+
 import org.apache.logging.log4j.Logger;
 
 import com.mrcrayfish.device.api.ApplicationManager;
@@ -12,10 +17,14 @@ import com.ocelot.mod.game.main.entity.item.ItemCheese;
 import com.ocelot.mod.game.main.entity.item.ItemCracker;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
 import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.lib.Lib;
+import com.ocelot.mod.registry.Registry;
 
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -53,11 +62,12 @@ public class Mod {
 	public void pre(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
 
-		Sounds.init();
+		MinecraftForge.EVENT_BUS.register(new Registry());
 
-		ModConfig.preInit();
+		Lib.pre();
+		ModConfig.pre();
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			ModConfig.clientPreInit();
+			ModConfig.clientPre();
 		}
 	}
 

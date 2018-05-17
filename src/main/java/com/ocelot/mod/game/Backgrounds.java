@@ -21,7 +21,5 @@ public class Backgrounds {
 	public static final Sprite GREEN_MOUNTAINS = new Sprite(SHEET.getSubimage(516, 1306, 512, 432));
 	public static final Sprite CASTLE = new Sprite(SHEET.getSubimage(2, 1740, 512, 432));
 
-	public static class Animated {
-
-	}
+	
 }

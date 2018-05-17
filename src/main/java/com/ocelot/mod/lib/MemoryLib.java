@@ -7,8 +7,6 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -35,4 +33,6 @@ public class MemoryLib {
 	public static final Map<BufferedImage, DynamicTexture> SPRITE_DYNAMIC_TEXTURES = Maps.<BufferedImage, DynamicTexture>newHashMap();
 	public static final Map<DynamicTexture, ResourceLocation> SPRITE_DYNAMIC_TEXTURE_LOCATIONS = Maps.<DynamicTexture, ResourceLocation>newHashMap();
 
+	public static final Map<String, BufferedImage> COLORIZER_REPLACE_BUFFERED_PIXELS = Maps.<String, BufferedImage>newHashMap();
+	public static final Map<String, BufferedImage> COLORIZE_8 = Maps.<String, BufferedImage>newHashMap();
 }

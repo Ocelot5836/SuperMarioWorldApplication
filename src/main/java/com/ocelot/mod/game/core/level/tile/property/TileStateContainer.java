@@ -68,9 +68,10 @@ public class TileStateContainer {
 	 * @throws Exception
 	 *             If the property does not exist in the container
 	 */
-	public void setValue(IProperty property, Object value) {
+	public TileStateContainer setValue(IProperty property, Object value) {
 		if (!properties.containsKey(property.getName()))
 			Game.stop(new IllegalArgumentException("Property " + property.getName() + " attempted to be set even though it does not exist."), "You cannot set the value of a property that does not exist!");
 		properties.get(property.getName()).setValue(value);
+		return this;
 	}
 }

@@ -1,6 +1,6 @@
 package com.ocelot.mod.game.core.entity;
 
-import com.ocelot.mod.Sounds;
+import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.fx.TextFX;

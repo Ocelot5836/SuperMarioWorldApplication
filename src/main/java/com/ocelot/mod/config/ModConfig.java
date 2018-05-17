@@ -36,7 +36,7 @@ public class ModConfig {
 	public static final ConfigCategory CATEGORY_GAMEPLAY = new ConfigCategory(CATEGORY_NAME_GAMEPLAY);
 	public static final ConfigCategory CATEGORY_EXTRAS = new ConfigCategory(CATEGORY_NAME_EXTRAS);
 
-	private static Configuration config = null;
+	private static Configuration config;
 
 	public static boolean enableMarioMusic;
 	public static boolean enableMarioSFX;
@@ -49,7 +49,7 @@ public class ModConfig {
 	/**
 	 * Initializes the config.
 	 */
-	public static void preInit() {
+	public static void pre() {
 		File configFile = new File(Loader.instance().getConfigDir(), Mod.MOD_ID + "/" + Mod.MOD_ID + ".cfg");
 		config = new Configuration(configFile);
 		syncFromFiles();
@@ -58,7 +58,7 @@ public class ModConfig {
 	/**
 	 * Initializes the client config.
 	 */
-	public static void clientPreInit() {
+	public static void clientPre() {
 		MinecraftForge.EVENT_BUS.register(new ConfigEventHandler());
 	}
 
@@ -99,15 +99,15 @@ public class ModConfig {
 		propertyEnableMarioSFX.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_sfx");
 		propertyEnableMarioSFX.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_sfx.comment"));
 
-		Property propertyMarioMusicVolume = config.get(CATEGORY_NAME_SOUNDS, "mario_music_volume", FactorySettings.MARIO_MUSIC_VOLUME_MAX * 100.0).setConfigEntryClass(NumberSliderEntry.class);
+		Property propertyMarioMusicVolume = config.get(CATEGORY_NAME_SOUNDS, "mario_music_volume", FactorySettings.MARIO_MUSIC_VOLUME_MAX).setConfigEntryClass(NumberSliderEntry.class);
 		propertyMarioMusicVolume.setMinValue(FactorySettings.MARIO_MUSIC_VOLUME_MIN);
-		propertyMarioMusicVolume.setMaxValue(FactorySettings.MARIO_MUSIC_VOLUME_MAX * 100.0);
+		propertyMarioMusicVolume.setMaxValue(FactorySettings.MARIO_MUSIC_VOLUME_MAX);
 		propertyMarioMusicVolume.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_music_volume");
 		propertyMarioMusicVolume.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_music_volume.comment"));
 
-		Property propertyMarioSFXVolume = config.get(CATEGORY_NAME_SOUNDS, "mario_sfx_volume", FactorySettings.MARIO_SFX_VOLUME_MAX * 100.0).setConfigEntryClass(NumberSliderEntry.class);
+		Property propertyMarioSFXVolume = config.get(CATEGORY_NAME_SOUNDS, "mario_sfx_volume", FactorySettings.MARIO_SFX_VOLUME_MAX).setConfigEntryClass(NumberSliderEntry.class);
 		propertyMarioSFXVolume.setMinValue(FactorySettings.MARIO_SFX_VOLUME_MIN);
-		propertyMarioSFXVolume.setMaxValue(FactorySettings.MARIO_SFX_VOLUME_MAX * 100.0);
+		propertyMarioSFXVolume.setMaxValue(FactorySettings.MARIO_SFX_VOLUME_MAX);
 		propertyMarioSFXVolume.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_sfx_volume");
 		propertyMarioSFXVolume.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_sfx_volume.comment"));
 
@@ -132,16 +132,16 @@ public class ModConfig {
 			enableMarioMusic = propertyEnableMarioMusic.getBoolean();
 			enableMarioSFX = propertyEnableMarioSFX.getBoolean();
 
-			marioMusicVolume = propertyMarioMusicVolume.getDouble() / 100.0;
-			marioSFXVolume = propertyMarioSFXVolume.getDouble() / 100.0;
+			marioMusicVolume = (double) propertyMarioMusicVolume.getInt();
+			marioSFXVolume = (double) propertyMarioSFXVolume.getInt();
 
 			crayfishParticleSpawnCount = propertyCrayfishParticleSpawnCount.getInt();
 		}
 
 		propertyEnableMarioMusic.set(enableMarioMusic);
 		propertyEnableMarioSFX.set(enableMarioSFX);
-		propertyMarioMusicVolume.set(Math.round(marioMusicVolume * 100.0));
-		propertyMarioSFXVolume.set(Math.round(marioSFXVolume * 100.0));
+		propertyMarioMusicVolume.set((int) marioMusicVolume);
+		propertyMarioSFXVolume.set((int) marioSFXVolume);
 		propertyCrayfishParticleSpawnCount.set(crayfishParticleSpawnCount);
 
 		if (config.hasChanged()) {

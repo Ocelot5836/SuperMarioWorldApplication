@@ -16,7 +16,9 @@ import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 import com.ocelot.mod.game.main.level.tile.GrassWallTile;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 import com.ocelot.mod.game.main.level.tile.QuestionBlockTile;
+import com.ocelot.mod.game.main.level.tile.TileBricks;
 import com.ocelot.mod.game.main.level.tile.TileCoin;
+import com.ocelot.mod.game.main.level.tile.TileCoin.CoinType;
 import com.ocelot.mod.lib.AxisAlignedBB;
 import com.ocelot.mod.lib.Lib;
 
@@ -42,28 +44,31 @@ public abstract class Tile {
 	/** All of the registered tiles */
 	public static final Tile[] TILES = new Tile[256];
 
-	public static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 16, 16);
-
 	public static final ResourceLocation TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tiles.png");
 	public static final BufferedImage TILES_SHEET = Lib.loadImage(TILES_LOCATION);
 
 	public static final ResourceLocation CONNECTED_TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/connected_tiles.png");
 	public static final BufferedImage CONNECTED_TILES_SHEET = Lib.loadImage(CONNECTED_TILES_LOCATION);
-
-	private static int nextId = 0;
+	
+	public static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 16, 16);
 
 	public static final Tile AIR = new AirTile(); // 0
 	public static final Tile VOID = new VoidTile(); // 1
+	
 	public static final Tile TEST_DIRT = new BasicTile(new ItemStack(Blocks.DIRT)).setSolid(); // 2
 
 	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET.getSubimage(0, 0, 16, 16))).setSolid(); // 3
 	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16))).setSolid(); // 4
 	public static final Tile INFO_BOX = new InfoBoxTile(); // 5
-	public static final Tile COIN = new TileCoin(); // 6
+	public static final Tile COIN = new TileCoin(CoinType.NORMAL); // 6
 	public static final Tile GRASS = new ConnectedTile(CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 48)).setSolid(); // 7
 	public static final Tile GRASS_WALL = new GrassWallTile(); // 8
 	public static final Tile QUESTION_BLOCK = new QuestionBlockTile(); // 9
+	public static final Tile BLUE_COIN = new TileCoin(CoinType.BLUE); // 10
+	public static final Tile BRICKS = new TileBricks(); // 11
 
+	private static int nextId = 0;
+	
 	/**
 	 * The class that stores all specific data and data properties for this tile. It has an unlimited amount of storage for properties and can be used to make advanced tiles.
 	 * 
@@ -149,7 +154,7 @@ public abstract class Tile {
 	 *            The list of collision boxes
 	 */
 	public void addCollisionBoxToList(@Nullable Entity entity, AxisAlignedBB entityBox, List<AxisAlignedBB> collisionBoxes) {
-		if (this != AIR) {
+		if (this.isSolid()) {
 			this.addCollisionBoxToList(entity, entityBox, collisionBoxes, FULL_AABB);
 		}
 	}
@@ -323,7 +328,7 @@ public abstract class Tile {
 	/**
 	 * Sets all four sides to not be solid.
 	 */
-	protected Tile setPassable() {
+	public Tile setPassable() {
 		this.topSolid = false;
 		this.bottomSolid = false;
 		this.leftSolid = false;
@@ -334,7 +339,7 @@ public abstract class Tile {
 	/**
 	 * Sets all four sides to be solid.
 	 */
-	protected Tile setSolid() {
+	public Tile setSolid() {
 		this.topSolid = true;
 		this.bottomSolid = true;
 		this.leftSolid = true;
@@ -345,7 +350,7 @@ public abstract class Tile {
 	/**
 	 * Sets the top to be solid.
 	 */
-	protected Tile setTopSolid() {
+	public Tile setTopSolid() {
 		this.topSolid = true;
 		return this;
 	}
@@ -353,7 +358,7 @@ public abstract class Tile {
 	/**
 	 * Sets the bottom to be solid.
 	 */
-	protected Tile setBottomSolid() {
+	public Tile setBottomSolid() {
 		this.bottomSolid = true;
 		return this;
 	}
@@ -361,7 +366,7 @@ public abstract class Tile {
 	/**
 	 * Sets the left to be solid.
 	 */
-	protected Tile setLeftSolid() {
+	public Tile setLeftSolid() {
 		this.leftSolid = true;
 		return this;
 	}
@@ -369,7 +374,7 @@ public abstract class Tile {
 	/**
 	 * Sets the right to be solid.
 	 */
-	protected Tile setRightSolid() {
+	public Tile setRightSolid() {
 		this.rightSolid = true;
 		return this;
 	}
@@ -377,7 +382,7 @@ public abstract class Tile {
 	/**
 	 * Sets this tile to not render.
 	 */
-	protected Tile setShouldNotRender() {
+	public Tile setShouldNotRender() {
 		this.render = false;
 		return this;
 	}

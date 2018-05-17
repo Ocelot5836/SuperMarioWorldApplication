@@ -56,6 +56,15 @@ public interface IItemCarriable {
 	 * @return Whether or not the player can pickup the item
 	 */
 	boolean canPickup(Player player);
+	
+	/**
+	 * Checks if the player can hold the item.
+	 * 
+	 * @param player
+	 *            The player holding the item
+	 * @return Whether or not the player can hold the item
+	 */
+	boolean canHold(Player player);
 
 	/**
 	 * Sets the default settings for items when they are thrown. Should be called when the item is thrown.

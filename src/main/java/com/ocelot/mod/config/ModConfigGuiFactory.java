@@ -98,7 +98,7 @@ public class ModConfigGuiFactory implements IModGuiFactory {
 			for (int i = 0; i < propertiesOnScreen.size(); i++) {
 				IConfigElement element = propertiesOnScreen.get(i);
 				if (element.getName().equals("mario_music_volume") || element.getName().equals("mario_sfx_volume")) {
-					propertiesOnScreen.set(i, new DummyConfigElement(element.getName(), Double.parseDouble((String) element.getDefault()), ConfigGuiType.DOUBLE, element.getLanguageKey(), element.getMinValue(), element.getMaxValue()).setCustomListEntryClass(NumberSliderEntry.class));
+					propertiesOnScreen.set(i, new DummyConfigElement(element.getName(), Integer.parseInt((String) element.getDefault()), ConfigGuiType.INTEGER, element.getLanguageKey(), element.getMinValue(), element.getMaxValue()).setCustomListEntryClass(NumberSliderEntry.class));
 				}
 			}
 

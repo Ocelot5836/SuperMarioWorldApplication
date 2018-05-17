@@ -34,4 +34,16 @@
 -fixed particle physics
 -fixed particle life span
 -added the ability for shels thrown by the player to collect coins
+-changed config sliders to be integer values as to make it more precise
 -added "secret" features ;D
+
+0.0.8
+-reduced file size of sprites
+-added AI
+-fixed koopa rendering
+-added blue coins
+-fixed coins rendering
+-added P-switch to the demo level
+-added brick blocks
+-added more sounds
+-added secret new enemies

@@ -119,8 +119,8 @@ public class Sprite {
 		if (sprite == null)
 			sprite = TextureUtils.getMissingSprite();
 		this.texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
-		this.u = sprite.getOriginX();
-		this.v = sprite.getOriginY();
+		this.u = (int) sprite.getMinU();
+		this.v = (int) sprite.getMinV();
 		this.width = sprite.getIconWidth();
 		this.height = sprite.getIconHeight();
 		this.type = EnumType.TEXTURE_ATLAS_SPRITE;
@@ -177,17 +177,10 @@ public class Sprite {
 	 * @param height
 	 *            The height the sprite should fit
 	 */
-	public void render(double x, double y, int width, int height) {
+	public void render(double x, double y, double width, double height) {
 		TextureUtils.bindTexture(this.getTexture());
-		int imageWidth = 256;
-		int imageHeight = 256;
-		if (this.type == EnumType.MISSING || this.type == EnumType.TEXTURE_ATLAS_SPRITE) {
-			imageWidth = 1024;
-			imageHeight = 512;
-		} else if (this.type == EnumType.BUFFERED_IMAGE) {
-			imageWidth = this.getWidth();
-			imageHeight = this.getHeight();
-		}
+		double imageWidth = this.type == EnumType.BUFFERED_IMAGE ? this.getWidth() : 256;
+		double imageHeight = this.type == EnumType.BUFFERED_IMAGE ? this.getHeight() : 256;
 		RenderHelper.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, imageWidth, imageHeight);
 	}
 
@@ -264,7 +257,7 @@ public class Sprite {
 		if (MemoryLib.SPRITE_DYNAMIC_TEXTURES.containsKey(image)) {
 			MemoryLib.SPRITE_DYNAMIC_TEXTURES.remove(image);
 		}
-		
+
 		if (MemoryLib.SPRITE_DYNAMIC_TEXTURE_LOCATIONS.containsKey(dynamicTexture)) {
 			MemoryLib.SPRITE_DYNAMIC_TEXTURE_LOCATIONS.remove(dynamicTexture);
 		}

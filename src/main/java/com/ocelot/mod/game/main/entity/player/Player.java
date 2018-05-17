@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
 import com.ocelot.mod.Mod;
-import com.ocelot.mod.Sounds;
+import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -99,7 +99,7 @@ public class Player extends Mob {
 	}
 
 	private void loadSprites() {
-		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/mario.png")), 16, 24, numFrames));
+		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/mario.png")), 16, 24, numFrames));
 		this.animation.setFrames(this.sprites.get(0));
 	}
 
@@ -353,22 +353,16 @@ public class Player extends Mob {
 						e.setDead();
 					}
 				}
-			}
-		} else {
-			if (item != null) {
-				item.resetVelocity();
-				if (item instanceof IItemCarriable) {
+			}else {
+				if(this.item instanceof IItemCarriable) {
 					IItemCarriable carriable = (IItemCarriable) item;
-					if (down) {
-						carriable.onDrop(this);
-					} else {
-						carriable.onThrow(this, up ? ThrowingType.UP : ThrowingType.SIDE);
-						game.playSound(Sounds.PLAYER_KICK, 1.0F);
+					if(!carriable.canHold(this)) {
+						this.dropCurrentItem(false);
 					}
 				}
-				level.add(item.setDead(false));
-				item = null;
 			}
+		} else {
+			this.dropCurrentItem(!this.down);
 		}
 
 		checkAttackAndDamage(level.getEntities());
@@ -453,6 +447,23 @@ public class Player extends Mob {
 		}
 		this.animation.setFrames(this.sprites.get(animation));
 		this.animation.setDelay(this.delays[animation]);
+	}
+
+	public void dropCurrentItem(boolean throwItem) {
+		if (item != null) {
+			item.resetVelocity();
+			if (item instanceof IItemCarriable) {
+				IItemCarriable carriable = (IItemCarriable) item;
+				if (throwItem) {
+					carriable.onThrow(this, up ? ThrowingType.UP : ThrowingType.SIDE);
+					game.playSound(Sounds.PLAYER_KICK, 1.0F);
+				} else {
+					carriable.onDrop(this);
+				}
+			}
+			level.add(item.setDead(false));
+			item = null;
+		}
 	}
 
 	public void damage() {

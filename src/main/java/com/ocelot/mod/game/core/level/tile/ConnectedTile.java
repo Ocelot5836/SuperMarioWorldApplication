@@ -1,14 +1,11 @@
 package com.ocelot.mod.game.core.level.tile;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.PropertyBoolean;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
-import com.ocelot.mod.lib.AxisAlignedBB;
-import com.ocelot.mod.lib.RenderHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -43,6 +40,7 @@ public class ConnectedTile extends BasicTile {
 	 *            The sprites in order of TL, TM, TR, ML, MM, MR, BL, BM, BR. There MUST be at least 9 sprites in the array!
 	 */
 	public ConnectedTile(Sprite... sprites) {
+		super();
 		this.sprites = new Sprite[9];
 
 		if (sprites.length < this.sprites.length) {
@@ -61,6 +59,7 @@ public class ConnectedTile extends BasicTile {
 	 *            The sheet is the 9 sprites linked as if they were a 3x3 in the world
 	 */
 	public ConnectedTile(BufferedImage sheet) {
+		super();
 		this.sprites = new Sprite[9];
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
@@ -76,7 +75,7 @@ public class ConnectedTile extends BasicTile {
 		boolean left = (boolean) container.getValue(LEFT);
 		boolean right = (boolean) container.getValue(RIGHT);
 
-		if (tileMap.getTile(x, y - 1).equals(this) || tileMap.getTile(x, y - 1).equals(VOID)) {
+		if (tileMap.getTile(x, y - 1).equals(this) || tileMap.getTile(x, y - 1).equals(Tile.VOID)) {
 			if (!up) {
 				container.setValue(UP, true);
 			}
@@ -86,7 +85,7 @@ public class ConnectedTile extends BasicTile {
 			}
 		}
 
-		if (tileMap.getTile(x, y + 1).equals(this) || tileMap.getTile(x, y + 1).equals(VOID)) {
+		if (tileMap.getTile(x, y + 1).equals(this) || tileMap.getTile(x, y + 1).equals(Tile.VOID)) {
 			if (!down) {
 				container.setValue(DOWN, true);
 			}
@@ -96,7 +95,7 @@ public class ConnectedTile extends BasicTile {
 			}
 		}
 
-		if (tileMap.getTile(x - 1, y).equals(this) || tileMap.getTile(x - 1, y).equals(VOID)) {
+		if (tileMap.getTile(x - 1, y).equals(this) || tileMap.getTile(x - 1, y).equals(Tile.VOID)) {
 			if (!left) {
 				container.setValue(LEFT, true);
 			}
@@ -106,7 +105,7 @@ public class ConnectedTile extends BasicTile {
 			}
 		}
 
-		if (tileMap.getTile(x + 1, y).equals(this) || tileMap.getTile(x + 1, y).equals(VOID)) {
+		if (tileMap.getTile(x + 1, y).equals(this) || tileMap.getTile(x + 1, y).equals(Tile.VOID)) {
 			if (!right) {
 				container.setValue(RIGHT, true);
 			}

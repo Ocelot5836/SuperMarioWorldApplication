@@ -68,5 +68,26 @@
 			"name": "osmw:entity/item/collect/coin",
 			"stream": true
 		}]
+	},
+	"entity.item.tswitch.activate": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/item/tswitch/activate",
+			"stream": true
+		}]
+	},
+	"entity.item.tswitch.ending": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/item/tswitch/ending",
+			"stream": true
+		}]
+	},
+	"tile.message.hit": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:tile/message/hit",
+			"stream": true
+		}]
 	}
 }
