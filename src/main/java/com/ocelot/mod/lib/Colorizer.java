@@ -40,44 +40,39 @@ public class Colorizer {
 	public static BufferedImage colorize(BufferedImage image, int color1, int color2, int color3, int color4, int color5, int color6, int color7, int color8) {
 		BufferedImage newImage = MemoryLib.COLORIZE_8.get(image + "," + color1 + "," + color2 + "," + color3 + "," + color4 + "," + color5 + "," + color6 + "," + color7 + "," + color8);
 		if (newImage == null) {
-			newImage = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
-			image.copyData(newImage.getRaster());
-			for (int y = 0; y < newImage.getHeight(); y++) {
-				for (int x = 0; x < newImage.getWidth(); x++) {
-					if (newImage.getRGB(x, y) == 0xff000000) {
-						newImage.setRGB(x, y, color1);
-					}
-					
-					if (newImage.getRGB(x, y) == 0xff262626) {
-						newImage.setRGB(x, y, color2);
-					}
-					
-					if (newImage.getRGB(x, y) == 0xff4a4a4a) {
-						newImage.setRGB(x, y, color3);
-					}
-					
-					if (newImage.getRGB(x, y) == 0xff6e6e6e) {
-						newImage.setRGB(x, y, color4);
-					}
-					
-					if (newImage.getRGB(x, y) == 0xff929292) {
-						newImage.setRGB(x, y, color5);
-					}
-					
-					if (newImage.getRGB(x, y) == 0xffb6b6b6) {
-						newImage.setRGB(x, y, color6);
-					}
-					
-					if (newImage.getRGB(x, y) == 0xffdadada) {
-						newImage.setRGB(x, y, color7);
-					}
-					
-					if (newImage.getRGB(x, y) == 0xffffffff) {
-						newImage.setRGB(x, y, color8);
-					}
+			replacePixels(image, newImage, 0xff000000, color1);
+			replacePixels(image, newImage, 0xff262626, color2);
+			replacePixels(image, newImage, 0xff4a4a4a, color3);
+			replacePixels(image, newImage, 0xff6e6e6e, color4);
+			replacePixels(image, newImage, 0xff929292, color5);
+			replacePixels(image, newImage, 0xffb6b6b6, color6);
+			replacePixels(image, newImage, 0xffdadada, color7);
+			replacePixels(image, newImage, 0xffffffff, color8);
+			MemoryLib.COLORIZE_8.put(image + "," + color1 + "," + color2 + "," + color3 + "," + color4 + "," + color5 + "," + color6 + "," + color7 + "," + color8, newImage);
+		}
+		return newImage;
+	}
+
+	/**
+	 * Replaces all the pixels of the specified color in a buffered image.
+	 * 
+	 * @param image
+	 *            The image to modify the pixels of
+	 * @param newImage
+	 *            the image to put the data into
+	 * @param oldColor
+	 *            The color that will be replaced
+	 * @param newColor
+	 *            The color that will replace the old color
+	 * @return The image with the modified pixels
+	 */
+	public static BufferedImage replacePixels(BufferedImage image, BufferedImage newImage, int oldColor, int newColor) {
+		for (int y = 0; y < newImage.getHeight(); y++) {
+			for (int x = 0; x < newImage.getWidth(); x++) {
+				if (newImage.getRGB(x, y) == oldColor) {
+					newImage.setRGB(x, y, newColor);
 				}
 			}
-			MemoryLib.COLORIZE_8.put(image + "," + color1 + "," + color2 + "," + color3 + "," + color4 + "," + color5 + "," + color6 + "," + color7 + "," + color8, newImage);
 		}
 		return newImage;
 	}
@@ -98,13 +93,7 @@ public class Colorizer {
 		if (newImage == null) {
 			newImage = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
 			image.copyData(newImage.getRaster());
-			for (int y = 0; y < newImage.getHeight(); y++) {
-				for (int x = 0; x < newImage.getWidth(); x++) {
-					if (newImage.getRGB(x, y) == oldColor) {
-						newImage.setRGB(x, y, newColor);
-					}
-				}
-			}
+			replacePixels(image, newImage, oldColor, newColor);
 			MemoryLib.COLORIZER_REPLACE_BUFFERED_PIXELS.put(image + "," + oldColor + "," + newColor, newImage);
 		}
 		return newImage;
