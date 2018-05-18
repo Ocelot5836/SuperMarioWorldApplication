@@ -1,6 +1,5 @@
 package com.ocelot.mod.application;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.mrcrayfish.device.api.app.Application;
@@ -48,11 +47,11 @@ public class ApplicationGame extends Application {
 	@Override
 	public void onTick() {
 		super.onTick();
-//		if (getActiveDialog() == null) {
-//			if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-//				MarioPrint.printScreenshot(this, this.getCurrentLayout().xPosition, this.getCurrentLayout().yPosition, this.getCurrentLayout().width, this.getCurrentLayout().height);
-//			}
-//		}
+		// if (getActiveDialog() == null) {
+		// if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+		// MarioPrint.printScreenshot(this, this.getCurrentLayout().xPosition, this.getCurrentLayout().yPosition, this.getCurrentLayout().width, this.getCurrentLayout().height);
+		// }
+		// }
 
 		try {
 			game.update();
