@@ -52,4 +52,6 @@
 -updated application banner
 -added the clearing of caches when the game application is closed
 -fixed sprite rendering
+-added better error logging
+-added the ability to take a screenshot of the game and print it
 -fixed bugs
