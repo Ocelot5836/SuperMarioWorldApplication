@@ -12,6 +12,8 @@ import com.ocelot.mod.lib.AxisAlignedBB;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -553,18 +555,18 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Registers a summonable.
+	 * Registers a summonable entity from file.
 	 * 
-	 * @param key
+	 * @param id
 	 *            The id
 	 * @param summonable
-	 *            The summonable
+	 *            The entity that can be summoned
 	 */
-	public static void registerSummonable(String key, IFileSummonable summonable) {
-		if (!summonables.containsKey(key)) {
-			summonables.put(key, summonable);
+	public static void registerSummonable(String id, IFileSummonable summonable) {
+		if (!summonables.containsKey(id)) {
+			summonables.put(id, summonable);
 		} else {
-			Game.stop(new RuntimeException("Tried to register summonable " + key + " over an already existing one!"), "Could not register summonables.");
+			Game.stop(new RuntimeException("Tried to register summonable with id \'" + id + "\' over an already existing one!"), "Could not register summonables.");
 		}
 	}
 

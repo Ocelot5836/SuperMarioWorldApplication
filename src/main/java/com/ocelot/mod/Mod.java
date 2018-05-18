@@ -1,14 +1,11 @@
 package com.ocelot.mod;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-
 import org.apache.logging.log4j.Logger;
 
 import com.mrcrayfish.device.api.ApplicationManager;
+import com.mrcrayfish.device.api.print.PrintingManager;
 import com.ocelot.mod.application.ApplicationGame;
+import com.ocelot.mod.application.MarioPrint;
 import com.ocelot.mod.config.ModConfig;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.main.entity.Fruit;
@@ -24,12 +21,12 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -64,15 +61,25 @@ public class Mod {
 
 		MinecraftForge.EVENT_BUS.register(new Registry());
 
-		Lib.pre();
 		ModConfig.pre();
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			ModConfig.clientPre();
+			Lib.pre();
 		}
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			registerGame();
+		}
+	}
+
+	/**
+	 * Registers all the things required for the game to function.
+	 */
+	@SideOnly(Side.CLIENT)
+	private static void registerGame() {
 		Entity.registerSummonable("Fruit", new Fruit.Summonable());
 		Entity.registerSummonable("Player", new Player.Summonable());
 		Entity.registerSummonable("Koopa", new Koopa.Summonable());
@@ -81,6 +88,8 @@ public class Mod {
 		Entity.registerSummonable("ItemCracker", new ItemCracker.Summonable());
 
 		ApplicationManager.registerApplication(GAME_ID, ApplicationGame.class);
+		
+		PrintingManager.registerPrint(new ResourceLocation(MOD_ID, "mario_screenshot"), MarioPrint.Print.class);
 	}
 
 	/**
