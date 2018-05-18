@@ -123,15 +123,16 @@ public class RenderHelper {
 	 * @see Gui#drawScaledCustomSizeModalRect(int, int, float, float, int, int, int, int, float, float)
 	 */
 	public static void drawScaledCustomSizeModalRect(double x, double y, double u, double v, double uWidth, double vHeight, double width, double height, double tileWidth, double tileHeight) {
+		double zLevel = 0.0;
 		double f = 1.0 / tileWidth;
 		double f1 = 1.0 / tileHeight;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos(x, (y + height), 0.0D).tex((u * f), ((v + vHeight) * f1)).endVertex();
-		bufferbuilder.pos((x + width), (y + height), 0.0D).tex(((u + uWidth) * f), ((v + vHeight) * f1)).endVertex();
-		bufferbuilder.pos((x + width), y, 0.0D).tex(((u + uWidth) * f), (v * f1)).endVertex();
-		bufferbuilder.pos(x, y, 0.0D).tex((u * f), (v * f1)).endVertex();
+		bufferbuilder.pos(x, (y + height), zLevel).tex((u * f), ((v + vHeight) * f1)).endVertex();
+		bufferbuilder.pos((x + width), (y + height), zLevel).tex(((u + uWidth) * f), ((v + vHeight) * f1)).endVertex();
+		bufferbuilder.pos((x + width), y, zLevel).tex(((u + uWidth) * f), (v * f1)).endVertex();
+		bufferbuilder.pos(x, y, zLevel).tex((u * f), (v * f1)).endVertex();
 		tessellator.draw();
 	}
 
@@ -141,13 +142,14 @@ public class RenderHelper {
 	 * @see Gui#drawTexturedModalRect(int, int, TextureAtlasSprite, int, int)
 	 */
 	public static void drawTexturedModalRect(double x, double y, TextureAtlasSprite textureSprite, double width, double height) {
+		double zLevel = 0.0;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos(x, y, 0).tex((double) textureSprite.getMinU(), (double) textureSprite.getMaxV()).endVertex();
-		bufferbuilder.pos(x + width, y + height, 0).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMaxV()).endVertex();
-		bufferbuilder.pos(x + width, y, 0).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMinV()).endVertex();
-		bufferbuilder.pos(x, y, 0).tex((double) textureSprite.getMinU(), (double) textureSprite.getMinV()).endVertex();
+		bufferbuilder.pos(x + 0, y + height, zLevel).tex((double) textureSprite.getMinU(), (double) textureSprite.getMaxV()).endVertex();
+		bufferbuilder.pos(x + width, y + height, zLevel).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMaxV()).endVertex();
+		bufferbuilder.pos(x + width, y + 0, zLevel).tex((double) textureSprite.getMaxU(), (double) textureSprite.getMinV()).endVertex();
+		bufferbuilder.pos(x + 0, y + 0, zLevel).tex((double) textureSprite.getMinU(), (double) textureSprite.getMinV()).endVertex();
 		tessellator.draw();
 	}
 

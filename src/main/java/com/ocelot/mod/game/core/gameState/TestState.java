@@ -40,7 +40,7 @@ public class TestState extends GameState implements IDebugSelectStateLevel {
 
 	@Override
 	public void init() {
-		bg = new Background(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(Blocks.STONEBRICK, 1, 1)).getParticleTexture()), 0.1);
+		bg = new Background(new Sprite(new ItemStack(Blocks.STONEBRICK, 1, 1)), 0.1);
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
 		level.add(player = new Player(game));
 		player.setPosition(50, 50);
@@ -48,9 +48,10 @@ public class TestState extends GameState implements IDebugSelectStateLevel {
 
 	@Override
 	public void update() {
+		bg.update();
 		level.update();
 
-		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
+		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);		
 		bg.setPosition(level.getMap().getX(), 0);
 	}
 
@@ -72,6 +73,6 @@ public class TestState extends GameState implements IDebugSelectStateLevel {
 
 	@Override
 	public void onLoseFocus() {
-		player.onLoseFocus();
+		level.onLoseFocus();
 	}
 }

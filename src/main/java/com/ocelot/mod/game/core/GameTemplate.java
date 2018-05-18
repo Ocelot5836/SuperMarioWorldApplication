@@ -9,6 +9,7 @@ import com.ocelot.mod.config.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
@@ -153,8 +154,11 @@ public abstract class GameTemplate {
 				}
 			}
 
+			CrashReport crash = CrashReport.makeCrashReport(e, closeInfo);
+			crash.makeCategory("Stop");
+			
 			FileWriter writer = new FileWriter(errorFile);
-			writer.write(closeInfo);
+			writer.write(crash.getCompleteReport());
 			writer.close();
 		} catch (Exception e1) {
 			Mod.logger().catching(e1);

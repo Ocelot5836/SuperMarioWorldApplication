@@ -7,9 +7,13 @@ import com.ocelot.mod.lib.Lib;
 import com.ocelot.mod.lib.MemoryLib;
 import com.ocelot.mod.lib.RenderHelper;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -67,6 +71,36 @@ public class Sprite {
 	 */
 	public Sprite(TextureAtlasSprite sprite) {
 		this.setData(sprite);
+	}
+
+	/**
+	 * Creates a new sprite using an item stack.
+	 * 
+	 * @param stack
+	 *            The stack's sprite to use
+	 */
+	public Sprite(ItemStack stack) {
+		this(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(stack).getParticleTexture());
+	}
+
+	/**
+	 * Creates a new sprite using a block.
+	 * 
+	 * @param stack
+	 *            The block's particle sprite to use
+	 */
+	public Sprite(Block block) {
+		this(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(block)).getParticleTexture());
+	}
+
+	/**
+	 * Creates a new sprite using an item.
+	 * 
+	 * @param stack
+	 *            The item's sprite to use
+	 */
+	public Sprite(Item item) {
+		this(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(item)).getParticleTexture());
 	}
 
 	/**
@@ -180,11 +214,11 @@ public class Sprite {
 	 *            The height the sprite should fit
 	 */
 	public void render(double x, double y, double width, double height) {
-		if(this.type == EnumType.TEXTURE_ATLAS_SPRITE || this.type == EnumType.MISSING) {
-			RenderHelper.drawTexturedModalRect(x, y, this.textureAtlasSprite, width, height);
-		}
-		
 		TextureUtils.bindTexture(this.getTexture());
+		if (this.type == EnumType.TEXTURE_ATLAS_SPRITE || this.type == EnumType.MISSING) {
+			RenderHelper.drawTexturedModalRect(x, y, this.textureAtlasSprite, width, height);
+			return;
+		}
 		double imageWidth = this.type == EnumType.BUFFERED_IMAGE ? this.getWidth() : 256;
 		double imageHeight = this.type == EnumType.BUFFERED_IMAGE ? this.getHeight() : 256;
 		RenderHelper.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, imageWidth, imageHeight);
