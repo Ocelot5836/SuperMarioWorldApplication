@@ -48,12 +48,11 @@ public class ApplicationGame extends Application {
 	@Override
 	public void onTick() {
 		super.onTick();
-		if (getActiveDialog() == null) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-				MarioPrint.printScreenshot(this, this.getCurrentLayout().xPosition, this.getCurrentLayout().yPosition, this.getCurrentLayout().width, this.getCurrentLayout().height);
-				Game.stop(new RuntimeException("Test"));
-			}
-		}
+//		if (getActiveDialog() == null) {
+//			if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+//				MarioPrint.printScreenshot(this, this.getCurrentLayout().xPosition, this.getCurrentLayout().yPosition, this.getCurrentLayout().width, this.getCurrentLayout().height);
+//			}
+//		}
 
 		try {
 			game.update();
