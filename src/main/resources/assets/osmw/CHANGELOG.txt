@@ -53,5 +53,6 @@
 -added the clearing of caches when the game application is closed
 -fixed sprite rendering
 -added better error logging
--added the ability to take a screenshot of the game and print it
+-started adding the ability to take a screenshot of the game and print it
+-added color palettes
 -fixed bugs
