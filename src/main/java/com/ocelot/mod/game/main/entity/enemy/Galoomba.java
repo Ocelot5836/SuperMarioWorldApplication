@@ -51,6 +51,10 @@ public class Galoomba extends Enemy {
 		}
 	}
 
+	private Galoomba(GameTemplate game, Galoomba.Item item) {
+		this(game, item.getX(), item.getY());
+	}
+
 	private void loadSprites() {
 	}
 
@@ -91,7 +95,7 @@ public class Galoomba extends Enemy {
 			timer++;
 			if (timer >= 100) {
 				this.setDead();
-				level.add(new Galoomba(game));
+				level.add(new Galoomba(game, this));
 			}
 		}
 

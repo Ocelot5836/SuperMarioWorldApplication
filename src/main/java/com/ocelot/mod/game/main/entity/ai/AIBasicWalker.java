@@ -15,7 +15,7 @@ public class AIBasicWalker extends AIBase {
 	public void update() {
 		double newX = movingRight ? mob.getMoveSpeed() : -mob.getMoveSpeed();
 		mob.calculateCorners(mob.getX() + newX, mob.getY());
-		if ((mob.topLeft && mob.topRight) || (mob.bottomLeft && mob.bottomRight)) {
+		if ((mob.topLeft && mob.bottomLeft) || (mob.topRight && mob.bottomRight)) {
 			movingRight = !movingRight;
 		}
 		mob.setRight(movingRight);
