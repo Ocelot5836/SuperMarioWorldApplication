@@ -44,6 +44,7 @@ public interface IPlayerDamagable {
 	default void defaultStompEnemy(Player player) {
 		GameTemplate game = player.getGame();
 		Level level = player.getLevel();
+		level.add(new PlayerBounceFX(game, player.getX(), player.getY()));
 		player.getProperties().increaseEnemyJumpCounter();
 		int enemyJumpCount = player.getProperties().getEnemyJumpCount();
 		if (enemyJumpCount >= 8) {
