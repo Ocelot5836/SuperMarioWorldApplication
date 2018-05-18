@@ -23,27 +23,28 @@ import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.game.main.entity.player.PlayerProperties;
+import com.ocelot.mod.lib.Colorizer;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 
 public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlayerDamager, IPlayerDamagable {
 
-	private static int[] delays = { -1, 250, 30 };
+	public static final BufferedImage SHELL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/shell.png"));
+	
+	private static int[][] colors = { { 0xff007800, 0xff00B800, 0xff00F800 }, { 0xff880000, 0xffB80000, 0xffF80000 }, { 0xff4040D8, 0xff6868D8, 0xff8888F8 }, { 0xffF87800, 0xffF8C000, 0xffF8F800 } };
+	private static int[] delays = { -1, 30 };
 	private static List<List<BufferedImage[]>> sprites;
 
 	private int currentAction;
 	private BufferedAnimation animation;
 	private Sprite sprite;
 
-	public static final int IDLE_KOOPA_MARIO = 0;
-	public static final int IDLE_MARIO = 1;
-	public static final int SPINNING_MARIO = 2;
-	public static final int IDLE_KOOPA = 3;
-	public static final int IDLE = 4;
-	public static final int SPINNING = 5;
+	public static final int IDLE = 0;
+	public static final int SPINNING = 1;
 
 	private Player throwingPlayer;
 	private int numEnemiesHit;
@@ -84,28 +85,27 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 
 	private void loadSprites() {
 		for (int i = 0; i < 4; i++) {
-			int yOffset = i * 38;
 			List<BufferedImage[]> images = new ArrayList<BufferedImage[]>();
-			for (int j = 0; j < 2; j++) {
-				yOffset += j * 18;
 
-				BufferedImage[] koopaIdle = new BufferedImage[2];
-				BufferedImage[] spinning = new BufferedImage[4];
+			BufferedImage[] spinning = new BufferedImage[4];
+			spinning[0] = this.addColor(SHELL_SHEET.getSubimage(0, 0, 16, 16), i);
+			spinning[1] = this.addColor(SHELL_SHEET.getSubimage(16, 0, 16, 16), i);
+			spinning[2] = this.addColor(SHELL_SHEET.getSubimage(32, 0, 16, 16), i);
+			spinning[3] = Lib.flipHorizontal(spinning[1]);
 
-				koopaIdle[0] = Enemy.ENEMY_SHEET.getSubimage(429, 523 + yOffset, 16, 16);
-				koopaIdle[1] = Enemy.ENEMY_SHEET.getSubimage(447, 523 + yOffset, 16, 16);
-
-				spinning[0] = Enemy.ENEMY_SHEET.getSubimage(465, 523 + yOffset, 16, 16);
-				spinning[1] = Enemy.ENEMY_SHEET.getSubimage(483, 523 + yOffset, 16, 16);
-				spinning[2] = Enemy.ENEMY_SHEET.getSubimage(501, 523 + yOffset, 16, 16);
-				spinning[3] = Lib.flipHorizontal(spinning[1]);
-
-				images.add(koopaIdle);
-				images.add(new BufferedImage[] { spinning[0] });
-				images.add(spinning);
-			}
+			images.add(Lib.asArray(spinning[0]));
+			images.add(spinning);
+			
 			sprites.add(images);
 		}
+	}
+	
+	private BufferedImage addColor(BufferedImage image, int koopaType) {
+		return this.addColor(image, colors[koopaType][0], colors[koopaType][1], colors[koopaType][2]);
+	}
+
+	private BufferedImage addColor(BufferedImage image, int color1, int color2, int color3) {
+		return Colorizer.replacePixels(Colorizer.replacePixels(Colorizer.replacePixels(image, 0xff464646, color1), 0xff6C6C6C, color2), 0xff919191, color3);
 	}
 
 	@Override
