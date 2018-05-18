@@ -2,6 +2,8 @@ package com.ocelot.mod.lib;
 
 import java.awt.image.BufferedImage;
 
+import com.ocelot.mod.game.core.gfx.ColorPalette;
+
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
  * 
@@ -13,6 +15,19 @@ import java.awt.image.BufferedImage;
  * @author Ocelot5836
  */
 public class Colorizer {
+
+	/**
+	 * Adds color to a gray scale image form darkest to lightest.
+	 * 
+	 * @param image
+	 *            The image to add color to
+	 * @param palette
+	 *            The palette of colors to use
+	 * @return The image with the colors applied
+	 */
+	public static BufferedImage colorize(BufferedImage image, ColorPalette palette) {
+		return Colorizer.colorize(image, palette.getColor1(), palette.getColor2(), palette.getColor3(), palette.getColor4(), palette.getColor5(), palette.getColor6(), palette.getColor7(), palette.getColor8());
+	}
 
 	/**
 	 * Adds color to a gray scale image form darkest to lightest.
@@ -40,6 +55,8 @@ public class Colorizer {
 	public static BufferedImage colorize(BufferedImage image, int color1, int color2, int color3, int color4, int color5, int color6, int color7, int color8) {
 		BufferedImage newImage = MemoryLib.COLORIZE_8.get(image + "," + color1 + "," + color2 + "," + color3 + "," + color4 + "," + color5 + "," + color6 + "," + color7 + "," + color8);
 		if (newImage == null) {
+			newImage = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+			image.copyData(newImage.getRaster());
 			replacePixels(image, newImage, 0xff000000, color1);
 			replacePixels(image, newImage, 0xff262626, color2);
 			replacePixels(image, newImage, 0xff4a4a4a, color3);
@@ -67,6 +84,9 @@ public class Colorizer {
 	 * @return The image with the modified pixels
 	 */
 	public static BufferedImage replacePixels(BufferedImage image, BufferedImage newImage, int oldColor, int newColor) {
+		if(newColor == -1)
+			return newImage;
+		
 		for (int y = 0; y < newImage.getHeight(); y++) {
 			for (int x = 0; x < newImage.getWidth(); x++) {
 				if (newImage.getRGB(x, y) == oldColor) {
@@ -93,7 +113,7 @@ public class Colorizer {
 		if (newImage == null) {
 			newImage = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
 			image.copyData(newImage.getRaster());
-			replacePixels(image, newImage, oldColor, newColor);
+			newImage = replacePixels(image, newImage, oldColor, newColor);
 			MemoryLib.COLORIZER_REPLACE_BUFFERED_PIXELS.put(image + "," + oldColor + "," + newColor, newImage);
 		}
 		return newImage;

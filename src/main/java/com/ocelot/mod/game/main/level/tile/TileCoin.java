@@ -3,11 +3,13 @@ package com.ocelot.mod.game.main.level.tile;
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.core.gfx.ColorPalette;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.tile.AnimatedTile;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.lib.Colorizer;
 
 public class TileCoin extends AnimatedTile {
 
@@ -38,12 +40,14 @@ public class TileCoin extends AnimatedTile {
 	}
 
 	private static Sprite generateSprite(CoinType type, int animationFrame) {
+		return new Sprite(Colorizer.colorize(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16, 16, 16), ColorPalette.COIN_DEFAULT));
 		// if (type == CoinType.NORMAL) {
-		// return new Sprite(Colorizer.colorize(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16, 16, 16), NORMAL_COLORS[0], NORMAL_COLORS[1], NORMAL_COLORS[2], NORMAL_COLORS[3], NORMAL_COLORS[4], NORMAL_COLORS[5], NORMAL_COLORS[6], NORMAL_COLORS[7]));
+		// return new Sprite(Colorizer.colorize(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16, 16, 16), ColorPalette.COIN_DEFAULT));
 		// } else {
 		// return new Sprite(Colorizer.colorize(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16, 16, 16), BLUE_COLORS[0], BLUE_COLORS[1], BLUE_COLORS[2], BLUE_COLORS[3], BLUE_COLORS[4], BLUE_COLORS[5], BLUE_COLORS[6], BLUE_COLORS[7]));
 		// }
-		return new Sprite(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16 + (type == CoinType.BLUE ? 16 : 0), 16, 16));
+		
+		// return new Sprite(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16 + (type == CoinType.BLUE ? 16 : 0), 16, 16));
 	}
 
 	public enum CoinType {
