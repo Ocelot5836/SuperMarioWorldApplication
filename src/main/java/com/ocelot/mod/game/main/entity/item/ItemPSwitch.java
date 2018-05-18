@@ -23,7 +23,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ItemPSwitch extends EntityItem implements IItemCarriable, IPlayerDamagable {
 
-	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/pswitch.png"));
+	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/pswitch.png"));
 	private static BufferedImage[] sprites;
 
 	private Sprite sprite;

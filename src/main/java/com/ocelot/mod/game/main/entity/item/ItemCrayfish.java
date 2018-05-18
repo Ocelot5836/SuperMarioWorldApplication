@@ -24,7 +24,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ItemCrayfish extends EntityItem implements IItemCarriable {
 
-	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/crayfish.png"));
+	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/crayfish.png"));
 
 	private Sprite sprite = new Sprite(SHEET.getSubimage(0, 0, 16, 16));
 
