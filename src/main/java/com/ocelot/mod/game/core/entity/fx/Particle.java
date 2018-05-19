@@ -119,6 +119,6 @@ public abstract class Particle extends EntityFX {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - this.getTileMapX() - cwidth, posY - this.getTileMapY() - cheight);
+		sprite.render(posX - this.getTileMapX() - cwidth - cwidth / 4, posY - this.getTileMapY() - cheight - cheight/2 + 2);
 	}
 }
