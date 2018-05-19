@@ -34,7 +34,6 @@ public class MemoryLib {
 	public static final Map<DynamicTexture, ResourceLocation> SPRITE_DYNAMIC_TEXTURE_LOCATIONS = Maps.<DynamicTexture, ResourceLocation>newHashMap();
 
 	public static final Map<String, BufferedImage> COLORIZER_REPLACE_BUFFERED_PIXELS = Maps.<String, BufferedImage>newHashMap();
-	public static final Map<String, BufferedImage> COLORIZE_8 = Maps.<String, BufferedImage>newHashMap();
 
 	/**
 	 * Clears all the caches to help with memory
@@ -53,6 +52,5 @@ public class MemoryLib {
 		SPRITE_DYNAMIC_TEXTURE_LOCATIONS.clear();
 
 		COLORIZER_REPLACE_BUFFERED_PIXELS.clear();
-		COLORIZE_8.clear();
 	}
 }

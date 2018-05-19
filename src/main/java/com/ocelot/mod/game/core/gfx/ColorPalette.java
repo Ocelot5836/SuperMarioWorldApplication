@@ -7,7 +7,8 @@ import com.ocelot.mod.lib.Colorizer;
 public class ColorPalette {
 
 	public static final ColorPalette TEST = new ColorPalette(0xffff00ff, 0xffffff00, 0xff0000ff, 0xff000000, 0xff00ff00, 0xffffffff, 0xff7f007f, 0xffff7fff);
-	public static final ColorPalette COIN_DEFAULT = new ColorPalette(0xff000000, 0xffd8a038, 0xfff8d820, 0xfff8f800, 0xffe8f0f8, -1, -1, -1);
+	public static final ColorPalette COIN_GOLD = new ColorPalette(0xff000000, 0xffd8a038, 0xfff8d820, 0xfff8f800, 0xffe8f0f8, -1, -1, -1);
+	public static final ColorPalette COIN_BLUE = new ColorPalette(0xff000000, 0xff484888, 0xff6868b0, 0xff8080c8, 0xffe8f0f8, -1, -1, -1);
 
 	private int[] colors;
 
