@@ -76,17 +76,17 @@ public class Game extends GameTemplate {
 
 	@Override
 	public void load(NBTTagCompound nbt) {
-		gsm.load(this.saveFileManager.getSaveCompound());
-		this.playerProperties.deserializeNBT(this.saveFileManager.getSaveCompound().getCompoundTag("playerProperties"));
-		
 		this.saveFileManager.deserializeNBT(nbt.getCompoundTag("saveFiles"));
+
+		gsm.load(this.saveFileManager.getSaveCompound());
+		this.playerProperties.deserializeNBT(this.saveFileManager.load("playerProperties"));
 	}
 
 	@Override
 	public void save(NBTTagCompound nbt) {
 		gsm.save(this.saveFileManager.getSaveCompound());
 		this.saveFileManager.save("playerProperties", this.playerProperties.serializeNBT());
-		
+
 		nbt.setTag("saveFiles", this.saveFileManager.serializeNBT());
 	}
 
