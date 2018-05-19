@@ -2,6 +2,8 @@ package com.ocelot.mod.game.core.gfx;
 
 import java.awt.image.BufferedImage;
 
+import javax.annotation.Nullable;
+
 import com.ocelot.api.utils.TextureUtils;
 import com.ocelot.mod.lib.Lib;
 import com.ocelot.mod.lib.MemoryLib;
@@ -277,6 +279,26 @@ public class Sprite {
 	}
 
 	/**
+	 * Can be null if the type is not equal to BufferedImage
+	 * 
+	 * @return The image of this sprite
+	 */
+	@Nullable
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	/**
+	 * Can be null if the type is not equal to BufferedImage
+	 * 
+	 * @return The dynamic texture of this sprite
+	 */
+	@Nullable
+	public DynamicTexture getDynamicTexture() {
+		return dynamicTexture;
+	}
+
+	/**
 	 * @return The texture data if the texture came form a buffered image
 	 */
 	public int[] getTextureData() {
@@ -290,8 +312,8 @@ public class Sprite {
 	@Override
 	protected final void finalize() throws Throwable {
 		super.finalize();
-		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(this.toString())) {
-			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.remove(this.toString());
+		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(this.image)) {
+			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.remove(this.image);
 		}
 
 		if (MemoryLib.SPRITE_DYNAMIC_TEXTURES.containsKey(image)) {

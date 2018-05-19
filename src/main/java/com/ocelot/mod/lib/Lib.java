@@ -72,8 +72,8 @@ public class Lib implements IResourceManagerReloadListener {
 	 *            The sprite to flip
 	 */
 	public static Sprite flipHorizontal(Sprite sprite) {
-		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.toString())) {
-			sprite.setData(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.get(sprite.toString()));
+		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.getImage())) {
+			sprite.setData(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.get(sprite.getImage()));
 			return sprite;
 		}
 		
@@ -87,7 +87,7 @@ public class Lib implements IResourceManagerReloadListener {
 				}
 			}
 			sprite.setData(returned);
-			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.put(sprite.toString(), returned);
+			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.put(sprite.getImage(), returned);
 		} else {
 			Mod.logger().warn("Can not flip sprite with type " + sprite.getType());
 		}
