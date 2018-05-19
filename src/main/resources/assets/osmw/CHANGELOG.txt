@@ -55,4 +55,5 @@
 -added better error logging
 -started adding the ability to take a screenshot of the game and print it
 -added color palettes
+-improved entity rendering
 -fixed bugs
