@@ -290,8 +290,8 @@ public class Sprite {
 	@Override
 	protected final void finalize() throws Throwable {
 		super.finalize();
-		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(texture)) {
-			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.remove(texture);
+		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(this.toString())) {
+			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.remove(this.toString());
 		}
 
 		if (MemoryLib.SPRITE_DYNAMIC_TEXTURES.containsKey(image)) {
