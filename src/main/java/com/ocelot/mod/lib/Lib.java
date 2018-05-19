@@ -72,13 +72,13 @@ public class Lib implements IResourceManagerReloadListener {
 	 *            The sprite to flip
 	 */
 	public static Sprite flipHorizontal(Sprite sprite) {
-		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.getImage())) {
-			sprite.setData(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.get(sprite.getImage()));
+		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.getTextureData())) {
+			sprite.setData(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.get(sprite.getTextureData()));
 			return sprite;
-		}
+		} 
 		
-		System.out.println("Created new instance - " + sprite.getTexture());
-		
+		System.out.println(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.getTextureData()));
+				
 		if (sprite.getType() == Sprite.EnumType.BUFFERED_IMAGE) {
 			BufferedImage returned = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			for (int y = 0; y < returned.getHeight(); y++) {
@@ -87,7 +87,7 @@ public class Lib implements IResourceManagerReloadListener {
 				}
 			}
 			sprite.setData(returned);
-			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.put(sprite.getImage(), returned);
+			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.put(sprite.getTextureData(), returned);
 		} else {
 			Mod.logger().warn("Can not flip sprite with type " + sprite.getType());
 		}

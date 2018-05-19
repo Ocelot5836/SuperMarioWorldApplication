@@ -27,7 +27,7 @@ public class MemoryLib {
 	public static final Map<String, Comparator> GET_NEAREST_PLAYER_POINT = Maps.<String, Comparator>newHashMap();
 
 	public static final Map<ResourceLocation, BufferedImage> LOADED_IMAGES = Maps.<ResourceLocation, BufferedImage>newHashMap();
-	public static final Map<BufferedImage, BufferedImage> FLIP_SPRITE_HORIZONTAL_IMAGES = Maps.<BufferedImage, BufferedImage>newHashMap();
+	public static final Map<int[], BufferedImage> FLIP_SPRITE_HORIZONTAL_IMAGES = Maps.<int[], BufferedImage>newHashMap();
 	public static final Map<BufferedImage, BufferedImage> FLIP_BUFFERED_IMAGE_HORIZONTAL_IMAGES = Maps.<BufferedImage, BufferedImage>newHashMap();
 
 	public static final Map<BufferedImage, DynamicTexture> SPRITE_DYNAMIC_TEXTURES = Maps.<BufferedImage, DynamicTexture>newHashMap();

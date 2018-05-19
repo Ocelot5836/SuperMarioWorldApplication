@@ -38,6 +38,7 @@ public class Sprite {
 	private int v;
 	private int width;
 	private int height;
+	/** The type of image data stored. Used if this is a buffered image or something else like a resource location */
 	private EnumType type;
 
 	/**
@@ -279,7 +280,7 @@ public class Sprite {
 	}
 
 	/**
-	 * Can be null if the type is not equal to BufferedImage
+	 * Will be null if {@link #type} is not equal to BufferedImage.
 	 * 
 	 * @return The image of this sprite
 	 */
@@ -289,7 +290,7 @@ public class Sprite {
 	}
 
 	/**
-	 * Can be null if the type is not equal to BufferedImage
+	 * Will be null if {@link #type} is not equal to BufferedImage.
 	 * 
 	 * @return The dynamic texture of this sprite
 	 */
@@ -312,8 +313,8 @@ public class Sprite {
 	@Override
 	protected final void finalize() throws Throwable {
 		super.finalize();
-		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(this.image)) {
-			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.remove(this.image);
+		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(this.getTextureData())) {
+			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.remove(this.getTextureData());
 		}
 
 		if (MemoryLib.SPRITE_DYNAMIC_TEXTURES.containsKey(image)) {
