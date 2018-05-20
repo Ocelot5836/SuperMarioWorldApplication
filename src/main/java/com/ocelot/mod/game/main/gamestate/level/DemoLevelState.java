@@ -1,5 +1,7 @@
 package com.ocelot.mod.game.main.gamestate.level;
 
+import java.lang.annotation.Annotation;
+
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.Mod;
@@ -21,7 +23,8 @@ import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 
 import net.minecraft.util.ResourceLocation;
 
-public class DemoLevelState extends BasicLevel implements IDebugSelectStateLevel {
+@IDebugSelectStateLevel
+public class DemoLevelState extends BasicLevel {
 
 	public DemoLevelState(GameStateManager gsm, GameTemplate game) {
 		super(gsm, game);

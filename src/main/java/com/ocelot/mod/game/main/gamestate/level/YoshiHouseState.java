@@ -22,7 +22,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class YoshiHouseState extends GameState implements IDebugSelectStateLevel {
+@IDebugSelectStateLevel
+public class YoshiHouseState extends GameState {
 
 	private LevelTemplate template;
 	private Background background;

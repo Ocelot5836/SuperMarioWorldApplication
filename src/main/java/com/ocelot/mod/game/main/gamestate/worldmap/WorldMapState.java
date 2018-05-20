@@ -24,7 +24,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class WorldMapState extends GameState implements IDebugSelectStateLevel {
+@IDebugSelectStateLevel
+public class WorldMapState extends GameState {
 
 	public static final BufferedImage WORLD_MAP_ICONS = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/map.png"));
 

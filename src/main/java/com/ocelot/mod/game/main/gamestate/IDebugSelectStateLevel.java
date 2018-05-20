@@ -10,5 +10,5 @@ package com.ocelot.mod.game.main.gamestate;
  * 
  * @author Ocelot5836
  */
-public interface IDebugSelectStateLevel {
+public @interface IDebugSelectStateLevel {
 }

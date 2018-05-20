@@ -10,6 +10,7 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.main.entity.enemy.Galoomba;
 import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
@@ -18,6 +19,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+@IDebugSelectStateLevel
 public class TestState extends GameState {
 
 	private Background bg;
@@ -32,6 +34,8 @@ public class TestState extends GameState {
 	public void init() {
 		bg = new Background(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(Blocks.STONEBRICK, 1, 1)).getParticleTexture()), 0.1);
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
+		level.getMap().setTween(0.25);
+		level.add(new Galoomba(game, 100, 0));
 		level.add(player = new Player(game));
 		player.setPosition(50, 50);
 	}
