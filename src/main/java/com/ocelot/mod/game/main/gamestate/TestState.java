@@ -37,32 +37,17 @@ public class TestState extends GameState {
 		bg = new Background(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(Blocks.STONEBRICK, 1, 1)).getParticleTexture()), 0.1);
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
 		level.getMap().setTween(0.25);
-		level.add(new Galoomba(game, 100, 0));
+		level.add(new Galoomba(game, 60, 50));
 		level.add(player = new Player(game));
 		player.setPosition(50, 50);
 	}
 
 	@Override
 	public void update() {
-		level.update();
-
-		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
+		bg.update();
 		bg.setPosition(level.getMap().getX(), 0);
-
-		if (Mod.isDebug()) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-				player.setY(player.getY() - 10);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-				player.setY(player.getY() + 10);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-				player.setX(player.getX() - 10);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-				player.setX(player.getX() + 10);
-			}
-		}
+		level.update();
+		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
 	}
 
 	@Override
