@@ -58,3 +58,7 @@
 -improved entity rendering
 -updated to device mod version 0.4.0
 -fixed bugs
+
+0.1.0
+-fixed crash log not being correct height
+-fixed bugs
