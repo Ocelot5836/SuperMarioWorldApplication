@@ -13,11 +13,6 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class Enemy extends Mob {
 
-	/**
-	 * @deprecated This is not a good way to get enemy sprites. Try using {@link Colorizer#replacePixels(BufferedImage, int, int)} or {@link Colorizer#colorize(BufferedImage, int, int, int, int, int, int, int, int)} instead and use a grayscale image.
-	 */
-	public static final BufferedImage ENEMY_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/enemies.png"));
-
 	/** The range that this enemy can detect mobs at */
 	protected double detectRange;
 
