@@ -18,13 +18,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
-public class MenuState extends GameState implements IDebugSelectStateLevel {
+@IDebugSelectStateLevel
+public class MenuState extends GameState {
 
 	private StopWatch timer;
 	private Level level;
 	private Player player;
 	private MobMover bot;
-	
+
 	public MenuState(GameStateManager gsm, GameTemplate game) {
 		super(gsm, game);
 	}
@@ -58,7 +59,7 @@ public class MenuState extends GameState implements IDebugSelectStateLevel {
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
 		level.onKeyPressed(keyCode, typedChar);
-		
+
 		if (keyCode == Keyboard.KEY_Y) {
 			init();
 		}
