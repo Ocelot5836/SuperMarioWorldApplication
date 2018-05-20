@@ -42,6 +42,8 @@ public class DialogCrashLog extends Dialog {
 		int lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(messageText, getWidth() - 10).size();
 		defaultLayout.height += (lines - 1) * 10 + 20;
 
+		super.init(nbt);
+		
 		defaultLayout.setBackground(new Background() {
 			@Override
 			public void render(Gui gui, Minecraft mc, int x, int y, int width, int height, int mouseX, int mouseY, boolean windowActive) {
