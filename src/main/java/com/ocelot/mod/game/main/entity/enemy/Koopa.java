@@ -138,14 +138,13 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		// TODO finish using the colorizer to recolor the same texture for this bit here
 		List<BufferedImage[]> sprites = new ArrayList<BufferedImage[]>();
 		BufferedImage[] spinning = new BufferedImage[8];
-		spinning[0] = this.addColor(KOOPA_SHEET.getSubimage(0, 0, 16, 16), 0xff007800, 0xff00B800, 0xff00F800);
-		spinning[1] = this.addColor(KOOPA_SHEET.getSubimage(0, 0, 16, 16), 0xff880000, 0xffB80000, 0xffF80000);
-		spinning[2] = this.addColor(KOOPA_SHEET.getSubimage(16, 0, 16, 16), 0xff4040D8, 0xff6868D8, 0xff8888F8);
-		spinning[3] = ENEMY_SHEET.getSubimage(483, 655, 16, 16);
-		spinning[4] = ENEMY_SHEET.getSubimage(681, 541, 16, 16);
-		spinning[5] = ENEMY_SHEET.getSubimage(681, 579, 16, 16);
-		spinning[6] = Lib.flipHorizontal(ENEMY_SHEET.getSubimage(573, 579, 16, 16));
-		spinning[7] = Lib.flipHorizontal(ENEMY_SHEET.getSubimage(573, 655, 16, 16));
+		spinning[0] = this.addColor(KOOPA_SHEET.getSubimage(0, 56, 16, 16), 0xff007800, 0xff00B800, 0xff00F800);
+		spinning[1] = this.addColor(KOOPA_SHEET.getSubimage(0, 56, 16, 16), 0xff880000, 0xffB80000, 0xffF80000);
+		spinning[3] = this.addColor(KOOPA_SHEET.getSubimage(16, 56, 16, 16), 0xf87800, 0xfff8c000, 0xfff8f800);
+		spinning[4] = this.addColor(KOOPA_SHEET.getSubimage(32, 56, 16, 16), 0xff005050, 0xff007878, 0xff00a0a0);
+		spinning[5] = this.addColor(KOOPA_SHEET.getSubimage(32, 56, 16, 16), 0xff707070, 0xffa0a0a0, 0xffc0c0c0);
+		spinning[6] = this.addColor(Lib.flipHorizontal(KOOPA_SHEET.getSubimage(16, 56, 16, 16)), 0xff885818, 0xffd8a038, 0xfff8d870);
+		spinning[7] = this.addColor(Lib.flipHorizontal(KOOPA_SHEET.getSubimage(16, 56, 16, 16)), 0xff283048, 0xff485058, 0xff686858);
 		sprites.add(spinning);
 		this.sprites.add(sprites);
 	}
