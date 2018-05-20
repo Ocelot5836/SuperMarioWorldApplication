@@ -13,7 +13,7 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
-import com.ocelot.mod.game.main.level.tile.GrassWallTile;
+import com.ocelot.mod.game.main.level.tile.TileGrassWall;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 import com.ocelot.mod.game.main.level.tile.QuestionBlockTile;
 import com.ocelot.mod.game.main.level.tile.TileBricks;
@@ -62,7 +62,7 @@ public abstract class Tile {
 	public static final Tile INFO_BOX = new InfoBoxTile(); // 5
 	public static final Tile COIN = new TileCoin(CoinType.NORMAL); // 6
 	public static final Tile GRASS = new ConnectedTile(CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 48)).setSolid(); // 7
-	public static final Tile GRASS_WALL = new GrassWallTile(); // 8
+	public static final Tile GRASS_WALL = new TileGrassWall(); // 8
 	public static final Tile QUESTION_BLOCK = new QuestionBlockTile(); // 9
 	public static final Tile BLUE_COIN = new TileCoin(CoinType.BLUE); // 10
 	public static final Tile BRICKS = new TileBricks(); // 11
