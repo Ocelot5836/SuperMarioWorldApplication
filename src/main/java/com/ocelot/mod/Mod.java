@@ -44,7 +44,7 @@ public class Mod {
 	/** The mod id */
 	public static final String MOD_ID = "osmw";
 	/** The current version of the mod */
-	public static final String VERSION = "0.0.9";
+	public static final String VERSION = "0.1.0";
 	/** The id for the game app */
 	public static final ResourceLocation GAME_ID = new ResourceLocation(MOD_ID, "smw");
 

@@ -2,7 +2,7 @@
 	{
 	  "modid": "osmw",
 	  "name": "Super Mario World",
-	  "version": "0.0.9",
+	  "version": "0.1.0",
 	  "description": "A mod that adds a Super Mario World application from the SNES into the device mod laptop as an application.",
 	  "url": "",
 	  "updateUrl": "",

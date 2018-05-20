@@ -2,7 +2,7 @@
     "name": "Super Mario World",
     "author": "Ocelot5836",
     "description": "Dive into the ages and play this 2d game from the SNES! This app hopes to add the whole game as accurately as possible.",
-    "version": "0.0.9 Alpha",
+    "version": "0.1.0 Alpha",
     "icon": "osmw:textures/app/icon/smw.png",
     "screenshots": [
     ]
