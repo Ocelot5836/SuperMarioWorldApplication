@@ -1,5 +1,6 @@
 package com.ocelot.mod.game.core.entity;
 
+import com.ocelot.mod.game.main.entity.fx.PlayerBounceFX;
 import com.ocelot.mod.game.main.entity.player.Player;
 
 /**
@@ -56,7 +57,7 @@ public interface IItemCarriable {
 	 * @return Whether or not the player can pickup the item
 	 */
 	boolean canPickup(Player player);
-	
+
 	/**
 	 * Checks if the player can hold the item.
 	 * 
@@ -85,6 +86,8 @@ public interface IItemCarriable {
 			item.setPosition(item.getX() - 5, player.getY() - 1);
 		}
 		item.resetDirections();
+
+		player.getLevel().add(new PlayerBounceFX(player.getGame(), player.getX(), player.getY()));
 
 		if (type == ThrowingType.SIDE) {
 			if (player.isFacingRight()) {
