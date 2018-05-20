@@ -18,12 +18,12 @@ import com.ocelot.mod.game.main.entity.item.ItemCheese;
 import com.ocelot.mod.game.main.entity.item.ItemCracker;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
 import com.ocelot.mod.game.main.entity.item.ItemPSwitch;
-import com.ocelot.mod.game.main.gamestate.IDebugSelectStateLevel;
+import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 
 import net.minecraft.util.ResourceLocation;
 
-@IDebugSelectStateLevel
+@DebugSelectStateLevel
 public class DemoLevelState extends BasicLevel {
 
 	public DemoLevelState(GameStateManager gsm, GameTemplate game) {

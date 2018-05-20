@@ -13,7 +13,7 @@ import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Bowser;
-import com.ocelot.mod.game.main.gamestate.IDebugSelectStateLevel;
+import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.game.main.gui.GuiOverlay;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 
@@ -22,7 +22,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-@IDebugSelectStateLevel
+@DebugSelectStateLevel
 public class YoshiHouseState extends GameState {
 
 	private LevelTemplate template;

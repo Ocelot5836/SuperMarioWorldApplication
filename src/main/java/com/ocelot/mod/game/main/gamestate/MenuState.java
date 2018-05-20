@@ -18,7 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
-@IDebugSelectStateLevel
+@DebugSelectStateLevel
 public class MenuState extends GameState {
 
 	private StopWatch timer;

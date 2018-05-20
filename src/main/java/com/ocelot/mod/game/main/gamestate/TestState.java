@@ -1,5 +1,7 @@
 package com.ocelot.mod.game.main.gamestate;
 
+import java.lang.annotation.RetentionPolicy;
+
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.Mod;
@@ -19,7 +21,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-@IDebugSelectStateLevel
+@DebugSelectStateLevel
 public class TestState extends GameState {
 
 	private Background bg;
@@ -72,7 +74,7 @@ public class TestState extends GameState {
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
 		level.onKeyPressed(keyCode, typedChar);
-		
+
 		if (keyCode == Keyboard.KEY_Y) {
 			init();
 		}

@@ -1,6 +1,7 @@
 package com.ocelot.mod.game.main.gamestate;
 
 import java.awt.Color;
+import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,7 +33,7 @@ public class DebugSelectLevelState extends GameState {
 
 		for (Entry<Integer, GameState> e : gsm.getGameStates().entrySet()) {
 			GameState state = e.getValue();
-			if (state instanceof IDebugSelectStateLevel) {
+			if (state.getClass().isAnnotationPresent(DebugSelectStateLevel.class)) {
 				levels.put(e.getKey(), state);
 			}
 		}
