@@ -11,7 +11,7 @@ import com.ocelot.mod.game.main.gui.GuiOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
-public abstract class BasicLevel extends GameState implements IDebugSelectStateLevel {
+public abstract class BasicLevel extends GameState {
 
 	protected LevelTemplate level;
 	protected Player player;
