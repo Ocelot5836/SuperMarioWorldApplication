@@ -4,24 +4,18 @@ import org.lwjgl.opengl.GL11;
 
 import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Layout;
-import com.mrcrayfish.device.core.Device;
 import com.mrcrayfish.device.core.Laptop;
 import com.mrcrayfish.device.util.GLHelper;
-import com.ocelot.api.utils.TextureUtils;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.lib.MemoryLib;
-import com.ocelot.mod.lib.RenderHelper;
-import com.ocelot.mod.lib.opengl3d.OBJLoader;
-import com.ocelot.mod.lib.opengl3d.RawModel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -101,8 +95,6 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
-		partialTicks = mc.getRenderPartialTicks();
-
 		super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
 
 		if (mouseX < x || mouseX >= x + this.getWidth() || mouseY < y || mouseY >= y + this.getHeight()) {

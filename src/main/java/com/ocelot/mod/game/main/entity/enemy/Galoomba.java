@@ -26,7 +26,7 @@ public class Galoomba extends Enemy {
 	private Sprite sprite;
 	private BufferedAnimation animation;
 
-	private static int[] delays = { 100, 100, 100, -1 };
+	private static int[] delays = { 150, 150, 150, -1 };
 	private static List<BufferedImage[]> sprites;
 
 	public static final int WALKING_SIDE = 0;
@@ -51,8 +51,15 @@ public class Galoomba extends Enemy {
 			this.sprites = new ArrayList<BufferedImage[]>();
 			this.loadSprites();
 		}
-		
 		this.setAnimation(IDLE);
+
+		this.moveSpeed = 0.15;
+		this.maxSpeed = 0.5;
+		this.stopSpeed = 0.25;
+		this.fallSpeed = 0.15;
+		this.maxFallSpeed = 4.0;
+		this.jumpStart = -4.0;
+		this.stopJumpSpeed = 0.3;
 	}
 
 	private Galoomba(GameTemplate game, Galoomba.Item item) {
@@ -73,12 +80,6 @@ public class Galoomba extends Enemy {
 	}
 
 	private void getNextPosition() {
-		calculateCorners(xdest, y);
-
-		if ((topLeft && topRight) || (bottomLeft && bottomRight)) {
-			facingRight = !facingRight;
-		}
-
 		if (left) {
 			dx -= moveSpeed;
 			if (dx < -maxSpeed) {
@@ -131,7 +132,9 @@ public class Galoomba extends Enemy {
 		getNextPosition();
 		getNextPosition();
 		getNextPosition();
-		
+
+		delays = new int[] { 200, 200, 200, -1 };
+
 		if (dy > 0) {
 			if (currentAction != FALLING) {
 				currentAction = FALLING;
@@ -153,6 +156,8 @@ public class Galoomba extends Enemy {
 				this.setAnimation(currentAction);
 			}
 		}
+
+		animation.update();
 	}
 
 	@Override
@@ -163,7 +168,7 @@ public class Galoomba extends Enemy {
 			facingRight = false;
 
 		sprite.setData(animation.getImage());
-		if (!facingRight) {
+		if (facingRight) {
 			sprite = Lib.flipHorizontal(sprite);
 		}
 
