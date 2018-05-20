@@ -76,9 +76,7 @@ public class Lib implements IResourceManagerReloadListener {
 			sprite.setData(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.get(sprite.getTextureData()));
 			return sprite;
 		} 
-		
-		System.out.println(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.getTextureData()));
-				
+						
 		if (sprite.getType() == Sprite.EnumType.BUFFERED_IMAGE) {
 			BufferedImage returned = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			for (int y = 0; y < returned.getHeight(); y++) {
