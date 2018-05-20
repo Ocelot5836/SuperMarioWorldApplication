@@ -1,0 +1,57 @@
+#banner
+image=https://i.imgur.com/9GyU3uy.png
+
+#header
+text=&lSuper Mario World Official
+scale=2
+padding=4
+align=Center
+
+#divider
+size=20
+
+#header
+text=&lWhat is SMW?
+scale=2
+padding=4
+align=Center
+
+#paragraph
+text=Super Mario World is pretty much a game that was origionally created for the SNES. I decided to port it to the device mod once I learned it was possible to clip rendering onto a screen. The engine is custom made and will have a tutorial on how to make a similar engine. Those videos should hopefully come out soon.
+padding=4
+
+#header
+text=&lAbout the Creator
+scale=2
+padding=4
+align=Center
+
+#paragraph
+text=My name is &eBrandon Silva&r, also known as &eOcelot5836&r, and I have been programming for roughly four years now. I would consider myself an intermediate coder at &cJava&r since I know and understand the basics of the language. There are many above me who could probably think twenty different ways to do what I have done here, but that doesn't mean I can't do what I want to accomplish. I always try to keep on learning from people who are better at programming (like &4MrCrayfish&r) than I since that allows me to learn and grow as not only a programmer, but a person. I hope any person who has such a dream as to program can take the chance to become the very best programmer the world has ever seen!
+padding=4
+image=https://i.imgur.com/XQC3IE8.png
+
+#header
+text=&lDownload
+scale=2
+padding=4
+align=Center
+
+#paragraph
+text=This app is currently in &bbeta&r on curse. You can download it to test out the mechanics and tell me about any bugs you might see.
+padding=4
+
+#divider
+size=5
+
+#paragraph
+text=File: &bhttps://minecraft.curseforge.com/projects/super-mario-world-application
+padding=4
+
+#divider
+size=5
+
+#footer
+title=Super Mario World
+sub-title=Copyright (c) 2018 Ocelot5836
+home-page=welcome.official
