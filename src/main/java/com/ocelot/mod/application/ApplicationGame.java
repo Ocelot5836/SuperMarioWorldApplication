@@ -6,6 +6,7 @@ import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Layout;
 import com.mrcrayfish.device.core.Device;
 import com.mrcrayfish.device.core.Laptop;
+import com.mrcrayfish.device.util.GLHelper;
 import com.ocelot.api.utils.TextureUtils;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Jukebox;
@@ -42,7 +43,7 @@ public class ApplicationGame extends Application {
 	private int oldMouseX, oldMouseY;
 
 	@Override
-	public void init() {
+	public void init(NBTTagCompound nbt) {
 		game = new Game();
 		game.init();
 		layout = new Layout(game.getWidth(), game.getHeight());
@@ -67,7 +68,7 @@ public class ApplicationGame extends Application {
 			if (getActiveDialog() == null) {
 				DialogCrashLog dialog = new DialogCrashLog(I18n.format("exception." + Mod.MOD_ID + ".dialog", Game.getCloseInfo()));
 				dialog.setPositiveListener((mouseButton, mouseX, mouseY) -> {
-					this.init();
+					this.init(new NBTTagCompound());
 				});
 				openDialog(dialog);
 			}
@@ -110,7 +111,7 @@ public class ApplicationGame extends Application {
 		}
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		RenderHelper.scissor(x, y, getWidth(), getHeight());
+		GLHelper.pushScissor(x, y, getWidth(), getHeight());
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);
 		try {
@@ -118,6 +119,7 @@ public class ApplicationGame extends Application {
 		} catch (Throwable e) {
 			Game.stop(e, "Error while rendering");
 		}
+		GLHelper.popScissor();
 		GlStateManager.popMatrix();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 

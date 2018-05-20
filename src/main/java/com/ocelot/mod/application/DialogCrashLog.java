@@ -13,6 +13,7 @@ import com.ocelot.mod.game.Game;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * An alternate, fixed version of the default {@link Message}.
@@ -35,13 +36,11 @@ public class DialogCrashLog extends Dialog {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(NBTTagCompound nbt) {
+		super.init(nbt);
 
 		int lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(messageText, getWidth() - 10).size();
 		defaultLayout.height += (lines - 1) * 10 + 20;
-
-		super.init();
 
 		defaultLayout.setBackground(new Background() {
 			@Override

@@ -56,4 +56,5 @@
 -started adding the ability to take a screenshot of the game and print it
 -added color palettes
 -improved entity rendering
+-updated to device mod version 0.4.0
 -fixed bugs

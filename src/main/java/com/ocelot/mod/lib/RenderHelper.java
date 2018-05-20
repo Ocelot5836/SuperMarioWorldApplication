@@ -152,19 +152,4 @@ public class RenderHelper {
 		bufferbuilder.pos(x + 0, y + 0, zLevel).tex((double) textureSprite.getMinU(), (double) textureSprite.getMinV()).endVertex();
 		tessellator.draw();
 	}
-
-	/**
-	 * Cuts out the specified region. Will be removed soon
-	 * 
-	 * <br>
-	 * </br>
-	 * 
-	 * <b><i>NOTE: THIS WILL NOT BE COMPATIBLE WITH THE MOST RECENT VERSION OF THE DEVICE MOD AFTER V0.3.1!!!</i></b>
-	 */
-	public static void scissor(int x, int y, int width, int height) {
-		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution resolution = new ScaledResolution(mc);
-		int scale = resolution.getScaleFactor();
-		GL11.glScissor(x * scale, mc.displayHeight - y * scale - height * scale, width * scale, height * scale);
-	}
 }
