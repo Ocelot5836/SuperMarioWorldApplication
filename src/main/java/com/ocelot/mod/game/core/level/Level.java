@@ -204,6 +204,8 @@ public class Level {
 	 *            The entity to add
 	 */
 	public void add(Entity entity) {
+		if(entity == null)
+			return;
 		entity.init(this);
 		if (entity instanceof Player) {
 			players.add((Player) entity);
