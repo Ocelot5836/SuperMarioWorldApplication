@@ -77,8 +77,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		super(game);
 		this.setSize(16, type == KoopaType.KAMIKAZE ? 16 : 28);
 		this.setPosition(x, y);
-		this.lastX = x;
-		this.lastY = y;
+		this.setLastPosition(x, y);
 		this.type = type;
 		this.hasWings = (modifier & 0x01) > 0;
 		this.climbing = (modifier & 0x02) > 0;

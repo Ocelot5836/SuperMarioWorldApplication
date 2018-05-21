@@ -12,8 +12,6 @@ import com.ocelot.mod.lib.AxisAlignedBB;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -60,7 +58,7 @@ public abstract class Entity {
 	protected int cwidth;
 	/** The height of this entity */
 	protected int cheight;
-	
+
 	/** Collision variables */
 	public boolean topLeft, topRight, bottomLeft, bottomRight;
 
@@ -464,6 +462,39 @@ public abstract class Entity {
 	 */
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	/**
+	 * Sets the last position of this entity to the specified coords.
+	 * 
+	 * @param x
+	 *            The last x position
+	 * @param y
+	 *            The last y position
+	 */
+	public void setLastPosition(double x, double y) {
+		this.lastX = x;
+		this.lastY = y;
+	}
+
+	/**
+	 * Sets the last x position of this entity to the specified x coord.
+	 * 
+	 * @param x
+	 *            The last x position
+	 */
+	public void setLastX(double x) {
+		this.lastX = x;
+	}
+
+	/**
+	 * Sets the last y position of this entity to the specified y coord.
+	 * 
+	 * @param y
+	 *            The last y position
+	 */
+	public void setLastY(double y) {
+		this.lastY = y;
 	}
 
 	/**
