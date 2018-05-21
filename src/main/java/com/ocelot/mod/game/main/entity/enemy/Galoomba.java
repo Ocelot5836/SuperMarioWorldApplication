@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ocelot.mod.Mod;
+import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
+import com.ocelot.mod.game.core.entity.IPlayerDamagable;
+import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.entity.ai.AIBasicWalker;
@@ -16,9 +20,10 @@ import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class Galoomba extends Enemy {
+public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable {
 
 	public static final BufferedImage GALOOMBA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/galoomba.png"));
 
@@ -41,8 +46,7 @@ public class Galoomba extends Enemy {
 	public Galoomba(GameTemplate game, double x, double y) {
 		super(game);
 		this.setPosition(x, y);
-		this.lastX = x;
-		this.lastY = y;
+		this.setLastPosition(x, y);
 		this.setSize(16, 16);
 		this.sprite = new Sprite();
 		this.animation = new BufferedAnimation();
@@ -186,12 +190,63 @@ public class Galoomba extends Enemy {
 		this.animation.setDelay(this.delays[animation]);
 	}
 
+	@Override
+	public void damageEnemy(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+		if (sideHit == EnumDirection.UP && !isPlayerInvincible) {
+			player.setPosition(player.getX(), y - cheight);
+			if (isPlayerSpinning) {
+				defaultSpinStompEnemy(player);
+				// TODO add spin koopa death animation
+			} else {
+				player.setJumping(true);
+				player.setFalling(false);
+				defaultStompEnemy(player);
+				player.getProperties().increaseScore(Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()));
+				level.add(new TextFX(game, player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0, -0.4, Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()) + "", 0xffffff, 1));
+				Galoomba.Item item = new Galoomba.Item(game, this);
+				item.setDirection(0, item.getYSpeed());
+				level.add(item);
+				// TODO add the little koopa
+			}
+			setDead();
+		}
+	}
+
+	@Override
+	public boolean damagePlayer(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+		if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
+			player.damage();
+			return true;
+		}
+		return false;
+	}
+
 	public static class Item extends EntityItem implements IItemCarriable {
 
+		public static final int GALOOMBA_TIME = 1000;
+		
+		private Galoomba galoomba;
 		private int timer;
 
-		public Item(GameTemplate game) {
-			super(game);
+		private boolean facingRight;
+		private Sprite sprite;
+		private BufferedAnimation animation;
+
+		private Item(GameTemplate game, Galoomba galoomba) {
+			this(game, galoomba, galoomba.getX(), galoomba.getY());
+		}
+
+		private Item(GameTemplate game, Galoomba galoomba, double x, double y) {
+			super(game, 0, 0, 0.015);
+			this.setSize(16, 16);
+			this.setPosition(x, y);
+			this.setLastPosition(x, y);
+			this.galoomba = galoomba;
+
+			this.sprite = new Sprite();
+			this.animation = new BufferedAnimation();
+			this.animation.setDelay(Galoomba.delays[Galoomba.WALKING_SIDE]);
+			this.animation.setFrames(Galoomba.sprites.get(Galoomba.WALKING_SIDE));
 		}
 
 		@Override
@@ -199,14 +254,40 @@ public class Galoomba extends Enemy {
 			super.update();
 
 			timer++;
-			if (timer >= 100) {
+			if (timer >= GALOOMBA_TIME) {
 				this.setDead();
-				level.add(new Galoomba(game, this));
+				this.galoomba.setDead(false);
+				this.galoomba.setPosition(x, y);
+				this.galoomba.setLastPosition(x, y);
+				level.add(this.galoomba);
 			}
+
+			animation.update();
+		}
+
+		@Override
+		public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+			sprite.setData(animation.getImage());
+			if (facingRight) {
+				sprite = Lib.flipHorizontal(sprite);
+			}
+
+			double posX = lastX + this.getPartialRenderX();
+			double posY = lastY + this.getPartialRenderY();
+
+			GlStateManager.disableCull();
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight(), 0);
+			GlStateManager.rotate(180, 1, 0, 0);
+			sprite.render(0, -cheight);
+			GlStateManager.popMatrix();
+			GlStateManager.enableCull();
 		}
 
 		@Override
 		public void onHeldUpdate(Player player) {
+			facingRight = player.isFacingRight();
+			animation.update();
 		}
 
 		@Override
@@ -215,6 +296,7 @@ public class Galoomba extends Enemy {
 
 		@Override
 		public void onThrow(Player player, ThrowingType type) {
+			this.timer = 0;
 			setDefaultThrowing(player, type);
 		}
 
@@ -230,7 +312,7 @@ public class Galoomba extends Enemy {
 
 		@Override
 		public boolean canHold(Player player) {
-			return timer < 98;
+			return !this.isDead();
 		}
 	}
 }
