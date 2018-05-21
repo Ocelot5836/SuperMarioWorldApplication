@@ -49,16 +49,10 @@ public abstract class Mob extends Entity {
 	/** The maximum health of the entity */
 	protected int maxHealth;
 
-	/** Whether or not the entity is flinching (Immune to damage) */
-	protected boolean flinching;
-	/** Used to time flinching to know when to stop */
-	protected long flinchTimer;
-
 	private List<IAI> ais;
 
 	public Mob(GameTemplate game) {
 		super(game);
-		this.flinchTimer = 1000;
 		this.ais = new ArrayList<IAI>();
 		this.initAI();
 	}
@@ -83,13 +77,6 @@ public abstract class Mob extends Entity {
 	@Override
 	public void update() {
 		super.update();
-
-		if (flinching) {
-			long elapsed = getFlinchElapsedTime();
-			if (elapsed > 2000) {
-				flinching = false;
-			}
-		}
 		
 		for(IAI ai : ais) {
 			ai.update();
@@ -116,20 +103,6 @@ public abstract class Mob extends Entity {
 	 */
 	public int getMaxHealth() {
 		return maxHealth;
-	}
-
-	/**
-	 * @return The amount of time the entity was flinching
-	 */
-	public long getFlinchElapsedTime() {
-		return (System.nanoTime() - flinchTimer) / 1000000;
-	}
-
-	/**
-	 * @return Whether or not the mob is flinching
-	 */
-	public boolean isFlinching() {
-		return flinching;
 	}
 
 	/**

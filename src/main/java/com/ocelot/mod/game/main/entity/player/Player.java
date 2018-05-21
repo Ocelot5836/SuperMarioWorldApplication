@@ -420,12 +420,6 @@ public class Player extends Mob {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mc, mouseX, mouseY, partialTicks);
 
-		if (flinching) {
-			if (getFlinchElapsedTime() / 100 % 2 == 0) {
-				return;
-			}
-		}
-
 		sprite.setData(animation.getImage());
 		if (!facingRight) {
 			sprite = Lib.flipHorizontal(sprite);
@@ -467,9 +461,6 @@ public class Player extends Mob {
 	}
 
 	public void damage() {
-		if (flinching)
-			return;
-		this.flinching = true;
 		if (!this.properties.isSmall()) {
 			this.properties.setSmall();
 		} else {
