@@ -11,16 +11,23 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
+import com.ocelot.mod.game.core.entity.SummonException;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.Tile;
+import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
+@FileSummonableEntity(ItemPSwitch.Summonable.class)
 public class ItemPSwitch extends EntityItem implements IItemCarriable, IPlayerDamagable {
 
 	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/pswitch.png"));
@@ -136,6 +143,34 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IPlayerDa
 			this.switched = true;
 			this.togglePSwitch();
 			this.watch.start();
+		}
+	}
+
+	public static class Summonable implements IFileSummonable {
+		@Override
+		public void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException {
+			if (args.length > 2) {
+				try {
+					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
+					level.add(new ItemKoopaShell(game, type, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
+				} catch (Exception e) {
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+				}
+			} else if (args.length > 1) {
+				try {
+					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
+					level.add(new ItemKoopaShell(game, type));
+				} catch (Exception e) {
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+				}
+			} else {
+				throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item_koopa_shell.summon.invalid_shell_type"));
+			}
+		}
+
+		@Override
+		public String getRegistryName() {
+			return "ItemPSwitch";
 		}
 	}
 }

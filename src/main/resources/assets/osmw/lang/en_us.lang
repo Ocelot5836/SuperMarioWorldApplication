@@ -15,8 +15,8 @@ exception.osmw.item_koopa_shell.illegal_type=There is no such thing as a kamakaz
 
 exception.osmw.fruit.summon.numerical=Can not summon a Fruit at non-numerical coords!
 exception.osmw.player.summon.numerical=Can not summon a Player at non-numerical coords!
-exception.osmw.item_koopa_spawner.summon.numerical=Can not summon a Koopa Spawner Item at non-numerical coords!
-exception.osmw.item_crayfish.summon.numerical=Can not summon a Crayfish Item at non-numerical coords!
+
+exception.osmw.item.summon.numerical=Can not summon a %s Item at non-numerical coords!
 
 exception.osmw.koopa.summon.numerical_attrib=Can not summon a Koopa with non numerical attributes!
 exception.osmw.koopa.summon.numerical=Can not summon a Koopa at non-numerical coords!

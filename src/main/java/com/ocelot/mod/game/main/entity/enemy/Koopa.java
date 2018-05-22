@@ -13,11 +13,12 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.IFileSummonable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
@@ -33,7 +34,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-// TODO recode the movement AI	
+// TODO recode the movement AI
+@FileSummonableEntity(Koopa.Summonable.class)
 public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 
 	public static final BufferedImage KOOPA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/koopa.png"));
@@ -454,6 +456,11 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 			} else {
 				throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.low_args"));
 			}
+		}
+
+		@Override
+		public String getRegistryName() {
+			return "Koopa";
 		}
 	}
 }

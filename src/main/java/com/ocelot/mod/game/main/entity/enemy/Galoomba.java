@@ -23,6 +23,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
+// @FileSummonableEntity(Galoomba.Summonable.class)
 public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable {
 
 	public static final BufferedImage GALOOMBA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/galoomba.png"));
@@ -224,7 +225,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 	public static class Item extends EntityItem implements IItemCarriable {
 
 		public static final int GALOOMBA_TIME = 1000;
-		
+
 		private Galoomba galoomba;
 		private int timer;
 

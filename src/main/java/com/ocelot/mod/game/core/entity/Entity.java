@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.lib.AxisAlignedBB;
@@ -24,8 +25,6 @@ import net.minecraft.client.gui.Gui;
  * @author Ocelot5836
  */
 public abstract class Entity {
-
-	private static Map<String, IFileSummonable> summonables = Maps.<String, IFileSummonable>newHashMap();
 
 	/** The x position the entity wants to move to */
 	protected double xdest;
@@ -583,31 +582,6 @@ public abstract class Entity {
 		this.dx = dx;
 		this.dy = dy;
 		return this;
-	}
-
-	/**
-	 * Registers a summonable entity from file.
-	 * 
-	 * @param id
-	 *            The id
-	 * @param summonable
-	 *            The entity that can be summoned
-	 */
-	public static void registerSummonable(String id, IFileSummonable summonable) {
-		if (!summonables.containsKey(id)) {
-			summonables.put(id, summonable);
-		} else {
-			Game.stop(new RuntimeException("Tried to register summonable with id \'" + id + "\' over an already existing one!"), "Could not register summonables.");
-		}
-	}
-
-	/**
-	 * @param key
-	 *            The id of the summonable to get
-	 * @return The summonable
-	 */
-	public static IFileSummonable getSummonable(String key) {
-		return summonables.get(key);
 	}
 
 	@Override

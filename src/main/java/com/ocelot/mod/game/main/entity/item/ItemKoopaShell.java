@@ -14,9 +14,13 @@ import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.enemy.Enemy;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
@@ -31,10 +35,11 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
+@FileSummonableEntity(ItemKoopaShell.Summonable.class)
 public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlayerDamager, IPlayerDamagable {
 
 	public static final BufferedImage SHELL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/shell.png"));
-	
+
 	private static int[][] colors = { { 0xff007800, 0xff00B800, 0xff00F800 }, { 0xff880000, 0xffB80000, 0xffF80000 }, { 0xff4040D8, 0xff6868D8, 0xff8888F8 }, { 0xffF87800, 0xffF8C000, 0xffF8F800 } };
 	private static int[] delays = { -1, 30 };
 	private static List<List<BufferedImage[]>> sprites;
@@ -95,11 +100,11 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 
 			images.add(Lib.asArray(spinning[0]));
 			images.add(spinning);
-			
+
 			sprites.add(images);
 		}
 	}
-	
+
 	private BufferedImage addColor(BufferedImage image, int koopaType) {
 		return this.addColor(image, colors[koopaType][0], colors[koopaType][1], colors[koopaType][2]);
 	}
@@ -283,6 +288,34 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 					this.defaultStompEnemy(player);
 				}
 			}
+		}
+	}
+
+	public static class Summonable implements IFileSummonable {
+		@Override
+		public void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException {
+			if (args.length > 2) {
+				try {
+					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
+					level.add(new ItemKoopaShell(game, type, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
+				} catch (Exception e) {
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+				}
+			} else if (args.length > 1) {
+				try {
+					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
+					level.add(new ItemKoopaShell(game, type));
+				} catch (Exception e) {
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+				}
+			} else {
+				throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item_koopa_shell.summon.invalid_shell_type"));
+			}
+		}
+
+		@Override
+		public String getRegistryName() {
+			return "ItemKoopaShell";
 		}
 	}
 }

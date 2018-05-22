@@ -11,8 +11,9 @@ import com.ocelot.mod.game.Backgrounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.entity.IFileSummonable;
 import com.ocelot.mod.game.core.entity.SummonException;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
+import com.ocelot.mod.game.core.entity.summonable.SummonableEntityRegistry;
 import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.Sprite;
 
@@ -231,7 +232,7 @@ public class LevelTemplate {
 				}
 
 				if (data.length > 0) {
-					IFileSummonable summonable = Entity.getSummonable(data[0].trim());
+					IFileSummonable summonable = SummonableEntityRegistry.getSummonable(data[0].trim());
 					if (summonable != null) {
 						try {
 							summonable.summonFromFile(game, level, args);

@@ -13,9 +13,10 @@ import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
-import com.ocelot.mod.game.core.entity.IFileSummonable;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IItemCarriable.ThrowingType;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.Mob;
@@ -31,6 +32,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
+@FileSummonableEntity(Player.Summonable.class)
 public class Player extends Mob {
 
 	private EntityItem item = null;
@@ -519,6 +521,11 @@ public class Player extends Mob {
 			} else {
 				level.add(new Player(game));
 			}
+		}
+
+		@Override
+		public String getRegistryName() {
+			return "Player";
 		}
 	}
 }

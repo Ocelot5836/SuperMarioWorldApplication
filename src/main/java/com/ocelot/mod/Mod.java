@@ -1,6 +1,7 @@
 package com.ocelot.mod;
 
 import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.Type;
 
 import com.mrcrayfish.device.api.ApplicationManager;
 import com.mrcrayfish.device.api.print.PrintingManager;
@@ -8,11 +9,15 @@ import com.ocelot.mod.application.ApplicationGame;
 import com.ocelot.mod.application.MarioPrint;
 import com.ocelot.mod.config.ModConfig;
 import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.SummonableEntityRegistry;
 import com.ocelot.mod.game.main.entity.Fruit;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.item.ItemCheese;
 import com.ocelot.mod.game.main.entity.item.ItemCracker;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
+import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
+import com.ocelot.mod.game.main.entity.item.ItemPSwitch;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
 import com.ocelot.mod.registry.Registry;
@@ -24,6 +29,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -74,19 +80,29 @@ public class Mod {
 			registerGame();
 		}
 	}
+	
+	@EventHandler
+	public void post(FMLPostInitializationEvent event) {
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			SummonableEntityRegistry.registerAllSummonables();
+		}
+	}
 
 	/**
 	 * Registers all the things required for the game to function.
 	 */
 	@SideOnly(Side.CLIENT)
 	private static void registerGame() {
-		Entity.registerSummonable("Fruit", new Fruit.Summonable());
-		Entity.registerSummonable("Player", new Player.Summonable());
-		Entity.registerSummonable("Koopa", new Koopa.Summonable());
-		Entity.registerSummonable("ItemCrayfish", new ItemCrayfish.Summonable());
-		Entity.registerSummonable("ItemCheese", new ItemCheese.Summonable());
-		Entity.registerSummonable("ItemCracker", new ItemCracker.Summonable());
-
+		SummonableEntityRegistry.registerClass(Fruit.class);
+		SummonableEntityRegistry.registerClass(Player.class);
+		SummonableEntityRegistry.registerClass(Koopa.class);
+		// Galoomba
+		SummonableEntityRegistry.registerClass(ItemCheese.class);
+		SummonableEntityRegistry.registerClass(ItemCracker.class);
+		SummonableEntityRegistry.registerClass(ItemCrayfish.class);
+		SummonableEntityRegistry.registerClass(ItemKoopaShell.class);
+		SummonableEntityRegistry.registerClass(ItemPSwitch.class);
+		
 		ApplicationManager.registerApplication(GAME_ID, ApplicationGame.class);
 		
 		PrintingManager.registerPrint(new ResourceLocation(MOD_ID, "mario_screenshot"), MarioPrint.Print.class);

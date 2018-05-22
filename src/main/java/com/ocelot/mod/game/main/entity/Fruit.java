@@ -5,10 +5,9 @@ import java.awt.image.BufferedImage;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.entity.IFileSummonable;
-import com.ocelot.mod.game.core.entity.ISpawnerEntity;
-import com.ocelot.mod.game.core.entity.Spawner;
 import com.ocelot.mod.game.core.entity.SummonException;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
@@ -18,8 +17,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import scala.util.Random;
 
+@FileSummonableEntity(Fruit.Summonable.class)
 public class Fruit extends Entity {
 
 	private Animation animation;
@@ -46,7 +45,7 @@ public class Fruit extends Entity {
 	@Override
 	public void update() {
 		super.update();
-		
+
 		animation.update();
 	}
 
@@ -57,7 +56,7 @@ public class Fruit extends Entity {
 		animation.getSprite().render(this.x - this.getTileMapX() - this.cwidth / 2, this.y - this.getTileMapY() - this.cheight / 2);
 	}
 
-	public static class Summonable implements IFileSummonable { 
+	public static class Summonable implements IFileSummonable {
 		@Override
 		public void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException {
 			if (args.length > 1) {
@@ -70,14 +69,10 @@ public class Fruit extends Entity {
 				level.add(new Fruit(game));
 			}
 		}
-	}
 
-	public static class Spawnable implements ISpawnerEntity {
-		private static Random random = new Random();
-		
 		@Override
-		public void create(GameTemplate game, Level level, Spawner spawner, double x, double y, Object... args) {
-			level.add(new Fruit(game, x + random.nextGaussian(), y + random.nextGaussian()));
+		public String getRegistryName() {
+			return "Fruit";
 		}
 	}
 }

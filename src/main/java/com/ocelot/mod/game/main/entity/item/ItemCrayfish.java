@@ -6,11 +6,12 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.config.ModConfig;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
-import com.ocelot.mod.game.core.entity.IFileSummonable;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.ISpawnerEntity;
 import com.ocelot.mod.game.core.entity.Spawner;
 import com.ocelot.mod.game.core.entity.SummonException;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.fx.particle.CheeseParticle;
@@ -22,6 +23,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
+@FileSummonableEntity(ItemCrayfish.Summonable.class)
 public class ItemCrayfish extends EntityItem implements IItemCarriable {
 
 	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/crayfish.png"));
@@ -98,11 +100,16 @@ public class ItemCrayfish extends EntityItem implements IItemCarriable {
 					}
 					level.add(crayfish);
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item_crayfish.summon.numerical"));
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
 				}
 			} else {
 				level.add(new ItemCrayfish(game));
 			}
+		}
+
+		@Override
+		public String getRegistryName() {
+			return "ItemCrayfish";
 		}
 	}
 }

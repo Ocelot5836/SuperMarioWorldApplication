@@ -1,6 +1,7 @@
-package com.ocelot.mod.game.core.entity;
+package com.ocelot.mod.game.core.entity.summonable;
 
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.level.Level;
 
 /**
@@ -29,6 +30,13 @@ public interface IFileSummonable {
 	 */
 	void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException;
 
+	/**
+	 * Used in registry.
+	 * 
+	 * @return The name that is going to be used to summon the entity
+	 */
+	String getRegistryName();
+	
 	/**
 	 * Throws an exception if the mob cannot be summoned.
 	 * 
