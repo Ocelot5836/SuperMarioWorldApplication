@@ -1,8 +1,8 @@
 If you wish to modify the assets for the game, this will tell you how.
 
 OSMW FORMAT:
-    Each command is seperated by ';'
-    Each parameter for each command is seperated by '_'
+    Each command is separated by ';'
+    Each parameter for each command is separated by '_'
     There are NO spaces in between anything as that will mess with the reading
     
     ex: commandHere:parameter0_parameter1_parameter2_parameter3;action1;action2;action3;action4;action5
