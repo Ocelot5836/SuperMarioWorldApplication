@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 public class VoidTile extends BasicTile {
 
 	public VoidTile() {
-		super();
+		super("void");
 		this.setSolid();
 	}
 

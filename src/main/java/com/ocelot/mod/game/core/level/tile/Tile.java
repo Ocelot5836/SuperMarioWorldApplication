@@ -13,12 +13,12 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
-import com.ocelot.mod.game.main.level.tile.TileGrassWall;
 import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
 import com.ocelot.mod.game.main.level.tile.QuestionBlockTile;
 import com.ocelot.mod.game.main.level.tile.TileBricks;
 import com.ocelot.mod.game.main.level.tile.TileCoin;
 import com.ocelot.mod.game.main.level.tile.TileCoin.CoinType;
+import com.ocelot.mod.game.main.level.tile.TileGrassWall;
 import com.ocelot.mod.lib.AxisAlignedBB;
 import com.ocelot.mod.lib.Lib;
 
@@ -49,32 +49,33 @@ public abstract class Tile {
 
 	public static final ResourceLocation CONNECTED_TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/connected_tiles.png");
 	public static final BufferedImage CONNECTED_TILES_SHEET = Lib.loadImage(CONNECTED_TILES_LOCATION);
-	
+
 	public static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 16, 16);
 
 	public static final Tile AIR = new AirTile(); // 0
 	public static final Tile VOID = new VoidTile(); // 1
-	
-	public static final Tile TEST_DIRT = new BasicTile(new ItemStack(Blocks.DIRT)).setSolid(); // 2
 
-	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET.getSubimage(0, 0, 16, 16))).setSolid(); // 3
-	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16))).setSolid(); // 4
+	public static final Tile TEST_DIRT = new BasicTile(new ItemStack(Blocks.DIRT), "test_dirt").setSolid(); // 2
+
+	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET.getSubimage(0, 0, 16, 16)), "yoshi_grass").setSolid(); // 3
+	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16)), "yoshi_dirt").setSolid(); // 4
 	public static final Tile INFO_BOX = new InfoBoxTile(); // 5
 	public static final Tile COIN = new TileCoin(CoinType.NORMAL); // 6
-	public static final Tile GRASS = new ConnectedTile(CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 48)).setSolid(); // 7
+	public static final Tile GRASS = new ConnectedTile("grass", CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 48)).setSolid(); // 7
 	public static final Tile GRASS_WALL = new TileGrassWall(); // 8
 	public static final Tile QUESTION_BLOCK = new QuestionBlockTile(); // 9
 	public static final Tile BLUE_COIN = new TileCoin(CoinType.BLUE); // 10
 	public static final Tile BRICKS = new TileBricks(); // 11
 
 	private static int nextId = 0;
-	
+
 	/**
 	 * The class that stores all specific data and data properties for this tile. It has an unlimited amount of storage for properties and can be used to make advanced tiles.
 	 * 
 	 * @see TileStateContainer
 	 */
 	private TileStateContainer container;
+	private String unlocalizedName;
 	private int id;
 	private boolean topSolid;
 	private boolean bottomSolid;
@@ -82,13 +83,14 @@ public abstract class Tile {
 	private boolean rightSolid;
 	private boolean render;
 
-	public Tile() {
-		this(nextId);
+	public Tile(String unlocalizedName) {
+		this(nextId, unlocalizedName);
 		nextId++;
 	}
 
-	private Tile(int id) {
+	private Tile(int id, String unlocalizedName) {
 		this.id = id;
+		this.unlocalizedName = unlocalizedName;
 		if (TILES[id] == null) {
 			TILES[id] = this;
 		} else {
@@ -263,7 +265,7 @@ public abstract class Tile {
 	 * @return The name before it is localized
 	 */
 	public String getUnlocalizedName() {
-		return "tile." + Mod.MOD_ID + "." + this.id + ".name";
+		return "tile." + Mod.MOD_ID + "." + this.unlocalizedName + ".name";
 	}
 
 	/**

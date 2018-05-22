@@ -23,16 +23,16 @@ public class BasicTile extends Tile {
 	/** The sprite used to render */
 	protected Sprite sprite;
 
-	public BasicTile() {
-		this((Sprite) null);
+	public BasicTile(String unlocalizedName) {
+		this((Sprite) null, unlocalizedName);
 	}
 
-	public BasicTile(ItemStack stack) {
-		this(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(stack).getParticleTexture()));
+	public BasicTile(ItemStack stack, String unlocalizedName) {
+		this(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(stack).getParticleTexture()), unlocalizedName);
 	}
 
-	public BasicTile(Sprite sprite) {
-		super();
+	public BasicTile(Sprite sprite, String unlocalizedName) {
+		super(unlocalizedName);
 		if (sprite == null) {
 			this.sprite = new Sprite(TextureUtils.getMissingSprite());
 		} else {

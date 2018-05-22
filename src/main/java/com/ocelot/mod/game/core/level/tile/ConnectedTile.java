@@ -39,8 +39,8 @@ public class ConnectedTile extends BasicTile {
 	 * @param sprites
 	 *            The sprites in order of TL, TM, TR, ML, MM, MR, BL, BM, BR. There MUST be at least 9 sprites in the array!
 	 */
-	public ConnectedTile(Sprite... sprites) {
-		super();
+	public ConnectedTile(String unlocalizedName, Sprite... sprites) {
+		super(unlocalizedName);
 		this.sprites = new Sprite[9];
 
 		if (sprites.length < this.sprites.length) {
@@ -58,8 +58,8 @@ public class ConnectedTile extends BasicTile {
 	 * @param sheet
 	 *            The sheet is the 9 sprites linked as if they were a 3x3 in the world
 	 */
-	public ConnectedTile(BufferedImage sheet) {
-		super();
+	public ConnectedTile(String unlocalizedName, BufferedImage sheet) {
+		super(unlocalizedName);
 		this.sprites = new Sprite[9];
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {

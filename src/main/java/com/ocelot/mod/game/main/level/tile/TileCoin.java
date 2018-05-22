@@ -14,7 +14,7 @@ import com.ocelot.mod.lib.Colorizer;
 public class TileCoin extends AnimatedTile {
 
 	public TileCoin(CoinType type) {
-		super(100, generateSprite(type, 0), generateSprite(type, 1), generateSprite(type, 2), generateSprite(type, 3));
+		super("coin", 100, generateSprite(type, 0), generateSprite(type, 1), generateSprite(type, 2), generateSprite(type, 3));
 	}
 
 	@Override

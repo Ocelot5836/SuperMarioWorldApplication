@@ -29,8 +29,8 @@ public class AnimatedTile extends BasicTile {
 	 * @param sprites
 	 *            The sprites in the order you want them to play
 	 */
-	public AnimatedTile(int animationSwitchDelay, Sprite... sprites) {
-		super(sprites[0]);
+	public AnimatedTile(String unlocalizedName, int animationSwitchDelay, Sprite... sprites) {
+		super(sprites[0], unlocalizedName);
 		this.animation = new Animation();
 		this.animation.setDelay(animationSwitchDelay);
 		this.animation.setFrames(sprites);
