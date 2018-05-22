@@ -29,16 +29,16 @@ gui.osmw.hello=Hello %s, I hope you enjoy what I have here to show off so far! P
 state.osmw.error.message=Well, This is weird...
 state.osmw.select.selectlevel=Select Level
 
-tile.osmw.0.name=Air
-tile.osmw.1.name=Void
-tile.osmw.2.name=Test Dirt
-tile.osmw.3.name=Yoshi House Grass
-tile.osmw.4.name=Yoshi House Dirt
-tile.osmw.5.name=Info Box
-tile.osmw.6.name=Coin
-tile.osmw.7.name=Grass
-tile.osmw.8.name=Grass Wall
-tile.osmw.9.name=? Block
+tile.osmw.air.name=Air
+tile.osmw.void.name=Void
+tile.osmw.test_dirt.name=Test Dirt
+tile.osmw.yoshi_grass.name=Yoshi House Grass
+tile.osmw.yoshi_dirt.name=Yoshi House Dirt
+tile.osmw.info_box.name=Info Box
+tile.osmw.coin.name=Coin
+tile.osmw.grass.name=Grass
+tile.osmw.grass_wall.name=Grass Wall
+tile.osmw.question_block.name=? Block
 
 #######################
 # Configuration stuff #
