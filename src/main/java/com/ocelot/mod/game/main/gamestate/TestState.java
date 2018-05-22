@@ -60,7 +60,7 @@ public class TestState extends GameState {
 	public void onKeyPressed(int keyCode, char typedChar) {
 		level.onKeyPressed(keyCode, typedChar);
 
-		if (keyCode == Keyboard.KEY_Y) {
+		if (keyCode == Keyboard.KEY_T) {
 			init();
 		}
 	}

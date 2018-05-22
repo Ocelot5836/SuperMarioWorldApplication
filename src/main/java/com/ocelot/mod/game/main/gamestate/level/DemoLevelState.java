@@ -62,8 +62,7 @@ public class DemoLevelState extends BasicLevel {
 	public void onKeyPressed(int keyCode, char typedChar) {
 		super.onKeyPressed(keyCode, typedChar);
 
-		if (keyCode == Keyboard.KEY_Y) {
-			Jukebox.stopMusic();
+		if (keyCode == Keyboard.KEY_T) {
 			init();
 		}
 	}

@@ -67,11 +67,11 @@ public class WorldMapState extends GameState {
 
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
-		if (keyCode == Keyboard.KEY_Y) {
+		level.onKeyPressed(keyCode, typedChar);
+
+		if (keyCode == Keyboard.KEY_T) {
 			init();
 		}
-
-		level.onKeyPressed(keyCode, typedChar);
 	}
 
 	@Override

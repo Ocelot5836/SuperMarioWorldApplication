@@ -74,8 +74,7 @@ public class YoshiHouseState extends GameState {
 		template.onKeyPressed(keyCode, typedChar);
 		overlay.onKeyPressed(keyCode, typedChar);
 
-		if (keyCode == Keyboard.KEY_Y) {
-			Jukebox.stopMusic();
+		if (keyCode == Keyboard.KEY_T) {
 			init();
 		}
 	}

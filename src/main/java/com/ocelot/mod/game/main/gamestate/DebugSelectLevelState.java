@@ -41,7 +41,6 @@ public class DebugSelectLevelState extends GameState {
 
 	@Override
 	public void update() {
-
 	}
 
 	@Override

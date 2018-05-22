@@ -59,10 +59,6 @@ public class MenuState extends GameState {
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
 		level.onKeyPressed(keyCode, typedChar);
-
-		if (keyCode == Keyboard.KEY_Y) {
-			init();
-		}
 	}
 
 	@Override
