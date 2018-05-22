@@ -87,7 +87,7 @@ public interface IItemCarriable {
 		}
 		item.resetDirections();
 
-		player.getLevel().add(new PlayerBounceFX(player.getGame(), player.getX(), player.getY()));
+		player.getLevel().add(new PlayerBounceFX(player.getGame(), player.getX() + (player.isFacingRight() ? 8 : -8), player.getY()));
 
 		if (type == ThrowingType.SIDE) {
 			if (player.isFacingRight()) {
