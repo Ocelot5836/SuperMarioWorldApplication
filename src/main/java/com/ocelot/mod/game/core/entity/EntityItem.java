@@ -16,16 +16,18 @@ public class EntityItem extends Entity {
 
 	private double xSpeedCopy;
 	private double ySpeedCopy;
-	private double fallSpeed;
-	private double maxFallSpeed;
 	private double currentFallSpeed;
-	private double boostSpeed;
 
 	private double currentXBoostSpeed;
 	private double currentYBoostSpeed;
 
 	protected double xSpeed;
 	protected double ySpeed;
+	protected double fallSpeed;
+	protected double maxFallSpeed;
+	protected double boostSpeed;
+	protected double slideSpeed;
+	protected double airSlideSpeed;
 
 	public EntityItem(GameTemplate game) {
 		this(game, 0, 0, 0.0D);
@@ -39,13 +41,15 @@ public class EntityItem extends Entity {
 		super(game);
 		this.x = 0;
 		this.y = 0;
-		this.xSpeed = xSpeed < 0 ? -xSpeed : xSpeed;
-		this.ySpeed = ySpeed < 0 ? -ySpeed : ySpeed;
+		this.xSpeed = Math.abs(xSpeed);
+		this.ySpeed = Math.abs(ySpeed);
 		this.xSpeedCopy = xSpeed;
 		this.ySpeedCopy = ySpeed;
 		this.fallSpeed = fallSpeed;
 		this.maxFallSpeed = Math.min(4.0, fallSpeed * 4);
 		this.boostSpeed = -3.8;
+		this.slideSpeed = 0.8;
+		this.airSlideSpeed = 0.99;
 	}
 
 	@Override
@@ -102,7 +106,7 @@ public class EntityItem extends Entity {
 
 		if (currentXBoostSpeed != 0) {
 			dx += currentXBoostSpeed;
-			currentXBoostSpeed *= !falling ? 0.8 : 0.99;
+			currentXBoostSpeed *= !falling ? slideSpeed : airSlideSpeed;
 		}
 
 		if (currentYBoostSpeed != 0) {

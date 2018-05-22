@@ -224,7 +224,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 
 	public static class Item extends EntityItem implements IItemCarriable {
 
-		public static final int GALOOMBA_TIME = 1000;
+		public static final int GALOOMBA_TIME = 500;
 
 		private Galoomba galoomba;
 		private int timer;
@@ -288,6 +288,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 		@Override
 		public void onHeldUpdate(Player player) {
 			facingRight = player.isFacingRight();
+			timer++;
 			animation.update();
 		}
 
@@ -313,7 +314,8 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 
 		@Override
 		public boolean canHold(Player player) {
-			return !this.isDead();
+			System.out.println(timer);
+			return timer < GALOOMBA_TIME;
 		}
 	}
 }
