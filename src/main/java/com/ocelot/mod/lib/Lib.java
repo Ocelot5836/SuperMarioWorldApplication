@@ -9,9 +9,12 @@ import javax.imageio.ImageIO;
 
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.Usernames;
+import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.TileMap;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
@@ -38,6 +41,22 @@ public class Lib implements IResourceManagerReloadListener {
 	 */
 	public static void pre() {
 		((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(INSTANCE);
+	}
+
+	/**
+	 * Draws an entity collision box.
+	 * 
+	 * @param entity
+	 *            The entity to draw the box of
+	 * @param color
+	 *            The color of the collision box
+	 */
+	public static void drawCollisionBox(Entity entity, int color) {
+		TileMap tileMap = entity.getLevel().getMap();
+		AxisAlignedBB box = entity.getEntityBox();
+		double boxX = (entity.getLastX() + entity.getPartialRenderX()) - (tileMap.getLastX() + tileMap.getPartialRenderX()) - box.getWidth() / 2;
+		double boxY = (entity.getLastY() + entity.getPartialRenderY()) - (tileMap.getLastY() + tileMap.getPartialRenderY()) - box.getHeight() / 2;
+		RenderHelper.drawRect(boxX, boxY, boxX + box.getWidth(), boxY + box.getHeight(), color);
 	}
 
 	/**
@@ -75,8 +94,8 @@ public class Lib implements IResourceManagerReloadListener {
 		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.getTextureData())) {
 			sprite.setData(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.get(sprite.getTextureData()));
 			return sprite;
-		} 
-						
+		}
+
 		if (sprite.getType() == Sprite.EnumType.BUFFERED_IMAGE) {
 			BufferedImage returned = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			for (int y = 0; y < returned.getHeight(); y++) {
