@@ -13,6 +13,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.SummonException;
@@ -396,7 +397,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 	}
 
 	@Override
-	public boolean canDamage(MarioDamageSource source) {
+	public boolean canDamage(Entity entity, MarioDamageSource source) {
 		return this.type != KoopaType.KAMIKAZE;
 	}
 

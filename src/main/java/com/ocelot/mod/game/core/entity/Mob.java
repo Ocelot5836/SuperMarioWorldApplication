@@ -69,7 +69,7 @@ public abstract class Mob extends Entity {
 		}
 		if (ai == null)
 			Game.stop(new RuntimeException("AI for entity " + this.toString() + " was found to be null. This should NOT happen. Please to report to the mod author about this if you encounter it."), "Fatal Error Occured");
-		
+
 		ai.setMob(this);
 		ai.initAI();
 		ais.add(ai);
@@ -78,8 +78,8 @@ public abstract class Mob extends Entity {
 	@Override
 	public void update() {
 		super.update();
-		
-		for(IAI ai : ais) {
+
+		for (IAI ai : ais) {
 			ai.update();
 		}
 	}
@@ -95,12 +95,14 @@ public abstract class Mob extends Entity {
 	/**
 	 * Checks whether or not the specified damage source can hurt this enemy.
 	 * 
+	 * @param entity
+	 *            The entity that is damaging the mob
 	 * @param source
 	 *            The source of damage
 	 * @return Whether or not the source can do any damage
 	 */
-	public boolean canDamage(MarioDamageSource source) {
-		return source != MarioDamageSource.ENEMY;
+	public boolean canDamage(Entity entity, MarioDamageSource source) {
+		return entity != this;
 	}
 
 	/**
@@ -165,19 +167,19 @@ public abstract class Mob extends Entity {
 	public boolean isFacingRight() {
 		return facingRight;
 	}
-	
+
 	public double getMoveSpeed() {
 		return moveSpeed;
 	}
-	
+
 	public double getMaxSpeed() {
 		return maxSpeed;
 	}
-	
+
 	public double getFallSpeed() {
 		return fallSpeed;
 	}
-	
+
 	public double getMaxFallSpeed() {
 		return maxFallSpeed;
 	}

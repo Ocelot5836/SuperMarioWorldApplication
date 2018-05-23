@@ -160,7 +160,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 
 					if (e instanceof Enemy) {
 						Enemy enemy = (Enemy) e;
-						if (enemy.canDamage(MarioDamageSource.SHELL)) {
+						if (enemy.canDamage(this, MarioDamageSource.SHELL)) {
 							flag = true;
 							e.setDead();
 						}
