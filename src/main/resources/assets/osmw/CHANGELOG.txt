@@ -62,4 +62,5 @@
 0.1.0
 -fixed crash log not being correct height
 -added Galoombas
+-made the code more efficient
 -fixed bugs
