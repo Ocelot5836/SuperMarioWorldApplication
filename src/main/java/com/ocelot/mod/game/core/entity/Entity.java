@@ -341,6 +341,20 @@ public abstract class Entity {
 	}
 
 	/**
+	 * @return The entity's last x position
+	 */
+	public double getLastX() {
+		return lastX;
+	}
+
+	/**
+	 * @return The entity's last y position
+	 */
+	public double getLastY() {
+		return lastY;
+	}
+
+	/**
 	 * @return The entity's width
 	 */
 	public int getWidth() {
