@@ -12,6 +12,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.BasicLevel;
 import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.core.level.tile.Tile;
+import com.ocelot.mod.game.main.entity.enemy.Galoomba;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.item.ItemCheese;
@@ -38,6 +39,8 @@ public class DemoLevelState extends BasicLevel {
 		for (int i = 0; i < 10; i++) {
 			level.getLevel().add(new Koopa(game, KoopaType.values()[i % 4], 140 + i * 18, 100));
 		}
+		
+		level.getLevel().add(new Galoomba(game, 425, 50));
 
 		level.getLevel().add(new ItemCrayfish(game, 400, 50));
 		level.getLevel().add(new ItemCheese(game, 420, 50));
