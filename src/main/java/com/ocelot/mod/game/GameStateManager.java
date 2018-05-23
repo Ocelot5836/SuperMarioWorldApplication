@@ -1,6 +1,5 @@
 package com.ocelot.mod.game;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -49,7 +48,7 @@ public class GameStateManager {
 		gameStates.put(YOSHI_HOUSE, "YOSHI_HOUSE");
 		gameStates.put(DEMO_LEVEL, "DEMO_LEVEL");
 
-		this.setState(DEBUG_SELECT_LEVEL);
+		this.load(DEBUG_SELECT_LEVEL);
 	}
 
 	private void load(int gameState) {
@@ -120,7 +119,7 @@ public class GameStateManager {
 		this.unload();
 		this.load(gameState);
 	}
-	
+
 	public Map<Integer, String> getGameStates() {
 		return gameStates;
 	}
