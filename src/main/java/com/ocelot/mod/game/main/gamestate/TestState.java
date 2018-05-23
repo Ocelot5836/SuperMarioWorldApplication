@@ -33,7 +33,7 @@ public class TestState extends GameState {
 	}
 
 	@Override
-	public void init() {
+	public void load() {
 		bg = new Background(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(Blocks.STONEBRICK, 1, 1)).getParticleTexture()), 0.1);
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
 		level.getMap().setTween(0.25);
@@ -61,7 +61,7 @@ public class TestState extends GameState {
 		level.onKeyPressed(keyCode, typedChar);
 
 		if (keyCode == Keyboard.KEY_T) {
-			init();
+			load();
 		}
 	}
 

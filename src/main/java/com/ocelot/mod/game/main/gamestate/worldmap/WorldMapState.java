@@ -40,7 +40,7 @@ public class WorldMapState extends GameState {
 	}
 
 	@Override
-	public void init() {
+	public void load() {
 		icons = new ArrayList<WorldMapIcon>();
 		icons.add(new WorldMapIcon(this, new Sprite(WORLD_MAP_ICONS.getSubimage(0, 0, 16, 16)), Game.WIDTH / 2, Game.HEIGHT / 2, () -> {
 
@@ -70,7 +70,7 @@ public class WorldMapState extends GameState {
 		level.onKeyPressed(keyCode, typedChar);
 
 		if (keyCode == Keyboard.KEY_T) {
-			init();
+			load();
 		}
 	}
 

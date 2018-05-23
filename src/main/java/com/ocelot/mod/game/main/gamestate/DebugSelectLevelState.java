@@ -28,13 +28,13 @@ public class DebugSelectLevelState extends GameState {
 	}
 
 	@Override
-	public void init() {
+	public void load() {
 		levels = new HashMap<Integer, GameState>();
 
-		for (Entry<Integer, GameState> e : gsm.getGameStates().entrySet()) {
-			GameState state = e.getValue();
+		for(Integer key : gsm.getGameStates().keySet()) {
+			GameState state = gsm.createNewState(key);
 			if (state.getClass().isAnnotationPresent(DebugSelectStateLevel.class)) {
-				levels.put(e.getKey(), state);
+				levels.put(key, state);
 			}
 		}
 	}

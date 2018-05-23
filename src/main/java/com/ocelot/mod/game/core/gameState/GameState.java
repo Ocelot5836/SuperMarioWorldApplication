@@ -40,7 +40,14 @@ public abstract class GameState {
 	/**
 	 * Initializes the state when it is about to change to it.
 	 */
-	public abstract void init();
+	public void load() {
+	}
+	
+	/**
+	 * Called right before the state is set to null to clear any caches or anything like that.
+	 */
+	public void unload() {
+	}
 
 	/**
 	 * Updates the game state.

@@ -32,7 +32,7 @@ public class DemoLevelState extends BasicLevel {
 	}
 
 	@Override
-	public void init() {
+	public void load() {
 		super.init(new LevelTemplate(game, new ResourceLocation(Mod.MOD_ID, "levels/demo")));
 		level.getLevel().getMap().setTween(0.25);
 
@@ -66,7 +66,7 @@ public class DemoLevelState extends BasicLevel {
 		super.onKeyPressed(keyCode, typedChar);
 
 		if (keyCode == Keyboard.KEY_T) {
-			init();
+			load();
 		}
 	}
 }

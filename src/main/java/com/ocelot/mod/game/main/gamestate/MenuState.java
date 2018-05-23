@@ -31,7 +31,7 @@ public class MenuState extends GameState {
 	}
 
 	@Override
-	public void init() {
+	public void load() {
 		timer = StopWatch.createStarted();
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
 		level.getMap().setTween(0.25);

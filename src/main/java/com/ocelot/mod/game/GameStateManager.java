@@ -1,7 +1,9 @@
 package com.ocelot.mod.game;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 import com.google.common.collect.Maps;
 import com.ocelot.mod.Mod;
@@ -23,8 +25,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class GameStateManager {
 
-	private Map<Integer, GameState> gameStates = Maps.<Integer, GameState>newHashMap();
-	private int selectedState;
+	private Map<Integer, String> gameStates = Maps.<Integer, String>newHashMap();
+	@Nonnull
+	private GameState selectedState;
 	private GameTemplate game;
 
 	public static final int ERROR = 0;
@@ -38,15 +41,47 @@ public class GameStateManager {
 	public GameStateManager(GameTemplate game) {
 		this.game = game;
 
-		gameStates.put(ERROR, new ErrorState(this, game));
-		gameStates.put(TEST, new TestState(this, game));
-		gameStates.put(DEBUG_SELECT_LEVEL, new DebugSelectLevelState(this, game));
-		gameStates.put(MENU, new MenuState(this, game));
-		gameStates.put(WORLD_MAP, new WorldMapState(this, game, new ResourceLocation(Mod.MOD_ID, "maps/world/test.map")));
-		gameStates.put(YOSHI_HOUSE, new YoshiHouseState(this, game));
-		gameStates.put(DEMO_LEVEL, new DemoLevelState(this, game));
+		gameStates.put(ERROR, "ERROR");
+		gameStates.put(TEST, "TEST");
+		gameStates.put(DEBUG_SELECT_LEVEL, "DEBUG_SELECT_LEVEL");
+		gameStates.put(MENU, "MENU");
+		gameStates.put(WORLD_MAP, "WORLD_MAP");
+		gameStates.put(YOSHI_HOUSE, "YOSHI_HOUSE");
+		gameStates.put(DEMO_LEVEL, "DEMO_LEVEL");
 
 		this.setState(DEBUG_SELECT_LEVEL);
+	}
+
+	private void load(int gameState) {
+		this.selectedState = this.createNewState(gameState);
+		this.getSelectedState().load();
+		Jukebox.stopMusic();
+	}
+
+	private void unload() {
+		this.selectedState.unload();
+		this.load(ERROR);
+	}
+
+	@Nonnull
+	public GameState createNewState(int gameState) {
+		switch (gameState) {
+		case ERROR:
+			return new ErrorState(this, game);
+		case TEST:
+			return new TestState(this, game);
+		case DEBUG_SELECT_LEVEL:
+			return new DebugSelectLevelState(this, game);
+		case MENU:
+			return new MenuState(this, game);
+		case WORLD_MAP:
+			return new WorldMapState(this, game, new ResourceLocation(Mod.MOD_ID, "maps/world/test.map"));
+		case YOSHI_HOUSE:
+			return new YoshiHouseState(this, game);
+		case DEMO_LEVEL:
+			return new DemoLevelState(this, game);
+		}
+		return new ErrorState(this, game);
 	}
 
 	public void update() {
@@ -78,18 +113,15 @@ public class GameStateManager {
 	}
 
 	public GameState getSelectedState() {
-		return gameStates.get(selectedState);
+		return selectedState;
 	}
 
 	public void setState(int gameState) {
-		if (gameState != selectedState && gameStates.containsKey(gameState)) {
-			Jukebox.stopMusic();
-			this.selectedState = gameState;
-			this.getSelectedState().init();
-		}
+		this.unload();
+		this.load(gameState);
 	}
-
-	public Map<Integer, GameState> getGameStates() {
-		return new HashMap<Integer, GameState>(gameStates);
+	
+	public Map<Integer, String> getGameStates() {
+		return gameStates;
 	}
 }

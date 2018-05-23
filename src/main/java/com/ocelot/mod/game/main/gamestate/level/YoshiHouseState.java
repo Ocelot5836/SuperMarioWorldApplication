@@ -34,7 +34,7 @@ public class YoshiHouseState extends GameState {
 	}
 
 	@Override
-	public void init() {
+	public void load() {
 		template = new LevelTemplate(game, new ResourceLocation(Mod.MOD_ID, "levels/yoshihouse"));
 
 		template.getLevel().getMap().setTween(1).setPosition(0, 58);
@@ -75,7 +75,7 @@ public class YoshiHouseState extends GameState {
 		overlay.onKeyPressed(keyCode, typedChar);
 
 		if (keyCode == Keyboard.KEY_T) {
-			init();
+			load();
 		}
 	}
 
