@@ -276,7 +276,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 		}
 
 		private void checkEnemyDamage() {
-			if (xSpeed != 0) {
+			if (dx != 0) {
 				List<Entity> entities = level.getEntities();
 				for (int i = 0; i < entities.size(); i++) {
 					Entity entity = entities.get(i);

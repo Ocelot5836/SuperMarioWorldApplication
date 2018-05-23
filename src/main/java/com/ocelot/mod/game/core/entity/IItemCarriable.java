@@ -124,6 +124,16 @@ public interface IItemCarriable {
 		item.setDirection(0, 0);
 	}
 
+	/**
+	 * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
+	 * 
+	 * <br>
+	 * </br>
+	 * 
+	 * The type of throwing that is occurring.
+	 * 
+	 * @author Ocelot5836
+	 */
 	public enum ThrowingType {
 		SIDE, UP, UNKNOWN
 	}

@@ -100,13 +100,16 @@ public class EntityItem extends Entity {
 			}
 			currentYBoostSpeed += currentFallSpeed;
 		}
-
+		
 		dx = xSpeed + currentXBoostSpeed;
 		dy = ySpeed + currentYBoostSpeed;
 
 		if (currentXBoostSpeed != 0) {
 			dx += currentXBoostSpeed;
 			currentXBoostSpeed *= !falling ? slideSpeed : airSlideSpeed;
+			if(Math.abs(currentXBoostSpeed) < 0.5) {
+				currentXBoostSpeed = 0;
+			}
 		}
 
 		if (currentYBoostSpeed != 0) {
