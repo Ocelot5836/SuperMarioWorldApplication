@@ -7,10 +7,12 @@ import java.util.List;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
@@ -267,8 +269,27 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 				level.add(this.galoomba);
 			}
 
+			checkEnemyDamage();
+
 			animation.setDelay((int) (Galoomba.delays[Galoomba.WALKING_SIDE] - (Galoomba.delays[Galoomba.WALKING_SIDE] / 3) * ((float) timer / (float) GALOOMBA_TIME)));
 			animation.update();
+		}
+
+		private void checkEnemyDamage() {
+			if (xSpeed != 0) {
+				List<Entity> entities = level.getEntities();
+				for (int i = 0; i < entities.size(); i++) {
+					Entity entity = entities.get(i);
+					if (!this.intersects(entity) || !(entity instanceof Mob)) {
+						continue;
+					}
+
+					Mob mob = (Mob) entity;
+					if (mob.canDamage(this, MarioDamageSource.ENEMY)) {
+						mob.setDead();
+					}
+				}
+			}
 		}
 
 		@Override
