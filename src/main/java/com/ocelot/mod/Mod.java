@@ -12,6 +12,7 @@ import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.SummonableEntityRegistry;
 import com.ocelot.mod.game.main.entity.Fruit;
+import com.ocelot.mod.game.main.entity.enemy.Galoomba;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.item.ItemCheese;
 import com.ocelot.mod.game.main.entity.item.ItemCracker;
@@ -96,7 +97,7 @@ public class Mod {
 		SummonableEntityRegistry.registerClass(Fruit.class);
 		SummonableEntityRegistry.registerClass(Player.class);
 		SummonableEntityRegistry.registerClass(Koopa.class);
-		// Galoomba
+		SummonableEntityRegistry.registerClass(Galoomba.class);
 		SummonableEntityRegistry.registerClass(ItemCheese.class);
 		SummonableEntityRegistry.registerClass(ItemCracker.class);
 		SummonableEntityRegistry.registerClass(ItemCrayfish.class);
