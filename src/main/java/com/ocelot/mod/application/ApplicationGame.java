@@ -142,10 +142,14 @@ public class ApplicationGame extends Application {
 	@Override
 	public void onClose() {
 		super.onClose();
+		game.onClose();
 		MemoryLib.clear();
 		markDirty();
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			Jukebox.stopMusic();
 		}
+		layout.clear();
+		layout = null;
+		game = null;
 	}
 }

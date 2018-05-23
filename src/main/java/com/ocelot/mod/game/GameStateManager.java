@@ -48,18 +48,23 @@ public class GameStateManager {
 		gameStates.put(YOSHI_HOUSE, "YOSHI_HOUSE");
 		gameStates.put(DEMO_LEVEL, "DEMO_LEVEL");
 
-		this.load(DEBUG_SELECT_LEVEL);
+		this.loadState(DEBUG_SELECT_LEVEL);
 	}
 
-	private void load(int gameState) {
+	private void loadState(int gameState) {
 		this.selectedState = this.createNewState(gameState);
 		this.getSelectedState().load();
 		Jukebox.stopMusic();
 	}
 
-	private void unload() {
+	public void unloadState() {
 		this.selectedState.unload();
-		this.load(ERROR);
+		this.loadState(ERROR);
+	}
+
+	public void setState(int gameState) {
+		this.unloadState();
+		this.loadState(gameState);
 	}
 
 	@Nonnull
@@ -113,11 +118,6 @@ public class GameStateManager {
 
 	public GameState getSelectedState() {
 		return selectedState;
-	}
-
-	public void setState(int gameState) {
-		this.unload();
-		this.load(gameState);
 	}
 
 	public Map<Integer, String> getGameStates() {

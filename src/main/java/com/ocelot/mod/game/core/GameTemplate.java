@@ -107,6 +107,12 @@ public abstract class GameTemplate {
 	}
 
 	/**
+	 * Called when the application is closed.
+	 */
+	public void onClose() {
+	}
+
+	/**
 	 * @return The window width
 	 */
 	public int getWidth() {
@@ -156,7 +162,7 @@ public abstract class GameTemplate {
 
 			CrashReport crash = CrashReport.makeCrashReport(e, closeInfo);
 			crash.makeCategory("Stop");
-			
+
 			FileWriter writer = new FileWriter(errorFile);
 			writer.write(crash.getCompleteReport());
 			writer.close();

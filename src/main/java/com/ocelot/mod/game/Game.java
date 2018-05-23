@@ -89,6 +89,11 @@ public class Game extends GameTemplate {
 
 		nbt.setTag("saveFiles", this.saveFileManager.serializeNBT());
 	}
+	
+	@Override
+	public void onClose() {
+		gsm.unloadState();
+	}
 
 	public PlayerProperties getPlayerProperties() {
 		return playerProperties;
