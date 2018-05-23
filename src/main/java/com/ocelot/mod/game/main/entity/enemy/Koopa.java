@@ -137,7 +137,6 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 			this.sprites.add(sprites);
 		}
 
-		// TODO finish using the colorizer to recolor the same texture for this bit here
 		List<BufferedImage[]> sprites = new ArrayList<BufferedImage[]>();
 		BufferedImage[] spinning = new BufferedImage[8];
 		spinning[0] = this.addColor(KOOPA_SHEET.getSubimage(0, 56, 16, 16), 0xff007800, 0xff00B800, 0xff00F800);

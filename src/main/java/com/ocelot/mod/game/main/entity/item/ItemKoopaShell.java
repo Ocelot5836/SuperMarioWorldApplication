@@ -60,7 +60,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 	}
 
 	public ItemKoopaShell(GameTemplate game, Koopa koopa) {
-		this(game, koopa.getType(), koopa.getX(), koopa.getY());
+		this(game, koopa.getType(), koopa.getX(), koopa.getY() + 6);
 	}
 
 	public ItemKoopaShell(GameTemplate game, KoopaType type) {
@@ -71,13 +71,13 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 		super(game, 2.5, 0, 0.015);
 		this.setSize(16, 16);
 		this.setPosition(x, y);
-		this.lastX = x;
-		this.lastY = y;
+		this.setLastPosition(x, y);
+		this.type = type;
+		this.slideSpeed = 0.6f;
+		this.airSlideSpeed = 0.6f;
 		if (type == KoopaType.KAMIKAZE) {
 			Game.stop(new IllegalArgumentException(I18n.format("exception." + Mod.MOD_ID + ".item_koopa_shell.illegal_type")), "Error while initializing koopa shell.");
 		}
-
-		this.type = type;
 
 		this.animation = new BufferedAnimation();
 		this.sprite = new Sprite();
@@ -220,24 +220,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 	@Override
 	public void onThrow(Player player, ThrowingType type) {
 		this.throwingPlayer = player;
-		EntityItem item = (EntityItem) this;
-		if (player.isFacingRight()) {
-			item.setPosition(item.getX() + 5, player.getY() - 1);
-		} else {
-			item.setPosition(item.getX() - 5, player.getY() - 1);
-		}
-		item.resetDirections();
-
-		if (type == ThrowingType.SIDE) {
-			if (!player.isFacingRight()) {
-				item.setDirection(-item.getXSpeed(), item.getYSpeed());
-			}
-		} else if (type == ThrowingType.UP) {
-			item.setDirection(0, 0);
-			item.boost(0, 0.6f);
-		} else {
-			item.setDirection(0, 0);
-		}
+		setDefaultThrowing(player, type);
 	}
 
 	@Override
