@@ -11,9 +11,13 @@ import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.ai.AIBasicWalker;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
@@ -21,9 +25,11 @@ import com.ocelot.mod.lib.Lib;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.CullFace;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-// @FileSummonableEntity(Galoomba.Summonable.class)
+@FileSummonableEntity(Galoomba.Summonable.class)
 public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable {
 
 	public static final BufferedImage GALOOMBA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/galoomba.png"));
@@ -197,7 +203,6 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 			player.setPosition(player.getX(), y - cheight);
 			if (isPlayerSpinning) {
 				defaultSpinStompEnemy(player);
-				// TODO add spin koopa death animation
 			} else {
 				player.setJumping(true);
 				player.setFalling(false);
@@ -207,7 +212,6 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 				Galoomba.Item item = new Galoomba.Item(game, this);
 				item.setDirection(0, item.getYSpeed());
 				level.add(item);
-				// TODO add the little koopa
 			}
 			setDead();
 		}
@@ -263,6 +267,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 				level.add(this.galoomba);
 			}
 
+			animation.setDelay((int) (Galoomba.delays[Galoomba.WALKING_SIDE] - (Galoomba.delays[Galoomba.WALKING_SIDE] / 3) * ((float) timer / (float) GALOOMBA_TIME)));
 			animation.update();
 		}
 
@@ -276,13 +281,13 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 			double posX = lastX + this.getPartialRenderX();
 			double posY = lastY + this.getPartialRenderY();
 
-			GlStateManager.disableCull();
+			GlStateManager.cullFace(CullFace.FRONT);
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight(), 0);
 			GlStateManager.rotate(180, 1, 0, 0);
 			sprite.render(0, -cheight);
 			GlStateManager.popMatrix();
-			GlStateManager.enableCull();
+			GlStateManager.cullFace(CullFace.BACK);
 		}
 
 		@Override
@@ -314,8 +319,31 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 
 		@Override
 		public boolean canHold(Player player) {
-			System.out.println(timer);
 			return timer < GALOOMBA_TIME;
+		}
+	}
+
+	public static class Summonable implements IFileSummonable {
+		@Override
+		public void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException {
+			if (args.length > 0) {
+				if (args.length > 1) {
+					try {
+						level.add(new Galoomba(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
+					} catch (Exception e) {
+						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".galoomba.summon.numerical"));
+					}
+				} else {
+					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".galoomba.summon.numerical"));
+				}
+			} else {
+				level.add(new Galoomba(game));
+			}
+		}
+
+		@Override
+		public String getRegistryName() {
+			return "Galoomba";
 		}
 	}
 }
