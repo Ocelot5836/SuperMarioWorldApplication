@@ -30,6 +30,9 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(ItemPSwitch.Summonable.class)
 public class ItemPSwitch extends EntityItem implements IItemCarriable, IPlayerDamagable {
 
+	public static final int SWITCH_TIME = 10000;
+	public static final int DISPLAY_TIME = 200;
+
 	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/pswitch.png"));
 	private static BufferedImage[] sprites;
 
@@ -68,18 +71,16 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IPlayerDa
 	public void update() {
 		super.update();
 
-		if (this.watch.elapsed(TimeUnit.MILLISECONDS) == 5000) {
+		if (this.watch.elapsed(TimeUnit.MILLISECONDS) >= SWITCH_TIME) {
 			game.playSound(Sounds.SWITCH_ENDING, 1.0F);
 			this.togglePSwitch();
-			if (this.watch.elapsed(TimeUnit.MILLISECONDS) >= 6000) {
-				setDead();
-			}
+			this.setDead();
 		}
 	}
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		if (this.watch.elapsed(TimeUnit.MILLISECONDS) < 600) {
+		if (this.watch.elapsed(TimeUnit.MILLISECONDS) < DISPLAY_TIME) {
 			if (this.watch.elapsed(TimeUnit.MILLISECONDS) > 0) {
 				sprite.setData(sprites[1]);
 			} else {
