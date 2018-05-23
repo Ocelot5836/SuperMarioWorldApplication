@@ -8,11 +8,12 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.core.entity.IPlayerDamagable;
+import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.fx.EntityFX;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.lib.AxisAlignedBB;
+import com.ocelot.mod.lib.Lib;
 import com.ocelot.mod.lib.MemoryLib;
-import com.ocelot.mod.lib.RenderHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -104,7 +105,7 @@ public class Level {
 	}
 
 	private void renderEntities(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		boolean showCollisionBoxes = false;
+		boolean showCollisionBoxes = true;
 
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -112,8 +113,13 @@ public class Level {
 				e.render(gui, mc, mouseX, mouseY, partialTicks);
 			}
 			if (showCollisionBoxes) {
-				AxisAlignedBB box = e.getEntityBox();
-				RenderHelper.drawRect(box.getX() - tileMap.getX(), box.getY() - tileMap.getY(), box.getXMax() - tileMap.getX(), box.getYMax() - tileMap.getY(), 0xff7f007f);
+				int color = 0xff00ff00;
+				if (e instanceof IPlayerDamager && e instanceof IPlayerDamagable) {
+					color = 0xff0000ff;
+				} else if (e instanceof IPlayerDamager) {
+					color = 0xffff0000;
+				}
+				Lib.drawCollisionBox(e, color);
 			}
 		}
 
@@ -123,8 +129,7 @@ public class Level {
 				p.render(gui, mc, mouseX, mouseY, partialTicks);
 			}
 			if (showCollisionBoxes) {
-				AxisAlignedBB box = p.getEntityBox();
-				RenderHelper.drawRect(box.getX() - tileMap.getX(), box.getY() - tileMap.getY(), box.getXMax() - tileMap.getX(), box.getYMax() - tileMap.getY(), 0xff7f007f);
+				Lib.drawCollisionBox(p, 0xff00ff00);
 			}
 		}
 
@@ -204,7 +209,7 @@ public class Level {
 	 *            The entity to add
 	 */
 	public void add(Entity entity) {
-		if(entity == null)
+		if (entity == null)
 			return;
 		entity.init(this);
 		if (entity instanceof Player) {
