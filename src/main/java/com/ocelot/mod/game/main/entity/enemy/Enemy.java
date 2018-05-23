@@ -30,17 +30,6 @@ public abstract class Enemy extends Mob {
 	}
 
 	/**
-	 * Checks whether or not the specified damage source can hurt this enemy.
-	 * 
-	 * @param source
-	 *            The source of damage
-	 * @return Whether or not the source can do any damage
-	 */
-	public boolean canDamage(MarioDamageSource source) {
-		return source != MarioDamageSource.ENEMY;
-	}
-
-	/**
 	 * Searches for the nearest player if it is within the enemy's range.
 	 * 
 	 * @return The player if it was found inside the range

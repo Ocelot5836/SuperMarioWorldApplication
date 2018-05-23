@@ -6,6 +6,7 @@ import java.util.List;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.ai.IAI;
+import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -89,6 +90,17 @@ public abstract class Mob extends Entity {
 	public void resetVelocity() {
 		xtemp = 0;
 		ytemp = 0;
+	}
+
+	/**
+	 * Checks whether or not the specified damage source can hurt this enemy.
+	 * 
+	 * @param source
+	 *            The source of damage
+	 * @return Whether or not the source can do any damage
+	 */
+	public boolean canDamage(MarioDamageSource source) {
+		return source != MarioDamageSource.ENEMY;
 	}
 
 	/**
