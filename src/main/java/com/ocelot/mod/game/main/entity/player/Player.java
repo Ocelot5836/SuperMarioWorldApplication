@@ -2,9 +2,11 @@ package com.ocelot.mod.game.main.entity.player;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.lwjgl.input.Keyboard;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Sounds;
@@ -15,12 +17,13 @@ import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IItemCarriable.ThrowingType;
-import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
-import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.SummonException;
+import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
+import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
+import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
@@ -43,12 +46,13 @@ public class Player extends Mob {
 
 	private PlayerProperties properties;
 
+	private Stopwatch deathAnimationTimer = Stopwatch.createUnstarted();
 	private int currentAction;
 	private Sprite sprite;
 	private List<BufferedImage[]> sprites = Lists.<BufferedImage[]>newArrayList();
 	private BufferedAnimation animation;
-	private int[] numFrames = { 1, 2, 1, 1, 3, 3, 1, 1, 2, 1, 1, 1, 1, 1 };
-	private int[] delays = { -1, 100, -1, -1, 100, 100, -1, -1, 100, 50, -1, -1, -1, -1 };
+	private int[] numFrames = { 1, 2, 1, 1, 3, 3, 1, 1, 2, 1, 1, 1, 1, 1, 1 };
+	private int[] delays = { -1, 100, -1, -1, 100, 100, -1, -1, 100, 50, -1, -1, -1, -1, -1 };
 
 	private static final int IDLE_SMALL = 0;
 	private static final int WALKING_SMALL = 1;
@@ -64,6 +68,7 @@ public class Player extends Mob {
 	private static final int MIDAIR_ITEM_SMALL = 11;
 	private static final int LOOK_UP_SMALL = 12;
 	private static final int LOOK_UP_ITEM_SMALL = 13;
+	private static final int DEAD = 14;
 
 	public Player(GameTemplate game) {
 		this(game, 0, 0);
@@ -80,6 +85,7 @@ public class Player extends Mob {
 
 		this.enableKeyboardInput(true);
 		this.setPosition(x, y);
+		this.setLastPosition(x, y);
 		this.setSize(12, 14);
 		this.setMaxHealth(5);
 		this.setHealth(this.getMaxHealth());
@@ -231,7 +237,7 @@ public class Player extends Mob {
 			this.setAnimation(currentAction);
 		}
 
-		if (currentAction != KICKING_ITEM_SMALL || animation.hasPlayedOnce()) {
+		if ((currentAction != KICKING_ITEM_SMALL || animation.hasPlayedOnce()) && !this.isDead()) {
 			if (down) {
 				if (item != null) {
 					if (currentAction != DUCKING_ITEM_SMALL) {
@@ -355,10 +361,10 @@ public class Player extends Mob {
 						e.setDead();
 					}
 				}
-			}else {
-				if(this.item instanceof IItemCarriable) {
+			} else {
+				if (this.item instanceof IItemCarriable) {
 					IItemCarriable carriable = (IItemCarriable) item;
-					if(!carriable.canHold(this)) {
+					if (!carriable.canHold(this)) {
 						this.dropCurrentItem(false);
 					}
 				}
@@ -467,6 +473,30 @@ public class Player extends Mob {
 			this.properties.setSmall();
 		} else {
 			this.properties.setDead();
+		}
+	}
+
+	private int deathYVelocity = 0;
+
+	public void onDeath(GameState state) {
+		if (!deathAnimationTimer.isRunning()) {
+			deathAnimationTimer.start();
+			this.setAnimation(DEAD);
+			deathYVelocity = -4;
+		}
+		
+		if (deathYVelocity > 6) {
+			deathYVelocity = 6;
+		} else {
+			deathYVelocity += 0.2;
+		}
+
+		this.setPosition(x, y + deathYVelocity);
+
+		if (deathAnimationTimer.elapsed(TimeUnit.MILLISECONDS) >= 10000 || y >= tileMap.getHeight()) {
+			deathAnimationTimer.reset();
+			this.properties.setDead(false);
+			state.gsm.reload();
 		}
 	}
 

@@ -102,7 +102,11 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 	}
 
 	public void setDead() {
-		this.dead = true;
+		this.setDead(true);
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 
 	public void setRunning(boolean running) {
