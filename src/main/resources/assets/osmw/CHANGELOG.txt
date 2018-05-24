@@ -63,4 +63,5 @@
 -fixed crash log not being correct height
 -added Galoombas
 -made the code more efficient
+-lots of tweaks and changes
 -fixed bugs
