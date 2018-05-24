@@ -20,7 +20,7 @@ import com.ocelot.mod.game.main.entity.item.ItemCracker;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
 import com.ocelot.mod.game.main.entity.item.ItemPSwitch;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
-import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
+import com.ocelot.mod.game.main.tile.InfoBoxTile;
 
 import net.minecraft.util.ResourceLocation;
 

@@ -13,12 +13,12 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
-import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
-import com.ocelot.mod.game.main.level.tile.QuestionBlockTile;
-import com.ocelot.mod.game.main.level.tile.TileBricks;
-import com.ocelot.mod.game.main.level.tile.TileCoin;
-import com.ocelot.mod.game.main.level.tile.TileCoin.CoinType;
-import com.ocelot.mod.game.main.level.tile.TileGrassWall;
+import com.ocelot.mod.game.main.tile.InfoBoxTile;
+import com.ocelot.mod.game.main.tile.QuestionBlockTile;
+import com.ocelot.mod.game.main.tile.TileBricks;
+import com.ocelot.mod.game.main.tile.TileCoin;
+import com.ocelot.mod.game.main.tile.TileGrassWall;
+import com.ocelot.mod.game.main.tile.TileCoin.CoinType;
 import com.ocelot.mod.lib.AxisAlignedBB;
 import com.ocelot.mod.lib.Lib;
 

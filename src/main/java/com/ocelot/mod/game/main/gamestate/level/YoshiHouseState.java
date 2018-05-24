@@ -15,7 +15,7 @@ import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Bowser;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.game.main.gui.GuiOverlay;
-import com.ocelot.mod.game.main.level.tile.InfoBoxTile;
+import com.ocelot.mod.game.main.tile.InfoBoxTile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
