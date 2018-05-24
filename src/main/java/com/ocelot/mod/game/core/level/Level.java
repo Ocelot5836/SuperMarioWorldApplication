@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.fx.EntityFX;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
@@ -17,8 +18,6 @@ import com.ocelot.mod.lib.MemoryLib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiOverlayDebug;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -214,6 +213,8 @@ public class Level {
 		if (entity == null)
 			return;
 		entity.init(this);
+		if (entity instanceof Mob)
+			((Mob) entity).initAI();
 		if (entity instanceof Player) {
 			players.add((Player) entity);
 		} else {

@@ -55,7 +55,6 @@ public abstract class Mob extends Entity {
 	public Mob(GameTemplate game) {
 		super(game);
 		this.ais = new ArrayList<IAI>();
-		this.initAI();
 	}
 
 	public void initAI() {

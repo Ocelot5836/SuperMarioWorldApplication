@@ -23,6 +23,7 @@ import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.main.entity.ai.AIKoopa;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Colorizer;
@@ -35,7 +36,6 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-// TODO recode the movement AI
 @FileSummonableEntity(Koopa.Summonable.class)
 public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 
@@ -62,7 +62,6 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 	private KoopaType type;
 	private boolean hasWings;
 	private boolean climbing;
-	private boolean movingRight;
 
 	public Koopa(GameTemplate game, KoopaType type) {
 		this(game, type, 0, 0, 0);
@@ -84,7 +83,6 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		this.type = type;
 		this.hasWings = (modifier & 0x01) > 0;
 		this.climbing = (modifier & 0x02) > 0;
-		this.movingRight = true;
 
 		if (this.hasWings && this.climbing) {
 			Game.stop(new IllegalArgumentException("A koopa can only have either the wing bit or the climbing bit. You cannot add them together!"), "Koopa attempted to have multiple attributes at once");
@@ -113,7 +111,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		this.fallSpeed = 0.15;
 		this.maxFallSpeed = 4.0;
 		this.jumpStart = -4.0;
-		this.stopJumpSpeed = 0.3;
+		this.stopJumpSpeed = type == KoopaType.KAMIKAZE ? 1 : 0.3;
 	}
 
 	private void loadSprites() {
@@ -211,6 +209,11 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 	}
 
 	@Override
+	public void initAI() {
+		super.registerAI(new AIKoopa(this.type));
+	}
+
+	@Override
 	public void update() {
 		super.update();
 
@@ -219,11 +222,6 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		getNextPosition();
 
 		if (type != KoopaType.KAMIKAZE) {
-			calculateCorners(xdest, y);
-			if (topLeft || bottomLeft || topRight || bottomRight) {
-				movingRight = !movingRight;
-			}
-
 			if (dy > 0) {
 				if (currentAction != FALLING) {
 					currentAction = FALLING;
@@ -245,35 +243,9 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 					this.setAnimation(currentAction);
 				}
 			}
-		} else {
-			Player nearestPlayer = level.getNearestPlayer(this);
-			if (nearestPlayer != null) {
-				double playerX = nearestPlayer.getX();
-				double playerY = nearestPlayer.getY();
-
-				if (playerX <= x) {
-					movingRight = false;
-				} else {
-					movingRight = true;
-				}
-				stopSpeed = 1;
-			}
-
-			calculateCorners(x + (left ? -1 : 1), y);
-			if (topLeft || bottomLeft || topRight || bottomRight) {
-				movingRight = !movingRight;
-			}
 		}
 
 		this.animation.update();
-
-		if (movingRight) {
-			right = true;
-			left = false;
-		} else {
-			right = false;
-			left = true;
-		}
 	}
 
 	@Override
