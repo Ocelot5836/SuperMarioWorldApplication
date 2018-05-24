@@ -282,6 +282,8 @@ public class TileMap implements IResourceManagerReloadListener {
 	 * @return The tile found at that pos
 	 */
 	public Tile getTile(int x, int y) {
+		if(y < 0)
+			return this.getTile(x, 0) == Tile.AIR ? Tile.AIR : Tile.VOID;
 		if (x < 0 || x >= numCols || y < 0 || y >= numRows)
 			return Tile.VOID;
 		if (Tile.TILES[map[x + y * numCols]] == null)

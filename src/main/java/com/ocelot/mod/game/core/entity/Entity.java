@@ -434,7 +434,7 @@ public abstract class Entity {
 	 * @return Whether or not the entity is on screen
 	 */
 	public boolean isOnScreen() {
-		return this.x + this.cwidth / 2 >= tileMap.getX() && this.x - this.cwidth / 2 < tileMap.getX() + tileMap.getWidth() && this.y - this.cheight / 2 >= tileMap.getY() && this.y + this.cheight / 2 < tileMap.getY() + tileMap.getHeight();
+		return this.x + this.cwidth / 2 >= tileMap.getX() && this.x - this.cwidth / 2 < tileMap.getX() + game.getWidth() && this.y - this.cheight / 2 >= tileMap.getY() && this.y + this.cheight / 2 < tileMap.getY() + game.getHeight();
 	}
 
 	/**

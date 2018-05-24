@@ -215,6 +215,7 @@ public class Lib implements IResourceManagerReloadListener {
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
+		Mod.logger().info("Reloading Buffered Images");
 		for (ResourceLocation key : MemoryLib.LOADED_IMAGES.keySet()) {
 			loadImage(key, false);
 		}

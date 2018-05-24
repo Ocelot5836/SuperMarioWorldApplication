@@ -31,6 +31,10 @@ public abstract class BasicLevel extends GameState {
 	public void update() {
 		level.update();
 		overlay.update();
+		
+		if(player.getProperties().isDead() || level.getProperties().getCurrTime() <= 0) {
+			player.onDeath(this);
+		}
 	}
 
 	@Override

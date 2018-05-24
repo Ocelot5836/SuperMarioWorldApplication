@@ -51,10 +51,15 @@ public class GameStateManager {
 		this.loadState(DEBUG_SELECT_LEVEL);
 	}
 
+	public void reload() {
+		Jukebox.stopMusic();
+		this.getSelectedState().load();
+	}
+
 	private void loadState(int gameState) {
 		this.selectedState = this.createNewState(gameState);
-		this.getSelectedState().load();
 		Jukebox.stopMusic();
+		this.getSelectedState().load();
 	}
 
 	public void unloadState() {

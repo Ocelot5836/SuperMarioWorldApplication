@@ -20,9 +20,9 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class GameState {
 
 	/** The game state manager instance */
-	protected GameStateManager gsm;
+	public GameStateManager gsm;
 	/** The game instance */
-	protected GameTemplate game;
+	public GameTemplate game;
 
 	/**
 	 * Creates a new game state.
