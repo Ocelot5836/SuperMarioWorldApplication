@@ -40,7 +40,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 	private Sprite sprite;
 	private BufferedAnimation animation;
 
-	private static int[] delays = { 150, 150, 150, -1 };
+	private static int[] delays = new int[] { 200, 200, 200, -1 };
 	private static List<BufferedImage[]> sprites;
 
 	public static final int WALKING_SIDE = 0;
@@ -92,52 +92,6 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 		super.registerAI(new AIBasicWalker());
 	}
 
-	private void getNextPosition() {
-		if (left) {
-			dx -= moveSpeed;
-			if (dx < -maxSpeed) {
-				dx += stopSpeed;
-			}
-		} else if (right) {
-			dx += moveSpeed;
-			if (dx > maxSpeed) {
-				dx -= stopSpeed;
-			}
-		} else {
-			if (dx > 0) {
-				dx = 0;
-				if (dx < 0) {
-					dx = 0;
-				}
-			} else if (dx < 0) {
-				dx = 0;
-				if (dx > 0) {
-					dx = 0;
-				}
-			}
-		}
-
-		if (jumping && !falling) {
-			dy = jumpStart;
-			falling = true;
-		}
-
-		if (falling) {
-			dy += fallSpeed;
-			if (dy > 0)
-				jumping = false;
-			if (dy < 0 && !jumping)
-				dy += stopJumpSpeed;
-
-			if (dy > maxFallSpeed) {
-				dy = maxFallSpeed;
-			}
-		}
-
-		checkTileMapCollision();
-		setPosition(xtemp, ytemp);
-	}
-
 	@Override
 	public void update() {
 		super.update();
@@ -145,8 +99,6 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 		getNextPosition();
 		getNextPosition();
 		getNextPosition();
-
-		delays = new int[] { 200, 200, 200, -1 };
 
 		if (dy > 0) {
 			if (currentAction != FALLING) {

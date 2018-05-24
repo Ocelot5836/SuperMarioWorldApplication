@@ -82,6 +82,55 @@ public abstract class Mob extends Entity {
 			ai.update();
 		}
 	}
+	
+	/**
+	 * Gets the next position
+	 */
+	protected void getNextPosition() {
+		if (left) {
+			dx -= moveSpeed;
+			if (dx < -maxSpeed) {
+				dx += stopSpeed;
+			}
+		} else if (right) {
+			dx += moveSpeed;
+			if (dx > maxSpeed) {
+				dx -= stopSpeed;
+			}
+		} else {
+			if (dx > 0) {
+				dx = 0;
+				if (dx < 0) {
+					dx = 0;
+				}
+			} else if (dx < 0) {
+				dx = 0;
+				if (dx > 0) {
+					dx = 0;
+				}
+			}
+		}
+
+		if (jumping && !falling) {
+			dy = jumpStart;
+			falling = true;
+		}
+
+		if (falling) {
+			dy += fallSpeed;
+			if (dy > 0)
+				jumping = false;
+			if (dy < 0 && !jumping)
+				dy += stopJumpSpeed;
+
+			if (dy > maxFallSpeed) {
+				dy = maxFallSpeed;
+			}
+		}
+
+		checkTileMapCollision();
+		setPosition(xtemp, ytemp);
+	}
 
 	/**
 	 * Resets the mob's velocity values.

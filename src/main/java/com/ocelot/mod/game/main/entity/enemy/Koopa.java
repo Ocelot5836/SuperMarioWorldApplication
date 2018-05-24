@@ -156,58 +156,6 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		return Colorizer.replacePixels(Colorizer.replacePixels(Colorizer.replacePixels(image, 0xff464646, color1), 0xff6C6C6C, color2), 0xff919191, color3);
 	}
 
-	private void getNextPosition() {
-		calculateCorners(xdest, y);
-
-		if ((topLeft && topRight) || (bottomLeft && bottomRight)) {
-			facingRight = !facingRight;
-		}
-
-		if (left) {
-			dx -= moveSpeed;
-			if (dx < -maxSpeed) {
-				dx += stopSpeed;
-			}
-		} else if (right) {
-			dx += moveSpeed;
-			if (dx > maxSpeed) {
-				dx -= stopSpeed;
-			}
-		} else {
-			if (dx > 0) {
-				dx = 0;
-				if (dx < 0) {
-					dx = 0;
-				}
-			} else if (dx < 0) {
-				dx = 0;
-				if (dx > 0) {
-					dx = 0;
-				}
-			}
-		}
-
-		if (jumping && !falling) {
-			dy = jumpStart;
-			falling = true;
-		}
-
-		if (falling) {
-			dy += fallSpeed;
-			if (dy > 0)
-				jumping = false;
-			if (dy < 0 && !jumping)
-				dy += stopJumpSpeed;
-
-			if (dy > maxFallSpeed) {
-				dy = maxFallSpeed;
-			}
-		}
-
-		checkTileMapCollision();
-		setPosition(xtemp, ytemp);
-	}
-
 	@Override
 	public void initAI() {
 		super.registerAI(new AIKoopa(this.type));

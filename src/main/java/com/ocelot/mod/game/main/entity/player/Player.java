@@ -111,7 +111,8 @@ public class Player extends Mob {
 		this.animation.setFrames(this.sprites.get(0));
 	}
 
-	private void getNextPosition() {
+	@Override
+	protected void getNextPosition() {
 		if (left) {
 			dx -= moveSpeed;
 			if (dx < -maxSpeed) {
