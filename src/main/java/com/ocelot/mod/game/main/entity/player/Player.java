@@ -200,13 +200,24 @@ public class Player extends Mob {
 	public void update() {
 		super.update();
 
-		getNextPosition();
-		getNextPosition();
-		getNextPosition();
+		if (!this.isDead()) {
+			getNextPosition();
+			getNextPosition();
+			getNextPosition();
 
-		if (this.properties.isKeyboardInputEnabled()) {
-			if (game instanceof Game) {
-				if (((Game) game).currentDisplayedGui == null) {
+			if (this.properties.isKeyboardInputEnabled()) {
+				if (game instanceof Game) {
+					if (((Game) game).currentDisplayedGui == null) {
+						this.left = Keyboard.isKeyDown(Keyboard.KEY_LEFT) && (!this.down || (this.jumping || this.falling));
+						this.right = Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && (!this.down || (this.jumping || this.falling));
+						this.down = Keyboard.isKeyDown(Keyboard.KEY_DOWN);
+						this.up = Keyboard.isKeyDown(Keyboard.KEY_UP) && !this.down;
+
+						this.jumping = Keyboard.isKeyDown(Keyboard.KEY_W);
+						this.properties.setRunning(Keyboard.isKeyDown(Keyboard.KEY_E) && !this.down);
+						this.properties.setHolding(Keyboard.isKeyDown(Keyboard.KEY_E));
+					}
+				} else {
 					this.left = Keyboard.isKeyDown(Keyboard.KEY_LEFT) && (!this.down || (this.jumping || this.falling));
 					this.right = Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && (!this.down || (this.jumping || this.falling));
 					this.down = Keyboard.isKeyDown(Keyboard.KEY_DOWN);
@@ -216,164 +227,155 @@ public class Player extends Mob {
 					this.properties.setRunning(Keyboard.isKeyDown(Keyboard.KEY_E) && !this.down);
 					this.properties.setHolding(Keyboard.isKeyDown(Keyboard.KEY_E));
 				}
-			} else {
-				this.left = Keyboard.isKeyDown(Keyboard.KEY_LEFT) && (!this.down || (this.jumping || this.falling));
-				this.right = Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && (!this.down || (this.jumping || this.falling));
-				this.down = Keyboard.isKeyDown(Keyboard.KEY_DOWN);
-				this.up = Keyboard.isKeyDown(Keyboard.KEY_UP) && !this.down;
-
-				this.jumping = Keyboard.isKeyDown(Keyboard.KEY_W);
-				this.properties.setRunning(Keyboard.isKeyDown(Keyboard.KEY_E) && !this.down);
-				this.properties.setHolding(Keyboard.isKeyDown(Keyboard.KEY_E));
 			}
-		}
 
-		if (!falling) {
-			this.properties.setEnemyJumpCount(0);
-		}
+			if (!falling) {
+				this.properties.setEnemyJumpCount(0);
+			}
 
-		if (!this.properties.isHolding() && !down && !up && item != null) {
-			currentAction = KICKING_ITEM_SMALL;
-			this.setAnimation(currentAction);
-		}
+			if (!this.properties.isHolding() && !down && !up && item != null) {
+				currentAction = KICKING_ITEM_SMALL;
+				this.setAnimation(currentAction);
+			}
 
-		if ((currentAction != KICKING_ITEM_SMALL || animation.hasPlayedOnce()) && !this.isDead()) {
-			if (down) {
-				if (item != null) {
-					if (currentAction != DUCKING_ITEM_SMALL) {
-						currentAction = DUCKING_ITEM_SMALL;
-						this.setAnimation(currentAction);
-					}
-				} else {
-					if (currentAction != DUCKING_SMALL) {
-						currentAction = DUCKING_SMALL;
-						this.setAnimation(currentAction);
-					}
-				}
-			} else if (dy > 0) {
-				if (item != null) {
-					if (currentAction != MIDAIR_ITEM_SMALL) {
-						currentAction = MIDAIR_ITEM_SMALL;
-						this.setAnimation(currentAction);
-					}
-				} else {
-					if (currentAction != FALLING_SMALL) {
-						currentAction = FALLING_SMALL;
-						this.setAnimation(currentAction);
-					}
-				}
-			} else if (dy < 0) {
-				if (item != null) {
-					if (currentAction != MIDAIR_ITEM_SMALL) {
-						currentAction = MIDAIR_ITEM_SMALL;
-						this.setAnimation(currentAction);
-					}
-				} else {
-					if (currentAction != JUMPING_SMALL) {
-						currentAction = JUMPING_SMALL;
-						this.setAnimation(currentAction);
-					}
-				}
-			} else if (left || right) {
-				if (item != null) {
-					if (currentAction != WALKING_ITEM_SMALL) {
-						currentAction = WALKING_ITEM_SMALL;
-						this.setAnimation(currentAction);
-					}
-				} else {
-					if (currentAction != WALKING_SMALL) {
-						currentAction = WALKING_SMALL;
-						this.setAnimation(currentAction);
-					}
-				}
-				this.animation.setDelay(runAnimationSpeed);
-			} else {
-				if (up) {
+			if (currentAction != KICKING_ITEM_SMALL || animation.hasPlayedOnce()) {
+				if (down) {
 					if (item != null) {
-						if (currentAction != LOOK_UP_ITEM_SMALL) {
-							currentAction = LOOK_UP_ITEM_SMALL;
+						if (currentAction != DUCKING_ITEM_SMALL) {
+							currentAction = DUCKING_ITEM_SMALL;
 							this.setAnimation(currentAction);
 						}
 					} else {
-						if (currentAction != LOOK_UP_SMALL) {
-							currentAction = LOOK_UP_SMALL;
+						if (currentAction != DUCKING_SMALL) {
+							currentAction = DUCKING_SMALL;
 							this.setAnimation(currentAction);
 						}
 					}
-				} else {
+				} else if (dy > 0) {
 					if (item != null) {
-						if (currentAction != IDLE_ITEM_SMALL) {
-							currentAction = IDLE_ITEM_SMALL;
+						if (currentAction != MIDAIR_ITEM_SMALL) {
+							currentAction = MIDAIR_ITEM_SMALL;
 							this.setAnimation(currentAction);
 						}
 					} else {
-						if (currentAction != IDLE_SMALL) {
-							currentAction = IDLE_SMALL;
+						if (currentAction != FALLING_SMALL) {
+							currentAction = FALLING_SMALL;
 							this.setAnimation(currentAction);
+						}
+					}
+				} else if (dy < 0) {
+					if (item != null) {
+						if (currentAction != MIDAIR_ITEM_SMALL) {
+							currentAction = MIDAIR_ITEM_SMALL;
+							this.setAnimation(currentAction);
+						}
+					} else {
+						if (currentAction != JUMPING_SMALL) {
+							currentAction = JUMPING_SMALL;
+							this.setAnimation(currentAction);
+						}
+					}
+				} else if (left || right) {
+					if (item != null) {
+						if (currentAction != WALKING_ITEM_SMALL) {
+							currentAction = WALKING_ITEM_SMALL;
+							this.setAnimation(currentAction);
+						}
+					} else {
+						if (currentAction != WALKING_SMALL) {
+							currentAction = WALKING_SMALL;
+							this.setAnimation(currentAction);
+						}
+					}
+					this.animation.setDelay(runAnimationSpeed);
+				} else {
+					if (up) {
+						if (item != null) {
+							if (currentAction != LOOK_UP_ITEM_SMALL) {
+								currentAction = LOOK_UP_ITEM_SMALL;
+								this.setAnimation(currentAction);
+							}
+						} else {
+							if (currentAction != LOOK_UP_SMALL) {
+								currentAction = LOOK_UP_SMALL;
+								this.setAnimation(currentAction);
+							}
+						}
+					} else {
+						if (item != null) {
+							if (currentAction != IDLE_ITEM_SMALL) {
+								currentAction = IDLE_ITEM_SMALL;
+								this.setAnimation(currentAction);
+							}
+						} else {
+							if (currentAction != IDLE_SMALL) {
+								currentAction = IDLE_SMALL;
+								this.setAnimation(currentAction);
+							}
 						}
 					}
 				}
 			}
+
+			if (this.down) {
+				if (this.cheight != 8) {
+					this.y += 3;
+					this.lastY = y;
+				}
+				this.setSize(12, 8);
+			} else {
+				if (this.cheight != 14) {
+					this.y -= 3;
+					this.lastY = y;
+				}
+				this.setSize(12, 14);
+			}
+
+			if (right)
+				facingRight = true;
+			if (left)
+				facingRight = false;
+
+			if (jumping && !falling) {
+				game.playSound(Sounds.PLAYER_JUMP, 1.0F);
+			}
+
+			if (item != null) {
+				if (item instanceof IItemCarriable) {
+					IItemCarriable carriable = (IItemCarriable) item;
+					carriable.onHeldUpdate(this);
+				}
+				item.updateLastPosition();
+				item.setPosition(x, y);
+				item.setPosition(x + (facingRight ? 1 : -1) * (item.getWidth() / 2 + 4), y - 2);
+			}
+
+			if (this.properties.isHolding()) {
+				if (item == null) {
+					Entity e = level.getNearestEntity(this);
+					if (e != null && e instanceof IItemCarriable && e instanceof EntityItem && e.intersects(this)) {
+						IItemCarriable carriable = (IItemCarriable) e;
+						if (carriable.canPickup(this)) {
+							item = (EntityItem) e;
+							e.setDead();
+						}
+					}
+				} else {
+					if (this.item instanceof IItemCarriable) {
+						IItemCarriable carriable = (IItemCarriable) item;
+						if (!carriable.canHold(this)) {
+							this.dropCurrentItem(false);
+						}
+					}
+				}
+			} else {
+				this.dropCurrentItem(!this.down);
+			}
+
+			checkAttackAndDamage(level.getEntities());
 		}
 
 		this.animation.update();
-
-		if (this.down) {
-			if (this.cheight != 8) {
-				this.y += 3;
-				this.lastY = y;
-			}
-			this.setSize(12, 8);
-		} else {
-			if (this.cheight != 14) {
-				this.y -= 3;
-				this.lastY = y;
-			}
-			this.setSize(12, 14);
-		}
-
-		if (right)
-			facingRight = true;
-		if (left)
-			facingRight = false;
-
-		if (jumping && !falling) {
-			game.playSound(Sounds.PLAYER_JUMP, 1.0F);
-		}
-
-		if (item != null) {
-			if (item instanceof IItemCarriable) {
-				IItemCarriable carriable = (IItemCarriable) item;
-				carriable.onHeldUpdate(this);
-			}
-			item.updateLastPosition();
-			item.setPosition(x, y);
-			item.setPosition(x + (facingRight ? 1 : -1) * (item.getWidth() / 2 + 4), y - 2);
-		}
-
-		if (this.properties.isHolding()) {
-			if (item == null) {
-				Entity e = level.getNearestEntity(this);
-				if (e != null && e instanceof IItemCarriable && e instanceof EntityItem && e.intersects(this)) {
-					IItemCarriable carriable = (IItemCarriable) e;
-					if (carriable.canPickup(this)) {
-						item = (EntityItem) e;
-						e.setDead();
-					}
-				}
-			} else {
-				if (this.item instanceof IItemCarriable) {
-					IItemCarriable carriable = (IItemCarriable) item;
-					if (!carriable.canHold(this)) {
-						this.dropCurrentItem(false);
-					}
-				}
-			}
-		} else {
-			this.dropCurrentItem(!this.down);
-		}
-
-		checkAttackAndDamage(level.getEntities());
 	}
 
 	private void checkAttackAndDamage(List<Entity> entities) {
@@ -476,28 +478,8 @@ public class Player extends Mob {
 		}
 	}
 
-	private int deathYVelocity = 0;
-
 	public void onDeath(GameState state) {
-		if (!deathAnimationTimer.isRunning()) {
-			deathAnimationTimer.start();
-			this.setAnimation(DEAD);
-			deathYVelocity = -4;
-		}
-		
-		if (deathYVelocity > 6) {
-			deathYVelocity = 6;
-		} else {
-			deathYVelocity += 0.2;
-		}
 
-		this.setPosition(x, y + deathYVelocity);
-
-		if (deathAnimationTimer.elapsed(TimeUnit.MILLISECONDS) >= 10000 || y >= tileMap.getHeight()) {
-			deathAnimationTimer.reset();
-			this.properties.setDead(false);
-			state.gsm.reload();
-		}
 	}
 
 	public Player enableKeyboardInput(boolean enableKeyboardInput) {
