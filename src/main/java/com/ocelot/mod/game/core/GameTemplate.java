@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import com.ocelot.mod.Mod;
+import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.config.ModConfig;
 
 import net.minecraft.client.Minecraft;
@@ -186,7 +187,7 @@ public abstract class GameTemplate {
 	}
 
 	/**
-	 * Plays the specified sound on the client side.
+	 * Plays the specified sound effect on the client side.
 	 * 
 	 * @param sound
 	 *            The sound to be played
@@ -196,11 +197,7 @@ public abstract class GameTemplate {
 	 *            The pitch of the sound
 	 */
 	public void playSound(SoundEvent sound, float volume, float pitch) {
-		if (ModConfig.enableMarioSFX) {
-			Minecraft.getMinecraft().addScheduledTask(() -> {
-				Minecraft.getMinecraft().player.playSound(sound, volume, pitch);
-			});
-		}
+		Jukebox.playSoundEffect(sound.getSoundName(), pitch, volume);
 	}
 
 	/**

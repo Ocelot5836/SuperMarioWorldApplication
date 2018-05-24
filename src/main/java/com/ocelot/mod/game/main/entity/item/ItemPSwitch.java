@@ -71,8 +71,11 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IPlayerDa
 	public void update() {
 		super.update();
 
-		if (this.watch.elapsed(TimeUnit.MILLISECONDS) >= SWITCH_TIME) {
+		if (this.watch.elapsed(TimeUnit.MILLISECONDS) == SWITCH_TIME - 1000) {
 			game.playSound(Sounds.SWITCH_ENDING, 1.0F);
+		}
+		
+		if (this.watch.elapsed(TimeUnit.MILLISECONDS) >= SWITCH_TIME) {
 			this.togglePSwitch();
 			this.setDead();
 		}

@@ -55,7 +55,7 @@ public class LevelProperties {
 
 		if (playing) {
 			if (musicFast != null && musicFast != music) {
-				if (Jukebox.isPlaying(music)) {
+				if (Jukebox.isMusicPlaying(music)) {
 					if (currTime <= 100) {
 						Jukebox.stopMusic();
 						Jukebox.playMusic(musicFast);
