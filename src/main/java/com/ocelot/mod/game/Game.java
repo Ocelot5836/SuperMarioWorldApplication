@@ -4,6 +4,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.save.SaveFileManager;
+import com.ocelot.mod.game.main.MarioFontRenderer;
 import com.ocelot.mod.game.main.entity.player.PlayerProperties;
 
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,7 @@ public class Game extends GameTemplate {
 	private GameStateManager gsm;
 	private SaveFileManager saveFileManager;
 	private PlayerProperties playerProperties;
+	private MarioFontRenderer fontRenderer;
 
 	public MarioGui currentDisplayedGui;
 
@@ -31,6 +33,7 @@ public class Game extends GameTemplate {
 		this.gsm = new GameStateManager(this);
 		this.saveFileManager = new SaveFileManager(this);
 		this.playerProperties = new PlayerProperties(this);
+		// this.fontRenderer = new MarioFontRenderer(fontSheet, charFileLocation, fontFileLocation);
 
 		this.currentDisplayedGui = null;
 	}
@@ -89,7 +92,7 @@ public class Game extends GameTemplate {
 
 		nbt.setTag("saveFiles", this.saveFileManager.serializeNBT());
 	}
-	
+
 	@Override
 	public void onClose() {
 		gsm.unloadState();
