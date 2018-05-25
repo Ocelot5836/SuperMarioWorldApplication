@@ -2,10 +2,13 @@ package com.ocelot.mod.lib;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
 
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.Usernames;
@@ -14,7 +17,6 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
@@ -133,12 +135,12 @@ public class Lib implements IResourceManagerReloadListener {
 	}
 
 	/**
-	 * Loads a buffered image image from memory.
+	 * Loads a buffered image image from file into memory.
 	 * 
 	 * <br>
 	 * </br>
 	 * 
-	 * <i><b>PLEASE NOTE!</b> This will return a 16x16 buffered image if the specified image could not be found!</i>
+	 * <i><b>PLEASE NOTE!</b> This will return a 64x64 buffered image if the specified image could not be found!</i>
 	 * 
 	 * @param location
 	 *            The location of that image
@@ -157,6 +159,22 @@ public class Lib implements IResourceManagerReloadListener {
 			Mod.logger().warn("Could not load image " + location + ". Could cause issues later on.");
 		}
 		return new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
+	}
+
+	/**
+	 * Loads text to a string from a resource location.
+	 * 
+	 * @param location
+	 *            The location of the text file
+	 * @return The text compressed into a string
+	 */
+	public static String loadTextToString(ResourceLocation location) {
+		try {
+			return IOUtils.toString(Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream(), Charset.defaultCharset());
+		} catch (IOException e) {
+			Mod.logger().warn("Could not load text " + location + ". Could cause issues later on.");
+		}
+		return "";
 	}
 
 	/**
