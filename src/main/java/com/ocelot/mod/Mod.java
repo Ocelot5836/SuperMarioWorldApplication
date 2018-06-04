@@ -1,15 +1,12 @@
 package com.ocelot.mod;
 
 import org.apache.logging.log4j.Logger;
-import org.objectweb.asm.Type;
 
 import com.mrcrayfish.device.api.ApplicationManager;
 import com.mrcrayfish.device.api.print.PrintingManager;
 import com.ocelot.mod.application.ApplicationGame;
 import com.ocelot.mod.application.MarioPrint;
 import com.ocelot.mod.config.ModConfig;
-import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.SummonableEntityRegistry;
 import com.ocelot.mod.game.main.entity.Fruit;
 import com.ocelot.mod.game.main.entity.enemy.Galoomba;
@@ -81,10 +78,10 @@ public class Mod {
 			registerGame();
 		}
 	}
-	
+
 	@EventHandler
 	public void post(FMLPostInitializationEvent event) {
-		if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			SummonableEntityRegistry.registerAllSummonables();
 		}
 	}
@@ -103,9 +100,9 @@ public class Mod {
 		SummonableEntityRegistry.registerClass(ItemCrayfish.class);
 		SummonableEntityRegistry.registerClass(ItemKoopaShell.class);
 		SummonableEntityRegistry.registerClass(ItemPSwitch.class);
-		
+
 		ApplicationManager.registerApplication(GAME_ID, ApplicationGame.class);
-		
+
 		PrintingManager.registerPrint(new ResourceLocation(MOD_ID, "mario_screenshot"), MarioPrint.Print.class);
 	}
 

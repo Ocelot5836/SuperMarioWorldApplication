@@ -63,7 +63,7 @@ public abstract class Mob extends Entity {
 	public void registerAI(IAI ai) {
 		for (IAI currentAi : ais) {
 			if (currentAi.getName().equalsIgnoreCase(ai.getName())) {
-				Game.stop(new RuntimeException("Cannot register ai " + ai.getName() + " over existing ai for entity " + this.toString()), "Error when trying to register entity AI");
+				return;
 			}
 		}
 		if (ai == null)
