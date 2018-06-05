@@ -14,7 +14,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-public class MarioGuiMrCrayfishHello extends MarioGui {
+public class MarioGuiPlayerCrayfishHello extends MarioGui {
 
 	private static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/gui/text.png"));
 	private static final Sprite[] FRAMES;
@@ -34,7 +34,7 @@ public class MarioGuiMrCrayfishHello extends MarioGui {
 		FRAMES[7] = new Sprite(SHEET.getSubimage(105, 61, 151, 75));
 	}
 
-	public MarioGuiMrCrayfishHello() {
+	public MarioGuiPlayerCrayfishHello() {
 		animation = new Animation();
 		animation.setFrames(FRAMES);
 		animation.setDelay(0);
