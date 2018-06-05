@@ -10,7 +10,6 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Backgrounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.entity.summonable.SummonableEntityRegistry;
@@ -33,8 +32,8 @@ import net.minecraft.util.ResourceLocation;
  */
 public class LevelTemplate {
 
-	private static final Sprite[] BACKGROUND_BUILTIN_IMAGES = new Sprite[] { Backgrounds.GREEN_HILLS, Backgrounds.SNOW_HILLS, Backgrounds.JUNGLE_VINES, Backgrounds.MUSHROOM_MOUNTAINS, Backgrounds.GREEN_MOUNTAIN_TOPS, Backgrounds.WHITE_MOUNTAINS, Backgrounds.GREEN_MOUNTAINS, Backgrounds.CASTLE };
-	private static final String[] BACKGROUND_BUILTIN_TYPES = new String[] { "GREEN_HILLS", "SNOW_HILLS", "JUNGLE_VINES", "MUSHROOM_MOUNTAINS", "GREEN_MOUNTAIN_TOPS", "WHITE_MOUNTAINS", "GREEN_MOUNTAINS", "CASTLE" };
+	private static final Sprite[][] BACKGROUND_BUILTIN_IMAGES = new Sprite[][] { { Backgrounds.GREEN_HILLS }, { Backgrounds.SNOW_HILLS }, { Backgrounds.JUNGLE_VINES }, { Backgrounds.MUSHROOM_MOUNTAINS }, { Backgrounds.GREEN_MOUNTAIN_TOPS }, { Backgrounds.WHITE_MOUNTAINS }, { Backgrounds.GREEN_MOUNTAINS }, { Backgrounds.CASTLE }, Backgrounds.CAVES, Backgrounds.ICY_CAVES, Backgrounds.UNDERWATER, Backgrounds.GHOST_HOUSE, Backgrounds.CASTLE_ANIMATED, Backgrounds.STARRY_NIGHT };
+	private static final String[] BACKGROUND_BUILTIN_TYPES = new String[] { "GREEN_HILLS", "SNOW_HILLS", "JUNGLE_VINES", "MUSHROOM_MOUNTAINS", "GREEN_MOUNTAIN_TOPS", "WHITE_MOUNTAINS", "GREEN_MOUNTAINS", "CASTLE", "CAVES", "ICY_CAVES", "UNDERWATER", "GHOST_HOUSE", "CASTLE_ANIMATED", "STARRY_NIGHT" };
 
 	private LevelProperties properties;
 
@@ -166,9 +165,9 @@ public class LevelTemplate {
 							String backgroundType = types[1];
 							for (int i = 0; i < BACKGROUND_BUILTIN_TYPES.length; i++) {
 								if (backgroundType.equalsIgnoreCase(BACKGROUND_BUILTIN_TYPES[i])) {
-									Sprite backgroundImage = BACKGROUND_BUILTIN_IMAGES[i];
-									Background background = new Background(backgroundImage, Double.parseDouble(data[1]), Double.parseDouble(data[2]));
-									background.setPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
+									Sprite[] backgroundImage = BACKGROUND_BUILTIN_IMAGES[i];
+									Background background = new Background(backgroundImage, 100, Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+									background.setStartingPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
 									backgrounds.add(background);
 								}
 							}
@@ -187,7 +186,7 @@ public class LevelTemplate {
 							Sprite backgroundImage = new Sprite(new ResourceLocation(backgroundLoc), u, v, width, height);
 
 							Background background = new Background(backgroundImage, Double.parseDouble(data[1]), Double.parseDouble(data[2]));
-							background.setPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
+							background.setStartingPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
 							backgrounds.add(background);
 						} else {
 							Mod.logger().warn("Unknown type of parameters " + types);

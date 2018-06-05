@@ -3,6 +3,7 @@ package com.ocelot.mod.game.core.gfx;
 import com.ocelot.mod.game.Game;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -23,6 +24,8 @@ public class Background {
 	private double lastY;
 	private double x;
 	private double y;
+	private double startX;
+	private double startY;
 	private double dx;
 	private double dy;
 	private double heightScale;
@@ -120,6 +123,19 @@ public class Background {
 	}
 
 	/**
+	 * Sets the starting position of the background. Used as the base offset from the map's x and y.
+	 * 
+	 * @param x
+	 *            The x offset for the background
+	 * @param y
+	 *            The y offset for the background
+	 */
+	public void setStartingPosition(double x, double y) {
+		this.startX = x;
+		this.startY = y;
+	}
+
+	/**
 	 * The auto scroll speed in the two directions.
 	 * 
 	 * @param dx
@@ -133,7 +149,7 @@ public class Background {
 	}
 
 	/**
-	 * Updates the background. Used only if it has a vector not equal to zero or if the background is animated.
+	 * Updates the background. This must be called or the background will flash between the origional position and the new position.
 	 */
 	public void update() {
 		this.animation.update();
@@ -146,10 +162,12 @@ public class Background {
 	 * Renders the background to the screen.
 	 */
 	public void render() {
-		Sprite image = animation.getSprite();
-		double x = -(lastX + (this.x - lastX) * Minecraft.getMinecraft().getRenderPartialTicks());
-		double y = -(lastY + (this.y - lastY) * Minecraft.getMinecraft().getRenderPartialTicks());
-		if (heightScale < 0) {
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(1 / this.heightScale, 1 / this.heightScale, 0);
+		Sprite image = this.animation.getSprite();
+		double x = -(this.lastX + (this.x - this.lastX) * Minecraft.getMinecraft().getRenderPartialTicks()) + this.startX;
+		double y = -(this.lastY + (this.y - this.lastY) * Minecraft.getMinecraft().getRenderPartialTicks()) + this.startY;
+		if (this.heightScale < 0) {
 			image.render(x, y, Game.WIDTH, Game.HEIGHT);
 
 			if (x < 0) {
@@ -160,15 +178,16 @@ public class Background {
 				image.render(x - Game.WIDTH, y, Game.WIDTH, Game.HEIGHT);
 			}
 		} else {
-			image.render(x, y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
+			image.render(x, y, Game.WIDTH, (int) (image.getHeight() / (1 / this.heightScale)));
 
 			if (x < 0) {
-				image.render(x + Game.WIDTH, y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
+				image.render(x + Game.WIDTH, y, Game.WIDTH, (int) (image.getHeight() / (1 / this.heightScale)));
 			}
 
 			if (x > 0) {
-				image.render(x - Game.WIDTH, y, Game.WIDTH, (int) (image.getHeight() / (1 / heightScale)));
+				image.render(x - Game.WIDTH, y, Game.WIDTH, (int) (image.getHeight() / (1 / this.heightScale)));
 			}
 		}
+		GlStateManager.popMatrix();
 	}
 }
