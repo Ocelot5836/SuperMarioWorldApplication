@@ -30,7 +30,7 @@ public class InfoBoxTile extends BasicTile {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (hitDirection == EnumDirection.DOWN) {
-				TextType type = (TextType) getValue(TEXT);
+				TextType type = getValue(TEXT);
 				if (type != null) {
 					player.openGui(type.getGuiId());
 					player.getGame().playSound(Sounds.TILE_MESSAGE_HIT, 1.0F);

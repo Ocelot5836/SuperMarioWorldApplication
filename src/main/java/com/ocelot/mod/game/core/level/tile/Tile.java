@@ -250,7 +250,7 @@ public abstract class Tile {
 	 * @throws IllegalArgumentException
 	 *             If the property is not in the {@link #container}
 	 */
-	protected Object getValue(IProperty property) {
+	protected <T> T getValue(IProperty property) {
 		return this.container == null ? null : this.container.getValue(property);
 	}
 
