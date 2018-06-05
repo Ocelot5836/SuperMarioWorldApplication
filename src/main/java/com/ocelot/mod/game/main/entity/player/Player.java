@@ -482,6 +482,11 @@ public class Player extends Mob {
 	public void onDeath(GameState state) {
 
 	}
+	
+	@Override
+	public boolean isOnScreen() {
+		return this.x + this.cwidth / 2 >= tileMap.getX() && this.x - this.cwidth / 2 < tileMap.getX() + game.getWidth() && this.y - this.cheight / 2 + sprite.getHeight() >= tileMap.getY() && this.y + this.cheight / 2 < tileMap.getY() + game.getHeight();
+	}
 
 	public Player enableKeyboardInput(boolean enableKeyboardInput) {
 		this.properties.setKeyboardInputEnabled(enableKeyboardInput);

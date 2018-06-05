@@ -32,10 +32,12 @@ public class Bowser extends Enemy {
 		super(game, 100);
 		this.setPosition(x, y);
 		this.setSize(32, 32);
+		
+		this.animation = new BufferedAnimation();
+		this.sprite = new Sprite();
 
 		if (sprites == null) {
 			this.sprites = new ArrayList<BufferedImage[]>();
-			this.sprite = new Sprite();
 			this.loadSprites();
 		}
 	}

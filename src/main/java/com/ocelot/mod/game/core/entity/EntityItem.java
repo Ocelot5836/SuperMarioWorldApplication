@@ -190,6 +190,11 @@ public class EntityItem extends Entity {
 	public double getYSpeed() {
 		return ySpeed;
 	}
+	
+	@Override
+	public boolean isOnScreen() {
+		return this.x + this.cwidth / 2 >= tileMap.getX() && this.x - this.cwidth / 2 < tileMap.getX() + game.getWidth() && this.y + this.cheight >= tileMap.getY() && this.y + this.cheight / 2 < tileMap.getY() + game.getHeight();
+	}
 
 	/**
 	 * Boosts the item in the direction specified based on percentages.

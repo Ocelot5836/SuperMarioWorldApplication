@@ -1,12 +1,7 @@
 package com.ocelot.mod.game.core.entity;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.lib.AxisAlignedBB;
@@ -434,7 +429,7 @@ public abstract class Entity {
 	 * @return Whether or not the entity is on screen
 	 */
 	public boolean isOnScreen() {
-		return this.x + this.cwidth / 2 >= tileMap.getX() && this.x - this.cwidth / 2 < tileMap.getX() + game.getWidth() && this.y - this.cheight / 2 >= tileMap.getY() && this.y + this.cheight / 2 < tileMap.getY() + game.getHeight();
+		return this.x + this.cwidth / 2 >= tileMap.getX() - 16 && this.x - this.cwidth / 2 < tileMap.getX() + game.getWidth() + 16 && this.y - this.cheight / 2 >= tileMap.getY() - 16 && this.y + this.cheight / 2 < tileMap.getY() + game.getHeight() + 16;
 	}
 
 	/**

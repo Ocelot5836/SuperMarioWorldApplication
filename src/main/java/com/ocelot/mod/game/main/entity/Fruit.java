@@ -25,11 +25,11 @@ public class Fruit extends Entity {
 
 	public Fruit(GameTemplate game) {
 		this(game, 0, 0);
-		this.setSize(16, 16);
 	}
 
 	public Fruit(GameTemplate game, double x, double y) {
 		super(game);
+		this.setSize(16, 16);
 		this.setPosition(x, y);
 		this.animation = new Animation();
 
