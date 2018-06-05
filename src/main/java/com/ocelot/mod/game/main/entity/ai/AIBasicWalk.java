@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.entity.ai;
 
 import com.ocelot.mod.game.core.entity.ai.AIBase;
 
-public class AIBasicWalker extends AIBase {
+public class AIBasicWalk extends AIBase {
 
 	private boolean movingRight;
 

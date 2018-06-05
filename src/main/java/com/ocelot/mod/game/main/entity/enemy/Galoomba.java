@@ -20,7 +20,7 @@ import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.main.entity.ai.AIBasicWalker;
+import com.ocelot.mod.game.main.entity.ai.AIBasicWalk;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
 
@@ -89,7 +89,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 
 	@Override
 	public void initAI() {
-		super.registerAI(new AIBasicWalker());
+		super.registerAI(new AIBasicWalk());
 	}
 
 	@Override
