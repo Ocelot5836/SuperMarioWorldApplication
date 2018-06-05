@@ -26,7 +26,6 @@ import net.minecraft.util.ResourceLocation;
 public class YoshiHouseState extends GameState {
 
 	private LevelTemplate template;
-	private Background background;
 	private MarioGui overlay;
 
 	public YoshiHouseState(GameStateManager gsm, GameTemplate game) {
@@ -44,8 +43,6 @@ public class YoshiHouseState extends GameState {
 			template.getLevel().getMap().setValue(8, 8, InfoBoxTile.TEXT, InfoBoxTile.TextType.YOSHI_HOUSE);
 		}
 
-		background = new Background(Backgrounds.MUSHROOM_MOUNTAINS, 1, 0.5);
-
 		overlay = new GuiOverlay(template).setSizeAndWorld(game, template.getLevel().getPlayers().get(0));
 
 		template.getProperties().playMusic();
@@ -53,18 +50,12 @@ public class YoshiHouseState extends GameState {
 
 	@Override
 	public void update() {
-		background.setPosition(Backgrounds.MUSHROOM_MOUNTAINS.getWidth() / 2, 120);
-		background.update();
 		template.update();
 		overlay.update();
 	}
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		GlStateManager.pushMatrix();
-		GlStateManager.scale(2, 2, 0);
-		background.render();
-		GlStateManager.popMatrix();
 		template.render(gui, mc, mouseX, mouseY, partialTicks);
 		overlay.render(gui, mouseX, mouseY, partialTicks);
 	}

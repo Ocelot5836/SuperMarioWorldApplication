@@ -1,2 +1,5 @@
+# Background
+BuiltIn_MUSHROOM_MOUNTAINS;1;0.5;256;120
+
 # Overlay Stuff
 ResourceLoc_osmw:textures/level/yoshihouse/background1.png_0_0_256_161;1;1;0;-42
