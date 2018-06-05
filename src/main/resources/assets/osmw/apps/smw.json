@@ -2,7 +2,7 @@
     "name": "Super Mario World",
     "author": "Ocelot5836",
     "description": "Dive into the ages and play this 2d game from the SNES! This app is a recreation of Super Mario World from the SNES. It features most levels, mechanics, enemies, and more! NOTE: THIS IS STILL A TESTING VERSION SO ALL FEATURES ARE NOT YET ADDED!",
-    "version": "0.1.1 Alpha",
+    "version": "0.1.2 Alpha",
     "icon": "osmw:textures/app/icon/smw.png",
     "screenshots": [
     ]

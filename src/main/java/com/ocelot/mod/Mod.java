@@ -42,13 +42,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * 
  * @author Ocelot5836
  */
-@net.minecraftforge.fml.common.Mod(modid = Mod.MOD_ID, version = Mod.VERSION, acceptedMinecraftVersions = "[1.12,1.12.9]", dependencies = "required-after:cdm@[0.4.0,)", guiFactory = "com.ocelot.mod.config.ModConfigGuiFactory", useMetadata = true)
+@net.minecraftforge.fml.common.Mod(modid = Mod.MOD_ID, version = Mod.VERSION, acceptedMinecraftVersions = "[1.12,1.12.2]", dependencies = "required-after:cdm@[0.4.0,)", guiFactory = "com.ocelot.mod.config.ModConfigGuiFactory", useMetadata = true)
 public class Mod {
 
 	/** The mod id */
 	public static final String MOD_ID = "osmw";
 	/** The current version of the mod */
-	public static final String VERSION = "0.1.1";
+	public static final String VERSION = "0.1.2";
 	/** The id for the game app */
 	public static final ResourceLocation GAME_ID = new ResourceLocation(MOD_ID, "smw");
 
