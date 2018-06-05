@@ -214,6 +214,57 @@ public class Lib implements IResourceManagerReloadListener {
 	}
 
 	/**
+	 * Parses a single-step equation.
+	 * 
+	 * @param equation
+	 *            The equation
+	 * @return The number that was calculated from the equation
+	 */
+	public static double parseEquation(String equation) throws Exception {
+		try {
+			String[] values = equation.split("+");
+			if (equation.startsWith("+")) {
+				double value1 = Double.parseDouble(values[1]);
+				double value2 = Double.parseDouble(values[2]);
+				return value1 + value2;
+			} else {
+				double value1 = Double.parseDouble(values[0]);
+				double value2 = Double.parseDouble(values[1]);
+				return value1 + value2;
+			}
+		} catch (Exception e1) {
+			try {
+				String[] values = equation.split("-");
+				if (equation.startsWith("-")) {
+					double value1 = Double.parseDouble(values[1]);
+					double value2 = Double.parseDouble(values[2]);
+					return value1 - value2;
+				} else {
+					double value1 = Double.parseDouble(values[0]);
+					double value2 = Double.parseDouble(values[1]);
+					return value1 - value2;
+				}
+			} catch (Exception e2) {
+				try {
+					String[] values = equation.split("*");
+					double value1 = Double.parseDouble(values[0]);
+					double value2 = Double.parseDouble(values[1]);
+					return value1 * value2;
+				} catch (Exception e3) {
+					try {
+						String[] values = equation.split("/");
+						double value1 = Double.parseDouble(values[0]);
+						double value2 = Double.parseDouble(values[1]);
+						return value1 / value2;
+					} catch (Exception e4) {
+						throw new Exception("Could not parse equation from \'" + equation + "\'", e4);
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * @param player
 	 *            The player to check the username of
 	 * @return Whether or not the player is MrCrayfish
