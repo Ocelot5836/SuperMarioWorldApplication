@@ -84,7 +84,7 @@ public abstract class Mob extends Entity {
 	}
 	
 	/**
-	 * Gets the next position
+	 * Gets the next position for the mob.
 	 */
 	protected void getNextPosition() {
 		if (left) {
