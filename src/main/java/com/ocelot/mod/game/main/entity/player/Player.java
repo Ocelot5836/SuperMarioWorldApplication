@@ -26,8 +26,8 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.gui.Guis;
+import com.ocelot.mod.game.main.tile.TileWater;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
@@ -48,6 +48,7 @@ public class Player extends Mob {
 
 	private Stopwatch deathAnimationTimer = Stopwatch.createUnstarted();
 	private boolean canSwim;
+	private boolean enteredWaterFromAbove;
 
 	private int currentAction;
 	private Sprite sprite;
@@ -146,9 +147,11 @@ public class Player extends Mob {
 					}
 				}
 			}
-			
-			if(dy < -1) {
+
+			if (dy < -1) {
 				dy = -1;
+			} else if (!enteredWaterFromAbove) {
+				dy = 0;
 			}
 
 			if (jumping && canSwim) {
@@ -170,9 +173,12 @@ public class Player extends Mob {
 					dy = maxFallSpeed * 0.75;
 				}
 			}
+
+			enteredWaterFromAbove = true;
 		} else {
 			canSwim = false;
-			
+			enteredWaterFromAbove = false;
+
 			if (left) {
 				dx -= moveSpeed;
 				if (dx < -maxSpeed) {
@@ -299,7 +305,7 @@ public class Player extends Mob {
 				currentAction = KICKING_ITEM_SMALL;
 				this.setAnimation(currentAction);
 			}
-			
+
 			if (jumping && canSwim) {
 				game.playSound(Sounds.PLAYER_SWIM, 1.0F);
 			}
@@ -400,20 +406,20 @@ public class Player extends Mob {
 						}
 					}
 				}
-			}
 
-			if (this.down) {
-				if (this.cheight != 8) {
-					this.y += 3;
-					this.lastY = y;
+				if (this.down) {
+					if (this.cheight != 8) {
+						this.y += 3;
+						this.lastY = y;
+					}
+					this.setSize(12, 8);
+				} else {
+					if (this.cheight != 14) {
+						this.y -= 3;
+						this.lastY = y;
+					}
+					this.setSize(12, 14);
 				}
-				this.setSize(12, 8);
-			} else {
-				if (this.cheight != 14) {
-					this.y -= 3;
-					this.lastY = y;
-				}
-				this.setSize(12, 14);
 			}
 
 			if (right)
@@ -461,7 +467,7 @@ public class Player extends Mob {
 
 			checkAttackAndDamage(level.getEntities());
 
-			properties.setSwimming(level.getMap().getTile(((int) x - cwidth / 2) / 16, ((int) y - cheight / 2) / 16) == Tile.WATER || level.getMap().getTile(((int) x + cwidth / 2) / 16, ((int) y - cheight / 2) / 16) == Tile.WATER);
+			properties.setSwimming(level.getMap().getTile(((int) x - cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile(((int) x + cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater);
 		}
 
 		this.animation.update();
