@@ -36,6 +36,7 @@ public class TestState extends GameState {
 	@Override
 	public void load() {
 		bg = new Background(Backgrounds.UNDERWATER, 100, 0.1, 0.5);
+		bg.setStartingPosition(0, -144);
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
 		level.getMap().setTween(0.25);
 		level.add(new Galoomba(game, 60, 50));
@@ -45,7 +46,6 @@ public class TestState extends GameState {
 
 	@Override
 	public void update() {
-		bg.setStartingPosition(0, -144);
 		bg.update();
 		bg.setPosition(level.getMap().getX(), level.getMap().getY());
 		level.update();
