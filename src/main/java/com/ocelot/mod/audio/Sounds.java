@@ -31,6 +31,7 @@ public class Sounds {
 	public static final SoundEvent PLAYER_KICK;
 	public static final SoundEvent PLAYER_STOMP;
 	public static final SoundEvent PLAYER_STOMP_SPIN;
+	public static final SoundEvent PLAYER_SWIM;
 
 	public static final SoundEvent KOOPA_SHELL_RICOCHET;
 
@@ -52,6 +53,7 @@ public class Sounds {
 		PLAYER_KICK = registerSound("entity.mario.kick");
 		PLAYER_STOMP = registerSound("entity.mario.stomp");
 		PLAYER_STOMP_SPIN = registerSound("entity.mario.stomp_spin");
+		PLAYER_SWIM = registerSound("entity.mario.swim");
 
 		KOOPA_SHELL_RICOCHET = registerSound("entity.koopa.shell_ricochet");
 

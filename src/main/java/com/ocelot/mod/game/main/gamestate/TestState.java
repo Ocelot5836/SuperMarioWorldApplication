@@ -5,6 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.Mod;
+import com.ocelot.mod.game.Backgrounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -34,7 +35,7 @@ public class TestState extends GameState {
 
 	@Override
 	public void load() {
-		bg = new Background(new Sprite(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(Blocks.STONEBRICK, 1, 1)).getParticleTexture()), 0.1);
+		bg = new Background(Backgrounds.UNDERWATER, 100, 0.1, 0.5);
 		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
 		level.getMap().setTween(0.25);
 		level.add(new Galoomba(game, 60, 50));
@@ -44,8 +45,9 @@ public class TestState extends GameState {
 
 	@Override
 	public void update() {
+		bg.setStartingPosition(0, -144);
 		bg.update();
-		bg.setPosition(level.getMap().getX(), 0);
+		bg.setPosition(level.getMap().getX(), level.getMap().getY());
 		level.update();
 		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
 	}

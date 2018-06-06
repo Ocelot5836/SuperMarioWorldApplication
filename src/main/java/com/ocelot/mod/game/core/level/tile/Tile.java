@@ -70,6 +70,7 @@ public abstract class Tile {
 	public static final Tile BRICKS = new TileBricks(); // 11
 	public static final Tile STONE = new TileStone(); // 12
 	public static final Tile WATER = new TileWater(); // 13
+	public static final Tile INVISIBLE_WATER = new TileWater().setShouldNotRender(); // 14
 
 	private static int nextId = 0;
 

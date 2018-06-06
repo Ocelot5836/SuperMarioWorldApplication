@@ -48,6 +48,13 @@
 			"stream": true
 		}]
 	},
+	"entity.mario.swim": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/swim",
+			"stream": true
+		}]
+	},
 	"entity.koopa.shell_ricochet": {
 		"category": "player",
 		"sounds": [{
