@@ -63,14 +63,14 @@ public class DebugSelectLevelState extends GameState {
 
 	@Override
 	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
-		if (mouseButton == 1) {
+		if (mouseButton == 0) {
 			int i = 0;
 			for (Entry<Integer, GameState> e : levels.entrySet()) {
 				GameState level = e.getValue();
 				int x = 5 + (i / 40) * 32;
 				int y = 30 + (i % 40) * 12;
 				if (mouseX >= x - 1 && mouseX < x + Minecraft.getMinecraft().fontRenderer.getStringWidth(level.toString()) + 1 && mouseY >= y - 1 && mouseY < y + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT + 1) {
-					System.out.println(i);
+					gsm.setState(e.getKey());
 					break;
 				}
 				i++;

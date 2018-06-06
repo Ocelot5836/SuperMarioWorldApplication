@@ -98,7 +98,7 @@ public class ApplicationGame extends Application {
 		super.handleMouseClick(mouseX, mouseY, mouseButton);
 		if (!Game.isClosed()) {
 			try {
-				game.onMousePressed(mouseButton, mouseX, mouseY);
+				game.onMousePressed(mouseButton, oldMouseX, oldMouseY);
 			} catch (Throwable e) {
 				Game.stop(e, "Error when mouse pressed");
 			}
@@ -127,10 +127,8 @@ public class ApplicationGame extends Application {
 		GlStateManager.popMatrix();
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
-		if (mouseX != oldMouseX)
-			oldMouseX = mouseX;
-		if (mouseY != oldMouseY)
-			oldMouseY = mouseY;
+		oldMouseX = mouseX - x;
+		oldMouseY = mouseY - y;
 	}
 
 	@Override
