@@ -39,6 +39,8 @@ tile.osmw.coin.name=Coin
 tile.osmw.grass.name=Grass
 tile.osmw.grass_wall.name=Grass Wall
 tile.osmw.question_block.name=? Block
+tile.osmw.bricks.name=Bricks
+tile.osmw.stone.name=Stone
 
 #######################
 # Configuration stuff #

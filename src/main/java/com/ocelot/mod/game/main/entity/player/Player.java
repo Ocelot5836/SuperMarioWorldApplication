@@ -2,7 +2,6 @@ package com.ocelot.mod.game.main.entity.player;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.lwjgl.input.Keyboard;
 
@@ -27,6 +26,7 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.gui.Guis;
 import com.ocelot.mod.lib.Lib;
 
@@ -113,62 +113,66 @@ public class Player extends Mob {
 
 	@Override
 	protected void getNextPosition() {
-		if (left) {
-			dx -= moveSpeed;
-			if (dx < -maxSpeed) {
-				dx += stopSpeed;
-			}
-			setRunningAnimations();
-		} else if (right) {
-			dx += moveSpeed;
-			if (dx > maxSpeed) {
-				dx -= stopSpeed;
-			}
-			setRunningAnimations();
+		if (this.properties.isSwimming()) {
+
 		} else {
-			if (dx > 0) {
-				dx -= stopSpeed;
-				if (dx < 0) {
-					dx = 0;
+			if (left) {
+				dx -= moveSpeed;
+				if (dx < -maxSpeed) {
+					dx += stopSpeed;
 				}
-			} else if (dx < 0) {
-				dx += stopSpeed;
+				setRunningAnimations();
+			} else if (right) {
+				dx += moveSpeed;
+				if (dx > maxSpeed) {
+					dx -= stopSpeed;
+				}
+				setRunningAnimations();
+			} else {
 				if (dx > 0) {
-					dx = 0;
+					dx -= stopSpeed;
+					if (dx < 0) {
+						dx = 0;
+					}
+				} else if (dx < 0) {
+					dx += stopSpeed;
+					if (dx > 0) {
+						dx = 0;
+					}
 				}
 			}
-		}
 
-		if (jumping && !falling) {
-			dy = jumpStart;
-			falling = true;
-		}
-
-		if (falling) {
-			dy += fallSpeed;
-			if (dy > 0)
-				jumping = false;
-			if (dy < 0 && !jumping)
-				dy += stopJumpSpeed;
-
-			if (dy > maxFallSpeed) {
-				dy = maxFallSpeed;
+			if (jumping && !falling) {
+				dy = jumpStart;
+				falling = true;
 			}
-		}
 
-		if (!this.properties.isSwimming() && this.properties.isRunning()) {
-			maxSpeed = baseMaxSpeed * 2;
-			stopSpeed++;
-			if (stopSpeed > baseStopSpeed * 4)
-				stopSpeed = baseStopSpeed * 4;
-		} else {
-			maxSpeed = baseMaxSpeed;
-			stopSpeed--;
-			if (stopSpeed < baseStopSpeed)
-				stopSpeed = baseStopSpeed;
-			runAnimationSpeed += 3;
-			if (runAnimationSpeed > 100) {
-				runAnimationSpeed = 100;
+			if (falling) {
+				dy += fallSpeed;
+				if (dy > 0)
+					jumping = false;
+				if (dy < 0 && !jumping)
+					dy += stopJumpSpeed;
+
+				if (dy > maxFallSpeed) {
+					dy = maxFallSpeed;
+				}
+			}
+
+			if (this.properties.isRunning()) {
+				maxSpeed = baseMaxSpeed * 2;
+				stopSpeed++;
+				if (stopSpeed > baseStopSpeed * 4)
+					stopSpeed = baseStopSpeed * 4;
+			} else {
+				maxSpeed = baseMaxSpeed;
+				stopSpeed--;
+				if (stopSpeed < baseStopSpeed)
+					stopSpeed = baseStopSpeed;
+				runAnimationSpeed += 3;
+				if (runAnimationSpeed > 100) {
+					runAnimationSpeed = 100;
+				}
 			}
 		}
 
@@ -374,6 +378,8 @@ public class Player extends Mob {
 			}
 
 			checkAttackAndDamage(level.getEntities());
+
+			properties.setSwimming(level.getMap().getTile((int) x - cwidth / 2, (int) y + cheight / 2 - sprite.getHeight()) == Tile.WATER);
 		}
 
 		this.animation.update();

@@ -19,6 +19,8 @@ import com.ocelot.mod.game.main.tile.TileCoin.CoinType;
 import com.ocelot.mod.game.main.tile.TileGrassWall;
 import com.ocelot.mod.game.main.tile.TileInfoBox;
 import com.ocelot.mod.game.main.tile.TileQuestionBlock;
+import com.ocelot.mod.game.main.tile.TileStone;
+import com.ocelot.mod.game.main.tile.TileWater;
 import com.ocelot.mod.lib.AxisAlignedBB;
 import com.ocelot.mod.lib.Lib;
 
@@ -66,7 +68,8 @@ public abstract class Tile {
 	public static final Tile QUESTION_BLOCK = new TileQuestionBlock(); // 9
 	public static final Tile BLUE_COIN = new TileCoin(CoinType.BLUE); // 10
 	public static final Tile BRICKS = new TileBricks(); // 11
-	public static final Tile STONE = new TileBricks(); // 11
+	public static final Tile STONE = new TileStone(); // 12
+	public static final Tile WATER = new TileWater(); // 13
 
 	private static int nextId = 0;
 
