@@ -102,21 +102,21 @@ public class Mod {
 		SummonableEntityRegistry.registerClass(ItemKoopaShell.class);
 		SummonableEntityRegistry.registerClass(ItemPSwitch.class);
 		
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_green_hills.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_snow_hills.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_jungle_vines.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mushroom_mountains.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_green_mountain_tops.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_white_mountains.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_green_mountains.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_castle.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_green_hills.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_snow_hills.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_jungle_vines.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_mushroom_mountains.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_green_mountain_tops.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_white_mountains.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_green_mountains.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_castle.png"));
 
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_caves.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_icy_caves.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_underwater.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_ghost_house.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_castle_alt.png"));
-		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_starry_night.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_caves.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_icy_caves.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_underwater.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_ghost_house.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_castle_alt.png"));
+		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_starry_night.png"));
 
 		ApplicationManager.registerApplication(GAME_ID, ApplicationGame.class);
 
