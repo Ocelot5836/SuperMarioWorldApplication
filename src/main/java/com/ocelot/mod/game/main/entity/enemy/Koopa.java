@@ -24,6 +24,7 @@ import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.ai.AIKoopa;
+import com.ocelot.mod.game.main.entity.ai.BasicWalkListener;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Colorizer;
@@ -37,7 +38,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
 @FileSummonableEntity(Koopa.Summonable.class)
-public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
+public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager, BasicWalkListener {
 
 	public static final BufferedImage KOOPA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/koopa.png"));
 
@@ -49,7 +50,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 	private BufferedAnimation animation;
 
 	private static int[][] colors = { { 0xff007800, 0xff00B800, 0xff00F800 }, { 0xff880000, 0xffB80000, 0xffF80000 }, { 0xff4040D8, 0xff6868D8, 0xff8888F8 }, { 0xffF87800, 0xffF8C000, 0xffF8F800 } };
-	private static int[] delays = { 150, 250, 250, -1, -1, -1 };
+	private static int[] delays = { 25, 250, 250, -1, -1, -1 };
 	private static List<List<BufferedImage[]>> sprites;
 
 	public static final int TURNING_SIDE = 0;
@@ -98,6 +99,7 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 			this.sprites = new ArrayList<List<BufferedImage[]>>();
 			this.loadSprites();
 		}
+		currentAction = IDLE;
 		this.setAnimation(IDLE);
 
 		if (type == KoopaType.KAMIKAZE) {
@@ -112,6 +114,8 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		this.maxFallSpeed = 4.0;
 		this.jumpStart = -4.0;
 		this.stopJumpSpeed = type == KoopaType.KAMIKAZE ? 1 : 0.3;
+		
+		delays = new int[]{ 25, 250, 250, -1, -1, -1 };
 	}
 
 	private void loadSprites() {
@@ -170,25 +174,33 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 		getNextPosition();
 
 		if (type != KoopaType.KAMIKAZE) {
-			if (dy > 0) {
-				if (currentAction != FALLING) {
-					currentAction = FALLING;
-					this.setAnimation(currentAction);
-				}
-			} else if (dy < 0) {
-				if (currentAction != JUMPING) {
-					currentAction = JUMPING;
-					this.setAnimation(currentAction);
-				}
-			} else if (left || right) {
-				if (currentAction != WALKING_SIDE) {
-					currentAction = WALKING_SIDE;
-					this.setAnimation(currentAction);
-				}
-			} else {
-				if (currentAction != IDLE) {
-					currentAction = IDLE;
-					this.setAnimation(currentAction);
+			boolean playAnimations = true;
+
+			if(currentAction == TURNING_SIDE) {
+				playAnimations = animation.hasPlayedOnce();
+			}
+			
+			if (playAnimations) {
+				if (dy > 0) {
+					if (currentAction != FALLING) {
+						currentAction = FALLING;
+						this.setAnimation(currentAction);
+					}
+				} else if (dy < 0) {
+					if (currentAction != JUMPING) {
+						currentAction = JUMPING;
+						this.setAnimation(currentAction);
+					}
+				} else if (left || right) {
+					if (currentAction != WALKING_SIDE) {
+						currentAction = WALKING_SIDE;
+						this.setAnimation(currentAction);
+					}
+				} else {
+					if (currentAction != IDLE) {
+						currentAction = IDLE;
+						this.setAnimation(currentAction);
+					}
 				}
 			}
 		}
@@ -313,6 +325,12 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager {
 				defaultSpinStompEnemy(player);
 			}
 		}
+	}
+
+	@Override
+	public void basicWalkTrigger(boolean right) {
+		currentAction = TURNING_SIDE;
+		setAnimation(currentAction);
 	}
 
 	@Override

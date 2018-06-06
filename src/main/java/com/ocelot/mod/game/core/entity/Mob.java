@@ -7,6 +7,7 @@ import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.ai.IAI;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
+import com.ocelot.mod.game.main.tile.TileWater;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -50,6 +51,13 @@ public abstract class Mob extends Entity {
 	/** The maximum health of the entity */
 	protected int maxHealth;
 
+	/** Whether or now the mob is swimming */
+	protected boolean swimming;
+	/** Whether or not the mob can swim again */
+	protected boolean canSwim;
+	/** Whether or not the entity has entered the water form above */
+	protected boolean enteredWaterFromAbove;
+
 	private List<IAI> ais;
 
 	public Mob(GameTemplate game) {
@@ -81,50 +89,109 @@ public abstract class Mob extends Entity {
 		for (IAI ai : ais) {
 			ai.update();
 		}
+
+		swimming = level.getMap().getTile(((int) x - cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile(((int) x + cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater;
 	}
-	
+
 	/**
 	 * Gets the next position for the mob.
 	 */
 	protected void getNextPosition() {
-		if (left) {
-			dx -= moveSpeed;
-			if (dx < -maxSpeed) {
-				dx += stopSpeed;
-			}
-		} else if (right) {
-			dx += moveSpeed;
-			if (dx > maxSpeed) {
-				dx -= stopSpeed;
-			}
-		} else {
-			if (dx > 0) {
-				dx = 0;
-				if (dx < 0) {
-					dx = 0;
+		if (swimming) {
+			double waterResistance = 0.1;
+			double waterFallResistance = 0.08;
+
+			if (left) {
+				dx -= moveSpeed * waterResistance;
+				if (dx < -maxSpeed * waterResistance * 8) {
+					dx += stopSpeed * waterResistance * 8;
 				}
-			} else if (dx < 0) {
-				dx = 0;
+			} else if (right) {
+				dx += moveSpeed * waterResistance;
+				if (dx > maxSpeed * waterResistance * 8) {
+					dx -= stopSpeed * waterResistance * 8;
+				}
+			} else {
+				if (dx > 0) {
+					dx -= stopSpeed * 0.25;
+					if (dx < 0) {
+						dx = 0;
+					}
+				} else if (dx < 0) {
+					dx += stopSpeed * 0.25;
+					if (dx > 0) {
+						dx = 0;
+					}
+				}
+			}
+
+			if (dy < -1) {
+				dy = -1;
+			} else if (!enteredWaterFromAbove) {
+				dy = 0;
+			}
+
+			if (jumping && canSwim) {
+				dy = -1;
+				falling = true;
+				canSwim = false;
+			}
+
+			if (!jumping) {
+				canSwim = true;
+			}
+
+			if (falling) {
+				dy += fallSpeed * waterFallResistance;
+				if (dy < 0)
+					dy += stopJumpSpeed * waterFallResistance;
+
+				if (dy > maxFallSpeed * 0.75) {
+					dy = maxFallSpeed * 0.75;
+				}
+			}
+
+			enteredWaterFromAbove = true;
+		} else {
+			if (left) {
+				dx -= moveSpeed;
+				if (dx < -maxSpeed) {
+					dx += stopSpeed;
+				}
+			} else if (right) {
+				dx += moveSpeed;
+				if (dx > maxSpeed) {
+					dx -= stopSpeed;
+				}
+			} else {
 				if (dx > 0) {
 					dx = 0;
+					if (dx < 0) {
+						dx = 0;
+					}
+				} else if (dx < 0) {
+					dx = 0;
+					if (dx > 0) {
+						dx = 0;
+					}
 				}
 			}
-		}
 
-		if (jumping && !falling) {
-			dy = jumpStart;
-			falling = true;
-		}
+			if (jumping && !falling) {
+				dy = jumpStart;
+				falling = true;
+			}
 
-		if (falling) {
-			dy += fallSpeed;
-			if (dy > 0)
-				jumping = false;
-			if (dy < 0 && !jumping)
-				dy += stopJumpSpeed;
+			if (falling) {
+				dy += fallSpeed;
+				if (dy > 0)
+					jumping = false;
+				if (dy < 0 && !jumping)
+					dy += stopJumpSpeed;
 
-			if (dy > maxFallSpeed) {
-				dy = maxFallSpeed;
+				if (dy > maxFallSpeed) {
+					dy = maxFallSpeed;
+				}
 			}
 		}
 
@@ -230,6 +297,10 @@ public abstract class Mob extends Entity {
 
 	public double getMaxFallSpeed() {
 		return maxFallSpeed;
+	}
+
+	public boolean isSwimming() {
+		return swimming;
 	}
 
 	/**

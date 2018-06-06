@@ -47,8 +47,6 @@ public class Player extends Mob {
 	private PlayerProperties properties;
 
 	private Stopwatch deathAnimationTimer = Stopwatch.createUnstarted();
-	private boolean canSwim;
-	private boolean enteredWaterFromAbove;
 
 	private int currentAction;
 	private Sprite sprite;
@@ -116,7 +114,7 @@ public class Player extends Mob {
 
 	@Override
 	protected void getNextPosition() {
-		if (this.properties.isSwimming()) {
+		if (swimming) {
 			double waterResistance = this.item == null ? 0.1 : 0.3;
 			double waterFallResistance = this.item == null ? 0.08 : 0.025;
 
@@ -326,7 +324,7 @@ public class Player extends Mob {
 			}
 
 			calculateCorners(x, y + 1);
-			if (properties.isSwimming() && (!(bottomLeft || bottomRight) || item != null)) {
+			if (swimming && (!(bottomLeft || bottomRight) || item != null)) {
 				if (this.properties.isSmall()) {
 					if (item == null) {
 						if (jumping && canSwim) {
@@ -442,7 +440,7 @@ public class Player extends Mob {
 			if (left)
 				facingRight = false;
 
-			if (!properties.isSwimming()) {
+			if (!swimming) {
 				if (jumping && !falling) {
 					game.playSound(Sounds.PLAYER_JUMP, 1.0F);
 				}
@@ -481,8 +479,6 @@ public class Player extends Mob {
 			}
 
 			checkAttackAndDamage(level.getEntities());
-
-			properties.setSwimming(level.getMap().getTile(((int) x - cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile(((int) x + cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater);
 		}
 
 		this.animation.update();

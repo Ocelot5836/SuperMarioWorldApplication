@@ -1,7 +1,6 @@
 package com.ocelot.mod.game.main.entity.ai;
 
 import com.ocelot.mod.game.core.entity.ai.AIBase;
-import com.ocelot.mod.lib.Lib;
 
 public class AIBasicWalk extends AIBase {
 
@@ -17,6 +16,9 @@ public class AIBasicWalk extends AIBase {
 		double newX = movingRight ? mob.getMoveSpeed() : -mob.getMoveSpeed();
 		mob.calculateCorners(mob.getX() + (newX == 0 ? 0 : newX < 0 ? -1 : 1), mob.getY());
 		if ((mob.topLeft && mob.bottomLeft) || (mob.topRight && mob.bottomRight)) {
+			if (mob instanceof BasicWalkListener) {
+				((BasicWalkListener) mob).basicWalkTrigger(movingRight);
+			}
 			movingRight = !movingRight;
 		}
 		mob.setRight(movingRight);

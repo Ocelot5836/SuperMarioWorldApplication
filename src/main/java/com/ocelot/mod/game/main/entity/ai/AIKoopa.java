@@ -24,6 +24,9 @@ public class AIKoopa extends AIBase {
 			double newX = movingRight ? mob.getMoveSpeed() : -mob.getMoveSpeed();
 			mob.calculateCorners(mob.getX() + newX, mob.getY());
 			if ((mob.topLeft && mob.bottomLeft) || (mob.topRight && mob.bottomRight)) {
+				if (mob instanceof BasicWalkListener) {
+					((BasicWalkListener) mob).basicWalkTrigger(movingRight);
+				}
 				movingRight = !movingRight;
 			}
 		} else {

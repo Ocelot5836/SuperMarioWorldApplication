@@ -25,6 +25,7 @@ import com.ocelot.mod.game.main.entity.enemy.Enemy;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
+import com.ocelot.mod.game.main.entity.fx.PlayerBounceFX;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.game.main.entity.player.PlayerProperties;
 import com.ocelot.mod.lib.Colorizer;
@@ -268,7 +269,8 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 					player.setFalling(false);
 					player.setJumping(true);
 					this.xSpeed = 0;
-					this.defaultStompEnemy(player);
+					level.add(new PlayerBounceFX(game, player.getX(), player.getY()));
+					game.playSound(Sounds.PLAYER_STOMP, 1.0F);
 				}
 			}
 		}
