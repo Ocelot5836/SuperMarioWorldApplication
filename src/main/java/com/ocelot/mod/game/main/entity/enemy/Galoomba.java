@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ocelot.mod.Mod;
+import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
@@ -238,6 +239,7 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 
 					Mob mob = (Mob) entity;
 					if (mob.canDamage(this, MarioDamageSource.ENEMY)) {
+						game.playSound(Sounds.PLAYER_STOMP, 1.0F);
 						mob.setDead();
 					}
 				}

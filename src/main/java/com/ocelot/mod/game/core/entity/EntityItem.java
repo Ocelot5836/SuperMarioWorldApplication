@@ -1,6 +1,7 @@
 package com.ocelot.mod.game.core.entity;
 
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.main.tile.TileWater;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -29,6 +30,11 @@ public class EntityItem extends Entity {
 	protected double slideSpeed;
 	protected double airSlideSpeed;
 
+	/** Whether or now the mob is swimming */
+	protected boolean inWater;
+	/** Whether or not the entity has entered the water form above */
+	protected boolean enteredWaterFromAbove;
+
 	public EntityItem(GameTemplate game) {
 		this(game, 0, 0, 0.0D);
 	}
@@ -56,12 +62,17 @@ public class EntityItem extends Entity {
 	public void update() {
 		super.update();
 
+		inWater = level.getMap().getTile(((int) x - cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile(((int) x + cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater;
+
 		getNextPosition();
 		getNextPosition();
 		getNextPosition();
 	}
 
 	private void getNextPosition() {
+		double fallSpeed = inWater ? this.fallSpeed * 0.05 : this.fallSpeed;
+		double maxFallSpeed = inWater ? this.maxFallSpeed * 0.25 : this.maxFallSpeed;
+
 		if (xSpeed != 0) {
 			calculateCorners(xdest, y);
 			if (topLeft || bottomLeft || topRight || bottomRight) {
@@ -100,14 +111,14 @@ public class EntityItem extends Entity {
 			}
 			currentYBoostSpeed += currentFallSpeed;
 		}
-		
+
 		dx = xSpeed + currentXBoostSpeed;
 		dy = ySpeed + currentYBoostSpeed;
 
 		if (currentXBoostSpeed != 0) {
 			dx += currentXBoostSpeed;
 			currentXBoostSpeed *= !falling ? slideSpeed : airSlideSpeed;
-			if(Math.abs(currentXBoostSpeed) < 0.5) {
+			if (!inWater && Math.abs(currentXBoostSpeed) < 0.5) {
 				currentXBoostSpeed = 0;
 			}
 		}
@@ -200,7 +211,7 @@ public class EntityItem extends Entity {
 	 *            The y percentage
 	 */
 	public void boost(double x, double y) {
-		currentXBoostSpeed = x * boostSpeed;
-		currentYBoostSpeed = y * boostSpeed;
+		currentXBoostSpeed = x * boostSpeed * (inWater ? 0.5 : 1);
+		currentYBoostSpeed = y * boostSpeed * (inWater ? 0.5 : 1);
 	}
 }
