@@ -41,6 +41,8 @@ tile.osmw.grass_wall.name=Grass Wall
 tile.osmw.question_block.name=? Block
 tile.osmw.bricks.name=Bricks
 tile.osmw.stone.name=Stone
+tile.osmw.water.name=Water
+tile.osmw.water_transparent.name=Water
 
 #######################
 # Configuration stuff #
