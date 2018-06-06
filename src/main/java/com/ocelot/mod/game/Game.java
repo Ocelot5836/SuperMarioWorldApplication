@@ -76,6 +76,11 @@ public class Game extends GameTemplate {
 		if (currentDisplayedGui != null)
 			currentDisplayedGui.onKeyReleased(keyCode, typedChar);
 	}
+	
+	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+		gsm.onMousePressed(mouseButton, mouseX, mouseY);
+	}
 
 	@Override
 	public void load(NBTTagCompound nbt) {

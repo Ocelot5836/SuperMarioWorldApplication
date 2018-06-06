@@ -1,12 +1,9 @@
 package com.ocelot.mod.game.main.gamestate;
 
 import java.awt.Color;
-import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
@@ -21,7 +18,6 @@ import net.minecraft.client.resources.I18n;
 public class DebugSelectLevelState extends GameState {
 
 	private Map<Integer, GameState> levels;
-	private int selectedIndex;
 
 	public DebugSelectLevelState(GameStateManager gsm, GameTemplate game) {
 		super(gsm, game);
@@ -31,7 +27,7 @@ public class DebugSelectLevelState extends GameState {
 	public void load() {
 		levels = new HashMap<Integer, GameState>();
 
-		for(Integer key : gsm.getGameStates().keySet()) {
+		for (Integer key : gsm.getGameStates().keySet()) {
 			GameState state = gsm.createNewState(key);
 			if (state.getClass().isAnnotationPresent(DebugSelectStateLevel.class)) {
 				levels.put(key, state);
@@ -50,39 +46,35 @@ public class DebugSelectLevelState extends GameState {
 		int i = 0;
 		for (Entry<Integer, GameState> e : levels.entrySet()) {
 			GameState level = e.getValue();
-			mc.fontRenderer.drawString(level.toString(), 5 + (i / 40) * 32, 30 + (i % 40) * 12, i == selectedIndex ? 0xff7700 : 0xffffff, false);
+			int x = 5 + (i / 40) * 32;
+			int y = 30 + (i % 40) * 12;
+			mc.fontRenderer.drawString(level.toString(), x, y, mouseX >= x - 1 && mouseX < x + mc.fontRenderer.getStringWidth(level.toString()) + 1 && mouseY >= y - 1 && mouseY < y + mc.fontRenderer.FONT_HEIGHT + 1 ? 0xff7700 : 0xffffff, false);
 			i++;
 		}
 	}
 
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
-		if (keyCode == Keyboard.KEY_UP) {
-			selectedIndex--;
-			if (selectedIndex < 0)
-				selectedIndex = levels.size() - 1;
-		}
+	}
 
-		if (keyCode == Keyboard.KEY_DOWN) {
-			selectedIndex++;
-			if (selectedIndex >= levels.size())
-				selectedIndex = 0;
-		}
+	@Override
+	public void onKeyReleased(int keyCode, char typedChar) {
+	}
 
-		if (keyCode == Keyboard.KEY_RETURN) {
+	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+		if (mouseButton == 1) {
 			int i = 0;
-			for (Entry e : levels.entrySet()) {
-				if (i == selectedIndex) {
-					gsm.setState((int) e.getKey());
+			for (Entry<Integer, GameState> e : levels.entrySet()) {
+				GameState level = e.getValue();
+				int x = 5 + (i / 40) * 32;
+				int y = 30 + (i % 40) * 12;
+				if (mouseX >= x - 1 && mouseX < x + Minecraft.getMinecraft().fontRenderer.getStringWidth(level.toString()) + 1 && mouseY >= y - 1 && mouseY < y + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT + 1) {
+					System.out.println(i);
 					break;
 				}
 				i++;
 			}
 		}
-	}
-
-	@Override
-	public void onKeyReleased(int keyCode, char typedChar) {
-
 	}
 }

@@ -71,6 +71,10 @@ public class TestState extends GameState {
 	}
 
 	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	@Override
 	public void onLoseFocus() {
 		player.onLoseFocus();
 	}

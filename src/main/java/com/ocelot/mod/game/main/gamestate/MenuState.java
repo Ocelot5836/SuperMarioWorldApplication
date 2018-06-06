@@ -66,6 +66,10 @@ public class MenuState extends GameState {
 		level.onKeyReleased(keyCode, typedChar);
 	}
 
+	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
+
 	private long getMenuTime() {
 		return timer.getTime(TimeUnit.SECONDS);
 	}

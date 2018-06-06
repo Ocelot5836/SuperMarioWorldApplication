@@ -45,7 +45,7 @@ public class InfoBoxTile extends BasicTile {
 	}
 
 	public enum TextType implements IStringSerializable {
-		YOSHI_HOUSE(Guis.YOSHI_TEXT_BUBBLE), MR_CRAYFISH_HELLO(Guis.MR_CRAYFISH_HELLO);
+		YOSHI_HOUSE(Guis.YOSHI_TEXT_BUBBLE), MR_CRAYFISH_HELLO(Guis.PLAYER_HELLO);
 
 		private int guiId;
 

@@ -11,6 +11,7 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 	private GameTemplate game;
 
 	private boolean enableKeyboardInput;
+	private boolean swimming;
 	private byte powerupId;
 	private boolean dead;
 	private boolean running;
@@ -29,6 +30,7 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 	public PlayerProperties(GameTemplate game, boolean enableKeyboardInput, int powerupId) {
 		this.game = game;
 		this.enableKeyboardInput = enableKeyboardInput;
+		this.swimming = false;
 		this.powerupId = (byte) powerupId;
 		this.dead = false;
 		this.running = false;
@@ -43,6 +45,10 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 
 	public boolean isKeyboardInputEnabled() {
 		return enableKeyboardInput;
+	}
+	
+	public boolean isSwimming() {
+		return swimming;
 	}
 
 	public boolean isDead() {
@@ -99,6 +105,10 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 
 	public void setKeyboardInputEnabled(boolean enableKeyboardInput) {
 		this.enableKeyboardInput = enableKeyboardInput;
+	}
+	
+	public void setSwimming(boolean swimming) {
+		this.swimming = swimming;
 	}
 
 	public void setDead() {

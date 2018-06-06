@@ -156,7 +156,7 @@ public class Player extends Mob {
 			}
 		}
 
-		if (this.properties.isRunning()) {
+		if (!this.properties.isSwimming() && this.properties.isRunning()) {
 			maxSpeed = baseMaxSpeed * 2;
 			stopSpeed++;
 			if (stopSpeed > baseStopSpeed * 4)

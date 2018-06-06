@@ -10,7 +10,7 @@ public class Guis implements IGuiHandler {
 	public static final Guis INSTANCE = new Guis();
 
 	public static final int YOSHI_TEXT_BUBBLE = 0;
-	public static final int MR_CRAYFISH_HELLO = 1;
+	public static final int PLAYER_HELLO = 1;
 
 	@Override
 	public MarioGui openGui(int id, Player player) {
@@ -20,8 +20,8 @@ public class Guis implements IGuiHandler {
 		
 		if (id == YOSHI_TEXT_BUBBLE)
 			return new MarioGuiYoshiTextBubble();
-		if (id == MR_CRAYFISH_HELLO)
-			return new MarioGuiMrCrayfishHello();
+		if (id == PLAYER_HELLO)
+			return new MarioGuiPlayerCrayfishHello();
 
 		return null;
 	}

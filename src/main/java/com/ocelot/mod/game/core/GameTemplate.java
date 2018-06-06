@@ -90,6 +90,19 @@ public abstract class GameTemplate {
 	}
 
 	/**
+	 * Called when the mouse is pressed.
+	 * 
+	 * @param mouseButton
+	 *            The button pressed
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	/**
 	 * Loads data from an NBTTagCompound.
 	 * 
 	 * @param nbt

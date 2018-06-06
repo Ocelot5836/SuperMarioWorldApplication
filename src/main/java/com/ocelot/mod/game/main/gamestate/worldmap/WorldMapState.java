@@ -80,6 +80,10 @@ public class WorldMapState extends GameState {
 	}
 
 	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	@Override
 	public void save(NBTTagCompound nbtTag) {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbtTag.setDouble("playerX", this.player.getX());

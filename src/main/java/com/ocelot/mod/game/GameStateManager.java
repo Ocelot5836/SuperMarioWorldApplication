@@ -109,6 +109,10 @@ public class GameStateManager {
 		this.getSelectedState().onKeyReleased(keyCode, typedChar);
 	}
 
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+		this.getSelectedState().onMousePressed(mouseButton, mouseX, mouseY);
+	}
+
 	public void load(NBTTagCompound nbt) {
 		this.getSelectedState().load(nbt);
 	}

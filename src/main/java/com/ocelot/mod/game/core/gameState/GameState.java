@@ -42,7 +42,7 @@ public abstract class GameState {
 	 */
 	public void load() {
 	}
-	
+
 	/**
 	 * Called right before the state is set to null to clear any caches or anything like that.
 	 */
@@ -89,6 +89,18 @@ public abstract class GameState {
 	 *            The char typed
 	 */
 	public abstract void onKeyReleased(int keyCode, char typedChar);
+
+	/**
+	 * Called when the mouse is pressed.
+	 * 
+	 * @param mouseButton
+	 *            The button pressed
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public abstract void onMousePressed(int mouseButton, int mouseX, int mouseY);
 
 	/**
 	 * Called when the game window loses focus.

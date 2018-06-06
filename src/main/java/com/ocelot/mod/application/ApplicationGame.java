@@ -94,6 +94,18 @@ public class ApplicationGame extends Application {
 	}
 
 	@Override
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		super.handleMouseClick(mouseX, mouseY, mouseButton);
+		if (!Game.isClosed()) {
+			try {
+				game.onMousePressed(mouseButton, mouseX, mouseY);
+			} catch (Throwable e) {
+				Game.stop(e, "Error when mouse pressed");
+			}
+		}
+	}
+
+	@Override
 	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
 		super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
 

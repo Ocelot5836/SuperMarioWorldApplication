@@ -56,6 +56,10 @@ public abstract class BasicLevel extends GameState {
 	}
 
 	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	@Override
 	public void onLoseFocus() {
 		level.getLevel().onLoseFocus();
 	}

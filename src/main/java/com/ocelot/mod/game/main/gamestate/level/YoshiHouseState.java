@@ -37,8 +37,8 @@ public class YoshiHouseState extends GameState {
 		template.getLevel().add(new Bowser(game, 50, 50));
 		template.getLevel().add(new Rex(game, 50, 50));
 
-		if (template.getLevel().getMap().getTile(8, 8) == Tile.INFO_BOX) {
-			template.getLevel().getMap().setValue(8, 8, InfoBoxTile.TEXT, InfoBoxTile.TextType.YOSHI_HOUSE);
+		if (template.getLevel().getMap().getTile(8, 7) == Tile.INFO_BOX) {
+			template.getLevel().getMap().setValue(8, 7, InfoBoxTile.TEXT, InfoBoxTile.TextType.YOSHI_HOUSE);
 		}
 
 		overlay = new GuiOverlay(template).setSizeAndWorld(game, template.getLevel().getPlayers().get(0));
@@ -70,6 +70,10 @@ public class YoshiHouseState extends GameState {
 	public void onKeyReleased(int keyCode, char typedChar) {
 		template.onKeyReleased(keyCode, typedChar);
 		overlay.onKeyReleased(keyCode, typedChar);
+	}
+
+	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
 	}
 
 	@Override

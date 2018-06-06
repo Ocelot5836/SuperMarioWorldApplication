@@ -282,6 +282,17 @@ public class Lib implements IResourceManagerReloadListener {
 		return Usernames.OCELOT5836.equalsIgnoreCase(player.getName());
 	}
 
+	/**
+	 * Converts a string of text into the Creyfush language.
+	 * 
+	 * @param message
+	 *            The message to convert
+	 * @return The converted message
+	 */
+	public static String convertToCrayfish(String message) {
+		return message.replaceAll(Usernames.MR_CRAYFISH, "MrCreyfush");
+	}
+
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		Mod.logger().info("Reloading Buffered Images");

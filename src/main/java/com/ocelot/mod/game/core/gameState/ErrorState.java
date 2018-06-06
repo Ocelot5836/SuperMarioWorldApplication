@@ -45,4 +45,8 @@ public class ErrorState extends GameState {
 	@Override
 	public void onKeyReleased(int keyCode, char typedChar) {
 	}
+
+	@Override
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
 }
