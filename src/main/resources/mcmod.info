@@ -4,7 +4,7 @@
 	  "name": "Super Mario World",
 	  "version": "0.1.2 Alpha",
 	  "description": "A mod that adds a Super Mario World application from the SNES into the device mod laptop as an application.",
-	  "url": "",
+	  "url": "https://minecraft.curseforge.com/projects/super-mario-world-application",
 	  "updateUrl": "",
 	  "authorList": ["Ocelot5836"],
 	  "credits": "Special thanks to MrCrayfish for helping me with the code to improve and make the game better! More thanks to all the people in the credits file in the assets that helped my to retrieve all these sprites and music tracks.",
