@@ -16,11 +16,11 @@ import com.ocelot.mod.game.main.gui.Guis;
 
 import net.minecraft.util.IStringSerializable;
 
-public class InfoBoxTile extends BasicTile {
+public class TileInfoBox extends BasicTile {
 
 	public static final PropertyEnum<TextType> TEXT = PropertyEnum.<TextType>create("text", TextType.class);
 
-	public InfoBoxTile() {
+	public TileInfoBox() {
 		super(new Sprite(Tile.TILES_SHEET.getSubimage(32, 0, 16, 16)), "info_box");
 		this.setSolid();
 	}

@@ -20,7 +20,7 @@ import com.ocelot.mod.game.main.entity.item.ItemCracker;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
 import com.ocelot.mod.game.main.entity.item.ItemPSwitch;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
-import com.ocelot.mod.game.main.tile.InfoBoxTile;
+import com.ocelot.mod.game.main.tile.TileInfoBox;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -48,7 +48,7 @@ public class DemoLevelState extends BasicLevel {
 		level.getLevel().add(new ItemPSwitch(game, 460, 50));
 
 		if (level.getLevel().getMap().getTile(35, 2) == Tile.INFO_BOX) {
-			level.getLevel().getMap().setValue(35, 2, InfoBoxTile.TEXT, InfoBoxTile.TextType.MR_CRAYFISH_HELLO);
+			level.getLevel().getMap().setValue(35, 2, TileInfoBox.TEXT, TileInfoBox.TextType.MR_CRAYFISH_HELLO);
 		}
 
 		setPlayer(level.getLevel().getPlayers().get(0));

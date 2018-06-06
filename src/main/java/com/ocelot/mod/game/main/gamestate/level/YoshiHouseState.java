@@ -13,7 +13,7 @@ import com.ocelot.mod.game.main.entity.enemy.Bowser;
 import com.ocelot.mod.game.main.entity.enemy.Rex;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.game.main.gui.GuiOverlay;
-import com.ocelot.mod.game.main.tile.InfoBoxTile;
+import com.ocelot.mod.game.main.tile.TileInfoBox;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -38,7 +38,7 @@ public class YoshiHouseState extends GameState {
 		template.getLevel().add(new Rex(game, 50, 50));
 
 		if (template.getLevel().getMap().getTile(8, 7) == Tile.INFO_BOX) {
-			template.getLevel().getMap().setValue(8, 7, InfoBoxTile.TEXT, InfoBoxTile.TextType.YOSHI_HOUSE);
+			template.getLevel().getMap().setValue(8, 7, TileInfoBox.TEXT, TileInfoBox.TextType.YOSHI_HOUSE);
 		}
 
 		overlay = new GuiOverlay(template).setSizeAndWorld(game, template.getLevel().getPlayers().get(0));

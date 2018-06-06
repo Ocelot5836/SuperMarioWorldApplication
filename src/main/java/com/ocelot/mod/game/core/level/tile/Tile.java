@@ -13,12 +13,12 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
-import com.ocelot.mod.game.main.tile.InfoBoxTile;
-import com.ocelot.mod.game.main.tile.QuestionBlockTile;
 import com.ocelot.mod.game.main.tile.TileBricks;
 import com.ocelot.mod.game.main.tile.TileCoin;
-import com.ocelot.mod.game.main.tile.TileGrassWall;
 import com.ocelot.mod.game.main.tile.TileCoin.CoinType;
+import com.ocelot.mod.game.main.tile.TileGrassWall;
+import com.ocelot.mod.game.main.tile.TileInfoBox;
+import com.ocelot.mod.game.main.tile.TileQuestionBlock;
 import com.ocelot.mod.lib.AxisAlignedBB;
 import com.ocelot.mod.lib.Lib;
 
@@ -59,13 +59,14 @@ public abstract class Tile {
 
 	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET.getSubimage(0, 0, 16, 16)), "yoshi_grass").setSolid(); // 3
 	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16)), "yoshi_dirt").setSolid(); // 4
-	public static final Tile INFO_BOX = new InfoBoxTile(); // 5
+	public static final Tile INFO_BOX = new TileInfoBox(); // 5
 	public static final Tile COIN = new TileCoin(CoinType.NORMAL); // 6
 	public static final Tile GRASS = new ConnectedTile("grass", CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 48)).setSolid(); // 7
 	public static final Tile GRASS_WALL = new TileGrassWall(); // 8
-	public static final Tile QUESTION_BLOCK = new QuestionBlockTile(); // 9
+	public static final Tile QUESTION_BLOCK = new TileQuestionBlock(); // 9
 	public static final Tile BLUE_COIN = new TileCoin(CoinType.BLUE); // 10
 	public static final Tile BRICKS = new TileBricks(); // 11
+	public static final Tile STONE = new TileBricks(); // 11
 
 	private static int nextId = 0;
 
