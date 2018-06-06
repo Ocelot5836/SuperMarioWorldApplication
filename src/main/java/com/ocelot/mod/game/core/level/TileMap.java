@@ -65,8 +65,8 @@ public class TileMap implements IResourceManagerReloadListener {
 	 */
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
-		this.numRowsToDraw = Game.HEIGHT / tileSize + 2;
-		this.numColsToDraw = Game.WIDTH / tileSize + 2;
+		this.numRowsToDraw = Game.HEIGHT / tileSize + 4;
+		this.numColsToDraw = Game.WIDTH / tileSize + 4;
 		this.tween = 1;
 	}
 
@@ -139,8 +139,8 @@ public class TileMap implements IResourceManagerReloadListener {
 		this.x += (x - this.x) * this.tween;
 		this.y += (y - this.y) * this.tween;
 
-		this.colOffset = (int) this.x / tileSize - 1;
-		this.rowOffset = (int) this.y / tileSize - 1;
+		this.colOffset = (int) this.x / tileSize - 2;
+		this.rowOffset = (int) this.y / tileSize - 2;
 	}
 
 	/**

@@ -147,7 +147,7 @@ public abstract class Entity {
 		int currTileY = (int) y / tileSize;
 		int leftTile = (int) ((x - cwidth / 2 <= 0 ? x - cwidth / 2 - 15 : x - cwidth / 2) / tileSize);
 		int rightTile = (int) ((x + cwidth / 2 - 1) / tileSize);
-		int topTile = (int) ((y - cheight / 2) / tileSize);
+		int topTile = (int) ((y - cheight / 2 <= 0 ? y - cheight / 2 - 15 : y - cheight / 2) / tileSize);
 		int bottomTile = (int) ((y + cheight / 2 - 1) / tileSize);
 		topLeft = tileMap.getTile(leftTile, topTile).isBottomSolid() || tileMap.getTile(leftTile, topTile).isRightSolid();
 		topRight = tileMap.getTile(rightTile, topTile).isBottomSolid() || tileMap.getTile(rightTile, topTile).isLeftSolid();

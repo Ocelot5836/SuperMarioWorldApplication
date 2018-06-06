@@ -117,8 +117,8 @@ public class Player extends Mob {
 	@Override
 	protected void getNextPosition() {
 		if (this.properties.isSwimming()) {
-			double waterResistance = 0.1;
-			double waterFallResistance = 0.08;
+			double waterResistance = this.item == null ? 0.1 : 0.3;
+			double waterFallResistance = this.item == null ? 0.08 : 0.025;
 
 			runAnimationSpeed = 300;
 
@@ -154,14 +154,29 @@ public class Player extends Mob {
 				dy = 0;
 			}
 
-			if (jumping && canSwim) {
-				dy = -1;
-				falling = true;
-				canSwim = false;
-			}
+			if (this.item == null) {
+				if (jumping && canSwim) {
+					dy = -1;
+					falling = true;
+					canSwim = false;
+				}
 
-			if (!jumping) {
-				canSwim = true;
+				if (!jumping) {
+					canSwim = true;
+				}
+			} else {
+				canSwim = false;
+				if (up || jumping) {
+					dy -= 0.25;
+					if (dy < -2) {
+						dy = -2;
+					}
+				} else if (down) {
+					dy += 0.25;
+					if (dy > 1) {
+						dy = 1;
+					}
+				}
 			}
 
 			if (falling) {
@@ -311,7 +326,7 @@ public class Player extends Mob {
 			}
 
 			calculateCorners(x, y + 1);
-			if (properties.isSwimming() && !(bottomLeft || bottomRight)) {
+			if (properties.isSwimming() && (!(bottomLeft || bottomRight) || item != null)) {
 				if (this.properties.isSmall()) {
 					if (item == null) {
 						if (jumping && canSwim) {

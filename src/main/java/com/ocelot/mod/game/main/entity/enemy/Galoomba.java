@@ -266,8 +266,11 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 		@Override
 		public void onHeldUpdate(Player player) {
 			facingRight = player.isFacingRight();
-			timer++;
 			animation.update();
+			timer++;
+			if (player.getProperties().isSwimming()) {
+				timer = 0;
+			}
 		}
 
 		@Override
