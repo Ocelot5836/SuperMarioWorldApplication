@@ -8,8 +8,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.entity.IPlayerDamagable;
-import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.IDamagable;
+import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.fx.EntityFX;
 import com.ocelot.mod.game.main.entity.player.Player;
@@ -115,9 +115,9 @@ public class Level {
 			}
 			if (showCollisionBoxes) {
 				int color = 0xff00ff00;
-				if (e instanceof IPlayerDamager && e instanceof IPlayerDamagable) {
+				if (e instanceof IDamager && e instanceof IDamagable) {
 					color = 0xff0000ff;
-				} else if (e instanceof IPlayerDamager) {
+				} else if (e instanceof IDamager) {
 					color = 0xffff0000;
 				}
 				Lib.drawCollisionBox(e, color);

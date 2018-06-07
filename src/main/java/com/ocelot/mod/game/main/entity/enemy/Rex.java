@@ -7,9 +7,9 @@ import java.util.List;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.IPlayerDamagable;
-import com.ocelot.mod.game.core.entity.IPlayerDamager;
-import com.ocelot.mod.game.core.entity.fx.TextFX;
+import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.core.entity.IDamagable;
+import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.entity.ai.AIBasicWalk;
@@ -20,7 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
-public class Rex extends Enemy implements IPlayerDamagable, IPlayerDamager {
+public class Rex extends Enemy implements IDamagable, IDamager {
 
 	public static final BufferedImage REX_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/rex.png"));
 
@@ -46,7 +46,7 @@ public class Rex extends Enemy implements IPlayerDamagable, IPlayerDamager {
 
 	public Rex(GameTemplate game, double x, double y) {
 		super(game);
-		delays = new int[]{ -1, 200, 150, -1, 25, 300 };
+		delays = new int[] { -1, 200, 150, -1, 25, 300 };
 		this.setSize(20, 16);
 		this.setPosition(x, y);
 		this.setLastPosition(x, y);
@@ -111,7 +111,7 @@ public class Rex extends Enemy implements IPlayerDamagable, IPlayerDamager {
 			getNextPosition();
 			getNextPosition();
 			getNextPosition();
-			
+
 			if (big) {
 				if (left || right) {
 					if (currentAction != WALKING_SIDE_BIG) {
@@ -178,34 +178,42 @@ public class Rex extends Enemy implements IPlayerDamagable, IPlayerDamager {
 	}
 
 	@Override
-	public boolean damagePlayer(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
-			player.damage();
-			return true;
+	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit != EnumDirection.UP && !isInvincible) {
+				player.damage();
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
-	public void damageEnemy(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (sideHit == EnumDirection.UP && !isPlayerInvincible) {
-			player.setPosition(player.getX(), y - cheight);
-			if (isPlayerSpinning) {
-				defaultSpinStompEnemy(player);
-				setDead();
-			} else {
-				player.setJumping(true);
-				player.setFalling(false);
-				defaultStompEnemy(player);
-				if (big) {
-					setBig(false);
-					currentAction = CRUSH_BIG;
-					setAnimation(CRUSH_BIG);
+	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit == EnumDirection.UP && !isInvincible) {
+				player.setPosition(player.getX(), y - cheight);
+				if (isInstantKill) {
+					defaultSpinStompEnemy(player);
+					setDead();
 				} else {
-					currentAction = CRUSH_SMALL;
-					setAnimation(CRUSH_SMALL);
+					player.setJumping(true);
+					player.setFalling(false);
+					defaultStompEnemy(player);
+					if (big) {
+						setBig(false);
+						currentAction = CRUSH_BIG;
+						setAnimation(CRUSH_BIG);
+					} else {
+						currentAction = CRUSH_SMALL;
+						setAnimation(CRUSH_SMALL);
+					}
 				}
 			}
+		} else {
+			defaultKillEntity(entity);
 		}
 	}
 }

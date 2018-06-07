@@ -1,17 +1,12 @@
 package com.ocelot.mod.game.main.entity.enemy;
 
-import java.awt.image.BufferedImage;
-
-import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.IDamagable;
+import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.lib.Colorizer;
-import com.ocelot.mod.lib.Lib;
 
-import net.minecraft.util.ResourceLocation;
-
-public abstract class Enemy extends Mob {
+public abstract class Enemy extends Mob implements IDamager {
 
 	/** The range that this enemy can detect mobs at */
 	protected double detectRange;

@@ -11,11 +11,10 @@ import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
+import com.ocelot.mod.game.core.entity.IDamagable;
+import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
-import com.ocelot.mod.game.core.entity.IPlayerDamagable;
-import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.SummonException;
-import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
@@ -27,7 +26,6 @@ import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.fx.PlayerBounceFX;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.game.main.entity.player.PlayerProperties;
 import com.ocelot.mod.lib.Colorizer;
 import com.ocelot.mod.lib.Lib;
 
@@ -37,7 +35,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 @FileSummonableEntity(ItemKoopaShell.Summonable.class)
-public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlayerDamager, IPlayerDamagable {
+public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamager, IDamagable {
 
 	public static final BufferedImage SHELL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/shell.png"));
 
@@ -169,14 +167,8 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 
 					if (flag) {
 						if (throwingPlayer != null) {
-							PlayerProperties properties = throwingPlayer.getProperties();
-							numEnemiesHit++;
-							if (numEnemiesHit >= 9) {
-								properties.increaseLives();
-								game.playSound(Sounds.COLLECT_ONE_UP, 1.0F);
-								level.add(new TextFX(game, x + cwidth / 2, y + cheight / 2, 0, -0.4, "1-UP", 0x00ff00, 1));
-							} else {
-								game.playSound(Sounds.PLAYER_STOMP, 1.0F + (Math.min((float) numEnemiesHit, 8.0F) / 8.0F));
+							if (e instanceof IDamagable) {
+								((IDamagable) e).takeDamage(throwingPlayer, xSpeed < 0 ? EnumDirection.LEFT : EnumDirection.RIGHT, false, true);
 							}
 						} else {
 							game.playSound(Sounds.PLAYER_STOMP, 1.0F);
@@ -241,39 +233,51 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 	}
 
 	@Override
-	public boolean damagePlayer(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (sideHit.isHorizontalAxis() && !isPlayerInvincible && this.xSpeed != 0) {
-			player.damage();
-			return true;
+	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit == EnumDirection.UP && isInstantKill) {
+				setDead();
+			}
+
+			if (this.xSpeed == 0 && player.getHeldItem() != this) {
+				this.throwingPlayer = player;
+				game.playSound(Sounds.PLAYER_KICK, 1.0F);
+				resetDirections();
+				numEnemiesHit = 0;
+				if (player.getX() > x) {
+					xSpeed = -xSpeed;
+				}
+			} else {
+				if (sideHit == EnumDirection.UP) {
+					if (!isInstantKill) {
+						player.setFalling(false);
+						player.setJumping(true);
+						this.xSpeed = 0;
+						level.add(new PlayerBounceFX(game, player.getX(), player.getY()));
+						game.playSound(Sounds.PLAYER_STOMP, 1.0F);
+					}
+				}
+			}
+		} else {
+
 		}
-		return false;
 	}
 
 	@Override
-	public void damageEnemy(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (sideHit == EnumDirection.UP && isPlayerSpinning) {
-			setDead();
-		}
-
-		if (this.xSpeed == 0 && player.getHeldItem() != this) {
-			this.throwingPlayer = player;
-			game.playSound(Sounds.PLAYER_KICK, 1.0F);
-			resetDirections();
-			numEnemiesHit = 0;
-			if (player.getX() > x) {
-				xSpeed = -xSpeed;
+	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit.isHorizontalAxis() && !isInvincible && this.xSpeed != 0) {
+				player.damage();
+				return true;
 			}
-		} else {
-			if (sideHit == EnumDirection.UP) {
-				if (!isPlayerSpinning) {
-					player.setFalling(false);
-					player.setJumping(true);
-					this.xSpeed = 0;
-					level.add(new PlayerBounceFX(game, player.getX(), player.getY()));
-					game.playSound(Sounds.PLAYER_STOMP, 1.0F);
-				}
-			}
+		}else if(entity instanceof IDamagable) {
+			IDamagable damagable = (IDamagable) entity;
+			damagable.takeDamage(this, sideHit, isInstantKill, isInvincible);
+			return true;
 		}
+		return false;
 	}
 
 	public static class Summonable implements IFileSummonable {

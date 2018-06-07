@@ -14,10 +14,9 @@ import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.entity.IPlayerDamagable;
-import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.IDamagable;
+import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.SummonException;
-import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
@@ -38,7 +37,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
 @FileSummonableEntity(Koopa.Summonable.class)
-public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager, BasicWalkListener {
+public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListener {
 
 	public static final BufferedImage KOOPA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/koopa.png"));
 
@@ -114,8 +113,8 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager, Ba
 		this.maxFallSpeed = 4.0;
 		this.jumpStart = -4.0;
 		this.stopJumpSpeed = type == KoopaType.KAMIKAZE ? 1 : 0.3;
-		
-		delays = new int[]{ 25, 250, 250, -1, -1, -1 };
+
+		delays = new int[] { 25, 250, 250, -1, -1, -1 };
 	}
 
 	private void loadSprites() {
@@ -176,10 +175,10 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager, Ba
 		if (type != KoopaType.KAMIKAZE) {
 			boolean playAnimations = true;
 
-			if(currentAction == TURNING_SIDE) {
+			if (currentAction == TURNING_SIDE) {
 				playAnimations = animation.hasPlayedOnce();
 			}
-			
+
 			if (playAnimations) {
 				if (dy > 0) {
 					if (currentAction != FALLING) {
@@ -287,41 +286,49 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager, Ba
 	}
 
 	@Override
-	public boolean damagePlayer(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
-			player.damage();
-			return true;
+	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
+				player.damage();
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
-	public void damageEnemy(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (type != KoopaType.KAMIKAZE) {
-			if (sideHit == EnumDirection.UP && !isPlayerInvincible) {
-				player.setPosition(player.getX(), y - cheight);
-				if (isPlayerSpinning) {
-					defaultSpinStompEnemy(player);
-					// TODO add spin koopa death animation
-				} else {
-					player.setJumping(true);
-					player.setFalling(false);
-					defaultStompEnemy(player);
-					ItemKoopaShell shell = new ItemKoopaShell(game, this);
-					shell.setDirection(0, shell.getYSpeed());
-					level.add(shell);
-					// TODO add the little koopa
+	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (type != KoopaType.KAMIKAZE) {
+				if (sideHit == EnumDirection.UP && !isInvincible) {
+					player.setPosition(player.getX(), y - cheight);
+					if (isInstantKill) {
+						defaultSpinStompEnemy(player);
+						// TODO add spin koopa death animation
+					} else {
+						player.setJumping(true);
+						player.setFalling(false);
+						defaultStompEnemy(player);
+						ItemKoopaShell shell = new ItemKoopaShell(game, this);
+						shell.setDirection(0, shell.getYSpeed());
+						level.add(shell);
+						// TODO add the little koopa
+					}
+					setDead();
 				}
-				setDead();
+			} else {
+				if (sideHit == EnumDirection.UP) {
+					if (!isInstantKill) {
+						player.setJumping(true);
+						player.setFalling(false);
+					}
+					defaultSpinStompEnemy(player);
+				}
 			}
 		} else {
-			if (sideHit == EnumDirection.UP) {
-				if (!isPlayerSpinning) {
-					player.setJumping(true);
-					player.setFalling(false);
-				}
-				defaultSpinStompEnemy(player);
-			}
+			defaultKillEntity(entity);
 		}
 	}
 

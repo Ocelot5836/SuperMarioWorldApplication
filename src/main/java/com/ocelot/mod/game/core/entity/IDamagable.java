@@ -17,28 +17,28 @@ import net.minecraft.client.Minecraft;
  * <br>
  * </br>
  * 
- * Deals damage to an enemy if he comes in contact with the player or osme other damage source.
+ * Deals damage to this entity if it comes in contact with the player or some other damage source.
  * 
  * @author Ocelot5836
  */
-public interface IPlayerDamagable {
+public interface IDamagable {
 
 	/**
 	 * Called to damage the enemy the player has hit.
 	 * 
-	 * @param player
-	 *            The player hitting the enemy
+	 * @param entity
+	 *            The entity hitting this entity
 	 * @param sideHit
 	 *            The side the player was hitting from
-	 * @param isPlayerSpinning
+	 * @param isInstantKill
 	 *            Whether or not the player is spin jumping
-	 * @param isPlayerInvincible
+	 * @param isInvincible
 	 *            Whether or not the player has a star or some other thing that makes him invincible
 	 */
-	void damageEnemy(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible);
+	void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible);
 
 	/**
-	 * The default events that happen when an enemy is stomped by mario.
+	 * The default events that happen when an entity is stomped by mario.
 	 * 
 	 * @param player
 	 *            The player that stomped the enemy
@@ -60,10 +60,22 @@ public interface IPlayerDamagable {
 	}
 
 	/**
-	 * The default events that happen when an enemy is stomped on while mario is performing a spin jump.
+	 * The default events that happen when an entity is stomped on by another entity.
+	 * 
+	 * @param entity
+	 *            The entity that stomped this enemy
+	 */
+	default void defaultKillEntity(Entity entity) {
+		GameTemplate game = entity.getGame();
+		Level level = entity.getLevel();
+		game.playSound(Sounds.PLAYER_STOMP, 1.0F);
+	}
+
+	/**
+	 * The default events that happen when an entity is stomped on while mario is performing a spin jump.
 	 * 
 	 * @param player
-	 *            The player that stomped the enemy
+	 *            The player that stomped this enemy
 	 */
 	default void defaultSpinStompEnemy(Player player) {
 		GameTemplate game = player.getGame();

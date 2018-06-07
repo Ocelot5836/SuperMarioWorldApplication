@@ -8,9 +8,10 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
+import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
-import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
@@ -28,7 +29,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 @FileSummonableEntity(ItemPSwitch.Summonable.class)
-public class ItemPSwitch extends EntityItem implements IItemCarriable, IPlayerDamagable {
+public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagable {
 
 	public static final int SWITCH_TIME = 10000;
 	public static final int DISPLAY_TIME = 200;
@@ -144,7 +145,7 @@ private boolean playedStopSound;
 	}
 
 	@Override
-	public void damageEnemy(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
 		if (!this.switched && sideHit == EnumDirection.UP) {
 			game.playSound(Sounds.SWITCH_ACTIVATE, 1.0F);
 			this.switched = true;

@@ -17,8 +17,8 @@ import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IItemCarriable.ThrowingType;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
-import com.ocelot.mod.game.core.entity.IPlayerDamagable;
-import com.ocelot.mod.game.core.entity.IPlayerDamager;
+import com.ocelot.mod.game.core.entity.IDamagable;
+import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
@@ -190,6 +190,11 @@ public class Player extends Mob {
 
 			enteredWaterFromAbove = true;
 		} else {
+			if(enteredWaterFromAbove && up) {
+				dy = -3;
+				falling = true;
+			}
+			
 			canSwim = false;
 			enteredWaterFromAbove = false;
 
@@ -508,9 +513,9 @@ public class Player extends Mob {
 			if (!e.intersects(this))
 				continue;
 
-			if (e instanceof IPlayerDamager) {
-				IPlayerDamager damagable = (IPlayerDamager) e;
-				if (!damagable.damagePlayer(this, direction, false, false)) {
+			if (e instanceof IDamager) {
+				IDamager damagable = (IDamager) e;
+				if (!damagable.dealDamage(this, direction, false, false)) {
 					flag = true;
 				}
 			} else {
@@ -518,15 +523,15 @@ public class Player extends Mob {
 			}
 
 			if (flag) {
-				if (e instanceof IPlayerDamagable) {
-					IPlayerDamagable damagable = (IPlayerDamagable) e;
+				if (e instanceof IDamagable) {
+					IDamagable damagable = (IDamagable) e;
 					if (e instanceof IItemCarriable) {
 						IItemCarriable carriable = (IItemCarriable) e;
 						if (!(properties.isHolding() && item == e)) {
-							damagable.damageEnemy(this, direction, false, false);
+							damagable.takeDamage(this, direction, false, false);
 						}
 					} else {
-						damagable.damageEnemy(this, direction, false, false);
+						damagable.takeDamage(this, direction, false, false);
 					}
 				}
 			}

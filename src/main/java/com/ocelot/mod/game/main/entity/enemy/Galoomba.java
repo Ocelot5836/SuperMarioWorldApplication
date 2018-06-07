@@ -10,12 +10,10 @@ import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
+import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
-import com.ocelot.mod.game.core.entity.IPlayerDamagable;
-import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.SummonException;
-import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
@@ -33,7 +31,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 @FileSummonableEntity(Galoomba.Summonable.class)
-public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable {
+public class Galoomba extends Enemy implements IDamagable {
 
 	public static final BufferedImage GALOOMBA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/galoomba.png"));
 
@@ -153,30 +151,36 @@ public class Galoomba extends Enemy implements IPlayerDamager, IPlayerDamagable 
 	}
 
 	@Override
-	public void damageEnemy(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (sideHit == EnumDirection.UP && !isPlayerInvincible) {
-			player.setPosition(player.getX(), y - cheight);
-			if (isPlayerSpinning) {
-				defaultSpinStompEnemy(player);
-			} else {
-				player.setJumping(true);
-				player.setFalling(false);
-				defaultStompEnemy(player);
-				player.getProperties().increaseScore(Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()));
-				level.add(new TextFX(game, player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0, -0.4, Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()) + "", 0xffffff, 1));
-				Galoomba.Item item = new Galoomba.Item(game, this);
-				item.setDirection(0, item.getYSpeed());
-				level.add(item);
+	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit == EnumDirection.UP && !isPlayerInvincible) {
+				player.setPosition(player.getX(), y - cheight);
+				if (isPlayerSpinning) {
+					defaultSpinStompEnemy(player);
+				} else {
+					player.setJumping(true);
+					player.setFalling(false);
+					defaultStompEnemy(player);
+					Galoomba.Item item = new Galoomba.Item(game, this);
+					item.setDirection(0, item.getYSpeed());
+					level.add(item);
+				}
+				setDead();
 			}
-			setDead();
+		} else {
+			defaultKillEntity(entity);
 		}
 	}
 
 	@Override
-	public boolean damagePlayer(Player player, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
-			player.damage();
-			return true;
+	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
+				player.damage();
+				return true;
+			}
 		}
 		return false;
 	}
