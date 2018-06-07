@@ -35,7 +35,7 @@ public class ItemCrayfish extends EntityItem implements IItemCarriable {
 	}
 
 	public ItemCrayfish(GameTemplate game, double x, double y) {
-		super(game, 0.4, 0, 0.015);
+		super(game, 0.4, 0);
 		this.setPosition(x, y);
 		this.setSize(sprite.getWidth(), sprite.getHeight());
 	}

@@ -36,11 +36,11 @@ public class EntityItem extends Entity {
 	protected boolean enteredWaterFromAbove;
 
 	public EntityItem(GameTemplate game) {
-		this(game, 0, 0, 0.0D);
+		this(game, 0, 0, 0.015);
 	}
 
 	public EntityItem(GameTemplate game, double xSpeed, double ySpeed) {
-		this(game, xSpeed, ySpeed, 0.0D);
+		this(game, xSpeed, ySpeed, 0.015);
 	}
 
 	public EntityItem(GameTemplate game, double xSpeed, double ySpeed, double fallSpeed) {

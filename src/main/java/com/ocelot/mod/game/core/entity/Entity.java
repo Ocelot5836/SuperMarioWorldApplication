@@ -447,9 +447,10 @@ public abstract class Entity {
 	 * @param y
 	 *            The new y position
 	 */
-	public void setPosition(double x, double y) {
+	public Entity setPosition(double x, double y) {
 		this.x = x;
 		this.y = y;
+		return this;
 	}
 
 	/**
@@ -458,8 +459,9 @@ public abstract class Entity {
 	 * @param x
 	 *            The new x position
 	 */
-	public void setX(double x) {
+	public Entity setX(double x) {
 		this.x = x;
+		return this;
 	}
 
 	/**
@@ -468,8 +470,9 @@ public abstract class Entity {
 	 * @param y
 	 *            The new y position
 	 */
-	public void setY(double y) {
+	public Entity setY(double y) {
 		this.y = y;
+		return this;
 	}
 
 	/**
@@ -480,9 +483,10 @@ public abstract class Entity {
 	 * @param y
 	 *            The last y position
 	 */
-	public void setLastPosition(double x, double y) {
+	public Entity setLastPosition(double x, double y) {
 		this.lastX = x;
 		this.lastY = y;
+		return this;
 	}
 
 	/**
@@ -491,8 +495,9 @@ public abstract class Entity {
 	 * @param x
 	 *            The last x position
 	 */
-	public void setLastX(double x) {
+	public Entity setLastX(double x) {
 		this.lastX = x;
+		return this;
 	}
 
 	/**
@@ -501,8 +506,9 @@ public abstract class Entity {
 	 * @param y
 	 *            The last y position
 	 */
-	public void setLastY(double y) {
+	public Entity setLastY(double y) {
 		this.lastY = y;
+		return this;
 	}
 
 	/**
@@ -511,8 +517,9 @@ public abstract class Entity {
 	 * @param width
 	 *            The new width of the entity
 	 */
-	protected void setWidth(int width) {
+	protected Entity setWidth(int width) {
 		this.cwidth = width;
+		return this;
 	}
 
 	/**
@@ -521,8 +528,9 @@ public abstract class Entity {
 	 * @param height
 	 *            The new height of the entity
 	 */
-	protected void setHeight(int height) {
+	protected Entity setHeight(int height) {
 		this.cheight = height;
+		return this;
 	}
 
 	/**
@@ -533,9 +541,10 @@ public abstract class Entity {
 	 * @param height
 	 *            The new height of the entity
 	 */
-	protected void setSize(int width, int height) {
+	protected Entity setSize(int width, int height) {
 		this.cwidth = width;
 		this.cheight = height;
+		return this;
 	}
 
 	/**

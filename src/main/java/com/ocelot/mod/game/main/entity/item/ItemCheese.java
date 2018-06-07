@@ -27,7 +27,7 @@ public class ItemCheese extends EntityItem implements IItemCarriable {
 	}
 
 	public ItemCheese(GameTemplate game, double x, double y) {
-		super(game, 0, 0, 0.015);
+		super(game, 0, 0);
 		this.setPosition(x, y);
 		this.setSize(sprite.getWidth(), sprite.getHeight());
 	}

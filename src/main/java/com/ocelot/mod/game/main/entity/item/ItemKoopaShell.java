@@ -69,7 +69,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IPlaye
 	}
 
 	public ItemKoopaShell(GameTemplate game, KoopaType type, double x, double y) {
-		super(game, 2.5, 0, 0.015);
+		super(game, 2.5, 0);
 		this.setSize(16, 16);
 		this.setPosition(x, y);
 		this.setLastPosition(x, y);
