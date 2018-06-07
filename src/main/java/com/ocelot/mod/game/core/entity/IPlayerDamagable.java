@@ -9,6 +9,8 @@ import com.ocelot.mod.game.main.entity.fx.PlayerBounceFX;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
 
+import net.minecraft.client.Minecraft;
+
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
  * 
@@ -50,8 +52,9 @@ public interface IPlayerDamagable {
 		if (enemyJumpCount >= 8) {
 			player.getProperties().increaseLives();
 			game.playSound(Sounds.COLLECT_ONE_UP, 1.0F);
-			level.add(new TextFX(game, player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0, -0.4, "1-UP", 0x00ff00, 1));
+			level.add(new TextFX(game, player.getX() + player.getWidth() / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth("1-UP") / 2, player.getY() + player.getHeight() / 2, 0, -0.4, "1-UP", 0xff00ff00, 1));
 		} else {
+			player.addScore(Lib.getScoreFromJumps(enemyJumpCount));
 			game.playSound(Sounds.PLAYER_STOMP, 1.0F + (Math.min((float) enemyJumpCount, 7.0F) / 7.0F));
 		}
 	}

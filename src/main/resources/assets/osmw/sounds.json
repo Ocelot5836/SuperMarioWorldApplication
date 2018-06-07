@@ -55,6 +55,34 @@
 			"stream": true
 		}]
 	},
+	"entity.mario.collect_powerup": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/collect_powerup",
+			"stream": true
+		}]
+	},
+	"entity.mario.gain_powerup": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/gain_powerup",
+			"stream": true
+		}]
+	},
+	"entity.mario.lose_powerup": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/mario/lose_powerup",
+			"stream": true
+		}]
+	},
+	"entity.powerup.appear": {
+		"category": "player",
+		"sounds": [{
+			"name": "osmw:entity/powerup/appear",
+			"stream": true
+		}]
+	},
 	"entity.koopa.shell_ricochet": {
 		"category": "player",
 		"sounds": [{

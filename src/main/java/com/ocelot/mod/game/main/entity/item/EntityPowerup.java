@@ -1,7 +1,10 @@
 package com.ocelot.mod.game.main.entity.item;
 
+import java.util.List;
+
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
+import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.game.main.entity.powerup.Powerup;
 
 import net.minecraft.client.Minecraft;
@@ -27,6 +30,16 @@ public class EntityPowerup extends EntityItem {
 	public void update() {
 		super.update();
 		this.powerup.update();
+		
+		List<Player>players = level.getPlayers();
+		for(int i = 0; i < players.size(); i++) {
+			Player player = players.get(i);
+			
+			if(!this.intersects(player))
+				continue;
+			
+			this.powerup.onPickup(this, player);
+		}
 	}
 
 	@Override

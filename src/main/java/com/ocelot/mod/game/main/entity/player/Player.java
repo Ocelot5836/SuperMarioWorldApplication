@@ -16,6 +16,7 @@ import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.IItemCarriable.ThrowingType;
+import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.entity.IPlayerDamagable;
 import com.ocelot.mod.game.core.entity.IPlayerDamager;
 import com.ocelot.mod.game.core.entity.Mob;
@@ -579,9 +580,16 @@ public class Player extends Mob {
 	public void damage() {
 		if (!this.properties.isSmall()) {
 			this.properties.setSmall();
+			this.game.playSound(Sounds.PLAYER_POWERUP_LOSE, 1.0F);
 		} else {
 			this.properties.setDead();
 		}
+	}
+	
+	public void addScore(int amount) {
+		this.properties.increaseScore(amount);
+		String count = Integer.toString(amount);
+		level.add(new TextFX(game, x + cwidth - Minecraft.getMinecraft().fontRenderer.getStringWidth(count) / 2, y + cheight / 2, 0, -0.4, count, 0xffffff, 1));
 	}
 
 	public void onDeath(GameState state) {

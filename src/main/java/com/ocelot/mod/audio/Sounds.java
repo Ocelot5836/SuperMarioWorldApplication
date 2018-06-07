@@ -32,7 +32,12 @@ public class Sounds {
 	public static final SoundEvent PLAYER_STOMP;
 	public static final SoundEvent PLAYER_STOMP_SPIN;
 	public static final SoundEvent PLAYER_SWIM;
+	
+	public static final SoundEvent PLAYER_COLLECT_POWERUP;
+	public static final SoundEvent PLAYER_POWERUP_GAIN;
+	public static final SoundEvent PLAYER_POWERUP_LOSE;
 
+	public static final SoundEvent POWERUP_APPEAR;
 	public static final SoundEvent KOOPA_SHELL_RICOCHET;
 
 	public static final SoundEvent COLLECT_ONE_UP;
@@ -54,7 +59,12 @@ public class Sounds {
 		PLAYER_STOMP = registerSound("entity.mario.stomp");
 		PLAYER_STOMP_SPIN = registerSound("entity.mario.stomp_spin");
 		PLAYER_SWIM = registerSound("entity.mario.swim");
+		
+		PLAYER_COLLECT_POWERUP = registerSound("entity.mario.collect_powerup");
+		PLAYER_POWERUP_GAIN = registerSound("entity.mario.gain_powerup");
+		PLAYER_POWERUP_LOSE = registerSound("entity.mario.lose_powerup");
 
+		POWERUP_APPEAR = registerSound("entity.powerup.appear");
 		KOOPA_SHELL_RICOCHET = registerSound("entity.koopa.shell_ricochet");
 
 		COLLECT_ONE_UP = registerSound("entity.item.collect.one_up");

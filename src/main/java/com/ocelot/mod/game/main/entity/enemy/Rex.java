@@ -197,8 +197,6 @@ public class Rex extends Enemy implements IPlayerDamagable, IPlayerDamager {
 				player.setJumping(true);
 				player.setFalling(false);
 				defaultStompEnemy(player);
-				player.getProperties().increaseScore(Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()));
-				level.add(new TextFX(game, player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0, -0.4, Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()) + "", 0xffffff, 1));
 				if (big) {
 					setBig(false);
 					currentAction = CRUSH_BIG;

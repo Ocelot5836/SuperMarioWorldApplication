@@ -6,8 +6,9 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
+import com.ocelot.mod.game.main.entity.item.EntityPowerup;
+import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
@@ -20,7 +21,8 @@ public abstract class Powerup {
 	public static final BufferedImage POWERUP_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/powerups.png"));
 
 	private static final Map<String, Powerup> POWERUPS = Maps.<String, Powerup>newHashMap();
-	
+
+	public static final Powerup MISSING = new PowerupMissing();
 	public static final Powerup MUSHROOM = new PowerupMushroom();
 
 	private String registryName;
@@ -40,11 +42,12 @@ public abstract class Powerup {
 
 	public abstract void render(Minecraft mc, Gui gui, double x, double y, int mouseX, int mouseY, float partialTicks);
 
-	public void onPickup(Entity entity) {
+	public void onPickup(EntityPowerup powerup, Player entity) {
+		powerup.setDead();
 		this.apply(entity);
 	}
 
-	public void apply(Entity entity) {
+	public void apply(Player entity) {
 	}
 
 	public abstract EntityItem createInstance(GameTemplate game, double x, double y);

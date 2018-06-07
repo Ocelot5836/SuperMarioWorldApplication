@@ -307,8 +307,6 @@ public class Koopa extends Enemy implements IPlayerDamagable, IPlayerDamager, Ba
 					player.setJumping(true);
 					player.setFalling(false);
 					defaultStompEnemy(player);
-					player.getProperties().increaseScore(Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()));
-					level.add(new TextFX(game, player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2, 0, -0.4, Lib.getScoreFromJumps(player.getProperties().getEnemyJumpCount()) + "", 0xffffff, 1));
 					ItemKoopaShell shell = new ItemKoopaShell(game, this);
 					shell.setDirection(0, shell.getYSpeed());
 					level.add(shell);
