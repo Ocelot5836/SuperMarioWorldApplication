@@ -13,9 +13,9 @@ import net.minecraft.client.gui.Gui;
 public class PowerupMushroom extends Powerup {
 
 	private Sprite sprite;
-	
-	public PowerupMushroom(String registryName, String unlocalizedName) {
-		super(registryName, unlocalizedName);
+
+	public PowerupMushroom() {
+		super("mushroom", "mushroom");
 		this.sprite = new Sprite(POWERUP_SHEET.getSubimage(0, 0, 16, 16));
 	}
 
@@ -32,12 +32,12 @@ public class PowerupMushroom extends Powerup {
 	public EntityItem createInstance(GameTemplate game, double x, double y) {
 		return (EntityItem) new EntityPowerup(game, 1, 0, 16, 16, this).setPosition(x, y).setLastPosition(x, y);
 	}
-	
+
 	@Override
 	public void apply(Entity entity) {
-		if(entity instanceof Player) {
-			Player player = (Player)entity;
-			if(player.getProperties().isSmall()) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (player.getProperties().isSmall()) {
 				player.getProperties().setBig();
 			}
 			player.getProperties().increaseScore(500);

@@ -20,6 +20,8 @@ public abstract class Powerup {
 	public static final BufferedImage POWERUP_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/powerups.png"));
 
 	private static final Map<String, Powerup> POWERUPS = Maps.<String, Powerup>newHashMap();
+	
+	public static final Powerup MUSHROOM = new PowerupMushroom();
 
 	private String registryName;
 	private String unlocalizedName;

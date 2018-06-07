@@ -11,6 +11,7 @@ import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Bowser;
 import com.ocelot.mod.game.main.entity.enemy.Rex;
+import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.game.main.gui.GuiOverlay;
 import com.ocelot.mod.game.main.tile.TileInfoBox;
@@ -34,7 +35,7 @@ public class YoshiHouseState extends GameState {
 		template = new LevelTemplate(game, new ResourceLocation(Mod.MOD_ID, "levels/yoshihouse"));
 
 		template.getLevel().getMap().setTween(1).setPosition(0, 58);
-		template.getLevel().add(new Bowser(game, 50, 50));
+		template.getLevel().add(Powerup.MUSHROOM.createInstance(game, 100, 50));
 		template.getLevel().add(new Rex(game, 50, 50));
 
 		if (template.getLevel().getMap().getTile(8, 7) == Tile.INFO_BOX) {
