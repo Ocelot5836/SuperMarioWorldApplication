@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.tile;
 
-import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.gfx.Sprite;
@@ -10,7 +9,6 @@ import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.core.level.tile.property.PropertyDouble;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.game.main.tile.TileInfoBox.TextType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -19,12 +17,12 @@ import net.minecraft.client.renderer.GlStateManager;
 public class TileQuestionBlock extends AnimatedTile {
 
 	public static final PropertyDouble BOUNCE = PropertyDouble.create("bounce", 0, 10);
-	
+
 	public TileQuestionBlock() {
 		super("question_box", 100, new Sprite(Tile.TILES_SHEET.getSubimage(0, 80, 16, 16)), new Sprite(Tile.TILES_SHEET.getSubimage(16, 80, 16, 16)), new Sprite(Tile.TILES_SHEET.getSubimage(32, 80, 16, 16)), new Sprite(Tile.TILES_SHEET.getSubimage(48, 80, 16, 16)));
 		this.setSolid();
 	}
-	
+
 	@Override
 	public void render(double x, double y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		GlStateManager.pushMatrix();
@@ -44,7 +42,7 @@ public class TileQuestionBlock extends AnimatedTile {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (hitDirection == EnumDirection.DOWN) {
-					setValue(BOUNCE, 1.0);
+				setValue(BOUNCE, 1.0);
 			}
 		}
 	}
@@ -57,6 +55,7 @@ public class TileQuestionBlock extends AnimatedTile {
 				container.setValue(BOUNCE, bounce + 0.5);
 			} else {
 				container.setValue(BOUNCE, 0.0);
+				tileMap.setTile(x, y, Tile.EMPTY_QUESTION_BLOCK);
 			}
 		}
 		return container;

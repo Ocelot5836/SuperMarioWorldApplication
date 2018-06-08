@@ -71,6 +71,7 @@ public abstract class Tile {
 	public static final Tile STONE = new TileStone(); // 12
 	public static final Tile WATER = new TileWater(false); // 13
 	public static final Tile INVISIBLE_WATER = new TileWater(true); // 14
+	public static final Tile EMPTY_QUESTION_BLOCK = new BasicTile(new Sprite(TILES_SHEET.getSubimage(64, 80, 16, 16)), "question_block_empty").setSolid(); // 15
 
 	private static int nextId = 0;
 
