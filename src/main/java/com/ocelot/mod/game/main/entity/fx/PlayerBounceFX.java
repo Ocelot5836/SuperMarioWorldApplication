@@ -55,6 +55,6 @@ public class PlayerBounceFX extends EntityFX {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		this.sprite.render(posX - this.getTileMapX() - sprite.getWidth() / 2, posY- this.getTileMapY() - sprite.getHeight() / 2);
+		this.sprite.render(posX - this.getTileMapX() - sprite.getWidth() / 2, posY - this.getTileMapY() - sprite.getHeight() / 2);
 	}
 }

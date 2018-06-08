@@ -38,19 +38,20 @@ public class CloudFX extends EntityFX {
 		}
 		this.animation.setDelay(5);
 		this.animation.setFrames(sprites);
+		loadSprites();
 	}
 
 	private void loadSprites() {
 		sprites = new BufferedImage[7];
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			sprites[i] = CLOUD_SHEET.getSubimage(48 - 16 * i, 0, 16, 16);
 		}
 
-		sprites[3] = CLOUD_SHEET.getSubimage(0, 0, 16, 16);
+		sprites[4] = CLOUD_SHEET.getSubimage(0, 0, 16, 16);
 
 		for (int i = 4; i < sprites.length; i++) {
-			sprites[i] = CLOUD_SHEET.getSubimage(16 * i, 0, 16, 16);
+			sprites[i] = CLOUD_SHEET.getSubimage(16 * (i - 4), 0, 16, 16);
 		}
 	}
 
@@ -59,14 +60,18 @@ public class CloudFX extends EntityFX {
 		super.update();
 
 		animation.update();
+		
+		if(animation.hasPlayedOnce()) {
+			this.setDead();
+		}
 	}
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		this.sprite.setData(animation.getImage());
 
-		double posX = lastX + this.getPartialRenderX() - level.getMap().getPartialRenderX();
-		double posY = lastY + this.getPartialRenderY() - level.getMap().getPartialRenderY();
-		this.sprite.render(posX - this.getTileMapX() - sprite.getWidth() / 2, posY - this.getTileMapY() - sprite.getHeight() / 2);
+		double posX = lastX + this.getPartialRenderX();
+		double posY = lastY + this.getPartialRenderY();
+		sprite.render(posX - this.getTileMapX() - sprite.getWidth() / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight() / 2);
 	}
 }

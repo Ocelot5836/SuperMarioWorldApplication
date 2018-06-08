@@ -1,12 +1,12 @@
 package com.ocelot.mod.game.main.entity.player;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.Game;
@@ -14,21 +14,22 @@ import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
-import com.ocelot.mod.game.core.entity.IItemCarriable;
-import com.ocelot.mod.game.core.entity.IItemCarriable.ThrowingType;
-import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IDamager;
+import com.ocelot.mod.game.core.entity.IItemCarriable;
+import com.ocelot.mod.game.core.entity.IItemCarriable.ThrowingType;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.SummonException;
+import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
+import com.ocelot.mod.game.main.entity.fx.CloudFX;
 import com.ocelot.mod.game.main.gui.Guis;
-import com.ocelot.mod.game.main.tile.TileWater;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
@@ -39,10 +40,16 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(Player.Summonable.class)
 public class Player extends Mob {
 
+	public static final BufferedImage OLD_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/mario.png"));
+	public static final BufferedImage SMALL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/player_small.png"));
+
 	private EntityItem item = null;
 
-	private double baseMaxSpeed;
-	private double baseStopSpeed;
+	private double runSpeed;
+	private double runMaxSpeed;
+	private double runStopSpeed;
+	private double runGainSpeedAmount;
+
 	private int runAnimationSpeed;
 
 	private PlayerProperties properties;
@@ -51,26 +58,33 @@ public class Player extends Mob {
 
 	private int currentAction;
 	private Sprite sprite;
-	private List<BufferedImage[]> sprites = Lists.<BufferedImage[]>newArrayList();
 	private BufferedAnimation animation;
-	private int[] numFrames = { 1, 2, 1, 1, 3, 3, 1, 1, 2, 1, 1, 1, 1, 1, 1 };
-	private int[] delays = { -1, 100, -1, -1, 100, 100, -1, -1, 100, 50, -1, -1, -1, -1, -1 };
 
-	private static final int IDLE_SMALL = 0;
-	private static final int WALKING_SMALL = 1;
-	private static final int JUMPING_SMALL = 2;
-	private static final int FALLING_SMALL = 3;
-	private static final int SWIMMING_SMALL = 4;
-	private static final int SWIMMING_STROKE_SMALL = 5;
-	private static final int DUCKING_SMALL = 6;
-	private static final int DUCKING_ITEM_SMALL = 7;
-	private static final int WALKING_ITEM_SMALL = 8;
-	private static final int KICKING_ITEM_SMALL = 9;
-	private static final int IDLE_ITEM_SMALL = 10;
-	private static final int MIDAIR_ITEM_SMALL = 11;
-	private static final int LOOK_UP_SMALL = 12;
-	private static final int LOOK_UP_ITEM_SMALL = 13;
-	private static final int DEAD = 14;
+	private static List<BufferedImage[]> sprites;
+	private static int[] delays = { -1, 100, -1, 100, 50, -1, -1, -1, -1, -1, -1, -1, 100, -1, 50, -1, 100, 100, -1, -1, -1, -1 };
+
+	private static final int IDLE_SMALL = 0;// -1
+	private static final int WALKING_SMALL = 1;// 100
+	private static final int IDLE_ITEM_SMALL = 2;// -1
+	private static final int WALKING_ITEM_SMALL = 3;// 100
+	private static final int KICKING_SMALL = 4;// 50
+	private static final int SLIDING_SMALL = 5; // -1
+	private static final int JUMPING_SMALL = 6;// -1
+	private static final int FALLING_SMALL = 7;// -1
+	private static final int STOPPING_SMALL = 8; // -1
+	private static final int DUCKING_SMALL = 9;// -1
+	private static final int DUCKING_ITEM_SMALL = 10;// -1
+	private static final int FLOATING_FAT_SMALL = 11;// -1
+	private static final int SPINNING_SMALL = 12;// 100
+	private static final int COMPLETE_LEVEL_SMALL = 13;// -1
+	private static final int RUNNING_SMALL = 14;// -1
+	private static final int RUNNING_JUMPING_SMALL = 15;// -1
+	private static final int SWIMMING_STROKE_SMALL = 16;// 100
+	private static final int SWIMMING_SMALL = 17;// 100
+	private static final int LOOK_UP_SMALL = 18;// -1
+	private static final int LOOK_UP_ITEM_SMALL = 19;// -1
+	private static final int MIDAIR_ITEM_SMALL = 20;// -1
+	private static final int DEAD = 21;// -1
 
 	public Player(GameTemplate game) {
 		this(game, 0, 0);
@@ -91,13 +105,21 @@ public class Player extends Mob {
 		this.setSize(12, 14);
 		this.setMaxHealth(5);
 		this.setHealth(this.getMaxHealth());
+
 		this.sprite = new Sprite();
 		this.animation = new BufferedAnimation();
-		this.loadSprites();
+		if (sprites == null) {
+			sprites = new ArrayList<BufferedImage[]>();
+			this.loadSprites();
+		}
 
+		this.runSpeed = 0.02;
+		this.runMaxSpeed = 2.6;
+		this.runStopSpeed = 0.15;
+		this.runGainSpeedAmount = 0.05;
 		this.moveSpeed = 0.3;
-		this.maxSpeed = baseMaxSpeed = 1.6;
-		this.stopSpeed = baseStopSpeed = 0.4;
+		this.maxSpeed = 1.5;
+		this.stopSpeed = 0.4;
 		this.fallSpeed = 0.15;
 		this.maxFallSpeed = 4.0;
 		this.jumpStart = -4.8;
@@ -106,11 +128,41 @@ public class Player extends Mob {
 		this.runAnimationSpeed = 100;
 
 		this.facingRight = true;
+
+		delays = new int[] { -1, 100, -1, 100, 50, -1, -1, -1, -1, -1, -1, -1, 100, -1, 25, -1, 100, 100, -1, -1, -1, -1 };
 	}
 
 	private void loadSprites() {
-		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/mario.png")), 16, 24, numFrames));
-		this.animation.setFrames(this.sprites.get(0));
+		BufferedImage[] walkingSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(1, 1, 16, 24), SMALL_SHEET.getSubimage(18, 1, 16, 24) };
+		BufferedImage[] walkingItemSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(35, 1, 16, 24), SMALL_SHEET.getSubimage(52, 1, 16, 24) };
+		BufferedImage[] spinningSmall = new BufferedImage[] { walkingSmall[0], SMALL_SHEET.getSubimage(205, 1, 16, 24), Lib.flipHorizontal(walkingSmall[0]), SMALL_SHEET.getSubimage(222, 1, 16, 24) };
+		BufferedImage[] runningSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(18, 26, 16, 24), SMALL_SHEET.getSubimage(35, 26, 16, 24) };
+		BufferedImage[] swimmingStrokeSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(103, 26, 16, 24), SMALL_SHEET.getSubimage(120, 26, 16, 24), SMALL_SHEET.getSubimage(137, 26, 16, 24) };
+		BufferedImage[] swimmingSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(154, 26, 16, 24), SMALL_SHEET.getSubimage(171, 26, 16, 24), SMALL_SHEET.getSubimage(188, 26, 16, 24) };
+
+		sprites.clear();
+		sprites.add(Lib.asArray(walkingSmall[0]));
+		sprites.add(walkingSmall);
+		sprites.add(Lib.asArray(walkingItemSmall[0]));
+		sprites.add(walkingItemSmall);
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(69, 1, 16, 24)));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(86, 1, 16, 24)));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(103, 1, 16, 24)));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(120, 1, 16, 24)));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(137, 1, 16, 24)));// stopping
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(154, 1, 16, 24)));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(171, 1, 16, 24)));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(188, 1, 16, 24)));
+		sprites.add(spinningSmall);
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(1, 26, 16, 24)));
+		sprites.add(runningSmall);
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(52, 26, 16, 24)));
+		sprites.add(swimmingStrokeSmall);
+		sprites.add(swimmingSmall);
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(69, 26, 16, 24)));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(1, 76, 16, 24)));
+		sprites.add(Lib.asArray(walkingItemSmall[1]));
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(86, 26, 16, 24)));
 	}
 
 	@Override
@@ -190,37 +242,39 @@ public class Player extends Mob {
 
 			enteredWaterFromAbove = true;
 		} else {
-			if(enteredWaterFromAbove && up) {
+			if (enteredWaterFromAbove && up) {
 				dy = -3;
 				falling = true;
 			}
-			
+
 			canSwim = false;
 			enteredWaterFromAbove = false;
 
 			if (left) {
-				dx -= moveSpeed;
-				if (dx < -maxSpeed) {
-					dx += stopSpeed;
+				dx -= this.isRunning() ? (dx > 0 ? runStopSpeed : dx > -moveSpeed * 4 ? moveSpeed : runSpeed) : moveSpeed;
+				if (dx < -(this.isRunning() ? runMaxSpeed : maxSpeed)) {
+					dx += this.isRunning() ? runSpeed * 1.1 : moveSpeed * 1.1;
 				}
 				setRunningAnimations();
 			} else if (right) {
-				dx += moveSpeed;
-				if (dx > maxSpeed) {
-					dx -= stopSpeed;
+				dx += this.isRunning() ? (dx < 0 ? runStopSpeed : dx < moveSpeed * 4 ? moveSpeed : runSpeed) : moveSpeed;
+				if (dx > (this.isRunning() ? runMaxSpeed : maxSpeed)) {
+					dx -= this.isRunning() ? runSpeed * 1.1 : moveSpeed * 1.1;
 				}
 				setRunningAnimations();
 			} else {
 				if (dx > 0) {
-					dx -= stopSpeed;
+					dx -= 0.06;
 					if (dx < 0) {
 						dx = 0;
 					}
+					setRunningAnimations();
 				} else if (dx < 0) {
-					dx += stopSpeed;
+					dx += 0.06;
 					if (dx > 0) {
 						dx = 0;
 					}
+					setRunningAnimations();
 				}
 			}
 
@@ -240,22 +294,6 @@ public class Player extends Mob {
 					dy = maxFallSpeed;
 				}
 			}
-
-			if (this.properties.isRunning()) {
-				maxSpeed = baseMaxSpeed * 2;
-				stopSpeed++;
-				if (stopSpeed > baseStopSpeed * 4)
-					stopSpeed = baseStopSpeed * 4;
-			} else {
-				maxSpeed = baseMaxSpeed;
-				stopSpeed--;
-				if (stopSpeed < baseStopSpeed)
-					stopSpeed = baseStopSpeed;
-				runAnimationSpeed += 3;
-				if (runAnimationSpeed > 100) {
-					runAnimationSpeed = 100;
-				}
-			}
 		}
 
 		checkTileMapCollision();
@@ -263,11 +301,8 @@ public class Player extends Mob {
 	}
 
 	private void setRunningAnimations() {
-		if (this.properties.isRunning() && (left || right)) {
-			runAnimationSpeed -= 3;
-			if (runAnimationSpeed < 20)
-				runAnimationSpeed = 20;
-		}
+		double percentage = Math.abs(dx / (this.isRunning() ? this.runMaxSpeed : this.maxSpeed));
+		runAnimationSpeed = (int) (100.0 - 100.0 * percentage + (this.isRunning() ? 25.0 : 50.0));
 	}
 
 	public void openGui(int id) {
@@ -321,7 +356,7 @@ public class Player extends Mob {
 			}
 
 			if (!this.properties.isHolding() && !down && !up && item != null) {
-				currentAction = KICKING_ITEM_SMALL;
+				currentAction = KICKING_SMALL;
 				this.setAnimation(currentAction);
 			}
 
@@ -347,7 +382,7 @@ public class Player extends Mob {
 					}
 				}
 			} else {
-				if (currentAction != KICKING_ITEM_SMALL || animation.hasPlayedOnce()) {
+				if (currentAction != KICKING_SMALL || animation.hasPlayedOnce()) {
 					if (down) {
 						if (item != null) {
 							if (currentAction != DUCKING_ITEM_SMALL) {
@@ -367,9 +402,16 @@ public class Player extends Mob {
 								this.setAnimation(currentAction);
 							}
 						} else {
-							if (currentAction != FALLING_SMALL) {
-								currentAction = FALLING_SMALL;
-								this.setAnimation(currentAction);
+							if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+								if (currentAction != RUNNING_JUMPING_SMALL) {
+									currentAction = RUNNING_JUMPING_SMALL;
+									this.setAnimation(currentAction);
+								}
+							} else {
+								if (currentAction != FALLING_SMALL) {
+									currentAction = FALLING_SMALL;
+									this.setAnimation(currentAction);
+								}
 							}
 						}
 					} else if (dy < 0) {
@@ -379,24 +421,47 @@ public class Player extends Mob {
 								this.setAnimation(currentAction);
 							}
 						} else {
-							if (currentAction != JUMPING_SMALL) {
-								currentAction = JUMPING_SMALL;
-								this.setAnimation(currentAction);
+							if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+								if (currentAction != RUNNING_JUMPING_SMALL) {
+									currentAction = RUNNING_JUMPING_SMALL;
+									this.setAnimation(currentAction);
+								}
+							} else {
+								if (currentAction != JUMPING_SMALL) {
+									currentAction = JUMPING_SMALL;
+									this.setAnimation(currentAction);
+								}
 							}
 						}
-					} else if (left || right) {
+					} else if (dx != 0) {
 						if (item != null) {
 							if (currentAction != WALKING_ITEM_SMALL) {
 								currentAction = WALKING_ITEM_SMALL;
 								this.setAnimation(currentAction);
 							}
+							this.animation.setDelay(runAnimationSpeed);
 						} else {
-							if (currentAction != WALKING_SMALL) {
-								currentAction = WALKING_SMALL;
-								this.setAnimation(currentAction);
+							if (!(left && dx < 0) && !(right && dx > 0) && ((left && dx > 0) || (right && dx < 0))) {
+								if (currentAction != STOPPING_SMALL) {
+									currentAction = STOPPING_SMALL;
+									this.setAnimation(STOPPING_SMALL);
+								}
+								this.level.add(new CloudFX(game, x, y));
+							} else {
+								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+									if (currentAction != RUNNING_SMALL) {
+										currentAction = RUNNING_SMALL;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != WALKING_SMALL) {
+										currentAction = WALKING_SMALL;
+										this.setAnimation(currentAction);
+									}
+									this.animation.setDelay(runAnimationSpeed);
+								}
 							}
 						}
-						this.animation.setDelay(runAnimationSpeed);
 					} else {
 						if (up) {
 							if (item != null) {
@@ -515,7 +580,7 @@ public class Player extends Mob {
 
 			if (e instanceof IDamager) {
 				IDamager damagable = (IDamager) e;
-				if (!damagable.dealDamage(this, direction, false, false)) {
+				if (!damagable.dealDamage(this, direction)) {
 					flag = true;
 				}
 			} else {
@@ -528,10 +593,10 @@ public class Player extends Mob {
 					if (e instanceof IItemCarriable) {
 						IItemCarriable carriable = (IItemCarriable) e;
 						if (!(properties.isHolding() && item == e)) {
-							damagable.takeDamage(this, direction, false, false);
+							damagable.takeDamage(this, MarioDamageSource.MARIO, direction, false, false);
 						}
 					} else {
-						damagable.takeDamage(this, direction, false, false);
+						damagable.takeDamage(this, MarioDamageSource.MARIO, direction, false, false);
 					}
 				}
 			}
@@ -590,7 +655,7 @@ public class Player extends Mob {
 			this.properties.setDead();
 		}
 	}
-	
+
 	public void addScore(int amount) {
 		this.properties.increaseScore(amount);
 		String count = Integer.toString(amount);

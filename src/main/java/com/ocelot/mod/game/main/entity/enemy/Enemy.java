@@ -48,7 +48,7 @@ public abstract class Enemy extends Mob implements IDamager {
 		MARIO, SHELL, ENEMY, HEAVY;
 
 		public boolean isHeavy() {
-			return this == HEAVY;
+			return this == MARIO || this == HEAVY;
 		}
 	}
 }

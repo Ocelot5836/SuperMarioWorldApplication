@@ -73,6 +73,7 @@ public interface IDamagable {
 		Level level = entity.getLevel();
 		game.playSound(Sounds.PLAYER_STOMP, 1.0F);
 		entity.setDead();
+		level.add(new PlayerBounceFX(game, entity.getX() + entity.getWidth() / 2, entity.getY()));
 	}
 
 	/**

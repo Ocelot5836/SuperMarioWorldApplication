@@ -65,8 +65,8 @@ public class CoinShimmerFX extends EntityFX {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		this.sprite.setData(animation.getImage());
 		
-		double posX = lastX + this.getPartialRenderX() - level.getMap().getPartialRenderX();
-		double posY = lastY + this.getPartialRenderY() - level.getMap().getPartialRenderY();
-		this.sprite.render(posX - this.getTileMapX() -sprite.getWidth() / 2, posY - this.getTileMapY() -sprite.getHeight());
+		double posX = lastX + this.getPartialRenderX();
+		double posY = lastY + this.getPartialRenderY();
+		sprite.render(posX - this.getTileMapX() - sprite.getWidth() / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight() / 2);
 	}
 }
