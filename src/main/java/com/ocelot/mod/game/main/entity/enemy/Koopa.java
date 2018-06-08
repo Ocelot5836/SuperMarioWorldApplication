@@ -35,6 +35,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 
 @FileSummonableEntity(Koopa.Summonable.class)
 public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListener {
@@ -286,10 +287,10 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 	}
 
 	@Override
-	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+	public boolean dealDamage(Entity entity, EnumDirection sideHit) {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
+			if (sideHit != EnumDirection.UP) {
 				player.damage();
 				return true;
 			}
@@ -298,7 +299,11 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 	}
 
 	@Override
-	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (source == MarioDamageSource.SHELL) {
+			defaultKillEntity(this);
+		}
+
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (type != KoopaType.KAMIKAZE) {
@@ -327,8 +332,6 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 					defaultSpinStompEnemy(player);
 				}
 			}
-		} else {
-			defaultKillEntity(entity);
 		}
 	}
 

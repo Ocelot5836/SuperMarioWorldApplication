@@ -178,10 +178,10 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 	}
 
 	@Override
-	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public boolean dealDamage(Entity entity, EnumDirection sideHit) {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			if (sideHit != EnumDirection.UP && !isInvincible) {
+			if (sideHit != EnumDirection.UP) {
 				player.damage();
 				return true;
 			}
@@ -190,7 +190,11 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 	}
 
 	@Override
-	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (source == MarioDamageSource.SHELL) {
+			defaultKillEntity(this);
+		}
+		
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (sideHit == EnumDirection.UP && !isInvincible) {
@@ -212,8 +216,6 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 					}
 				}
 			}
-		} else {
-			defaultKillEntity(entity);
 		}
 	}
 }

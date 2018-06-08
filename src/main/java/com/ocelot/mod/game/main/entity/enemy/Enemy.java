@@ -1,7 +1,6 @@
 package com.ocelot.mod.game.main.entity.enemy;
 
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.main.entity.player.Player;
@@ -46,6 +45,10 @@ public abstract class Enemy extends Mob implements IDamager {
 	 * @author Ocelot5836
 	 */
 	public enum MarioDamageSource {
-		MARIO, SHELL, ENEMY
+		MARIO, SHELL, ENEMY, HEAVY;
+
+		public boolean isHeavy() {
+			return this == HEAVY;
+		}
 	}
 }

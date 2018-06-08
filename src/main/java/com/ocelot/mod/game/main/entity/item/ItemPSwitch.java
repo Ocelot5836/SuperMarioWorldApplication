@@ -19,6 +19,7 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.Tile;
+import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
@@ -145,8 +146,8 @@ private boolean playedStopSound;
 	}
 
 	@Override
-	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
-		if (!this.switched && sideHit == EnumDirection.UP) {
+	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if (!this.switched && source.isHeavy() && sideHit == EnumDirection.UP) {
 			game.playSound(Sounds.SWITCH_ACTIVATE, 1.0F);
 			this.switched = true;
 			this.togglePSwitch();

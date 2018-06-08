@@ -5,6 +5,7 @@ import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.fx.PlayerBounceFX;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.lib.Lib;
@@ -28,6 +29,8 @@ public interface IDamagable {
 	 * 
 	 * @param entity
 	 *            The entity hitting this entity
+	 * @param source
+	 *            The source of the damage
 	 * @param sideHit
 	 *            The side the player was hitting from
 	 * @param isInstantKill
@@ -35,7 +38,7 @@ public interface IDamagable {
 	 * @param isInvincible
 	 *            Whether or not the player has a star or some other thing that makes him invincible
 	 */
-	void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible);
+	void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible);
 
 	/**
 	 * The default events that happen when an entity is stomped by mario.
@@ -63,12 +66,13 @@ public interface IDamagable {
 	 * The default events that happen when an entity is stomped on by another entity.
 	 * 
 	 * @param entity
-	 *            The entity that stomped this enemy
+	 *            This entity
 	 */
 	default void defaultKillEntity(Entity entity) {
 		GameTemplate game = entity.getGame();
 		Level level = entity.getLevel();
 		game.playSound(Sounds.PLAYER_STOMP, 1.0F);
+		entity.setDead();
 	}
 
 	/**

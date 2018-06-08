@@ -35,7 +35,7 @@ public class Bowser extends Enemy {
 		super(game, 100);
 		this.setPosition(x, y);
 		this.setSize(32, 32);
-		
+
 		this.animation = new BufferedAnimation();
 		this.sprite = new Sprite();
 
@@ -62,7 +62,10 @@ public class Bowser extends Enemy {
 	}
 
 	@Override
-	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public boolean dealDamage(Entity entity, EnumDirection sideHit) {
+		if (entity instanceof Player) {
+			((Player) entity).damage();
+		}
 		return false;
 	}
 }

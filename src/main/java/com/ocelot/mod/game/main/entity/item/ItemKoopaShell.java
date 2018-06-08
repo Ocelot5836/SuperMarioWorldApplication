@@ -14,13 +14,13 @@ import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
+import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.main.entity.enemy.Enemy;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
@@ -147,31 +147,16 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 				Entity e = entities.get(i);
 
 				if (e != this && e.intersects(this)) {
-					if (e instanceof ItemKoopaShell) {
-						ItemKoopaShell shell = (ItemKoopaShell) e;
-						if (shell.getXSpeed() != 0) {
-							game.playSound(Sounds.PLAYER_STOMP, 1.0F);
-							this.setDead();
-						}
-						flag = true;
-						shell.setDead();
-					}
-
-					if (e instanceof Enemy) {
-						Enemy enemy = (Enemy) e;
-						if (enemy.canDamage(this, MarioDamageSource.SHELL)) {
+					if (e instanceof Mob) {
+						Mob mob = (Mob) e;
+						if (mob.canDamage(this, MarioDamageSource.SHELL)) {
 							flag = true;
-							e.setDead();
 						}
 					}
 
-					if (flag) {
-						if (throwingPlayer != null) {
-							if (e instanceof IDamagable) {
-								((IDamagable) e).takeDamage(throwingPlayer, xSpeed < 0 ? EnumDirection.LEFT : EnumDirection.RIGHT, false, true);
-							}
-						} else {
-							game.playSound(Sounds.PLAYER_STOMP, 1.0F);
+					if (flag || e instanceof IDamagable) {
+						if (e instanceof IDamagable) {
+							((IDamagable) e).takeDamage(throwingPlayer != null ? throwingPlayer : this, MarioDamageSource.SHELL, xSpeed < 0 ? EnumDirection.LEFT : EnumDirection.RIGHT, false, false);
 						}
 					}
 				}
@@ -233,7 +218,11 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 	}
 
 	@Override
-	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+		if(source == MarioDamageSource.SHELL) {
+			defaultKillEntity(this);
+		}
+		
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (sideHit == EnumDirection.UP && isInstantKill) {
@@ -259,22 +248,20 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 					}
 				}
 			}
-		} else {
-
 		}
 	}
 
 	@Override
-	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public boolean dealDamage(Entity entity, EnumDirection sideHit) {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			if (sideHit.isHorizontalAxis() && !isInvincible && this.xSpeed != 0) {
+			if (sideHit.isHorizontalAxis() && this.xSpeed != 0) {
 				player.damage();
 				return true;
 			}
-		}else if(entity instanceof IDamagable) {
+		} else if (entity instanceof IDamagable) {
 			IDamagable damagable = (IDamagable) entity;
-			damagable.takeDamage(this, sideHit, isInstantKill, isInvincible);
+			damagable.takeDamage(this, MarioDamageSource.SHELL, sideHit, false, false);
 			return true;
 		}
 		return false;

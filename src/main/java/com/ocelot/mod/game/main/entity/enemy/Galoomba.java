@@ -151,7 +151,23 @@ public class Galoomba extends Enemy implements IDamagable {
 	}
 
 	@Override
-	public void takeDamage(Entity entity, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+	public boolean dealDamage(Entity entity, EnumDirection sideHit) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (sideHit != EnumDirection.UP) {
+				player.damage();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+		if (source == MarioDamageSource.SHELL) {
+			defaultKillEntity(this);
+		}
+
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (sideHit == EnumDirection.UP && !isPlayerInvincible) {
@@ -168,21 +184,7 @@ public class Galoomba extends Enemy implements IDamagable {
 				}
 				setDead();
 			}
-		} else {
-			defaultKillEntity(entity);
 		}
-	}
-
-	@Override
-	public boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
-			if (sideHit != EnumDirection.UP && !isPlayerInvincible) {
-				player.damage();
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static class Item extends EntityItem implements IItemCarriable {

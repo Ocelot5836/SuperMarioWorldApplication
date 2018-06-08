@@ -22,11 +22,7 @@ public interface IDamager {
 	 *            The entity being hit
 	 * @param sideHit
 	 *            The side the player was hit on
-	 * @param isInstantKill
-	 *            Whether or not the player is spin jumping
-	 * @param isInvincible
-	 *            Whether or not the player has a star or some other thing that makes him invincible
 	 * @return Whether or not the player was able to be hit
 	 */
-	boolean dealDamage(Entity entity, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible);
+	boolean dealDamage(Entity entity, EnumDirection sideHit);
 }

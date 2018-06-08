@@ -245,6 +245,19 @@ public abstract class EntityFX {
 	}
 
 	/**
+	 * Sets the last position of this entity to the specified coords.
+	 * 
+	 * @param x
+	 *            The last x position
+	 * @param y
+	 *            The last y position
+	 */
+	public void setLastPosition(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	/**
 	 * Sets the position of this entity to the specified coords.
 	 * 
 	 * @param width

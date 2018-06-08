@@ -68,6 +68,8 @@ public abstract class Entity {
 
 	/** Whether or not the entity is falling */
 	protected boolean falling;
+	/** Whether or not the entity is able to take damage */
+	public boolean invulnerable;
 
 	private boolean dead;
 
