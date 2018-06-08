@@ -2,6 +2,7 @@ package com.ocelot.mod.game.main.entity.player;
 
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.main.entity.powerup.Powerup;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -21,6 +22,7 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 	private byte dragonCoins;
 	private byte bonus;
 	private int score;
+	private Powerup reserve;
 
 	public PlayerProperties(GameTemplate game) {
 		this(game, true, 0);
@@ -39,6 +41,7 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		this.dragonCoins = 0;
 		this.bonus = 0;
 		this.score = 0;
+		this.reserve = Powerup.NULL;
 	}
 
 	public boolean isKeyboardInputEnabled() {
@@ -95,6 +98,10 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 
 	public int getScore() {
 		return score;
+	}
+	
+	public Powerup getReserve() {
+		return reserve;
 	}
 
 	public void setKeyboardInputEnabled(boolean enableKeyboardInput) {
@@ -191,6 +198,10 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		}
 		this.score = score;
 	}
+	
+	public void setReserve(Powerup reserve) {
+		this.reserve = reserve;
+	}
 
 	public void increaseEnemyJumpCounter() {
 		this.enemyJumpCount++;
@@ -246,7 +257,7 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 	public void decreaseScore(int amount) {
 		setScore(this.score - amount);
 	}
-
+	
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -256,6 +267,7 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		nbt.setByte("dragonCoins", this.dragonCoins);
 		nbt.setByte("bonus", this.bonus);
 		nbt.setInteger("score", this.score);
+		nbt.setString("reserve", this.reserve.getRegistryName());
 		return nbt;
 	}
 
@@ -267,5 +279,6 @@ public class PlayerProperties implements INBTSerializable<NBTTagCompound> {
 		this.dragonCoins = nbt.getByte("dragonCoins");
 		this.bonus = nbt.getByte("bonus");
 		this.score = nbt.getInteger("score");
+		this.reserve = Powerup.byName(nbt.getString("reserve"));
 	}
 }

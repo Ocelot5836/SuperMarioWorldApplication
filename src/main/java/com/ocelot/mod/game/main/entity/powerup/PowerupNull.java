@@ -8,13 +8,10 @@ import com.ocelot.mod.game.main.entity.item.EntityPowerup;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
-public class PowerupMissing extends Powerup {
+public class PowerupNull extends Powerup {
 
-	private Sprite sprite;
-
-	public PowerupMissing() {
+	public PowerupNull() {
 		super("null", "null");
-		this.sprite = new Sprite();
 	}
 
 	@Override
@@ -23,7 +20,6 @@ public class PowerupMissing extends Powerup {
 
 	@Override
 	public void render(Minecraft mc, Gui gui, double x, double y, int mouseX, int mouseY, float partialTicks) {
-		sprite.render(x, y, 16, 16);
 	}
 
 	@Override

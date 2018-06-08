@@ -24,7 +24,7 @@ public abstract class Powerup implements IQuestionBlockItem {
 
 	private static final Map<String, Powerup> POWERUPS = Maps.<String, Powerup>newHashMap();
 
-	public static final Powerup MISSING = new PowerupMissing();
+	public static final Powerup NULL = new PowerupNull();
 	public static final Powerup MUSHROOM = new PowerupMushroom();
 
 	private String registryName;
@@ -87,5 +87,9 @@ public abstract class Powerup implements IQuestionBlockItem {
 	@Override
 	public String toString() {
 		return "Powerup[" + this.getLocalizedName() + "/" + this.getUnlocalizedName() + ":" + this.getRegistryName() + "]";
+	}
+
+	public static Powerup byName(String registryName) {
+		return POWERUPS.get(registryName);
 	}
 }
