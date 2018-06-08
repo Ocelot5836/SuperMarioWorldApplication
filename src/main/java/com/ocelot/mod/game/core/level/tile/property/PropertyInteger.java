@@ -30,4 +30,12 @@ public class PropertyInteger extends PropertyBase<Integer> {
 	public static PropertyInteger create(String name, int minValue, int maxValue) {
 		return new PropertyInteger(name, minValue, maxValue);
 	}
+	
+	public int getMinValue() {
+		return minValue;
+	}
+	
+	public int getMaxValue() {
+		return maxValue;
+	}
 }

@@ -40,7 +40,6 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(Player.Summonable.class)
 public class Player extends Mob implements IDamagable {
 
-	public static final BufferedImage OLD_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/mario.png"));
 	public static final BufferedImage SMALL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/player_small.png"));
 
 	private EntityItem item = null;
