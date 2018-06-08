@@ -28,7 +28,7 @@ import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
-import com.ocelot.mod.game.main.entity.fx.CloudFX;
+import com.ocelot.mod.game.main.entity.fx.particle.DustFX;
 import com.ocelot.mod.game.main.gui.Guis;
 import com.ocelot.mod.lib.Lib;
 
@@ -446,7 +446,7 @@ public class Player extends Mob {
 									currentAction = STOPPING_SMALL;
 									this.setAnimation(STOPPING_SMALL);
 								}
-								this.level.add(new CloudFX(game, x, y));
+								this.level.add(new DustFX(game, x, y + cheight / 2 - 4));
 							} else {
 								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
 									if (currentAction != RUNNING_SMALL) {

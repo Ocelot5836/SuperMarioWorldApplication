@@ -42,8 +42,9 @@ public abstract class Particle extends EntityFX {
 	protected Sprite sprite;
 
 	private Stopwatch timer;
-	private long life;
 
+	/** The life of the item. */
+	protected long life;
 	/** The x position the particle wants to travel to. */
 	protected double xa;
 	/** The y position the particle wants to travel to. */
@@ -61,7 +62,9 @@ public abstract class Particle extends EntityFX {
 	public Particle(GameTemplate game, double x, double y, int life, int lifeDifference, double bounce, double tileBouncePower, double weight, double dragPercentLoss, Sprite sprite) {
 		super(game);
 		this.setPosition(x, y);
-		this.setSize(sprite.getWidth(), sprite.getHeight());
+		if (sprite != null) {
+			this.setSize(sprite.getWidth(), sprite.getHeight());
+		}
 		this.xx = x;
 		this.yy = y;
 		this.lastX = x;
@@ -119,6 +122,6 @@ public abstract class Particle extends EntityFX {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - this.getTileMapX() - cwidth - cwidth / 4, posY - this.getTileMapY() - cheight - cheight/2 + 2);
+		sprite.render(posX - this.getTileMapX() - cwidth - cwidth / 4, posY - this.getTileMapY() - cheight - cheight / 2 + 2);
 	}
 }

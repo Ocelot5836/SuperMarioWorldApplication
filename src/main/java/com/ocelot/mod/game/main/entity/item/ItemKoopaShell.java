@@ -157,6 +157,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 					if (flag || e instanceof IDamagable) {
 						if (e instanceof IDamagable) {
 							((IDamagable) e).takeDamage(throwingPlayer != null ? throwingPlayer : this, MarioDamageSource.SHELL, xSpeed < 0 ? EnumDirection.LEFT : EnumDirection.RIGHT, false, false);
+							level.add(new PlayerBounceFX(game, x, y));
 						}
 					}
 				}
