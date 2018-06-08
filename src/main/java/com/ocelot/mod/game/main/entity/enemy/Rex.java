@@ -102,8 +102,6 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 					setDead();
 				}
 				getNextPosition();
-				getNextPosition();
-				getNextPosition();
 			}
 		}
 
@@ -179,10 +177,9 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 
 	@Override
 	public boolean dealDamage(Entity entity, EnumDirection sideHit) {
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
+		if (entity instanceof IDamagable) {
 			if (sideHit != EnumDirection.UP) {
-				player.damage();
+				((IDamagable) entity).takeDamage(this, MarioDamageSource.REX, sideHit, false);
 				return true;
 			}
 		}
@@ -190,18 +187,20 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 	}
 
 	@Override
-	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
 		if (source == MarioDamageSource.SHELL) {
 			defaultKillEntity(this);
+			return true;
 		}
-		
+
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			if (sideHit == EnumDirection.UP && !isInvincible) {
+			if (sideHit == EnumDirection.UP && !this.invulnerable) {
 				player.setPosition(player.getX(), y - cheight);
 				if (isInstantKill) {
 					defaultSpinStompEnemy(player);
 					setDead();
+					return true;
 				} else {
 					player.setJumping(true);
 					player.setFalling(false);
@@ -214,8 +213,10 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 						currentAction = CRUSH_SMALL;
 						setAnimation(CRUSH_SMALL);
 					}
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 }

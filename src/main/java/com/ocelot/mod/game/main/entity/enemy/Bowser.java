@@ -8,6 +8,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
+import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.entity.ai.AIBowser;
@@ -63,8 +64,8 @@ public class Bowser extends Enemy {
 
 	@Override
 	public boolean dealDamage(Entity entity, EnumDirection sideHit) {
-		if (entity instanceof Player) {
-			((Player) entity).damage();
+		if (entity instanceof IDamagable) {
+			((IDamagable)entity).takeDamage(this, MarioDamageSource.BOWSER, sideHit, false);
 		}
 		return false;
 	}

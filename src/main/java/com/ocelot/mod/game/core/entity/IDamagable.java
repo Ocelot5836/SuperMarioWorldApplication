@@ -35,10 +35,9 @@ public interface IDamagable {
 	 *            The side the player was hitting from
 	 * @param isInstantKill
 	 *            Whether or not the player is spin jumping
-	 * @param isInvincible
-	 *            Whether or not the player has a star or some other thing that makes him invincible
+	 * @return Whether or not the damage taken actually dealt damage
 	 */
-	void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible);
+	boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill);
 
 	/**
 	 * The default events that happen when an entity is stomped by mario.

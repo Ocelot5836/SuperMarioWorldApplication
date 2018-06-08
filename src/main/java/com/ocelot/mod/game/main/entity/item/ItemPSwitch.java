@@ -42,8 +42,8 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 
 	private Stopwatch watch;
 	private boolean switched;
-private boolean playedStopSound;
-	
+	private boolean playedStopSound;
+
 	public ItemPSwitch(GameTemplate game) {
 		this(game, 0, 0);
 	}
@@ -79,7 +79,7 @@ private boolean playedStopSound;
 			game.playSound(Sounds.SWITCH_ENDING, 1.0F);
 			playedStopSound = true;
 		}
-		
+
 		if (this.watch.elapsed(TimeUnit.MILLISECONDS) >= SWITCH_TIME) {
 			this.togglePSwitch();
 			this.setDead();
@@ -146,13 +146,14 @@ private boolean playedStopSound;
 	}
 
 	@Override
-	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
 		if (!this.switched && source.isHeavy() && sideHit == EnumDirection.UP) {
 			game.playSound(Sounds.SWITCH_ACTIVATE, 1.0F);
 			this.switched = true;
 			this.togglePSwitch();
 			this.watch.start();
 		}
+		return false;
 	}
 
 	public static class Summonable implements IFileSummonable {

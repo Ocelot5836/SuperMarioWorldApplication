@@ -299,15 +299,16 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 	}
 
 	@Override
-	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
+	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
 		if (source == MarioDamageSource.SHELL) {
 			defaultKillEntity(this);
+			return true;
 		}
 
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (type != KoopaType.KAMIKAZE) {
-				if (sideHit == EnumDirection.UP && !isInvincible) {
+				if (sideHit == EnumDirection.UP && !this.invulnerable) {
 					player.setPosition(player.getX(), y - cheight);
 					if (isInstantKill) {
 						defaultSpinStompEnemy(player);
@@ -322,6 +323,7 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 						// TODO add the little koopa
 					}
 					setDead();
+					return true;
 				}
 			} else {
 				if (sideHit == EnumDirection.UP) {
@@ -330,9 +332,11 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 						player.setFalling(false);
 					}
 					defaultSpinStompEnemy(player);
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	@Override

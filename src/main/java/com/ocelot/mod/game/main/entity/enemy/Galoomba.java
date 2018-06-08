@@ -163,16 +163,17 @@ public class Galoomba extends Enemy implements IDamagable {
 	}
 
 	@Override
-	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isPlayerSpinning, boolean isPlayerInvincible) {
+	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
 		if (source == MarioDamageSource.SHELL) {
 			defaultKillEntity(this);
+			return true;
 		}
 
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
-			if (sideHit == EnumDirection.UP && !isPlayerInvincible) {
+			if (sideHit == EnumDirection.UP && !this.invulnerable) {
 				player.setPosition(player.getX(), y - cheight);
-				if (isPlayerSpinning) {
+				if (isInstantKill) {
 					defaultSpinStompEnemy(player);
 				} else {
 					player.setJumping(true);
@@ -183,8 +184,10 @@ public class Galoomba extends Enemy implements IDamagable {
 					level.add(item);
 				}
 				setDead();
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public static class Item extends EntityItem implements IItemCarriable {

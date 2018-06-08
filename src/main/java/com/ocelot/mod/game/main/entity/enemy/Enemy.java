@@ -4,6 +4,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.main.entity.player.Player;
+import com.sun.jna.platform.win32.NTSecApi.PLSA_FOREST_TRUST_INFORMATION;
 
 public abstract class Enemy extends Mob implements IDamager {
 
@@ -45,10 +46,14 @@ public abstract class Enemy extends Mob implements IDamager {
 	 * @author Ocelot5836
 	 */
 	public enum MarioDamageSource {
-		MARIO, SHELL, ENEMY, HEAVY;
+		MARIO, SHELL, REX, THWOMP, BOWSER, ENEMY;
 
 		public boolean isHeavy() {
-			return this == MARIO || this == HEAVY;
+			return this == MARIO || this == THWOMP;
+		}
+
+		public boolean canDamagePlayer() {
+			return this != MARIO;
 		}
 	}
 }

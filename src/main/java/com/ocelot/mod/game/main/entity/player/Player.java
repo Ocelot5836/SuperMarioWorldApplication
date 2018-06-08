@@ -38,7 +38,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 @FileSummonableEntity(Player.Summonable.class)
-public class Player extends Mob {
+public class Player extends Mob implements IDamagable {
 
 	public static final BufferedImage OLD_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/mario.png"));
 	public static final BufferedImage SMALL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/player_small.png"));
@@ -99,6 +99,7 @@ public class Player extends Mob {
 			properties = new PlayerProperties(game);
 		}
 
+		this.properties.setSmall();
 		this.enableKeyboardInput(true);
 		this.setPosition(x, y);
 		this.setLastPosition(x, y);
@@ -593,10 +594,10 @@ public class Player extends Mob {
 					if (e instanceof IItemCarriable) {
 						IItemCarriable carriable = (IItemCarriable) e;
 						if (!(properties.isHolding() && item == e)) {
-							damagable.takeDamage(this, MarioDamageSource.MARIO, direction, false, false);
+							damagable.takeDamage(this, MarioDamageSource.MARIO, direction, false);
 						}
 					} else {
-						damagable.takeDamage(this, MarioDamageSource.MARIO, direction, false, false);
+						damagable.takeDamage(this, MarioDamageSource.MARIO, direction, false);
 					}
 				}
 			}
@@ -723,5 +724,17 @@ public class Player extends Mob {
 		public String getRegistryName() {
 			return "Player";
 		}
+	}
+
+	@Override
+	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
+		if (source.canDamagePlayer()) {
+			this.damage();
+			if (isInstantKill) {
+				this.properties.setDead();
+			}
+			return true;
+		}
+		return false;
 	}
 }

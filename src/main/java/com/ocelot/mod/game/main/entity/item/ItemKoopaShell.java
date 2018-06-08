@@ -156,8 +156,9 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 
 					if (flag || e instanceof IDamagable) {
 						if (e instanceof IDamagable) {
-							((IDamagable) e).takeDamage(throwingPlayer != null ? throwingPlayer : this, MarioDamageSource.SHELL, xSpeed < 0 ? EnumDirection.LEFT : EnumDirection.RIGHT, false, false);
-							level.add(new PlayerBounceFX(game, x, y));
+							if (((IDamagable) e).takeDamage(throwingPlayer != null ? throwingPlayer : this, MarioDamageSource.SHELL, xSpeed < 0 ? EnumDirection.LEFT : EnumDirection.RIGHT, false)) {
+								level.add(new PlayerBounceFX(game, x, y));
+							}
 						}
 					}
 				}
@@ -219,15 +220,17 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 	}
 
 	@Override
-	public void takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill, boolean isInvincible) {
-		if(source == MarioDamageSource.SHELL) {
+	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
+		if (source == MarioDamageSource.SHELL) {
 			defaultKillEntity(this);
+			return true;
 		}
-		
+
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (sideHit == EnumDirection.UP && isInstantKill) {
 				setDead();
+				return true;
 			}
 
 			if (this.xSpeed == 0 && player.getHeldItem() != this) {
@@ -250,6 +253,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 				}
 			}
 		}
+		return false;
 	}
 
 	@Override
@@ -262,7 +266,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 			}
 		} else if (entity instanceof IDamagable) {
 			IDamagable damagable = (IDamagable) entity;
-			damagable.takeDamage(this, MarioDamageSource.SHELL, sideHit, false, false);
+			damagable.takeDamage(this, MarioDamageSource.SHELL, sideHit, false);
 			return true;
 		}
 		return false;
