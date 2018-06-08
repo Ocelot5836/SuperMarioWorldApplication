@@ -52,7 +52,7 @@ public class LevelTemplate {
 		String backgroundsFile = levelFolder + "/backgrounds.osmw";
 		String entitiesFile = levelFolder + "/entities.osmw";
 
-		this.level = new Level(16, new ResourceLocation(mapFile));
+		this.level = new Level(game, 16, new ResourceLocation(mapFile));
 		this.loadWorldInfo(levelFolder, new ResourceLocation(worldInfoFile));
 		this.loadBackgrounds(new ResourceLocation(backgroundsFile));
 		this.loadEntities(new ResourceLocation(entitiesFile), this.level);

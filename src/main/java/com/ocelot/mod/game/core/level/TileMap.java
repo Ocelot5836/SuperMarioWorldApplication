@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import javax.annotation.Nullable;
 
 import com.ocelot.mod.game.Game;
+import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.core.level.tile.property.IProperty;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
@@ -29,6 +30,8 @@ import net.minecraft.util.ResourceLocation;
  * @author Ocelot5836
  */
 public class TileMap implements IResourceManagerReloadListener {
+
+	private GameTemplate game;
 
 	private double lastX;
 	private double lastY;
@@ -63,7 +66,8 @@ public class TileMap implements IResourceManagerReloadListener {
 	 * @param tileSize
 	 *            The size for each tile
 	 */
-	public TileMap(int tileSize) {
+	public TileMap(GameTemplate game, int tileSize) {
+		this.game = game;
 		this.tileSize = tileSize;
 		this.numRowsToDraw = Game.HEIGHT / tileSize + 4;
 		this.numColsToDraw = Game.WIDTH / tileSize + 4;
@@ -195,6 +199,10 @@ public class TileMap implements IResourceManagerReloadListener {
 		}
 	}
 
+	public GameTemplate getGame() {
+		return game;
+	}
+
 	/**
 	 * @return The size of each tile in the tilemap
 	 */
@@ -282,7 +290,7 @@ public class TileMap implements IResourceManagerReloadListener {
 	 * @return The tile found at that pos
 	 */
 	public Tile getTile(int x, int y) {
-		if(y < 0)
+		if (y < 0)
 			return this.getTile(x, 0) == Tile.AIR ? Tile.AIR : Tile.VOID;
 		if (x < 0 || x >= numCols || y < 0 || y >= numRows)
 			return Tile.VOID;

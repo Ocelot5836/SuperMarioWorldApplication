@@ -105,11 +105,11 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 		for (int y = 0; y < map.getHeight() / tileSize; y++) {
 			for (int x = 0; x < map.getWidth() / tileSize; x++) {
 				if (map.getTile(x, y).equals(Tile.COIN)) {
-					map.setTile(x, y, Tile.EMPTY_QUESTION_BLOCK);
+					map.setTile(x, y, Tile.BRICKS);
 					continue;
 				}
 
-				if (map.getTile(x, y).equals(Tile.EMPTY_QUESTION_BLOCK)) {
+				if (map.getTile(x, y).equals(Tile.BRICKS)) {
 					map.setTile(x, y, Tile.COIN);
 					continue;
 				}

@@ -661,6 +661,11 @@ public class Player extends Mob implements IDamagable {
 		String count = Integer.toString(amount);
 		level.add(new TextFX(game, x + cwidth - Minecraft.getMinecraft().fontRenderer.getStringWidth(count) / 2, y + cheight / 2, 0, -0.4, count, 0xffffff, 1));
 	}
+	
+	public void addCoins(int amount) {
+		this.properties.setCoins(this.properties.getCoins() + amount);
+		game.playSound(Sounds.COLLECT_COIN, 1.0F);
+	}
 
 	public void onDeath(GameState state) {
 

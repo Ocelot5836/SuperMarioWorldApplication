@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
+import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IDamager;
@@ -47,8 +48,8 @@ public class Level {
 	 * @param mapLocation
 	 *            The location of the map file
 	 */
-	public Level(int tileSize, ResourceLocation mapLocation) {
-		this.tileMap = new TileMap(tileSize);
+	public Level(GameTemplate game, int tileSize, ResourceLocation mapLocation) {
+		this.tileMap = new TileMap(game, tileSize);
 		this.tileMap.loadMap(mapLocation);
 	}
 

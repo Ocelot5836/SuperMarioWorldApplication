@@ -117,9 +117,9 @@ public abstract class Tile {
 	/**
 	 * Renders the tile.
 	 * 
-	 * @param d
+	 * @param x
 	 *            The x position of the tile
-	 * @param e
+	 * @param y
 	 *            The y position of the tile
 	 * @param tileMap
 	 *            The tile map this tile is a part of
@@ -134,7 +134,7 @@ public abstract class Tile {
 	 * @param partialTicks
 	 *            The partial ticks
 	 */
-	public abstract void render(double d, double e, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks);
+	public abstract void render(double x, double y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks);
 
 	/**
 	 * Called when an entity collides with this tile.

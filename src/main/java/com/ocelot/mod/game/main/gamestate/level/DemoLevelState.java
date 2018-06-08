@@ -19,8 +19,10 @@ import com.ocelot.mod.game.main.entity.item.ItemCheese;
 import com.ocelot.mod.game.main.entity.item.ItemCracker;
 import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
 import com.ocelot.mod.game.main.entity.item.ItemPSwitch;
+import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.game.main.tile.TileInfoBox;
+import com.ocelot.mod.game.main.tile.TileQuestionBlock;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -50,6 +52,7 @@ public class DemoLevelState extends BasicLevel {
 		if (level.getLevel().getMap().getTile(35, 2) == Tile.INFO_BOX) {
 			level.getLevel().getMap().setValue(35, 2, TileInfoBox.TEXT, TileInfoBox.TextType.MR_CRAYFISH_HELLO);
 		}
+		TileQuestionBlock.setItem(level.getLevel().getMap(), 36, 2, Powerup.MUSHROOM);
 
 		setPlayer(level.getLevel().getPlayers().get(0));
 	}

@@ -48,7 +48,7 @@ public class WorldMapState extends GameState {
 
 		})));
 
-		level = new Level(16, new ResourceLocation(Mod.MOD_ID, "maps/empty.map"));
+		level = new Level(game, 16, new ResourceLocation(Mod.MOD_ID, "maps/empty.map"));
 		level.add(player = new PlayerMap(game, this, Game.WIDTH / 2, Game.HEIGHT / 2));
 	}
 
