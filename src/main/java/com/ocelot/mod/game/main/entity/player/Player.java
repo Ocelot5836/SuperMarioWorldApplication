@@ -27,8 +27,10 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.fx.particle.DustFX;
+import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.game.main.gui.Guis;
 import com.ocelot.mod.lib.Lib;
 
@@ -98,7 +100,6 @@ public class Player extends Mob implements IDamagable {
 			properties = new PlayerProperties(game);
 		}
 
-		this.properties.setSmall();
 		this.enableKeyboardInput(true);
 		this.setPosition(x, y);
 		this.setLastPosition(x, y);
@@ -321,6 +322,10 @@ public class Player extends Mob implements IDamagable {
 	@Override
 	public void update() {
 		super.update();
+
+		if (Keyboard.isKeyDown(Keyboard.KEY_K)) {
+			tileMap.setTile((int) x / 16, (int) y / 16 + 1, Tile.GRASS);
+		}
 
 		if (!this.isDead()) {
 			getNextPosition();
@@ -621,6 +626,11 @@ public class Player extends Mob implements IDamagable {
 		sprite.render(posX - this.getTileMapX() - cwidth / 2 - 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight());
 	}
 
+	@Override
+	public void onKeyPressed(int keyCode, char typedChar) {
+		// TODO remove this
+	}
+
 	private void setAnimation(int animation) {
 		if (animation < 0 || animation >= this.sprites.size()) {
 			this.animation.setFrames(this.sprites.get(0));
@@ -651,6 +661,10 @@ public class Player extends Mob implements IDamagable {
 		if (!this.properties.isSmall()) {
 			this.properties.setSmall();
 			this.game.playSound(Sounds.PLAYER_POWERUP_LOSE, 1.0F);
+			if (this.properties.getReserve() != Powerup.NULL) {
+				this.level.add(this.properties.getReserve().createInstance(this.game, x, 16));
+				this.properties.setReserve(Powerup.NULL);
+			}
 		} else {
 			this.properties.setDead();
 		}
@@ -661,10 +675,26 @@ public class Player extends Mob implements IDamagable {
 		String count = Integer.toString(amount);
 		level.add(new TextFX(game, x + cwidth - Minecraft.getMinecraft().fontRenderer.getStringWidth(count) / 2, y + cheight / 2, 0, -0.4, count, 0xffffff, 1));
 	}
-	
+
 	public void addCoins(int amount) {
 		this.properties.setCoins(this.properties.getCoins() + amount);
 		game.playSound(Sounds.COLLECT_COIN, 1.0F);
+	}
+
+	public void collectPowerup(Powerup powerup) {
+		Powerup reserve = this.properties.getReserve();
+		if (powerup == Powerup.MUSHROOM) {
+			if (this.properties.isSmall()) {
+				powerup.apply(this);
+				game.playSound(Sounds.PLAYER_POWERUP_GAIN, 1.0F);
+				return;
+			} else {
+				if (reserve == Powerup.NULL) {
+					this.properties.setReserve(powerup);
+				}
+				game.playSound(Sounds.PLAYER_COLLECT_POWERUP, 1.0F);
+			}
+		}
 	}
 
 	public void onDeath(GameState state) {

@@ -71,5 +71,9 @@ public class DemoLevelState extends BasicLevel {
 		if (keyCode == Keyboard.KEY_T) {
 			load();
 		}
+		
+		if (keyCode == Keyboard.KEY_Z) {
+			gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
+		}
 	}
 }

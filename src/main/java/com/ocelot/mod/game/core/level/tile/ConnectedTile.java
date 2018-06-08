@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
-import com.ocelot.mod.game.core.level.tile.property.PropertyBoolean;
+import com.ocelot.mod.game.core.level.tile.property.PropertyString;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 
 import net.minecraft.client.Minecraft;
@@ -22,125 +22,141 @@ import net.minecraft.client.gui.Gui;
  */
 public class ConnectedTile extends BasicTile {
 
-	/** Whether or not the above tile is this one */
-	public static final PropertyBoolean UP = PropertyBoolean.create("up");
-	/** Whether or not the below tile is this one */
-	public static final PropertyBoolean DOWN = PropertyBoolean.create("down");
-	/** Whether or not the left tile is this one */
-	public static final PropertyBoolean LEFT = PropertyBoolean.create("left");
-	/** Whether or not the right tile is this one */
-	public static final PropertyBoolean RIGHT = PropertyBoolean.create("right");
+	/** The tile connections */
+	public static final PropertyString CONNECTIONS = PropertyString.create("connections", "000000000");
 
 	protected Sprite[] sprites;
 
-	/**
-	 * The harder constructor.
-	 * 
-	 * @param sprites
-	 *            The sprites in order of TL, TM, TR, ML, MM, MR, BL, BM, BR. There MUST be at least 9 sprites in the array!
-	 */
-	public ConnectedTile(String unlocalizedName, Sprite... sprites) {
-		super(unlocalizedName);
-		this.sprites = new Sprite[9];
-
-		if (sprites.length < this.sprites.length) {
-			throw new IllegalArgumentException("Sprites for connected tile " + this.getLocalizedName() + " are not valid.");
-		}
-
-		for (int i = 0; i < this.sprites.length; i++) {
-			this.sprites[i] = sprites[i];
-		}
-	}
-
-	/**
-	 * The easier of the two constructors because it automatically adds the sprites.
-	 * 
-	 * @param sheet
-	 *            The sheet is the 9 sprites linked as if they were a 3x3 in the world
-	 */
 	public ConnectedTile(String unlocalizedName, BufferedImage sheet) {
 		super(unlocalizedName);
-		this.sprites = new Sprite[9];
+		this.sprites = new Sprite[13];
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
 				sprites[x + y * 3] = new Sprite(sheet.getSubimage(x * 16, y * 16, 16, 16));
 			}
 		}
+		for (int i = 0; i < 4; i++) {
+			sprites[i + 9] = new Sprite(sheet.getSubimage((i % 2) * 16, (i / 2) * 16 + 48, 16, 16));
+		}
 	}
 
 	@Override
 	public TileStateContainer modifyContainer(int x, int y, TileMap tileMap, TileStateContainer container) {
-		boolean up = (boolean) container.getValue(UP);
-		boolean down = (boolean) container.getValue(DOWN);
-		boolean left = (boolean) container.getValue(LEFT);
-		boolean right = (boolean) container.getValue(RIGHT);
+		String value = container.getValue(CONNECTIONS);
 
-		if (tileMap.getTile(x, y - 1).equals(this) || tileMap.getTile(x, y - 1).equals(Tile.VOID)) {
-			if (!up) {
-				container.setValue(UP, true);
+		if (value != null && value.length() == 9) {
+			StringBuilder connections = new StringBuilder();
+			for (int i = 0; i < 9; i++) {
+				int xx = i % 3;
+				int yy = i / 3;
+				int tileX = x + xx - 1;
+				int tileY = y + yy - 1;
+				connections.append(this.canConnectTo(tileX, tileY, tileMap) ? 1 : 0);
 			}
-		} else {
-			if (up) {
-				container.setValue(UP, false);
-			}
-		}
-
-		if (tileMap.getTile(x, y + 1).equals(this) || tileMap.getTile(x, y + 1).equals(Tile.VOID)) {
-			if (!down) {
-				container.setValue(DOWN, true);
-			}
-		} else {
-			if (down) {
-				container.setValue(DOWN, false);
-			}
-		}
-
-		if (tileMap.getTile(x - 1, y).equals(this) || tileMap.getTile(x - 1, y).equals(Tile.VOID)) {
-			if (!left) {
-				container.setValue(LEFT, true);
-			}
-		} else {
-			if (left) {
-				container.setValue(LEFT, false);
-			}
-		}
-
-		if (tileMap.getTile(x + 1, y).equals(this) || tileMap.getTile(x + 1, y).equals(Tile.VOID)) {
-			if (!right) {
-				container.setValue(RIGHT, true);
-			}
-		} else {
-			if (right) {
-				container.setValue(RIGHT, false);
-			}
+			container.setValue(CONNECTIONS, connections.toString());
 		}
 
 		return container;
 	}
 
+	public boolean canConnectTo(int x, int y, TileMap tileMap) {
+		Tile tile = tileMap.getTile(x, y);
+		return tile == this || tile == Tile.VOID;
+	}
+
 	@Override
 	public void render(double x, double y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		if (getValue(UP) != null && getValue(DOWN) != null && getValue(LEFT) != null && getValue(RIGHT) != null) {
-			boolean up = (boolean) getValue(UP);
-			boolean down = (boolean) getValue(DOWN);
-			boolean left = (boolean) getValue(LEFT);
-			boolean right = (boolean) getValue(RIGHT);
+		// if (getValue(UP) != null && getValue(DOWN) != null && getValue(LEFT) != null && getValue(RIGHT) != null) {
+		// boolean up = (boolean) getValue(UP);
+		// boolean down = (boolean) getValue(DOWN);
+		// boolean left = (boolean) getValue(LEFT);
+		// boolean right = (boolean) getValue(RIGHT);
+		//
+		// if (up && down) {
+		// if (left && right) {
+		// sprites[4].render(x, y, 16, 16);
+		// } else if (left) {
+		// sprites[5].render(x, y, 16, 16);
+		// } else if (right) {
+		// sprites[3].render(x, y, 16, 16);
+		// }
+		// } else if (up) {
+		// if (left && right) {
+		// sprites[7].render(x, y, 16, 16);
+		// } else if (left) {
+		// sprites[8].render(x, y, 16, 16);
+		// } else if (right) {
+		// sprites[6].render(x, y, 16, 16);
+		// }
+		// } else if (down) {
+		// if (left && right) {
+		// sprites[1].render(x, y, 16, 16);
+		// } else if (left) {
+		// sprites[2].render(x, y, 16, 16);
+		// } else if (right) {
+		// sprites[0].render(x, y, 16, 16);
+		// }
+		// } else {
+		// sprites[1].render(x, y, 16, 16);
+		// }
+		// } else {
+		// sprites[1].render(x, y, 16, 16);
+		// }
+
+		String value = getValue(CONNECTIONS);
+		if (value != null && value.length() == 9) {
+			boolean upLeft = (value.charAt(0) + "").equalsIgnoreCase("1");
+			boolean up = (value.charAt(1) + "").equalsIgnoreCase("1");
+			boolean upRight = (value.charAt(2) + "").equalsIgnoreCase("1");
+			boolean left = (value.charAt(3) + "").equalsIgnoreCase("1");
+			boolean right = (value.charAt(5) + "").equalsIgnoreCase("1");
+			boolean downLeft = (value.charAt(6) + "").equalsIgnoreCase("1");
+			boolean down = (value.charAt(7) + "").equalsIgnoreCase("1");
+			boolean downRight = (value.charAt(8) + "").equalsIgnoreCase("1");
 
 			if (up && down) {
 				if (left && right) {
-					sprites[4].render(x, y, 16, 16);
+					if (upLeft && upRight) {
+						if (downLeft && downRight) {
+							sprites[4].render(x, y, 16, 16);
+						} else if (downLeft) {
+							sprites[9].render(x, y, 16, 16);
+						} else if (downRight) {
+							sprites[10].render(x, y, 16, 16);
+						} else {
+							sprites[4].render(x, y, 16, 16);
+						}
+					} else if (upLeft) {
+						sprites[11].render(x, y, 16, 16);
+					} else if (upRight) {
+						sprites[12].render(x, y, 16, 16);
+					} else {
+						sprites[4].render(x, y, 16, 16);
+					}
 				} else if (left) {
 					sprites[5].render(x, y, 16, 16);
 				} else if (right) {
 					sprites[3].render(x, y, 16, 16);
+				} else {
+					sprites[4].render(x, y, 16, 16);
 				}
 			} else if (up) {
 				if (left && right) {
-					sprites[7].render(x, y, 16, 16);
+					if (upLeft && upRight) {
+						sprites[7].render(x, y, 16, 16);
+					} else if (upLeft) {
+						sprites[11].render(x, y, 16, 16);
+					} else if (upRight) {
+						sprites[12].render(x, y, 16, 16);
+					} else {
+						sprites[7].render(x, y, 16, 16);
+					}
 				} else if (left) {
 					sprites[8].render(x, y, 16, 16);
 				} else if (right) {
 					sprites[6].render(x, y, 16, 16);
+				} else {
+					sprites[7].render(x, y, 16, 16);
 				}
 			} else if (down) {
 				if (left && right) {
@@ -149,6 +165,8 @@ public class ConnectedTile extends BasicTile {
 					sprites[2].render(x, y, 16, 16);
 				} else if (right) {
 					sprites[0].render(x, y, 16, 16);
+				} else {
+					sprites[1].render(x, y, 16, 16);
 				}
 			} else {
 				sprites[1].render(x, y, 16, 16);
@@ -160,6 +178,6 @@ public class ConnectedTile extends BasicTile {
 
 	@Override
 	public TileStateContainer createContainer() {
-		return new TileStateContainer(this, UP, DOWN, LEFT, RIGHT);
+		return new TileStateContainer(this, CONNECTIONS);
 	}
 }

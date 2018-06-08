@@ -7,7 +7,7 @@ import com.google.common.collect.Maps;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
-import com.ocelot.mod.game.main.entity.item.EntityPowerup;
+import com.ocelot.mod.game.main.entity.EntityPowerup;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.game.main.tile.IQuestionBlockItem;
 import com.ocelot.mod.game.main.tile.TileQuestionBlock;
@@ -45,17 +45,17 @@ public abstract class Powerup implements IQuestionBlockItem {
 	public abstract void update();
 
 	@Override
-	public abstract void render(Minecraft mc, Gui gui, double x, double y, int mouseX, int mouseY, float partialTicks);
+	public abstract void render(double x, double y, Minecraft mc, Gui gui, int mouseX, int mouseY, float partialTicks);
 
 	@Override
 	public abstract EntityItem createInstance(GameTemplate game, double x, double y);
 
-	public void onPickup(EntityPowerup powerup, Player entity) {
+	public void onPickup(EntityPowerup powerup, Player player) {
 		powerup.setDead();
-		this.apply(entity);
+		player.collectPowerup(this);
 	}
 
-	public void apply(Player entity) {
+	public void apply(Player player) {
 	}
 
 	public String getRegistryName() {

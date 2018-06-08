@@ -65,6 +65,10 @@ public class YoshiHouseState extends GameState {
 		if (keyCode == Keyboard.KEY_T) {
 			load();
 		}
+		
+		if (keyCode == Keyboard.KEY_Z) {
+			gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
+		}
 	}
 
 	@Override

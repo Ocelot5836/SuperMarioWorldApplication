@@ -8,6 +8,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.LevelTemplate;
+import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.gui.Gui;
@@ -96,6 +97,11 @@ public class GuiOverlay extends MarioGui {
 		int dragonCoins = player.getProperties().getDragonCoins();
 		for(int i = 0; i < dragonCoins; i++) {
 			renderSprite(COIN, 64 + i * 8, 15);
+		}
+		
+		Powerup powerup = player.getProperties().getReserve();
+		if(powerup != Powerup.NULL) {
+			powerup.render(120, 15, mc, gui, mouseX, mouseY, partialTicks);
 		}
 	}
 

@@ -1,11 +1,9 @@
 package com.ocelot.mod.game.main.entity.powerup;
 
-import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
-import com.ocelot.mod.game.core.entity.fx.TextFX;
 import com.ocelot.mod.game.core.gfx.Sprite;
-import com.ocelot.mod.game.main.entity.item.EntityPowerup;
+import com.ocelot.mod.game.main.entity.EntityPowerup;
 import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
@@ -25,7 +23,7 @@ public class PowerupMushroom extends Powerup {
 	}
 
 	@Override
-	public void render(Minecraft mc, Gui gui, double x, double y, int mouseX, int mouseY, float partialTicks) {
+	public void render(double x, double y, Minecraft mc, Gui gui, int mouseX, int mouseY, float partialTicks) {
 		sprite.render(x, y);
 	}
 
@@ -38,10 +36,6 @@ public class PowerupMushroom extends Powerup {
 	public void apply(Player player) {
 		if (player.getProperties().isSmall()) {
 			player.getProperties().setBig();
-			player.getGame().playSound(Sounds.PLAYER_POWERUP_GAIN, 1.0F);
-		}else {
-			player.getGame().playSound(Sounds.PLAYER_COLLECT_POWERUP, 1.0F);
 		}
-		player.addScore(500);
 	}
 }

@@ -63,7 +63,7 @@ public abstract class Tile {
 	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16)), "yoshi_dirt").setSolid(); // 4
 	public static final Tile INFO_BOX = new TileInfoBox(); // 5
 	public static final Tile COIN = new TileCoin(CoinType.NORMAL); // 6
-	public static final Tile GRASS = new ConnectedTile("grass", CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 48)).setSolid(); // 7
+	public static final Tile GRASS = new ConnectedTile("grass", CONNECTED_TILES_SHEET.getSubimage(0, 0, 48, 96)).setSolid(); // 7
 	public static final Tile GRASS_WALL = new TileGrassWall(); // 8
 	public static final Tile QUESTION_BLOCK = new TileQuestionBlock(); // 9
 	public static final Tile BLUE_COIN = new TileCoin(CoinType.BLUE); // 10

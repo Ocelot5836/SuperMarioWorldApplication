@@ -10,7 +10,7 @@ public interface IQuestionBlockItem {
 
 	void update();
 
-	void render(Minecraft mc, Gui gui, double x, double y, int mouseX, int mouseY, float partialTicks);
+	void render(double x, double y, Minecraft mc, Gui gui, int mouseX, int mouseY, float partialTicks);
 	
 	Entity createInstance(GameTemplate game, double x, double y);
 

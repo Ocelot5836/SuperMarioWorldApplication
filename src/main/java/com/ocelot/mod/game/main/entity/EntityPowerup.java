@@ -1,4 +1,4 @@
-package com.ocelot.mod.game.main.entity.item;
+package com.ocelot.mod.game.main.entity;
 
 import java.util.List;
 
@@ -30,14 +30,14 @@ public class EntityPowerup extends EntityItem {
 	public void update() {
 		super.update();
 		this.powerup.update();
-		
-		List<Player>players = level.getPlayers();
-		for(int i = 0; i < players.size(); i++) {
+
+		List<Player> players = level.getPlayers();
+		for (int i = 0; i < players.size(); i++) {
 			Player player = players.get(i);
-			
-			if(!this.intersects(player))
+
+			if (!this.intersects(player))
 				continue;
-			
+
 			this.powerup.onPickup(this, player);
 		}
 	}
@@ -46,6 +46,6 @@ public class EntityPowerup extends EntityItem {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		this.powerup.render(mc, gui, posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() - cheight / 2, mouseX, mouseY, partialTicks);
+		this.powerup.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() - cheight / 2, mc, gui, mouseX, mouseY, partialTicks);
 	}
 }
