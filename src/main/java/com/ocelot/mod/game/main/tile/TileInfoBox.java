@@ -9,22 +9,39 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.BasicTile;
 import com.ocelot.mod.game.core.level.tile.Tile;
+import com.ocelot.mod.game.core.level.tile.property.PropertyDouble;
 import com.ocelot.mod.game.core.level.tile.property.PropertyEnum;
-import com.ocelot.mod.game.core.level.tile.property.PropertyInteger;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.game.main.gui.Guis;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.IStringSerializable;
 
 public class TileInfoBox extends BasicTile {
 
 	public static final PropertyEnum<TextType> TEXT = PropertyEnum.<TextType>create("text", TextType.class);
-	public static final PropertyInteger BOUNCE = PropertyInteger.create("bounce", 0, 10);
+	public static final PropertyDouble BOUNCE = PropertyDouble.create("bounce", 0, 10);
 
 	public TileInfoBox() {
 		super(new Sprite(Tile.TILES_SHEET.getSubimage(32, 0, 16, 16)), "info_box");
 		this.setSolid();
+	}
+
+	@Override
+	public void render(double x, double y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		GlStateManager.pushMatrix();
+		double bounce = getValue(BOUNCE);
+		double lift = bounce;
+		if (bounce >= BOUNCE.getMaxValue() / 2) {
+			lift = BOUNCE.getMaxValue() - bounce;
+		}
+
+		GlStateManager.translate(0, -lift, 0);
+		super.render(x, y, tileMap, gui, mc, mouseX, mouseY, partialTicks);
+		GlStateManager.popMatrix();
 	}
 
 	@Override
@@ -36,7 +53,7 @@ public class TileInfoBox extends BasicTile {
 				if (type != null) {
 					player.openGui(type.getGuiId());
 					player.getGame().playSound(Sounds.TILE_MESSAGE_HIT, 1.0F);
-					setValue(BOUNCE, 1);
+					setValue(BOUNCE, 1.0);
 				}
 			}
 		}
@@ -44,15 +61,14 @@ public class TileInfoBox extends BasicTile {
 
 	@Override
 	public TileStateContainer modifyContainer(int x, int y, TileMap tileMap, TileStateContainer container) {
-		int bounce = getValue(BOUNCE);
-		if (bounce != 0) {
-			if (bounce + 1 < BOUNCE.getMaxValue()) {
-				container.setValue(BOUNCE, bounce + 1);
+		Double bounce = getValue(BOUNCE);
+		if (bounce != null && bounce != 0) {
+			if (bounce + 0.5 < BOUNCE.getMaxValue()) {
+				container.setValue(BOUNCE, bounce + 0.5);
 			} else {
-				container.setValue(BOUNCE, 0);
+				container.setValue(BOUNCE, 0.0);
 			}
 		}
-		System.out.println(bounce);
 		return container;
 	}
 
