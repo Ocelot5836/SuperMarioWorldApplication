@@ -18,7 +18,7 @@ public class TileCoin extends AnimatedTile {
 	}
 
 	@Override
-	public void onEntityCollision(int x, int y, Entity entity, EnumDirection hitDirection) {
+	public void onEntityIntersection(int x, int y, Entity entity, EnumDirection hitDirection) {
 		if (entity instanceof ItemKoopaShell) {
 			ItemKoopaShell shell = (ItemKoopaShell) entity;
 			if (shell.getThrowingPlayer() != null) {

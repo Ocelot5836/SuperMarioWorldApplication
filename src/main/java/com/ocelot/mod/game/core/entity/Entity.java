@@ -175,6 +175,26 @@ public abstract class Entity {
 				tileMap.getTile(rightTile, currTileY).onEntityCollision(rightTile, currTileY, this, EnumDirection.LEFT);
 			}
 		}
+
+		if (dy > 0) {
+			tileMap.getTile(leftTile, topTile).onEntityIntersection(leftTile, topTile, this, EnumDirection.DOWN);
+			tileMap.getTile(rightTile, topTile).onEntityIntersection(rightTile, topTile, this, EnumDirection.DOWN);
+		}
+
+		if (dy < 0) {
+			tileMap.getTile(leftTile, bottomTile).onEntityIntersection(leftTile, bottomTile, this, EnumDirection.UP);
+			tileMap.getTile(rightTile, bottomTile).onEntityIntersection(rightTile, bottomTile, this, EnumDirection.UP);
+		}
+
+		if (dx < 0) {
+			tileMap.getTile(leftTile, topTile).onEntityIntersection(leftTile, topTile, this, EnumDirection.RIGHT);
+			tileMap.getTile(leftTile, bottomTile).onEntityIntersection(leftTile, bottomTile, this, EnumDirection.RIGHT);
+		}
+
+		if (dx > 0) {
+			tileMap.getTile(rightTile, topTile).onEntityIntersection(rightTile, topTile, this, EnumDirection.LEFT);
+			tileMap.getTile(rightTile, bottomTile).onEntityIntersection(rightTile, bottomTile, this, EnumDirection.LEFT);
+		}
 	}
 
 	// /**

@@ -150,6 +150,21 @@ public abstract class Tile {
 	 */
 	public void onEntityCollision(int x, int y, Entity entity, EnumDirection hitDirection) {
 	}
+	
+	/**
+	 * Called when an entity intersects/enters with this tile.
+	 * 
+	 * @param x
+	 *            The x of the tile
+	 * @param y
+	 *            The y of the tile
+	 * @param entity
+	 *            The entity that collided
+	 * @param hitDirection
+	 *            The direction this block was hit from
+	 */
+	public void onEntityIntersection(int x, int y, Entity entity, EnumDirection hitDirection) {
+	}
 
 	/**
 	 * Adds the collision boxes to a list to test with entity collisions.
