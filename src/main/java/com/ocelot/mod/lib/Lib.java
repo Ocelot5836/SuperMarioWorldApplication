@@ -178,11 +178,13 @@ public class Lib implements IResourceManagerReloadListener {
 	}
 
 	/**
+	 * Allows the easy ability to turn multiple objects or just one into an array.
+	 * 
 	 * @param obj
 	 *            The objects to put into an array.
 	 * @param <T>
 	 *            The type of array that will be returned
-	 * @return The array generated with the params
+	 * @return The array generated with the parameters
 	 */
 	public static <T> T[] asArray(T... obj) {
 		return obj;

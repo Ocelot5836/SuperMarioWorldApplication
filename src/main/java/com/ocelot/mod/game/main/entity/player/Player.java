@@ -43,6 +43,7 @@ import net.minecraft.util.ResourceLocation;
 public class Player extends Mob implements IDamagable {
 
 	public static final BufferedImage SMALL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/player_small.png"));
+	public static final BufferedImage BIG_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/player_big.png"));
 
 	private EntityItem item = null;
 
@@ -62,7 +63,7 @@ public class Player extends Mob implements IDamagable {
 	private BufferedAnimation animation;
 
 	private static List<BufferedImage[]> sprites;
-	private static int[] delays = { -1, 100, -1, 100, 50, -1, -1, -1, -1, -1, -1, -1, 100, -1, 50, -1, 100, 100, -1, -1, -1, -1 };
+	private static int[] delays = { -1, 100, -1, 100, 50, -1, -1, -1, -1, -1, -1, -1, 100, -1, 40, -1, 100, 100, -1, -1, -1, -1, -1, 80, -1, 80, 20, -1, -1, -1, -1, -1, -1, -1, 20, -1, 20, -1, 80, 80, -1, -1, -1 };
 
 	private static final int IDLE_SMALL = 0;// -1
 	private static final int WALKING_SMALL = 1;// 100
@@ -86,6 +87,28 @@ public class Player extends Mob implements IDamagable {
 	private static final int LOOK_UP_ITEM_SMALL = 19;// -1
 	private static final int MIDAIR_ITEM_SMALL = 20;// -1
 	private static final int DEAD = 21;// -1
+
+	private static final int IDLE_BIG = 22;// -1
+	private static final int WALKING_BIG = 23;// 100
+	private static final int IDLE_ITEM_BIG = 24;// -1
+	private static final int WALKING_ITEM_BIG = 25;// 100
+	private static final int KICKING_BIG = 26;// 50
+	private static final int SLIDING_BIG = 27; // -1
+	private static final int JUMPING_BIG = 28;// -1
+	private static final int FALLING_BIG = 29;// -1
+	private static final int STOPPING_BIG = 30; // -1
+	private static final int DUCKING_BIG = 31;// -1
+	private static final int DUCKING_ITEM_BIG = 32;// -1
+	private static final int FLOATING_FAT_BIG = 33;// -1
+	private static final int SPINNING_BIG = 34;// 100
+	private static final int COMPLETE_LEVEL_BIG = 35;// -1
+	private static final int RUNNING_BIG = 36;// -1
+	private static final int RUNNING_JUMPING_BIG = 37;// -1
+	private static final int SWIMMING_STROKE_BIG = 38;// 100
+	private static final int SWIMMING_BIG = 39;// 100
+	private static final int LOOK_UP_BIG = 40;// -1
+	private static final int LOOK_UP_ITEM_BIG = 41;// -1
+	private static final int MIDAIR_ITEM_BIG = 42;// -1
 
 	public Player(GameTemplate game) {
 		this(game, 0, 0);
@@ -129,19 +152,16 @@ public class Player extends Mob implements IDamagable {
 		this.runAnimationSpeed = 100;
 
 		this.facingRight = true;
-
-		delays = new int[] { -1, 100, -1, 100, 50, -1, -1, -1, -1, -1, -1, -1, 100, -1, 25, -1, 100, 100, -1, -1, -1, -1 };
 	}
 
 	private void loadSprites() {
-		BufferedImage[] walkingSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(1, 1, 16, 24), SMALL_SHEET.getSubimage(18, 1, 16, 24) };
-		BufferedImage[] walkingItemSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(35, 1, 16, 24), SMALL_SHEET.getSubimage(52, 1, 16, 24) };
-		BufferedImage[] spinningSmall = new BufferedImage[] { walkingSmall[0], SMALL_SHEET.getSubimage(205, 1, 16, 24), Lib.flipHorizontal(walkingSmall[0]), SMALL_SHEET.getSubimage(222, 1, 16, 24) };
-		BufferedImage[] runningSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(18, 26, 16, 24), SMALL_SHEET.getSubimage(35, 26, 16, 24) };
-		BufferedImage[] swimmingStrokeSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(103, 26, 16, 24), SMALL_SHEET.getSubimage(120, 26, 16, 24), SMALL_SHEET.getSubimage(137, 26, 16, 24) };
-		BufferedImage[] swimmingSmall = new BufferedImage[] { SMALL_SHEET.getSubimage(154, 26, 16, 24), SMALL_SHEET.getSubimage(171, 26, 16, 24), SMALL_SHEET.getSubimage(188, 26, 16, 24) };
+		BufferedImage[] walkingSmall = Lib.asArray(SMALL_SHEET.getSubimage(1, 1, 16, 24), SMALL_SHEET.getSubimage(18, 1, 16, 24));
+		BufferedImage[] walkingItemSmall = Lib.asArray(SMALL_SHEET.getSubimage(35, 1, 16, 24), SMALL_SHEET.getSubimage(52, 1, 16, 24));
+		BufferedImage[] spinningSmall = Lib.asArray(walkingSmall[0], SMALL_SHEET.getSubimage(205, 1, 16, 24), Lib.flipHorizontal(walkingSmall[0]), SMALL_SHEET.getSubimage(222, 1, 16, 24));
+		BufferedImage[] runningSmall = Lib.asArray(SMALL_SHEET.getSubimage(18, 26, 16, 24), SMALL_SHEET.getSubimage(35, 26, 16, 24));
+		BufferedImage[] swimmingStrokeSmall = Lib.asArray(SMALL_SHEET.getSubimage(103, 26, 16, 24), SMALL_SHEET.getSubimage(120, 26, 16, 24), SMALL_SHEET.getSubimage(137, 26, 16, 24));
+		BufferedImage[] swimmingSmall = Lib.asArray(SMALL_SHEET.getSubimage(154, 26, 16, 24), SMALL_SHEET.getSubimage(171, 26, 16, 24), SMALL_SHEET.getSubimage(188, 26, 16, 24));
 
-		sprites.clear();
 		sprites.add(Lib.asArray(walkingSmall[0]));
 		sprites.add(walkingSmall);
 		sprites.add(Lib.asArray(walkingItemSmall[0]));
@@ -150,7 +170,7 @@ public class Player extends Mob implements IDamagable {
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(86, 1, 16, 24)));
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(103, 1, 16, 24)));
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(120, 1, 16, 24)));
-		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(137, 1, 16, 24)));// stopping
+		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(137, 1, 16, 24)));
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(154, 1, 16, 24)));
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(171, 1, 16, 24)));
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(188, 1, 16, 24)));
@@ -164,6 +184,35 @@ public class Player extends Mob implements IDamagable {
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(1, 76, 16, 24)));
 		sprites.add(Lib.asArray(walkingItemSmall[1]));
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(86, 26, 16, 24)));
+
+		BufferedImage[] walkingBig = Lib.asArray(BIG_SHEET.getSubimage(1, 1, 16, 32), BIG_SHEET.getSubimage(18, 1, 16, 32), BIG_SHEET.getSubimage(35, 1, 16, 32), BIG_SHEET.getSubimage(18, 1, 16, 32));
+		BufferedImage[] walkingItemBig = Lib.asArray(BIG_SHEET.getSubimage(52, 1, 16, 32), BIG_SHEET.getSubimage(69, 1, 16, 32), BIG_SHEET.getSubimage(86, 1, 16, 32), BIG_SHEET.getSubimage(69, 1, 16, 32));
+		BufferedImage[] spinningBig = Lib.asArray(Lib.flipHorizontal(walkingBig[0]), BIG_SHEET.getSubimage(222, 1, 16, 32), walkingBig[0], BIG_SHEET.getSubimage(1, 34, 16, 32));
+		BufferedImage[] runningBig = Lib.asArray(BIG_SHEET.getSubimage(1, 67, 24, 32), BIG_SHEET.getSubimage(26, 67, 24, 32), BIG_SHEET.getSubimage(51, 67, 24, 32), BIG_SHEET.getSubimage(26, 67, 24, 32));
+		BufferedImage[] swimmingStrokeBig = Lib.asArray(BIG_SHEET.getSubimage(101, 67, 24, 32), BIG_SHEET.getSubimage(126, 67, 24, 32), BIG_SHEET.getSubimage(151, 67, 24, 32), BIG_SHEET.getSubimage(126, 67, 24, 32));
+		BufferedImage[] swimmingBig = Lib.asArray(BIG_SHEET.getSubimage(176, 67, 24, 32), BIG_SHEET.getSubimage(1, 100, 24, 32), BIG_SHEET.getSubimage(26, 100, 24, 32), BIG_SHEET.getSubimage(1, 100, 24, 32));
+
+		sprites.add(Lib.asArray(walkingBig[0]));
+		sprites.add(walkingBig);
+		sprites.add(Lib.asArray(walkingItemBig[0]));
+		sprites.add(walkingItemBig);
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(103, 1, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(120, 1, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(137, 1, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(154, 1, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(171, 1, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(188, 1, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(205, 1, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(205, 100, 32, 32)));
+		sprites.add(spinningBig);
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(18, 34, 32, 32)));
+		sprites.add(runningBig);
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(76, 67, 24, 32)));
+		sprites.add(swimmingStrokeBig);
+		sprites.add(swimmingBig);
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(35, 34, 16, 32)));
+		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(154, 34, 16, 32)));
+		sprites.add(Lib.asArray(walkingItemBig[1]));
 	}
 
 	@Override
@@ -302,8 +351,13 @@ public class Player extends Mob implements IDamagable {
 	}
 
 	private void setRunningAnimations() {
-		double percentage = Math.abs(dx / (this.isRunning() ? this.runMaxSpeed : this.maxSpeed));
-		runAnimationSpeed = (int) (100.0 - 100.0 * percentage + (this.isRunning() ? 25.0 : 50.0));
+		if (this.properties.isSmall()) {
+			double percentage = Math.abs(dx / (this.isRunning() ? this.runMaxSpeed : this.maxSpeed));
+			runAnimationSpeed = (int) (100.0 - 100.0 * percentage + (this.isRunning() ? 25.0 : 50.0));
+		} else {
+			double percentage = Math.abs(dx / (this.isRunning() ? this.runMaxSpeed : this.maxSpeed));
+			runAnimationSpeed = (int) (100.0 - 100.0 * percentage + (this.isRunning() ? 20.0 : 45.0));
+		}
 	}
 
 	public void openGui(int id) {
@@ -361,7 +415,11 @@ public class Player extends Mob implements IDamagable {
 			}
 
 			if (!this.properties.isHolding() && !down && !up && item != null) {
-				currentAction = KICKING_SMALL;
+				if (this.properties.isSmall()) {
+					currentAction = KICKING_SMALL;
+				} else {
+					currentAction = KICKING_BIG;
+				}
 				this.setAnimation(currentAction);
 			}
 
@@ -370,8 +428,8 @@ public class Player extends Mob implements IDamagable {
 			}
 
 			calculateCorners(x, y + 1);
-			if (swimming && (!(bottomLeft || bottomRight) || item != null)) {
-				if (this.properties.isSmall()) {
+			if (this.properties.isSmall()) {
+				if (swimming && (!(bottomLeft || bottomRight) || item != null)) {
 					if (item == null) {
 						if (jumping && canSwim) {
 							currentAction = SWIMMING_STROKE_SMALL;
@@ -385,111 +443,111 @@ public class Player extends Mob implements IDamagable {
 							this.setAnimation(currentAction);
 						}
 					}
-				}
-			} else {
-				if (currentAction != KICKING_SMALL || animation.hasPlayedOnce()) {
-					if (down) {
-						if (item != null) {
-							if (currentAction != DUCKING_ITEM_SMALL) {
-								currentAction = DUCKING_ITEM_SMALL;
-								this.setAnimation(currentAction);
-							}
-						} else {
-							if (currentAction != DUCKING_SMALL) {
-								currentAction = DUCKING_SMALL;
-								this.setAnimation(currentAction);
-							}
-						}
-					} else if (dy > 0) {
-						if (item != null) {
-							if (currentAction != MIDAIR_ITEM_SMALL) {
-								currentAction = MIDAIR_ITEM_SMALL;
-								this.setAnimation(currentAction);
-							}
-						} else {
-							if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-								if (currentAction != RUNNING_JUMPING_SMALL) {
-									currentAction = RUNNING_JUMPING_SMALL;
+				} else {
+					if (currentAction != KICKING_SMALL || animation.hasPlayedOnce()) {
+						if (down) {
+							if (item != null) {
+								if (currentAction != DUCKING_ITEM_SMALL) {
+									currentAction = DUCKING_ITEM_SMALL;
 									this.setAnimation(currentAction);
 								}
 							} else {
-								if (currentAction != FALLING_SMALL) {
-									currentAction = FALLING_SMALL;
+								if (currentAction != DUCKING_SMALL) {
+									currentAction = DUCKING_SMALL;
 									this.setAnimation(currentAction);
 								}
 							}
-						}
-					} else if (dy < 0) {
-						if (item != null) {
-							if (currentAction != MIDAIR_ITEM_SMALL) {
-								currentAction = MIDAIR_ITEM_SMALL;
-								this.setAnimation(currentAction);
-							}
-						} else {
-							if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-								if (currentAction != RUNNING_JUMPING_SMALL) {
-									currentAction = RUNNING_JUMPING_SMALL;
+						} else if (dy > 0) {
+							if (item != null) {
+								if (currentAction != MIDAIR_ITEM_SMALL) {
+									currentAction = MIDAIR_ITEM_SMALL;
 									this.setAnimation(currentAction);
 								}
-							} else {
-								if (currentAction != JUMPING_SMALL) {
-									currentAction = JUMPING_SMALL;
-									this.setAnimation(currentAction);
-								}
-							}
-						}
-					} else if (dx != 0) {
-						if (item != null) {
-							if (currentAction != WALKING_ITEM_SMALL) {
-								currentAction = WALKING_ITEM_SMALL;
-								this.setAnimation(currentAction);
-							}
-							this.animation.setDelay(runAnimationSpeed);
-						} else {
-							if (!(left && dx < 0) && !(right && dx > 0) && ((left && dx > 0) || (right && dx < 0))) {
-								if (currentAction != STOPPING_SMALL) {
-									currentAction = STOPPING_SMALL;
-									this.setAnimation(STOPPING_SMALL);
-								}
-								this.level.add(new DustFX(game, x, y + cheight / 2 - 4));
 							} else {
 								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-									if (currentAction != RUNNING_SMALL) {
-										currentAction = RUNNING_SMALL;
+									if (currentAction != RUNNING_JUMPING_SMALL) {
+										currentAction = RUNNING_JUMPING_SMALL;
 										this.setAnimation(currentAction);
 									}
 								} else {
-									if (currentAction != WALKING_SMALL) {
-										currentAction = WALKING_SMALL;
+									if (currentAction != FALLING_SMALL) {
+										currentAction = FALLING_SMALL;
 										this.setAnimation(currentAction);
 									}
-									this.animation.setDelay(runAnimationSpeed);
 								}
 							}
-						}
-					} else {
-						if (up) {
+						} else if (dy < 0) {
 							if (item != null) {
-								if (currentAction != LOOK_UP_ITEM_SMALL) {
-									currentAction = LOOK_UP_ITEM_SMALL;
+								if (currentAction != MIDAIR_ITEM_SMALL) {
+									currentAction = MIDAIR_ITEM_SMALL;
 									this.setAnimation(currentAction);
 								}
 							} else {
-								if (currentAction != LOOK_UP_SMALL) {
-									currentAction = LOOK_UP_SMALL;
+								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+									if (currentAction != RUNNING_JUMPING_SMALL) {
+										currentAction = RUNNING_JUMPING_SMALL;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != JUMPING_SMALL) {
+										currentAction = JUMPING_SMALL;
+										this.setAnimation(currentAction);
+									}
+								}
+							}
+						} else if (dx != 0) {
+							if (item != null) {
+								if (currentAction != WALKING_ITEM_SMALL) {
+									currentAction = WALKING_ITEM_SMALL;
 									this.setAnimation(currentAction);
+								}
+								this.animation.setDelay(runAnimationSpeed);
+							} else {
+								if (!(left && dx < 0) && !(right && dx > 0) && ((left && dx > 0) || (right && dx < 0))) {
+									if (currentAction != STOPPING_SMALL) {
+										currentAction = STOPPING_SMALL;
+										this.setAnimation(STOPPING_SMALL);
+									}
+									this.level.add(new DustFX(game, x, y + cheight / 2 - 4));
+								} else {
+									if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+										if (currentAction != RUNNING_SMALL) {
+											currentAction = RUNNING_SMALL;
+											this.setAnimation(currentAction);
+										}
+									} else {
+										if (currentAction != WALKING_SMALL) {
+											currentAction = WALKING_SMALL;
+											this.setAnimation(currentAction);
+										}
+										this.animation.setDelay(runAnimationSpeed);
+									}
 								}
 							}
 						} else {
-							if (item != null) {
-								if (currentAction != IDLE_ITEM_SMALL) {
-									currentAction = IDLE_ITEM_SMALL;
-									this.setAnimation(currentAction);
+							if (up) {
+								if (item != null) {
+									if (currentAction != LOOK_UP_ITEM_SMALL) {
+										currentAction = LOOK_UP_ITEM_SMALL;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != LOOK_UP_SMALL) {
+										currentAction = LOOK_UP_SMALL;
+										this.setAnimation(currentAction);
+									}
 								}
 							} else {
-								if (currentAction != IDLE_SMALL) {
-									currentAction = IDLE_SMALL;
-									this.setAnimation(currentAction);
+								if (item != null) {
+									if (currentAction != IDLE_ITEM_SMALL) {
+										currentAction = IDLE_ITEM_SMALL;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != IDLE_SMALL) {
+										currentAction = IDLE_SMALL;
+										this.setAnimation(currentAction);
+									}
 								}
 							}
 						}
@@ -508,6 +566,145 @@ public class Player extends Mob implements IDamagable {
 						this.lastY = y;
 					}
 					this.setSize(12, 14);
+				}
+			} else {
+				if (swimming && (!(bottomLeft || bottomRight) || item != null)) {
+					if (item == null) {
+						if (jumping && canSwim) {
+							currentAction = SWIMMING_STROKE_BIG;
+							this.setAnimation(SWIMMING_STROKE_BIG);
+						}
+					}
+
+					if (currentAction != SWIMMING_STROKE_BIG || (currentAction == SWIMMING_STROKE_BIG && animation.hasPlayedOnce())) {
+						if (currentAction != SWIMMING_BIG) {
+							currentAction = SWIMMING_BIG;
+							this.setAnimation(currentAction);
+						}
+					}
+				} else {
+					if (currentAction != KICKING_BIG || animation.hasPlayedOnce()) {
+						if (down) {
+							if (item != null) {
+								if (currentAction != DUCKING_ITEM_BIG) {
+									currentAction = DUCKING_ITEM_BIG;
+									this.setAnimation(currentAction);
+								}
+							} else {
+								if (currentAction != DUCKING_BIG) {
+									currentAction = DUCKING_BIG;
+									this.setAnimation(currentAction);
+								}
+							}
+						} else if (dy > 0) {
+							if (item != null) {
+								if (currentAction != MIDAIR_ITEM_BIG) {
+									currentAction = MIDAIR_ITEM_BIG;
+									this.setAnimation(currentAction);
+								}
+							} else {
+								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+									if (currentAction != RUNNING_JUMPING_BIG) {
+										currentAction = RUNNING_JUMPING_BIG;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != FALLING_BIG) {
+										currentAction = FALLING_BIG;
+										this.setAnimation(currentAction);
+									}
+								}
+							}
+						} else if (dy < 0) {
+							if (item != null) {
+								if (currentAction != MIDAIR_ITEM_BIG) {
+									currentAction = MIDAIR_ITEM_BIG;
+									this.setAnimation(currentAction);
+								}
+							} else {
+								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+									if (currentAction != RUNNING_JUMPING_BIG) {
+										currentAction = RUNNING_JUMPING_BIG;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != JUMPING_BIG) {
+										currentAction = JUMPING_BIG;
+										this.setAnimation(currentAction);
+									}
+								}
+							}
+						} else if (dx != 0) {
+							if (item != null) {
+								if (currentAction != WALKING_ITEM_BIG) {
+									currentAction = WALKING_ITEM_BIG;
+									this.setAnimation(currentAction);
+								}
+								this.animation.setDelay(runAnimationSpeed);
+							} else {
+								if (!(left && dx < 0) && !(right && dx > 0) && ((left && dx > 0) || (right && dx < 0))) {
+									if (currentAction != STOPPING_BIG) {
+										currentAction = STOPPING_BIG;
+										this.setAnimation(STOPPING_BIG);
+									}
+									this.level.add(new DustFX(game, x, y + cheight / 2 - 4));
+								} else {
+									if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+										if (currentAction != RUNNING_BIG) {
+											currentAction = RUNNING_BIG;
+											this.setAnimation(currentAction);
+										}
+									} else {
+										if (currentAction != WALKING_BIG) {
+											currentAction = WALKING_BIG;
+											this.setAnimation(currentAction);
+										}
+										this.animation.setDelay(runAnimationSpeed);
+									}
+								}
+							}
+						} else {
+							if (up) {
+								if (item != null) {
+									if (currentAction != LOOK_UP_ITEM_BIG) {
+										currentAction = LOOK_UP_ITEM_BIG;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != LOOK_UP_BIG) {
+										currentAction = LOOK_UP_BIG;
+										this.setAnimation(currentAction);
+									}
+								}
+							} else {
+								if (item != null) {
+									if (currentAction != IDLE_ITEM_BIG) {
+										currentAction = IDLE_ITEM_BIG;
+										this.setAnimation(currentAction);
+									}
+								} else {
+									if (currentAction != IDLE_BIG) {
+										currentAction = IDLE_BIG;
+										this.setAnimation(currentAction);
+									}
+								}
+							}
+						}
+					}
+				}
+
+				if (this.down) {
+					if (this.cheight != 15) {
+						this.y += 6;
+						this.lastY = y;
+					}
+					this.setSize(12, 15);
+				} else {
+					if (this.cheight != 26) {
+						this.y -= 6;
+						this.lastY = y;
+					}
+					this.setSize(12, 26);
 				}
 			}
 
@@ -613,7 +810,7 @@ public class Player extends Mob implements IDamagable {
 		super.render(gui, mc, mouseX, mouseY, partialTicks);
 
 		sprite.setData(animation.getImage());
-		if (!facingRight) {
+		if (this.properties.isSmall() ? !facingRight : facingRight) {
 			sprite = Lib.flipHorizontal(sprite);
 		}
 
@@ -624,11 +821,6 @@ public class Player extends Mob implements IDamagable {
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
 		sprite.render(posX - this.getTileMapX() - cwidth / 2 - 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight());
-	}
-
-	@Override
-	public void onKeyPressed(int keyCode, char typedChar) {
-		// TODO remove this
 	}
 
 	private void setAnimation(int animation) {
@@ -727,6 +919,18 @@ public class Player extends Mob implements IDamagable {
 		return item;
 	}
 
+	@Override
+	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
+		if (source.canDamagePlayer()) {
+			this.damage();
+			if (isInstantKill) {
+				this.properties.setDead();
+			}
+			return true;
+		}
+		return false;
+	}
+
 	public static class Summonable implements IFileSummonable {
 		@Override
 		public void summonFromFile(GameTemplate game, Level level, String[] args) throws SummonException {
@@ -758,17 +962,5 @@ public class Player extends Mob implements IDamagable {
 		public String getRegistryName() {
 			return "Player";
 		}
-	}
-
-	@Override
-	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
-		if (source.canDamagePlayer()) {
-			this.damage();
-			if (isInstantKill) {
-				this.properties.setDead();
-			}
-			return true;
-		}
-		return false;
 	}
 }
