@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ocelot.mod.game.Game;
+import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.MarioDamageSource;
 import com.ocelot.mod.game.core.entity.ai.IAI;
-import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.tile.TileWater;
 
 /**
@@ -301,6 +302,23 @@ public abstract class Mob extends Entity {
 
 	public boolean isSwimming() {
 		return swimming;
+	}
+
+	@Override
+	public EnumDirection getMovingDirection() {
+		if (falling || jumping) {
+			if (falling) {
+				return EnumDirection.UP;
+			} else {
+				return EnumDirection.DOWN;
+			}
+		} else {
+			if (dx > 0) {
+				return EnumDirection.LEFT;
+			} else {
+				return EnumDirection.RIGHT;
+			}
+		}
 	}
 
 	/**

@@ -12,6 +12,7 @@ import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.MarioDamageSource;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IDamagable;
@@ -28,7 +29,6 @@ import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.core.level.tile.Tile;
-import com.ocelot.mod.game.main.entity.enemy.Enemy.MarioDamageSource;
 import com.ocelot.mod.game.main.entity.fx.particle.DustFX;
 import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.game.main.gui.Guis;
@@ -185,10 +185,10 @@ public class Player extends Mob implements IDamagable {
 		sprites.add(Lib.asArray(walkingItemSmall[1]));
 		sprites.add(Lib.asArray(SMALL_SHEET.getSubimage(86, 26, 16, 24)));
 
-		BufferedImage[] walkingBig = Lib.asArray(BIG_SHEET.getSubimage(1, 1, 16, 32), BIG_SHEET.getSubimage(18, 1, 16, 32), BIG_SHEET.getSubimage(35, 1, 16, 32), BIG_SHEET.getSubimage(18, 1, 16, 32));
+		BufferedImage[] walkingBig = Lib.asArray(BIG_SHEET.getSubimage(1, 1, 16, 32), BIG_SHEET.getSubimage(18, 1, 16, 32), BIG_SHEET.getSubimage(35, 1, 16, 32));
 		BufferedImage[] walkingItemBig = Lib.asArray(BIG_SHEET.getSubimage(52, 1, 16, 32), BIG_SHEET.getSubimage(69, 1, 16, 32), BIG_SHEET.getSubimage(86, 1, 16, 32), BIG_SHEET.getSubimage(69, 1, 16, 32));
 		BufferedImage[] spinningBig = Lib.asArray(Lib.flipHorizontal(walkingBig[0]), BIG_SHEET.getSubimage(222, 1, 16, 32), walkingBig[0], BIG_SHEET.getSubimage(1, 34, 16, 32));
-		BufferedImage[] runningBig = Lib.asArray(BIG_SHEET.getSubimage(1, 67, 24, 32), BIG_SHEET.getSubimage(26, 67, 24, 32), BIG_SHEET.getSubimage(51, 67, 24, 32), BIG_SHEET.getSubimage(26, 67, 24, 32));
+		BufferedImage[] runningBig = Lib.asArray(BIG_SHEET.getSubimage(1, 67, 24, 32), BIG_SHEET.getSubimage(26, 67, 24, 32), BIG_SHEET.getSubimage(51, 67, 24, 32));
 		BufferedImage[] swimmingStrokeBig = Lib.asArray(BIG_SHEET.getSubimage(101, 67, 24, 32), BIG_SHEET.getSubimage(126, 67, 24, 32), BIG_SHEET.getSubimage(151, 67, 24, 32), BIG_SHEET.getSubimage(126, 67, 24, 32));
 		BufferedImage[] swimmingBig = Lib.asArray(BIG_SHEET.getSubimage(176, 67, 24, 32), BIG_SHEET.getSubimage(1, 100, 24, 32), BIG_SHEET.getSubimage(26, 100, 24, 32), BIG_SHEET.getSubimage(1, 100, 24, 32));
 
@@ -759,22 +759,7 @@ public class Player extends Mob implements IDamagable {
 
 	private void checkAttackAndDamage(List<Entity> entities) {
 		for (int i = 0; i < entities.size(); i++) {
-			EnumDirection direction = EnumDirection.UP;
-
-			if (falling || jumping) {
-				if (falling) {
-					direction = EnumDirection.UP;
-				} else {
-					direction = EnumDirection.DOWN;
-				}
-			} else {
-				if (dx > 0) {
-					direction = EnumDirection.LEFT;
-				} else {
-					direction = EnumDirection.RIGHT;
-				}
-			}
-
+			EnumDirection direction = this.getMovingDirection();
 			Entity e = entities.get(i);
 			boolean flag = false;
 			if (!e.intersects(this))

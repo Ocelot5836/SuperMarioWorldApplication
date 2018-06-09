@@ -13,6 +13,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.MarioDamageSource;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IDamager;
@@ -35,7 +36,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 
 @FileSummonableEntity(Koopa.Summonable.class)
 public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListener {

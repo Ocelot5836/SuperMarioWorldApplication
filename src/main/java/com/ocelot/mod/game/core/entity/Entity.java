@@ -433,6 +433,25 @@ public abstract class Entity {
 	public AxisAlignedBB getEntityBox() {
 		return new AxisAlignedBB(this.x - this.cwidth / 2, this.y - this.cheight / 2, this.cwidth, this.cheight);
 	}
+	
+	/**
+	 * @return The direction this entity is moving
+	 */
+	public EnumDirection getMovingDirection() {
+		if (falling) {
+			if (falling) {
+				return EnumDirection.UP;
+			} else {
+				return EnumDirection.DOWN;
+			}
+		} else {
+			if (dx > 0) {
+				return EnumDirection.LEFT;
+			} else {
+				return EnumDirection.RIGHT;
+			}
+		}
+	}
 
 	/**
 	 * Whether or not this entity has collided with the entity provided.

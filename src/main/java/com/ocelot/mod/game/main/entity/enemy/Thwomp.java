@@ -2,6 +2,7 @@ package com.ocelot.mod.game.main.entity.enemy;
 
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.MarioDamageSource;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.Mob;
@@ -17,8 +18,8 @@ public class Thwomp extends Enemy {
 		if (entity instanceof Mob) {
 			Mob mob = (Mob) entity;
 			if (!mob.invulnerable) {
-				if(mob instanceof IDamagable) {
-					((IDamagable)mob).takeDamage(this, MarioDamageSource.THWOMP, sideHit, false);
+				if (mob instanceof IDamagable) {
+					((IDamagable) mob).takeDamage(this, MarioDamageSource.THWOMP, sideHit, false);
 				}
 			}
 		}

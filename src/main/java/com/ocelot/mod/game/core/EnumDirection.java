@@ -20,7 +20,7 @@ import net.minecraft.util.math.MathHelper;
  * @author Ocelot5836
  */
 public enum EnumDirection {
-	UP(0, 1, "up", EnumAxis.Y), DOWN(1, 0, "down", EnumAxis.Y), LEFT(2, 3, "left", EnumAxis.X), RIGHT(3, 2, "right", EnumAxis.X);
+	UP(0, 1, "up", EnumAxis.Y), DOWN(1, 0, "down", EnumAxis.Y), LEFT(2, 3, "left", EnumAxis.X), RIGHT(3, 2, "right", EnumAxis.X), NONE(4, 4, "none", EnumAxis.NONE);
 
 	private final int index;
 	private final int opposite;

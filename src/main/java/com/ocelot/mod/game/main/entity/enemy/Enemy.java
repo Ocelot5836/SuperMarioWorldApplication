@@ -34,26 +34,4 @@ public abstract class Enemy extends Mob implements IDamager {
 		double distance = Math.sqrt(Math.pow(x - nearestPlayer.getX(), 2) + Math.pow(y - nearestPlayer.getY(), 2));
 		return distance <= this.detectRange ? nearestPlayer : null;
 	}
-
-	/**
-	 * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
-	 * 
-	 * <br>
-	 * </br>
-	 * 
-	 * The type of damage that can be dealt to a mob.
-	 * 
-	 * @author Ocelot5836
-	 */
-	public enum MarioDamageSource {
-		MARIO, SHELL, REX, THWOMP, BOWSER, ENEMY;
-
-		public boolean isHeavy() {
-			return this == MARIO || this == THWOMP;
-		}
-
-		public boolean canDamagePlayer() {
-			return this != MARIO;
-		}
-	}
 }
