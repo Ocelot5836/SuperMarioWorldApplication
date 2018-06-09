@@ -34,8 +34,6 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public class ApplicationGame extends Application {
 
-	private File file;
-	private boolean loaded;
 	private Layout layout;
 	private GameTemplate game;
 
@@ -47,20 +45,6 @@ public class ApplicationGame extends Application {
 		game.init();
 		layout = new Layout(game.getWidth(), game.getHeight());
 		setCurrentLayout(layout);
-
-		loaded = false;
-		FileSystem.getApplicationFolder(this, (folder, success) -> {
-			if (success) {
-				folder.search(file -> file.isForApplication(this) && file.getName().equalsIgnoreCase("save")).forEach(file -> {
-					readFromFile(file.getData());
-					this.file = file;
-					loaded = true;
-				});
-			}
-		});
-		if (!loaded) {
-			saveFile();
-		}
 	}
 
 	@Override
@@ -152,13 +136,6 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void load(NBTTagCompound nbt) {
-	}
-
-	@Override
-	public void save(NBTTagCompound nbt) {
-	}
-
-	private void readFromFile(NBTTagCompound nbt) {
 		try {
 			game.load(nbt);
 		} catch (Throwable e) {
@@ -166,7 +143,8 @@ public class ApplicationGame extends Application {
 		}
 	}
 
-	private void writeToFile(NBTTagCompound nbt) {
+	@Override
+	public void save(NBTTagCompound nbt) {
 		try {
 			game.save(nbt);
 		} catch (Throwable e) {
@@ -174,28 +152,12 @@ public class ApplicationGame extends Application {
 		}
 	}
 
-	private void saveFile() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToFile(nbt);
-		file = new File("save", this, nbt);
-		Dialog.SaveFile dialog = new Dialog.SaveFile(this, nbt);
-		dialog.setFolder(this.getApplicationFolderPath());
-		this.openDialog(dialog);
-	}
-
 	@Override
 	public void onClose() {
 		super.onClose();
-		if (file != null) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			this.writeToFile(nbt);
-			try {
-				file.setData(nbt);
-			} catch (Exception e) {
-			}
-		}
 		game.onClose();
 		MemoryLib.clear();
+		markDirty();
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			Jukebox.stopMusic();
 		}
