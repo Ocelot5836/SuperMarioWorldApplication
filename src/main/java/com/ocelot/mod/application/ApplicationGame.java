@@ -3,8 +3,11 @@ package com.ocelot.mod.application;
 import org.lwjgl.opengl.GL11;
 
 import com.mrcrayfish.device.api.app.Application;
+import com.mrcrayfish.device.api.app.Dialog;
 import com.mrcrayfish.device.api.app.Layout;
+import com.mrcrayfish.device.api.io.File;
 import com.mrcrayfish.device.core.Laptop;
+import com.mrcrayfish.device.core.io.FileSystem;
 import com.mrcrayfish.device.util.GLHelper;
 import com.ocelot.mod.Mod;
 import com.ocelot.mod.audio.Jukebox;
@@ -31,6 +34,8 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public class ApplicationGame extends Application {
 
+	private File file;
+	private boolean loaded;
 	private Layout layout;
 	private GameTemplate game;
 
@@ -42,6 +47,20 @@ public class ApplicationGame extends Application {
 		game.init();
 		layout = new Layout(game.getWidth(), game.getHeight());
 		setCurrentLayout(layout);
+
+		loaded = false;
+		FileSystem.getApplicationFolder(this, (folder, success) -> {
+			if (success) {
+				folder.search(file -> file.isForApplication(this) && file.getName().equalsIgnoreCase("save")).forEach(file -> {
+					readFromFile(file.getData());
+					this.file = file;
+					loaded = true;
+				});
+			}
+		});
+		if (!loaded) {
+			saveFile();
+		}
 	}
 
 	@Override
@@ -133,6 +152,13 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void load(NBTTagCompound nbt) {
+	}
+
+	@Override
+	public void save(NBTTagCompound nbt) {
+	}
+
+	private void readFromFile(NBTTagCompound nbt) {
 		try {
 			game.load(nbt);
 		} catch (Throwable e) {
@@ -140,8 +166,7 @@ public class ApplicationGame extends Application {
 		}
 	}
 
-	@Override
-	public void save(NBTTagCompound nbt) {
+	private void writeToFile(NBTTagCompound nbt) {
 		try {
 			game.save(nbt);
 		} catch (Throwable e) {
@@ -149,12 +174,23 @@ public class ApplicationGame extends Application {
 		}
 	}
 
+	private void saveFile() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToFile(nbt);
+		file = new File("save", this, nbt);
+		Dialog.SaveFile dialog = new Dialog.SaveFile(this, nbt);
+		dialog.setFolder(this.getApplicationFolderPath());
+		this.openDialog(dialog);
+	}
+
 	@Override
 	public void onClose() {
 		super.onClose();
 		game.onClose();
 		MemoryLib.clear();
-		markDirty();
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToFile(nbt);
+		file.setData(nbt);
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			Jukebox.stopMusic();
 		}
