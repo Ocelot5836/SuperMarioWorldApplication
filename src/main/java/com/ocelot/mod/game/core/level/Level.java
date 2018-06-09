@@ -107,7 +107,7 @@ public class Level {
 	}
 
 	private void renderEntities(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		boolean showCollisionBoxes = true;
+		boolean showCollisionBoxes = false;
 
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);

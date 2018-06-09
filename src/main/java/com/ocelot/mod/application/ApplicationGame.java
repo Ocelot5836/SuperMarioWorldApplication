@@ -186,11 +186,16 @@ public class ApplicationGame extends Application {
 	@Override
 	public void onClose() {
 		super.onClose();
+		if (file != null) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			this.writeToFile(nbt);
+			try {
+				file.setData(nbt);
+			} catch (Exception e) {
+			}
+		}
 		game.onClose();
 		MemoryLib.clear();
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToFile(nbt);
-		file.setData(nbt);
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			Jukebox.stopMusic();
 		}
