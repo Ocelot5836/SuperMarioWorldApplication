@@ -28,7 +28,6 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.fx.particle.DustFX;
 import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.game.main.gui.Guis;
@@ -377,10 +376,6 @@ public class Player extends Mob implements IDamagable {
 	public void update() {
 		super.update();
 
-		if (Keyboard.isKeyDown(Keyboard.KEY_K)) {
-			tileMap.setTile((int) x / 16, (int) y / 16 + 1, Tile.GRASS);
-		}
-
 		if (!this.isDead()) {
 			getNextPosition();
 			getNextPosition();
@@ -726,7 +721,7 @@ public class Player extends Mob implements IDamagable {
 				}
 				item.updateLastPosition();
 				item.setPosition(x, y);
-				item.setPosition(x + (facingRight ? 1 : -1) * (item.getWidth() / 2 + 4), y - 2);
+				item.setPosition(x + (facingRight ? 1 : -1) * (item.getWidth() / 2 + 4), y - (this.properties.isSmall() ? 2 : -2));
 			}
 
 			if (this.properties.isHolding()) {
@@ -793,6 +788,15 @@ public class Player extends Mob implements IDamagable {
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mc, mouseX, mouseY, partialTicks);
+
+		// TODO add a tile map editor using this code
+		// if (Mouse.isButtonDown(0)) {
+		// tileMap.setTile((int) ((mouseX + this.getTileMapX()) / 16), (int) ((mouseY + this.getTileMapY()) / 16), Tile.GRASS);
+		// }
+		//
+		// if (Mouse.isButtonDown(1)) {
+		// tileMap.setTile((int) ((mouseX + this.getTileMapX()) / 16), (int) ((mouseY + this.getTileMapY()) / 16), Tile.AIR);
+		// }
 
 		sprite.setData(animation.getImage());
 		if (this.properties.isSmall() ? !facingRight : facingRight) {

@@ -228,16 +228,6 @@ public class Sprite {
 	}
 
 	/**
-	 * Flips the sprite in the direction specified. The direction does not currently function.
-	 * 
-	 * @param direction
-	 *            The direction to flip
-	 */
-	public void flip(int direction) {
-		Lib.flipHorizontal(this);
-	}
-
-	/**
 	 * @return The image location used to render
 	 */
 	public ResourceLocation getTexture() {

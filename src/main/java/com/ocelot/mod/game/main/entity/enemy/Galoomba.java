@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ocelot.mod.Mod;
-import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.MarioDamageSource;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IDamagable;
+import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
@@ -165,7 +165,7 @@ public class Galoomba extends Enemy implements IDamagable {
 
 	@Override
 	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
-		if (source == MarioDamageSource.SHELL) {
+		if (source == MarioDamageSource.SHELL || source.isPlayerProjectile()) {
 			defaultKillEntity(this);
 			return true;
 		}
@@ -191,7 +191,7 @@ public class Galoomba extends Enemy implements IDamagable {
 		return false;
 	}
 
-	public static class Item extends EntityItem implements IItemCarriable, IDamagable {
+	public static class Item extends EntityItem implements IItemCarriable, IDamager {
 
 		public static final int GALOOMBA_TIME = 500;
 
@@ -247,7 +247,9 @@ public class Galoomba extends Enemy implements IDamagable {
 						continue;
 					}
 
-					((IDamagable) entity).takeDamage(this, MarioDamageSource.GALOOMBA, this.getMovingDirection(), true);
+					if (((IDamagable) entity).takeDamage(this, MarioDamageSource.GALOOMBA_ITEM, this.getMovingDirection(), true)) {
+						level.add(new PlayerBounceFX(game, x, y));
+					}
 				}
 			}
 		}
@@ -307,36 +309,9 @@ public class Galoomba extends Enemy implements IDamagable {
 		}
 
 		@Override
-		public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
-			if(source == MarioDamageSource.SHELL || isInstantKill) {
-				defaultKillEntity(this);
-				return true;
-			}
-			
-			if (entity instanceof Player) {
-				Player player = (Player) entity;
-				if (sideHit == EnumDirection.UP && isInstantKill) {
-					setDead();
-					return true;
-				}
-
-				if (this.xSpeed == 0 && player.getHeldItem() != this) {
-					game.playSound(Sounds.PLAYER_KICK, 1.0F);
-					resetDirections();
-					if (player.getX() > x) {
-						xSpeed = -xSpeed;
-					}
-				} else {
-					if (sideHit == EnumDirection.UP) {
-						if (!isInstantKill) {
-							player.setFalling(false);
-							player.setJumping(true);
-							this.xSpeed = 0;
-							level.add(new PlayerBounceFX(game, player.getX(), player.getY()));
-							game.playSound(Sounds.PLAYER_STOMP, 1.0F);
-						}
-					}
-				}
+		public boolean dealDamage(Entity entity, EnumDirection sideHit) {
+			if (entity instanceof IDamagable) {
+				((IDamagable) entity).takeDamage(this, MarioDamageSource.GALOOMBA_ITEM, sideHit, true);
 			}
 			return false;
 		}

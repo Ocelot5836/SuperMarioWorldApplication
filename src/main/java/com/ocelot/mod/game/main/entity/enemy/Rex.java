@@ -192,7 +192,7 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 	@Override
 	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
 		if (currentAction != CRUSH_BIG && currentAction != CRUSH_SMALL) {
-			if (source == MarioDamageSource.SHELL) {
+			if (source == MarioDamageSource.SHELL || source.isPlayerProjectile()) {
 				defaultKillEntity(this);
 				return true;
 			}

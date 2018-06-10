@@ -27,6 +27,10 @@ public class ConnectedTile extends BasicTile {
 
 	protected Sprite[] sprites;
 
+	protected ConnectedTile(String unlocalizedName) {
+		super(unlocalizedName);
+	}
+
 	public ConnectedTile(String unlocalizedName, BufferedImage sheet) {
 		super(unlocalizedName);
 		this.sprites = new Sprite[13];

@@ -11,7 +11,7 @@ package com.ocelot.mod.game.core;
  * @author Ocelot5836
  */
 public enum MarioDamageSource {
-	MARIO, SHELL, REX, THWOMP, BOWSER, GALOOMBA;
+	MARIO, SHELL, REX, THWOMP, BOWSER, GALOOMBA, GALOOMBA_ITEM;
 	
 	public boolean isEnemy() {
 		return this != MARIO && this != SHELL;
@@ -22,6 +22,14 @@ public enum MarioDamageSource {
 	}
 
 	public boolean canDamagePlayer() {
-		return this != MARIO;
+		return this != MARIO && this != GALOOMBA_ITEM;
+	}
+	
+	public boolean isPlayerProjectile() {
+		return this == GALOOMBA_ITEM;
+	}
+	
+	public boolean isEnemyProjectile() {
+		return false;
 	}
 }

@@ -300,7 +300,7 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 
 	@Override
 	public boolean takeDamage(Entity entity, MarioDamageSource source, EnumDirection sideHit, boolean isInstantKill) {
-		if (source == MarioDamageSource.SHELL) {
+		if (source == MarioDamageSource.SHELL || source.isPlayerProjectile()) {
 			defaultKillEntity(this);
 			return true;
 		}
