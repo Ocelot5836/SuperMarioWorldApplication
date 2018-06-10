@@ -34,6 +34,8 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public class ApplicationGame extends Application {
 
+	private static ApplicationGame app;
+	
 	private Layout layout;
 	private GameTemplate game;
 
@@ -41,6 +43,7 @@ public class ApplicationGame extends Application {
 
 	@Override
 	public void init(NBTTagCompound nbt) {
+		app = this;
 		game = new Game();
 		game.init();
 		layout = new Layout(game.getWidth(), game.getHeight());
@@ -107,6 +110,30 @@ public class ApplicationGame extends Application {
 			}
 		}
 	}
+	
+	 @Override
+	public void handleMouseRelease(int mouseX, int mouseY, int mouseButton) {
+		super.handleMouseRelease(mouseX, mouseY, mouseButton);
+		if (!Game.isClosed()) {
+			try {
+				game.onMouseReleased(mouseButton, oldMouseX, oldMouseY);
+			} catch (Throwable e) {
+				Game.stop(e, "Error when mouse released");
+			}
+		}
+	}
+	 
+	 @Override
+	public void handleMouseScroll(int mouseX, int mouseY, boolean direction) {
+		super.handleMouseScroll(mouseX, mouseY, direction);
+		if (!Game.isClosed()) {
+			try {
+				game.onMouseScrolled(direction, oldMouseX, oldMouseY);
+			} catch (Throwable e) {
+				Game.stop(e, "Error when mouse scrolled");
+			}
+		}
+	}
 
 	@Override
 	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
@@ -164,5 +191,9 @@ public class ApplicationGame extends Application {
 		layout.clear();
 		layout = null;
 		game = null;
+	}
+	
+	public static ApplicationGame getApp() {
+		return app;
 	}
 }

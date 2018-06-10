@@ -69,6 +69,45 @@ public class MarioGui {
 	}
 
 	/**
+	 * Called when the mouse is pressed.
+	 * 
+	 * @param mouseButton
+	 *            The button pressed
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	/**
+	 * Called when the mouse is released.
+	 * 
+	 * @param mouseButton
+	 *            The button released
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	/**
+	 * Called when the mouse is scrolled.
+	 * 
+	 * @param direction
+	 *            The direction the mouse was scrolled
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
+	}
+
+	/**
 	 * Renders the gui to the screen.
 	 * 
 	 * @param gui

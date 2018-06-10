@@ -18,6 +18,8 @@ import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.item.ItemPSwitch;
 import com.ocelot.mod.game.main.entity.player.Player;
+import com.ocelot.mod.game.main.gamestate.store.ImageShopItem;
+import com.ocelot.mod.game.main.gamestate.store.ShopItemRegistry;
 import com.ocelot.mod.lib.Lib;
 import com.ocelot.mod.registry.Registry;
 
@@ -101,6 +103,11 @@ public class Mod {
 		SummonableEntityRegistry.registerClass(ItemCrayfish.class);
 		SummonableEntityRegistry.registerClass(ItemKoopaShell.class);
 		SummonableEntityRegistry.registerClass(ItemPSwitch.class);
+		
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(0, 0, 16, 16), "Mario", 5));
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(16, 0, 16, 16), "Luigi", 5));
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(0, 16, 16, 16), "Mushroom", 10));
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(16, 16, 16, 16), "1-UP", 15));
 		
 		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_green_hills.png"));
 		Laptop.addWallpaper(new ResourceLocation(Mod.MOD_ID, "textures/app/laptop_wallpaper_mario_snow_hills.png"));

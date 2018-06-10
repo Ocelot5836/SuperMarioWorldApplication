@@ -57,6 +57,20 @@ public abstract class BasicLevel extends GameState {
 
 	@Override
 	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+		level.onMousePressed(mouseButton, mouseX, mouseY);
+		overlay.onMousePressed(mouseButton, mouseX, mouseY);
+	}
+	
+	@Override
+	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
+		level.onMouseReleased(mouseButton, mouseX, mouseY);
+		overlay.onMouseReleased(mouseButton, mouseX, mouseY);
+	}
+	
+	@Override
+	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
+		level.onMouseScrolled(direction, mouseX, mouseY);
+		overlay.onMouseScrolled(direction, mouseX, mouseY);
 	}
 
 	@Override

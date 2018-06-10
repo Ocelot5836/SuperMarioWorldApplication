@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.main.gamestate;
 
-import java.lang.annotation.RetentionPolicy;
-
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.Mod;
@@ -11,15 +9,12 @@ import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.Background;
-import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.enemy.Galoomba;
 import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 @DebugSelectStateLevel
@@ -65,7 +60,7 @@ public class TestState extends GameState {
 		if (keyCode == Keyboard.KEY_T) {
 			load();
 		}
-		
+
 		if (keyCode == Keyboard.KEY_Z) {
 			gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}
@@ -78,6 +73,17 @@ public class TestState extends GameState {
 
 	@Override
 	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+		level.onMousePressed(mouseButton, mouseX, mouseY);
+	}
+
+	@Override
+	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
+		level.onMouseReleased(mouseButton, mouseX, mouseY);
+	}
+
+	@Override
+	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
+		level.onMouseScrolled(direction, mouseX, mouseY);
 	}
 
 	@Override

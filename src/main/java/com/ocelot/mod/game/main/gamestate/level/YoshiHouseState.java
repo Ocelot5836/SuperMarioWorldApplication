@@ -79,6 +79,20 @@ public class YoshiHouseState extends GameState {
 
 	@Override
 	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+		template.onMousePressed(mouseButton, mouseX, mouseY);
+		overlay.onMousePressed(mouseButton, mouseX, mouseY);
+	}
+	
+	@Override
+	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
+		template.onMouseReleased(mouseButton, mouseX, mouseY);
+		overlay.onMouseReleased(mouseButton, mouseX, mouseY);
+	}
+	
+	@Override
+	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
+		template.onMouseScrolled(direction, mouseX, mouseY);
+		overlay.onMouseScrolled(direction, mouseX, mouseY);
 	}
 
 	@Override

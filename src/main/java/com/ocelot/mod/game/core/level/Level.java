@@ -203,6 +203,78 @@ public class Level {
 			effects.get(i).onKeyReleased(keyCode, typedChar);
 		}
 	}
+	
+	/**
+	 * Called when the mouse is pressed.
+	 * 
+	 * @param mouseButton
+	 *            The button pressed
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).onMousePressed(mouseButton, mouseX, mouseY);
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).onMousePressed(mouseButton, mouseX, mouseY);
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).onMousePressed(mouseButton, mouseX, mouseY);
+		}
+	}
+
+	/**
+	 * Called when the mouse is released.
+	 * 
+	 * @param mouseButton
+	 *            The button released
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).onMouseReleased(mouseButton, mouseX, mouseY);
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).onMouseReleased(mouseButton, mouseX, mouseY);
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).onMouseReleased(mouseButton, mouseX, mouseY);
+		}
+	}
+
+	/**
+	 * Called when the mouse is scrolled.
+	 * 
+	 * @param direction
+	 *            The direction the mouse was scrolled
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).onMouseScrolled(direction, mouseX, mouseY);
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).onMouseScrolled(direction, mouseX, mouseY);
+		}
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).onMouseScrolled(direction, mouseX, mouseY);
+		}
+	}
 
 	/**
 	 * Adds an entity to the level.

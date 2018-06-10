@@ -20,13 +20,13 @@ build
 # other
 eclipse
 run
+/Paulscode SoundSystem CodecIBXM License.txt
+/README.txt
 /CREDITS-fml.txt
 /LICENSE-new.txt
 /MinecraftForge-Credits.txt
 /Paulscode IBXM Library License.txt
-/Paulscode SoundSystem CodecIBXM License.txt
-/README.txt
-/forge-1.12.2-14.23.2.2624-changelog.txt
+/forge-1.12.2-14.23.4.2705-changelog.txt
+/forge-1.12.2-14.23.4.2705-mdk.zip
 /gradle.properties
-/gradlew
-/gradlew.bat
+/src-copy/

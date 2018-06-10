@@ -76,10 +76,20 @@ public class Game extends GameTemplate {
 		if (currentDisplayedGui != null)
 			currentDisplayedGui.onKeyReleased(keyCode, typedChar);
 	}
-	
+
 	@Override
 	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
 		gsm.onMousePressed(mouseButton, mouseX, mouseY);
+	}
+
+	@Override
+	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
+		gsm.onMouseReleased(mouseButton, mouseX, mouseY);
+	}
+
+	@Override
+	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
+		gsm.onMouseScrolled(direction, mouseX, mouseY);
 	}
 
 	@Override

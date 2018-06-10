@@ -137,6 +137,45 @@ public abstract class Entity {
 	}
 
 	/**
+	 * Called when the mouse is pressed.
+	 * 
+	 * @param mouseButton
+	 *            The button pressed
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	/**
+	 * Called when the mouse is released.
+	 * 
+	 * @param mouseButton
+	 *            The button released
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
+	}
+
+	/**
+	 * Called when the mouse is scrolled.
+	 * 
+	 * @param direction
+	 *            The direction the mouse was scrolled
+	 * @param mouseX
+	 *            The x position of the mouse
+	 * @param mouseY
+	 *            The y position of the mouse
+	 */
+	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
+	}
+
+	/**
 	 * Updates the {@link #topLeft}, {@link #topRight}, {@link #bottomLeft}, and {@link #bottomRight} variables with this entity's current position. Also notifies tiles of when the entity collides with it.
 	 * 
 	 * @param x
@@ -433,7 +472,7 @@ public abstract class Entity {
 	public AxisAlignedBB getEntityBox() {
 		return new AxisAlignedBB(this.x - this.cwidth / 2, this.y - this.cheight / 2, this.cwidth, this.cheight);
 	}
-	
+
 	/**
 	 * @return The direction this entity is moving
 	 */
