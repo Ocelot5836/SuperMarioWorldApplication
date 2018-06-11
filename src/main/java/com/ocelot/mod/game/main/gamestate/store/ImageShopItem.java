@@ -59,8 +59,8 @@ public class ImageShopItem extends ShopItem {
 		GlStateManager.popMatrix();
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + width / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(price + "x") / 2, y + 18, 0);
-		Minecraft.getMinecraft().fontRenderer.drawString(price + "x", 0, 0, 0xffffffff, true);
+		GlStateManager.translate(x + width / 2 - Minecraft.getMinecraft().fontRenderer.getStringWidth(price + "Emeralds") / 2, y + 18, 0);
+		Minecraft.getMinecraft().fontRenderer.drawString(price + " Emeralds", 0, 0, 0xffffffff, true);
 		GlStateManager.popMatrix();
 
 		this.sprite.render(x + width / 2 - 8, y + 32, 16, 16);

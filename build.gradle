@@ -33,13 +33,13 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
-repositories {
-    maven { url = "https://mrcrayfish.com/maven" }
-}
+ repositories {
+     maven { url = "https://mrcrayfish.com/maven" }
+ }
 
-dependencies {
-    compile "com.mrcrayfish:device-api:0.4.0-1.12.2"
-}
+ dependencies {
+     compile "com.mrcrayfish:device-api:0.4.0-1.12.2"
+ }
 
 processResources {
     // this will ensure that this task is redone when the versions change.
