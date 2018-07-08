@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.apache.commons.lang3.time.StopWatch;
-import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
 import com.ocelot.mod.Mod;
@@ -13,8 +12,7 @@ import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.MobMover;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
 import com.ocelot.mod.game.core.gfx.Sprite;
-import com.ocelot.mod.game.main.gamestate.worldmap.WorldMapIcon;
-import com.ocelot.mod.game.main.gamestate.worldmap.WorldMapState;
+import com.ocelot.mod.game.main.gamestate.worldmap.WorldMap;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
@@ -23,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class PlayerMap extends Mob {
 
-	private WorldMapState map;
+	private WorldMap map;
 	private int currentAction = -1;
 	private Sprite sprite;
 	private List<BufferedImage[]> sprites = Lists.<BufferedImage[]>newArrayList();
@@ -39,14 +37,15 @@ public class PlayerMap extends Mob {
 	private static final int WALKING_UP = 2;
 	private static final int ENTER_LEVEL = 3;
 
-	public PlayerMap(GameTemplate game, WorldMapState map) {
+	public PlayerMap(GameTemplate game, WorldMap map) {
 		this(game, map, 0, 0);
 	}
 
-	public PlayerMap(GameTemplate game, WorldMapState map, double x, double y) {
+	public PlayerMap(GameTemplate game, WorldMap map, double x, double y) {
 		super(game);
 		this.map = map;
 		this.setPosition(x, y);
+		this.setLastPosition(x, y);
 
 		this.moveSpeed = 0.3;
 		this.maxSpeed = 1.6;
@@ -126,50 +125,50 @@ public class PlayerMap extends Mob {
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
 		if (!this.mover.isMoving()) {
-			WorldMapIcon currentIcon = map.getIcon(x, y);
-			if (currentIcon != null) {
-				WorldMapIcon currentParent = currentIcon.getParent();
-				if (keyCode == Keyboard.KEY_LEFT) {
-					WorldMapIcon icon = currentIcon.getNearestIcon(x, y);
-					if (icon != null) {
-						if (currentParent != null && currentParent.getX() - icon.getX() >= currentIcon.getX() && currentParent.getY() - icon.getY() >= currentIcon.getY())
-							icon = currentParent;
-					} else {
-						icon = currentParent;
-					}
-
-					if (icon.getX() < x) {
-						if (icon.getY() > y) {
-							mover.addPos((int) (icon.getX() - x), (int) (icon.getY() - y));
-						} else {
-							mover.addPos((int) (icon.getX() - x), (int) icon.getY());
-						}
-					}
-				}
-				if (keyCode == Keyboard.KEY_RIGHT) {
-					WorldMapIcon icon = currentIcon.getNearestIcon(x, y);
-					if (icon != null) {
-						if (currentParent != null && currentParent.getX() - icon.getX() >= currentIcon.getX() && currentParent.getY() - icon.getY() >= currentIcon.getY())
-							icon = currentParent;
-					} else {
-						icon = currentParent;
-					}
-
-					if (icon.getX() > x) {
-						if (icon.getY() > y) {
-							mover.addPos((int) (icon.getX() - x), (int) (icon.getY() - y));
-						} else {
-							mover.addPos((int) (icon.getX() - x), (int) icon.getY());
-						}
-					}
-				}
-			}
-			if (keyCode == Keyboard.KEY_UP) {
-
-			}
-			if (keyCode == Keyboard.KEY_DOWN) {
-
-			}
+			// WorldMapIcon currentIcon = map.getIcon(x, y);
+			// if (currentIcon != null) {
+			// WorldMapIcon currentParent = currentIcon.getParent();
+			// if (keyCode == Keyboard.KEY_LEFT) {
+			// WorldMapIcon icon = currentIcon.getNearestIcon(x, y);
+			// if (icon != null) {
+			// if (currentParent != null && currentParent.getX() - icon.getX() >= currentIcon.getX() && currentParent.getY() - icon.getY() >= currentIcon.getY())
+			// icon = currentParent;
+			// } else {
+			// icon = currentParent;
+			// }
+			//
+			// if (icon.getX() < x) {
+			// if (icon.getY() > y) {
+			// mover.addPos((int) (icon.getX() - x), (int) (icon.getY() - y));
+			// } else {
+			// mover.addPos((int) (icon.getX() - x), (int) icon.getY());
+			// }
+			// }
+			// }
+			// if (keyCode == Keyboard.KEY_RIGHT) {
+			// WorldMapIcon icon = currentIcon.getNearestIcon(x, y);
+			// if (icon != null) {
+			// if (currentParent != null && currentParent.getX() - icon.getX() >= currentIcon.getX() && currentParent.getY() - icon.getY() >= currentIcon.getY())
+			// icon = currentParent;
+			// } else {
+			// icon = currentParent;
+			// }
+			//
+			// if (icon.getX() > x) {
+			// if (icon.getY() > y) {
+			// mover.addPos((int) (icon.getX() - x), (int) (icon.getY() - y));
+			// } else {
+			// mover.addPos((int) (icon.getX() - x), (int) icon.getY());
+			// }
+			// }
+			// }
+			// }
+			// if (keyCode == Keyboard.KEY_UP) {
+			//
+			// }
+			// if (keyCode == Keyboard.KEY_DOWN) {
+			//
+			// }
 		}
 	}
 

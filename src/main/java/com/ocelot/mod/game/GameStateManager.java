@@ -89,7 +89,7 @@ public class GameStateManager {
 		case MENU:
 			return new MenuState(this, game);
 		case WORLD_MAP:
-			return new WorldMapState(this, game, new ResourceLocation(Mod.MOD_ID, "maps/world/test.map"));
+			return new WorldMapState(this, game);
 		case YOSHI_HOUSE:
 			return new YoshiHouseState(this, game);
 		case DEMO_LEVEL:
