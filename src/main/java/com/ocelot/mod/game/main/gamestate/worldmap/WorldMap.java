@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 
 import com.ocelot.mod.game.core.GameTemplate;
+import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.entity.player.PlayerMap;
 
 import net.minecraft.client.Minecraft;
@@ -69,7 +70,7 @@ public class WorldMap {
 	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
 		this.player.onMouseScrolled(direction, mouseX, mouseY);
 	}
-	
+
 	protected void clear() {
 		this.points.clear();
 		this.paths.clear();
@@ -79,8 +80,8 @@ public class WorldMap {
 		this.points.add(point);
 	}
 
-	protected void mapPath(Vector2f... positions) {
-		this.paths.add(new WorldMapPath(positions));
+	protected void mapPath(Sprite sprite, Vector2f... positions) {
+		this.paths.add(new WorldMapPath(sprite, positions));
 	}
 
 	public PlayerMap getPlayer() {

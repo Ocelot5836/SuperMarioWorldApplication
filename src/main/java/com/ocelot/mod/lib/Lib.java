@@ -62,6 +62,18 @@ public class Lib implements IResourceManagerReloadListener {
 	}
 
 	/**
+	 * Draws an AABB.
+	 * 
+	 * @param box
+	 *            The box to draw
+	 * @param color
+	 *            The color of the collision box
+	 */
+	public static void drawCollisionBox(AxisAlignedBB box, int color) {
+		RenderHelper.drawRect(box.getX(), box.getY(), box.getX() + box.getWidth(), box.getY() + box.getHeight(), color);
+	}
+
+	/**
 	 * Loads all the sprites specified from a buffered image.
 	 * 
 	 * @param image

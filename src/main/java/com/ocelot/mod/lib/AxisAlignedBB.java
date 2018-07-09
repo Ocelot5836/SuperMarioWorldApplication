@@ -48,7 +48,7 @@ public class AxisAlignedBB {
 	}
 
 	/**
-	 * Sets the x and y positions in the AABB
+	 * Sets the x and y positions in the AABB.
 	 * 
 	 * @param x
 	 *            The new x
@@ -61,7 +61,7 @@ public class AxisAlignedBB {
 	}
 
 	/**
-	 * Adds the x and y positions to the positions in the AABB
+	 * Adds the x and y positions to the positions in the AABB.
 	 * 
 	 * @param x
 	 *            The amount to add to the x
@@ -74,7 +74,7 @@ public class AxisAlignedBB {
 	}
 
 	/**
-	 * Subtracts the x and y positions to the positions in the AABB
+	 * Subtracts the x and y positions to the positions in the AABB.
 	 * 
 	 * @param x
 	 *            The amount to take from the x
@@ -84,6 +84,19 @@ public class AxisAlignedBB {
 	public void sub(double x, double y) {
 		this.x -= x;
 		this.y -= y;
+	}
+
+	/**
+	 * Resizes the width and height in the AABB.
+	 * 
+	 * @param width
+	 *            The new width
+	 * @param height
+	 *            The new height
+	 */
+	public void resize(double width, double height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public double getX() {

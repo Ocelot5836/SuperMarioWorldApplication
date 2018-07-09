@@ -9,6 +9,7 @@ import com.ocelot.mod.Mod;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.GameState;
+import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.lib.Lib;
 
@@ -20,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 public class WorldMapState extends GameState {
 
 	public static final BufferedImage WORLD_MAP_ICONS = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/map.png"));
+	public static final BufferedImage WORLD_MAP_PATHS = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/path.png"));
 
 	private WorldMap map;
 
@@ -31,7 +33,8 @@ public class WorldMapState extends GameState {
 	@Override
 	public void load() {
 		this.map.clear();
-		this.map.mapPath(new Vector2f(4 * 16, 4 * 16), new Vector2f(5 * 16, 4 * 16), new Vector2f(8 * 16, 1 * 16), new Vector2f(8 * 16, 8 * 16), new Vector2f(5 * 16, 8 * 16));
+		this.map.mapPath(new Sprite(WORLD_MAP_PATHS.getSubimage(0, 16, 145, 128)), new Vector2f(4 * 16, 4 * 16), new Vector2f(5 * 16, 4 * 16), new Vector2f(8 * 16, 1 * 16), new Vector2f(8 * 16, 8 * 16), new Vector2f(5 * 16, 8 * 16));
+		this.map.mapPath(new Sprite(WORLD_MAP_PATHS.getSubimage(0, 0, 16, 16)), new Vector2f(2 * 16, 2 * 16), new Vector2f(3 * 16, 3 * 16));
 	}
 
 	@Override
