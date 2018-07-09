@@ -26,6 +26,7 @@ public abstract class Powerup implements IQuestionBlockItem {
 
 	public static final Powerup NULL = new PowerupNull();
 	public static final Powerup MUSHROOM = new PowerupMushroom();
+	public static final Powerup FEATHER = new PowerupFeather();
 
 	private String registryName;
 	private String unlocalizedName;
@@ -40,15 +41,6 @@ public abstract class Powerup implements IQuestionBlockItem {
 		}
 		TileQuestionBlock.registerQuestionBlockItem(this);
 	}
-
-	@Override
-	public abstract void update();
-
-	@Override
-	public abstract void render(double x, double y, Minecraft mc, Gui gui, int mouseX, int mouseY, float partialTicks);
-
-	@Override
-	public abstract EntityItem createInstance(GameTemplate game, double x, double y);
 
 	public void onPickup(EntityPowerup powerup, Player player) {
 		powerup.setDead();
@@ -76,20 +68,11 @@ public abstract class Powerup implements IQuestionBlockItem {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Powerup) {
-			Powerup powerup = (Powerup) obj;
-			return powerup.getRegistryName().equalsIgnoreCase(this.getRegistryName());
-		}
-		return super.equals(obj);
-	}
-
-	@Override
 	public String toString() {
 		return "Powerup[" + this.getLocalizedName() + "/" + this.getUnlocalizedName() + ":" + this.getRegistryName() + "]";
 	}
 
 	public static Powerup byName(String registryName) {
-		return POWERUPS.get(registryName);
+		return POWERUPS.containsKey(registryName) ? POWERUPS.get(registryName) : NULL;
 	}
 }

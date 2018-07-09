@@ -61,8 +61,14 @@ public class Player extends Mob implements IDamagable {
 	private Sprite sprite;
 	private BufferedAnimation animation;
 
+	private Sprite capeSprite;
+	private BufferedAnimation capeAnimation;
+
 	private static List<BufferedImage[]> sprites;
 	private static int[] delays = { -1, 100, -1, 100, 50, -1, -1, -1, -1, -1, -1, -1, 100, -1, 40, -1, 100, 100, -1, -1, -1, -1, -1, 80, -1, 80, 20, -1, -1, -1, -1, -1, -1, -1, 20, -1, 20, -1, 80, 80, -1, -1, -1 };
+
+	private static int[] capeDelays = { -1, 100, -1, 100, 50, -1, -1, -1, -1, -1, -1, -1, 100, -1, 40, -1, 100, 100, -1, -1, -1, -1, -1, 80, -1, 80, 20, -1, -1, -1, -1, -1, -1, -1, 20, -1, 20, -1, 80, 80, -1, -1, -1 };
+	private static List<BufferedImage[]> capeSprites;
 
 	private static final int IDLE_SMALL = 0;// -1
 	private static final int WALKING_SMALL = 1;// 100
@@ -138,11 +144,11 @@ public class Player extends Mob implements IDamagable {
 
 		this.runSpeed = 0.02;
 		this.runMaxSpeed = 2.6;
-		this.runStopSpeed = 0.15;
+		this.runStopSpeed = 0.6;
 		this.runGainSpeedAmount = 0.05;
 		this.moveSpeed = 0.3;
 		this.maxSpeed = 1.5;
-		this.stopSpeed = 0.4;
+		this.stopSpeed = 1.2;
 		this.fallSpeed = 0.15;
 		this.maxFallSpeed = 4.0;
 		this.jumpStart = -4.8;
@@ -211,7 +217,7 @@ public class Player extends Mob implements IDamagable {
 		sprites.add(swimmingBig);
 		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(35, 34, 16, 32)));
 		sprites.add(Lib.asArray(BIG_SHEET.getSubimage(154, 34, 16, 32)));
-		sprites.add(Lib.asArray(walkingItemBig[1]));
+		sprites.add(Lib.asArray(walkingItemBig[2]));
 	}
 
 	@Override
@@ -423,271 +429,133 @@ public class Player extends Mob implements IDamagable {
 			}
 
 			calculateCorners(x, y + 1);
-			if (this.properties.isSmall()) {
-				if (swimming && (!(bottomLeft || bottomRight) || item != null)) {
-					if (item == null) {
-						if (jumping && canSwim) {
-							currentAction = SWIMMING_STROKE_SMALL;
-							this.setAnimation(SWIMMING_STROKE_SMALL);
-						}
-					}
-
-					if (currentAction != SWIMMING_STROKE_SMALL || (currentAction == SWIMMING_STROKE_SMALL && animation.hasPlayedOnce())) {
-						if (currentAction != SWIMMING_SMALL) {
-							currentAction = SWIMMING_SMALL;
-							this.setAnimation(currentAction);
-						}
-					}
-				} else {
-					if (currentAction != KICKING_SMALL || animation.hasPlayedOnce()) {
-						if (down) {
-							if (item != null) {
-								if (currentAction != DUCKING_ITEM_SMALL) {
-									currentAction = DUCKING_ITEM_SMALL;
-									this.setAnimation(currentAction);
-								}
-							} else {
-								if (currentAction != DUCKING_SMALL) {
-									currentAction = DUCKING_SMALL;
-									this.setAnimation(currentAction);
-								}
-							}
-						} else if (dy > 0) {
-							if (item != null) {
-								if (currentAction != MIDAIR_ITEM_SMALL) {
-									currentAction = MIDAIR_ITEM_SMALL;
-									this.setAnimation(currentAction);
-								}
-							} else {
-								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-									if (currentAction != RUNNING_JUMPING_SMALL) {
-										currentAction = RUNNING_JUMPING_SMALL;
-										this.setAnimation(currentAction);
-									}
-								} else {
-									if (currentAction != FALLING_SMALL) {
-										currentAction = FALLING_SMALL;
-										this.setAnimation(currentAction);
-									}
-								}
-							}
-						} else if (dy < 0) {
-							if (item != null) {
-								if (currentAction != MIDAIR_ITEM_SMALL) {
-									currentAction = MIDAIR_ITEM_SMALL;
-									this.setAnimation(currentAction);
-								}
-							} else {
-								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-									if (currentAction != RUNNING_JUMPING_SMALL) {
-										currentAction = RUNNING_JUMPING_SMALL;
-										this.setAnimation(currentAction);
-									}
-								} else {
-									if (currentAction != JUMPING_SMALL) {
-										currentAction = JUMPING_SMALL;
-										this.setAnimation(currentAction);
-									}
-								}
-							}
-						} else if (dx != 0) {
-							if (item != null) {
-								if (currentAction != WALKING_ITEM_SMALL) {
-									currentAction = WALKING_ITEM_SMALL;
-									this.setAnimation(currentAction);
-								}
-								this.animation.setDelay(runAnimationSpeed);
-							} else {
-								if (!(left && dx < 0) && !(right && dx > 0) && ((left && dx > 0) || (right && dx < 0))) {
-									if (currentAction != STOPPING_SMALL) {
-										currentAction = STOPPING_SMALL;
-										this.setAnimation(STOPPING_SMALL);
-									}
-									this.level.add(new DustFX(game, x, y + cheight / 2 - 4));
-								} else {
-									if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-										if (currentAction != RUNNING_SMALL) {
-											currentAction = RUNNING_SMALL;
-											this.setAnimation(currentAction);
-										}
-									} else {
-										if (currentAction != WALKING_SMALL) {
-											currentAction = WALKING_SMALL;
-											this.setAnimation(currentAction);
-										}
-										this.animation.setDelay(runAnimationSpeed);
-									}
-								}
-							}
-						} else {
-							if (up) {
-								if (item != null) {
-									if (currentAction != LOOK_UP_ITEM_SMALL) {
-										currentAction = LOOK_UP_ITEM_SMALL;
-										this.setAnimation(currentAction);
-									}
-								} else {
-									if (currentAction != LOOK_UP_SMALL) {
-										currentAction = LOOK_UP_SMALL;
-										this.setAnimation(currentAction);
-									}
-								}
-							} else {
-								if (item != null) {
-									if (currentAction != IDLE_ITEM_SMALL) {
-										currentAction = IDLE_ITEM_SMALL;
-										this.setAnimation(currentAction);
-									}
-								} else {
-									if (currentAction != IDLE_SMALL) {
-										currentAction = IDLE_SMALL;
-										this.setAnimation(currentAction);
-									}
-								}
-							}
-						}
+			int animationOffset = this.isSizeBig() ? 22 : 0;
+			if (swimming && (!(bottomLeft || bottomRight) || item != null)) {
+				if (item == null) {
+					if (jumping && canSwim) {
+						currentAction = SWIMMING_STROKE_SMALL + animationOffset;
+						this.setAnimation(SWIMMING_STROKE_SMALL + animationOffset);
 					}
 				}
 
-				if (this.down) {
-					if (this.cheight != 8) {
-						this.y += 3;
-						this.lastY = y;
+				if (currentAction != SWIMMING_STROKE_SMALL + animationOffset || (currentAction == SWIMMING_STROKE_SMALL + animationOffset && animation.hasPlayedOnce())) {
+					if (currentAction != SWIMMING_SMALL + animationOffset) {
+						currentAction = SWIMMING_SMALL + animationOffset;
+						this.setAnimation(currentAction);
 					}
-					this.setSize(12, 8);
-				} else {
-					if (this.cheight != 14) {
-						this.y -= 3;
-						this.lastY = y;
-					}
-					this.setSize(12, 14);
 				}
 			} else {
-				if (swimming && (!(bottomLeft || bottomRight) || item != null)) {
-					if (item == null) {
-						if (jumping && canSwim) {
-							currentAction = SWIMMING_STROKE_BIG;
-							this.setAnimation(SWIMMING_STROKE_BIG);
+				if (currentAction != KICKING_SMALL + animationOffset || animation.hasPlayedOnce()) {
+					if (down) {
+						if (item != null) {
+							if (currentAction != DUCKING_ITEM_SMALL + animationOffset) {
+								currentAction = DUCKING_ITEM_SMALL + animationOffset;
+								this.setAnimation(currentAction);
+							}
+						} else {
+							if (currentAction != DUCKING_SMALL + animationOffset) {
+								currentAction = DUCKING_SMALL + animationOffset;
+								this.setAnimation(currentAction);
+							}
 						}
-					}
-
-					if (currentAction != SWIMMING_STROKE_BIG || (currentAction == SWIMMING_STROKE_BIG && animation.hasPlayedOnce())) {
-						if (currentAction != SWIMMING_BIG) {
-							currentAction = SWIMMING_BIG;
-							this.setAnimation(currentAction);
-						}
-					}
-				} else {
-					if (currentAction != KICKING_BIG || animation.hasPlayedOnce()) {
-						if (down) {
-							if (item != null) {
-								if (currentAction != DUCKING_ITEM_BIG) {
-									currentAction = DUCKING_ITEM_BIG;
+					} else if (dy > 0) {
+						if (item != null) {
+							if (currentAction != MIDAIR_ITEM_SMALL + animationOffset) {
+								currentAction = MIDAIR_ITEM_SMALL + animationOffset;
+								this.setAnimation(currentAction);
+							}
+						} else {
+							if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+								if (currentAction != RUNNING_JUMPING_SMALL + animationOffset) {
+									currentAction = RUNNING_JUMPING_SMALL + animationOffset;
 									this.setAnimation(currentAction);
 								}
 							} else {
-								if (currentAction != DUCKING_BIG) {
-									currentAction = DUCKING_BIG;
+								if (currentAction != FALLING_SMALL + animationOffset) {
+									currentAction = FALLING_SMALL + animationOffset;
 									this.setAnimation(currentAction);
 								}
 							}
-						} else if (dy > 0) {
-							if (item != null) {
-								if (currentAction != MIDAIR_ITEM_BIG) {
-									currentAction = MIDAIR_ITEM_BIG;
+						}
+					} else if (dy < 0) {
+						if (item != null) {
+							if (currentAction != MIDAIR_ITEM_SMALL + animationOffset) {
+								currentAction = MIDAIR_ITEM_SMALL + animationOffset;
+								this.setAnimation(currentAction);
+							}
+						} else {
+							if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
+								if (currentAction != RUNNING_JUMPING_SMALL + animationOffset) {
+									currentAction = RUNNING_JUMPING_SMALL + animationOffset;
 									this.setAnimation(currentAction);
 								}
+							} else {
+								if (currentAction != JUMPING_SMALL + animationOffset) {
+									currentAction = JUMPING_SMALL + animationOffset;
+									this.setAnimation(currentAction);
+								}
+							}
+						}
+					} else if (dx != 0) {
+						if (item != null) {
+							if (currentAction != WALKING_ITEM_SMALL + animationOffset) {
+								currentAction = WALKING_ITEM_SMALL + animationOffset;
+								this.setAnimation(currentAction);
+							}
+							this.animation.setDelay(runAnimationSpeed);
+						} else {
+							if (!(left && dx < 0) && !(right && dx > 0) && ((left && dx > 0) || (right && dx < 0))) {
+								if (currentAction != STOPPING_SMALL + animationOffset) {
+									currentAction = STOPPING_SMALL + animationOffset;
+									this.setAnimation(STOPPING_SMALL + animationOffset);
+								}
+								this.level.add(new DustFX(game, x, y + cheight / 2 - 4));
 							} else {
 								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-									if (currentAction != RUNNING_JUMPING_BIG) {
-										currentAction = RUNNING_JUMPING_BIG;
+									if (currentAction != RUNNING_SMALL + animationOffset) {
+										currentAction = RUNNING_SMALL + animationOffset;
 										this.setAnimation(currentAction);
 									}
 								} else {
-									if (currentAction != FALLING_BIG) {
-										currentAction = FALLING_BIG;
+									if (currentAction != WALKING_SMALL + animationOffset) {
+										currentAction = WALKING_SMALL + animationOffset;
 										this.setAnimation(currentAction);
 									}
+									this.animation.setDelay(runAnimationSpeed);
 								}
 							}
-						} else if (dy < 0) {
+						}
+					} else {
+						if (up) {
 							if (item != null) {
-								if (currentAction != MIDAIR_ITEM_BIG) {
-									currentAction = MIDAIR_ITEM_BIG;
+								if (currentAction != LOOK_UP_ITEM_SMALL + animationOffset) {
+									currentAction = LOOK_UP_ITEM_SMALL + animationOffset;
 									this.setAnimation(currentAction);
 								}
 							} else {
-								if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-									if (currentAction != RUNNING_JUMPING_BIG) {
-										currentAction = RUNNING_JUMPING_BIG;
-										this.setAnimation(currentAction);
-									}
-								} else {
-									if (currentAction != JUMPING_BIG) {
-										currentAction = JUMPING_BIG;
-										this.setAnimation(currentAction);
-									}
-								}
-							}
-						} else if (dx != 0) {
-							if (item != null) {
-								if (currentAction != WALKING_ITEM_BIG) {
-									currentAction = WALKING_ITEM_BIG;
+								if (currentAction != LOOK_UP_SMALL + animationOffset) {
+									currentAction = LOOK_UP_SMALL + animationOffset;
 									this.setAnimation(currentAction);
-								}
-								this.animation.setDelay(runAnimationSpeed);
-							} else {
-								if (!(left && dx < 0) && !(right && dx > 0) && ((left && dx > 0) || (right && dx < 0))) {
-									if (currentAction != STOPPING_BIG) {
-										currentAction = STOPPING_BIG;
-										this.setAnimation(STOPPING_BIG);
-									}
-									this.level.add(new DustFX(game, x, y + cheight / 2 - 4));
-								} else {
-									if (this.isRunning() && (dx >= runMaxSpeed - 0.1) || (dx <= -runMaxSpeed + 0.1)) {
-										if (currentAction != RUNNING_BIG) {
-											currentAction = RUNNING_BIG;
-											this.setAnimation(currentAction);
-										}
-									} else {
-										if (currentAction != WALKING_BIG) {
-											currentAction = WALKING_BIG;
-											this.setAnimation(currentAction);
-										}
-										this.animation.setDelay(runAnimationSpeed);
-									}
 								}
 							}
 						} else {
-							if (up) {
-								if (item != null) {
-									if (currentAction != LOOK_UP_ITEM_BIG) {
-										currentAction = LOOK_UP_ITEM_BIG;
-										this.setAnimation(currentAction);
-									}
-								} else {
-									if (currentAction != LOOK_UP_BIG) {
-										currentAction = LOOK_UP_BIG;
-										this.setAnimation(currentAction);
-									}
+							if (item != null) {
+								if (currentAction != IDLE_ITEM_SMALL + animationOffset) {
+									currentAction = IDLE_ITEM_SMALL + animationOffset;
+									this.setAnimation(currentAction);
 								}
 							} else {
-								if (item != null) {
-									if (currentAction != IDLE_ITEM_BIG) {
-										currentAction = IDLE_ITEM_BIG;
-										this.setAnimation(currentAction);
-									}
-								} else {
-									if (currentAction != IDLE_BIG) {
-										currentAction = IDLE_BIG;
-										this.setAnimation(currentAction);
-									}
+								if (currentAction != IDLE_SMALL + animationOffset) {
+									currentAction = IDLE_SMALL + animationOffset;
+									this.setAnimation(currentAction);
 								}
 							}
 						}
 					}
 				}
+			}
 
+			if (this.isSizeBig()) {
 				if (this.down) {
 					if (this.cheight != 15) {
 						this.y += 6;
@@ -701,6 +569,20 @@ public class Player extends Mob implements IDamagable {
 					}
 					this.setSize(12, 26);
 				}
+			} else {
+				if (this.down) {
+					if (this.cheight != 8) {
+						this.y += 3;
+						this.lastY = y;
+					}
+					this.setSize(12, 8);
+				} else {
+					if (this.cheight != 14) {
+						this.y -= 3;
+						this.lastY = y;
+					}
+					this.setSize(12, 14);
+				}
 			}
 
 			if (right)
@@ -708,35 +590,35 @@ public class Player extends Mob implements IDamagable {
 			if (left)
 				facingRight = false;
 
-			if (!swimming) {
-				if (jumping && !falling) {
-					game.playSound(Sounds.PLAYER_JUMP, 1.0F);
+			if (!this.swimming) {
+				if (this.jumping && !this.falling) {
+					this.game.playSound(Sounds.PLAYER_JUMP, 1.0F);
 				}
 			}
 
-			if (item != null) {
-				if (item instanceof IItemCarriable) {
-					IItemCarriable carriable = (IItemCarriable) item;
+			if (this.item != null) {
+				if (this.item instanceof IItemCarriable) {
+					IItemCarriable carriable = (IItemCarriable) this.item;
 					carriable.onHeldUpdate(this);
 				}
-				item.updateLastPosition();
-				item.setPosition(x, y);
-				item.setPosition(x + (facingRight ? 1 : -1) * (item.getWidth() / 2 + 4), y - (this.properties.isSmall() ? 2 : -2));
+				this.item.updateLastPosition();
+				this.item.setPosition(x, y);
+				this.item.setPosition(x + (facingRight ? 1 : -1) * (this.item.getWidth() / 2 + 4), y - (this.properties.isSmall() ? 2 : -2));
 			}
 
 			if (this.properties.isHolding()) {
-				if (item == null) {
+				if (this.item == null) {
 					Entity e = level.getNearestEntity(this);
 					if (e != null && e instanceof IItemCarriable && e instanceof EntityItem && e.intersects(this)) {
 						IItemCarriable carriable = (IItemCarriable) e;
 						if (carriable.canPickup(this)) {
-							item = (EntityItem) e;
+							this.item = (EntityItem) e;
 							e.setDead();
 						}
 					}
 				} else {
 					if (this.item instanceof IItemCarriable) {
-						IItemCarriable carriable = (IItemCarriable) item;
+						IItemCarriable carriable = (IItemCarriable) this.item;
 						if (!carriable.canHold(this)) {
 							this.dropCurrentItem(false);
 						}
@@ -774,7 +656,7 @@ public class Player extends Mob implements IDamagable {
 					IDamagable damagable = (IDamagable) e;
 					if (e instanceof IItemCarriable) {
 						IItemCarriable carriable = (IItemCarriable) e;
-						if (!(properties.isHolding() && item == e)) {
+						if (!(this.properties.isHolding() && this.item == e)) {
 							damagable.takeDamage(this, MarioDamageSource.MARIO, direction, false);
 						}
 					} else {
@@ -814,8 +696,7 @@ public class Player extends Mob implements IDamagable {
 
 	private void setAnimation(int animation) {
 		if (animation < 0 || animation >= this.sprites.size()) {
-			this.animation.setFrames(this.sprites.get(0));
-			this.animation.setDelay(this.delays[0]);
+			animation = 0;
 		}
 		this.animation.setFrames(this.sprites.get(animation));
 		this.animation.setDelay(this.delays[animation]);
@@ -864,22 +745,27 @@ public class Player extends Mob implements IDamagable {
 
 	public void collectPowerup(Powerup powerup) {
 		Powerup reserve = this.properties.getReserve();
-		if (powerup == Powerup.MUSHROOM) {
-			if (this.properties.isSmall()) {
-				powerup.apply(this);
-				game.playSound(Sounds.PLAYER_POWERUP_GAIN, 1.0F);
-				return;
-			} else {
-				if (reserve == Powerup.NULL) {
-					this.properties.setReserve(powerup);
-				}
-				game.playSound(Sounds.PLAYER_COLLECT_POWERUP, 1.0F);
+		if (powerup == Powerup.MUSHROOM && this.properties.isSmall()) {
+			powerup.apply(this);
+			game.playSound(Sounds.PLAYER_POWERUP_GAIN, 1.0F);
+			return;
+		} else if (powerup == Powerup.FEATHER && !this.properties.isCape()) {
+			powerup.apply(this);
+			game.playSound(Sounds.PLAYER_POWERUP_GAIN, 1.0F);
+			return;
+		} else {
+			if (reserve == Powerup.NULL) {
+				this.properties.setReserve(powerup);
 			}
+			game.playSound(Sounds.PLAYER_COLLECT_POWERUP, 1.0F);
 		}
 	}
 
 	public void onDeath(GameState state) {
+	}
 
+	public boolean isSizeBig() {
+		return this.properties.isBig() || this.properties.isCape();
 	}
 
 	public Player enableKeyboardInput(boolean enableKeyboardInput) {
