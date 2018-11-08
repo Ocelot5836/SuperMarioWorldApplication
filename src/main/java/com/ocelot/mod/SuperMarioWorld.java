@@ -27,6 +27,7 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -45,7 +46,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * 
  * @author Ocelot5836
  */
-@net.minecraftforge.fml.common.Mod(modid = SuperMarioWorld.MOD_ID, version = SuperMarioWorld.VERSION, acceptedMinecraftVersions = "[1.12,1.12.2]", guiFactory = "com.ocelot.mod.config.ModConfigGuiFactory", useMetadata = true)
+@Mod(modid = SuperMarioWorld.MOD_ID, version = SuperMarioWorld.VERSION, acceptedMinecraftVersions = "[1.12,1.12.2]", guiFactory = "com.ocelot.mod.config.ModConfigGuiFactory", useMetadata = true)
 public class SuperMarioWorld {
 
 	/** The mod id */
@@ -104,10 +105,7 @@ public class SuperMarioWorld {
 		SummonableEntityRegistry.registerClass(ItemKoopaShell.class);
 		SummonableEntityRegistry.registerClass(ItemPSwitch.class);
 
-		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(0, 0, 16, 16), "Mario", 5));
-		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(16, 0, 16, 16), "Luigi", 5));
-		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(0, 16, 16, 16), "Mushroom", 10));
-		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(16, 16, 16, 16), "1-UP", 15));
+		registerShopItems();
 
 		Laptop.addWallpaper(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/app/laptop_wallpaper_mario_green_hills.png"));
 		Laptop.addWallpaper(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/app/laptop_wallpaper_mario_snow_hills.png"));
@@ -128,6 +126,17 @@ public class SuperMarioWorld {
 		ApplicationManager.registerApplication(GAME_ID, ApplicationGame.class);
 
 		PrintingManager.registerPrint(new ResourceLocation(MOD_ID, "mario_screenshot"), MarioPrint.Print.class);
+	}
+
+	/**
+	 * Registers all the ship items
+	 */
+	@SideOnly(Side.CLIENT)
+	private static void registerShopItems() {
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(0, 0, 16, 16), "Mario", 5));
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(16, 0, 16, 16), "Luigi", 5));
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(0, 16, 16, 16), "Mushroom", 10));
+		ShopItemRegistry.register(new ImageShopItem(ImageShopItem.SHOP_IMAGES.getSubimage(16, 16, 16, 16), "1-UP", 15));
 	}
 
 	/**
