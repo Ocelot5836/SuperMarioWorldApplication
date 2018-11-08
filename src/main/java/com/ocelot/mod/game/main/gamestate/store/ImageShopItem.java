@@ -33,6 +33,7 @@ public class ImageShopItem extends ShopItem {
 	private Sprite sprite;
 	private BufferedImage image;
 	private String label;
+	private boolean canBuy;
 
 	private double x, y, width, height;
 
@@ -41,6 +42,9 @@ public class ImageShopItem extends ShopItem {
 		this.sprite = new Sprite(image);
 		this.image = image;
 		this.label = label;
+		BankUtil.getBalance((nbt, success) -> {
+			this.canBuy = success ? nbt.getInteger("balance") >= price : false;
+		});
 	}
 
 	@Override
@@ -63,26 +67,13 @@ public class ImageShopItem extends ShopItem {
 		Minecraft.getMinecraft().fontRenderer.drawString(price + " Emeralds", 0, 0, 0xffffffff, true);
 		GlStateManager.popMatrix();
 
-		this.sprite.render(x + width / 2 - 8, y + 32, 16, 16);
-
-		BankUtil.getBalance((nbt, success) -> {
-			if (success) {
-				this.drawButton("Buy", x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, nbt.getInteger("balance") >= price);
-			} else {
-				this.drawButton("Buy", x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, false);
-			}
-		});
+		this.sprite.render(x + width / 2 - 8, y + 32, 16, 16);		
+		this.drawButton("Buy", x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, this.canBuy);
 	}
 
 	@Override
 	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
-		BankUtil.getBalance((nbt, success) -> {
-			if (success) {
-				this.onButtonPressed(x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, nbt.getInteger("balance") >= price);
-			} else {
-				this.onButtonPressed(x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, false);
-			}
-		});
+		this.onButtonPressed(x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, this.canBuy);
 	}
 
 	private void drawButton(String text, double x, double y, int width, int height, int mouseX, int mouseY, boolean enabled) {

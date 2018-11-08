@@ -87,6 +87,7 @@ public class SuperMarioWorld {
 	public void post(FMLPostInitializationEvent event) {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			SummonableEntityRegistry.registerAllSummonables();
+			registerShopItems();
 		}
 	}
 
@@ -104,8 +105,6 @@ public class SuperMarioWorld {
 		SummonableEntityRegistry.registerClass(ItemCrayfish.class);
 		SummonableEntityRegistry.registerClass(ItemKoopaShell.class);
 		SummonableEntityRegistry.registerClass(ItemPSwitch.class);
-
-		registerShopItems();
 
 		Laptop.addWallpaper(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/app/laptop_wallpaper_mario_green_hills.png"));
 		Laptop.addWallpaper(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/app/laptop_wallpaper_mario_snow_hills.png"));
