@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.entity.item;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.config.ModConfig;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
@@ -26,7 +26,7 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(ItemCrayfish.Summonable.class)
 public class ItemCrayfish extends EntityItem implements IItemCarriable {
 
-	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/crayfish.png"));
+	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/crayfish.png"));
 
 	private Sprite sprite = new Sprite(SHEET.getSubimage(0, 0, 16, 16));
 
@@ -95,12 +95,12 @@ public class ItemCrayfish extends EntityItem implements IItemCarriable {
 								crayfish.flipDir();
 							}
 						} catch (Exception e) {
-							Mod.logger().catching(e);
+							SuperMarioWorld.logger().catching(e);
 						}
 					}
 					level.add(crayfish);
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
 				}
 			} else {
 				level.add(new ItemCrayfish(game));

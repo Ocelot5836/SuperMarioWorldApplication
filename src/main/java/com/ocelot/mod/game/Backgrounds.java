@@ -2,7 +2,7 @@ package com.ocelot.mod.game;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.lib.Lib;
 
@@ -10,8 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class Backgrounds {
 
-	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/backgrounds/normal.png"));
-	public static final BufferedImage ANIMATED_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/backgrounds/animated.png"));
+	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/backgrounds/normal.png"));
+	public static final BufferedImage ANIMATED_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/backgrounds/animated.png"));
 
 	// Normal Backgrounds
 	public static final Sprite GREEN_HILLS = new Sprite(SHEET.getSubimage(2, 2, 512, 432));

@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.gui;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.Usernames;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class MarioGuiPlayerCrayfishHello extends MarioGui {
 
-	private static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/gui/text.png"));
+	private static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/gui/text.png"));
 	private static final Sprite[] FRAMES;
 	private static final Sprite FULL = new Sprite(SHEET.getSubimage(96, 142, 160, 79));
 

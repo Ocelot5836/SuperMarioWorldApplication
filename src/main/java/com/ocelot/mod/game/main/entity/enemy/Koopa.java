@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -40,7 +40,7 @@ import net.minecraft.util.math.MathHelper;
 @FileSummonableEntity(Koopa.Summonable.class)
 public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListener {
 
-	public static final BufferedImage KOOPA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/koopa.png"));
+	public static final BufferedImage KOOPA_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/koopa.png"));
 
 	public static final byte WING_BIT = 0x01;
 	public static final byte CLMBING_BIT = 0x02;
@@ -361,13 +361,13 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 					try {
 						type = KoopaType.byName(args[0]);
 					} catch (Exception e1) {
-						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[0]));
+						throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.illegal_arg", args[0]));
 					}
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[0]));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.illegal_arg", args[0]));
 				}
 				if (type == null) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[0] + "=null"));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.illegal_arg", args[0] + "=null"));
 				}
 
 				if (args.length > 1) {
@@ -376,18 +376,18 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 							level.add(new Koopa(game, type, Double.parseDouble(args[1]), Double.parseDouble(args[2])));
 							return;
 						} catch (NumberFormatException e) {
-							throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.numerical"));
+							throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.numerical"));
 						} catch (Exception e) {
-							throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_args", args[1] + ", " + args[2]));
+							throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.illegal_args", args[1] + ", " + args[2]));
 						}
 						if (args.length > 3) {
 							try {
 								level.add(new Koopa(game, type, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Integer.parseInt(args[3])));
 								return;
 							} catch (NumberFormatException e) {
-								throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.numerical"));
+								throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.numerical"));
 							} catch (Exception e) {
-								throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_args", args[1] + ", " + args[2] + ", " + args[3]));
+								throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.illegal_args", args[1] + ", " + args[2] + ", " + args[3]));
 							}
 						}
 					}
@@ -395,16 +395,16 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 						level.add(new Koopa(game, type, Integer.parseInt(args[1])));
 						return;
 					} catch (NumberFormatException e) {
-						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.numerical_attrib"));
+						throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.numerical_attrib"));
 					} catch (Exception e) {
-						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.illegal_arg", args[1]));
+						throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.illegal_arg", args[1]));
 					}
 				} else {
 					level.add(new Koopa(game, type));
 					return;
 				}
 			} else {
-				throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".koopa.summon.low_args"));
+				throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".koopa.summon.low_args"));
 			}
 		}
 

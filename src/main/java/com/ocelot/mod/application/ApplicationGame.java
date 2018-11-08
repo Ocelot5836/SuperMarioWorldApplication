@@ -9,7 +9,7 @@ import com.mrcrayfish.device.api.io.File;
 import com.mrcrayfish.device.core.Laptop;
 import com.mrcrayfish.device.core.io.FileSystem;
 import com.mrcrayfish.device.util.GLHelper;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -66,7 +66,7 @@ public class ApplicationGame extends Application {
 		}
 		if (Game.isClosed()) {
 			if (getActiveDialog() == null) {
-				DialogCrashLog dialog = new DialogCrashLog(I18n.format("exception." + Mod.MOD_ID + ".dialog", Game.getCloseInfo()));
+				DialogCrashLog dialog = new DialogCrashLog(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".dialog", Game.getCloseInfo()));
 				dialog.setPositiveListener((mouseButton, mouseX, mouseY) -> {
 					this.init(new NBTTagCompound());
 				});

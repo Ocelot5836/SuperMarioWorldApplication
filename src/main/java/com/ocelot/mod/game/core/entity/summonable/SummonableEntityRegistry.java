@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;
 
 /**
@@ -47,7 +47,7 @@ public class SummonableEntityRegistry {
 				} catch (InstantiationException e) {
 					throw new RuntimeException("Class " + summonableClazz.getName() + " is missing a default contructor");
 				} catch (Exception e) {
-					Mod.logger().catching(e);
+					SuperMarioWorld.logger().catching(e);
 				}
 			} else {
 				throw new RuntimeException("Class " + clazz.getName() + " does not have the @FileSummonableEntity annotation");

@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.Usernames;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.gfx.Sprite;
@@ -120,7 +120,7 @@ public class Lib implements IResourceManagerReloadListener {
 			sprite.setData(returned);
 			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.put(sprite.getTextureData(), returned);
 		} else {
-			Mod.logger().warn("Can not flip sprite with type " + sprite.getType());
+			SuperMarioWorld.logger().warn("Can not flip sprite with type " + sprite.getType());
 		}
 		return sprite;
 	}
@@ -168,7 +168,7 @@ public class Lib implements IResourceManagerReloadListener {
 				MemoryLib.LOADED_IMAGES.put(location, ImageIO.read(Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream()));
 			return MemoryLib.LOADED_IMAGES.get(location);
 		} catch (IOException e) {
-			Mod.logger().warn("Could not load image " + location + ". Could cause issues later on.");
+			SuperMarioWorld.logger().warn("Could not load image " + location + ". Could cause issues later on.");
 		}
 		return new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
 	}
@@ -184,7 +184,7 @@ public class Lib implements IResourceManagerReloadListener {
 		try {
 			return IOUtils.toString(Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream(), Charset.defaultCharset());
 		} catch (IOException e) {
-			Mod.logger().warn("Could not load text " + location + ". Could cause issues later on.");
+			SuperMarioWorld.logger().warn("Could not load text " + location + ". Could cause issues later on.");
 		}
 		return "";
 	}
@@ -309,7 +309,7 @@ public class Lib implements IResourceManagerReloadListener {
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		Mod.logger().info("Reloading Buffered Images");
+		SuperMarioWorld.logger().info("Reloading Buffered Images");
 		for (ResourceLocation key : MemoryLib.LOADED_IMAGES.keySet()) {
 			loadImage(key, false);
 		}

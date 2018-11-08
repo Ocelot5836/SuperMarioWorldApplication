@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Backgrounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -83,28 +83,28 @@ public class LevelTemplate {
 						try {
 							int value = Integer.parseInt(data[1]);
 							if (value < 0) {
-								Mod.logger().warn("Time value was less than zero. Time will instead use 150s.");
+								SuperMarioWorld.logger().warn("Time value was less than zero. Time will instead use 150s.");
 								value = 150;
 							} else if (value > 999) {
-								Mod.logger().warn("Time max value is 999. Any time above will be lowered down to 999.");
+								SuperMarioWorld.logger().warn("Time max value is 999. Any time above will be lowered down to 999.");
 								value = 999;
 							} else {
 								time = value;
 							}
 						} catch (NumberFormatException e) {
-							Mod.logger().warn("Could not load time since it it not a numerical value");
+							SuperMarioWorld.logger().warn("Could not load time since it it not a numerical value");
 						}
 					} else if (type.equalsIgnoreCase("music")) {
 						try {
 							music = new ResourceLocation(data[1]);
 						} catch (Exception e) {
-							Mod.logger().warn("Could not load music \'" + music + "\'");
+							SuperMarioWorld.logger().warn("Could not load music \'" + music + "\'");
 						}
 					} else if (type.equalsIgnoreCase("music_fast")) {
 						try {
 							musicFast = new ResourceLocation(data[1]);
 						} catch (Exception e) {
-							Mod.logger().warn("Could not load music \'" + musicFast + "-music_fast\'");
+							SuperMarioWorld.logger().warn("Could not load music \'" + musicFast + "-music_fast\'");
 						}
 					} else if (type.equalsIgnoreCase("loop")) {
 						if (data.length > 2) {
@@ -114,22 +114,22 @@ public class LevelTemplate {
 								startLoop = value;
 								endLoop = value1;
 							} catch (NumberFormatException e) {
-								Mod.logger().warn("Could not load " + type + " since it is not an integer");
+								SuperMarioWorld.logger().warn("Could not load " + type + " since it is not an integer");
 								line = br.readLine();
 								continue;
 							}
 						} else {
-							Mod.logger().warn("Could not load " + type + " since it requires two integer parameters");
+							SuperMarioWorld.logger().warn("Could not load " + type + " since it requires two integer parameters");
 							line = br.readLine();
 							continue;
 						}
 					} else {
-						Mod.logger().warn("Unknown type of function " + type);
+						SuperMarioWorld.logger().warn("Unknown type of function " + type);
 						line = br.readLine();
 						continue;
 					}
 				} else {
-					Mod.logger().warn("Could not load world info with data " + line + " -length- " + data.length);
+					SuperMarioWorld.logger().warn("Could not load world info with data " + line + " -length- " + data.length);
 					line = br.readLine();
 					continue;
 				}
@@ -172,7 +172,7 @@ public class LevelTemplate {
 								}
 							}
 						} else {
-							Mod.logger().warn("Unknown type of parameters " + types);
+							SuperMarioWorld.logger().warn("Unknown type of parameters " + types);
 							line = br.readLine();
 							continue;
 						}
@@ -189,17 +189,17 @@ public class LevelTemplate {
 							background.setStartingPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
 							backgrounds.add(background);
 						} else {
-							Mod.logger().warn("Unknown type of parameters " + types);
+							SuperMarioWorld.logger().warn("Unknown type of parameters " + types);
 							line = br.readLine();
 							continue;
 						}
 					} else {
-						Mod.logger().warn("Unknown type of function " + types[0]);
+						SuperMarioWorld.logger().warn("Unknown type of function " + types[0]);
 						line = br.readLine();
 						continue;
 					}
 				} else {
-					Mod.logger().warn("Could not load background with data " + line + " -length- " + data.length);
+					SuperMarioWorld.logger().warn("Could not load background with data " + line + " -length- " + data.length);
 					line = br.readLine();
 					continue;
 				}
@@ -236,15 +236,15 @@ public class LevelTemplate {
 						try {
 							summonable.summonFromFile(game, level, args);
 						} catch (SummonException e) {
-							Mod.logger().warn("Could not load entity " + data[0] + ". " + e.getMessage());
+							SuperMarioWorld.logger().warn("Could not load entity " + data[0] + ". " + e.getMessage());
 							line = br.readLine();
 							continue;
 						}
 					} else {
-						Mod.logger().warn("Could not load entity with key " + data[0]);
+						SuperMarioWorld.logger().warn("Could not load entity with key " + data[0]);
 					}
 				} else {
-					Mod.logger().warn("Could not load entity with data " + line + " -length- " + data.length);
+					SuperMarioWorld.logger().warn("Could not load entity with data " + line + " -length- " + data.length);
 					line = br.readLine();
 					continue;
 				}

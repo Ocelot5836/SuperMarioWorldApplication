@@ -7,7 +7,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.base.Stopwatch;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
@@ -41,8 +41,8 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(Player.Summonable.class)
 public class Player extends Mob implements IDamagable {
 
-	public static final BufferedImage SMALL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/player_small.png"));
-	public static final BufferedImage BIG_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/player_big.png"));
+	public static final BufferedImage SMALL_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/player/player_small.png"));
+	public static final BufferedImage BIG_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/player/player_big.png"));
 
 	private EntityItem item = null;
 
@@ -813,9 +813,9 @@ public class Player extends Mob implements IDamagable {
 				try {
 					level.add(new Player(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
 				} catch (NumberFormatException e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".player.summon.numerical"));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".player.summon.numerical"));
 				} catch (Exception e) {
-					Mod.logger().catching(e);
+					SuperMarioWorld.logger().catching(e);
 				}
 				if (args.length > 2) {
 					try {
@@ -823,9 +823,9 @@ public class Player extends Mob implements IDamagable {
 						player.enableKeyboardInput(Boolean.parseBoolean(args[2]));
 						level.add(player);
 					} catch (NumberFormatException e) {
-						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".player.summon.numerical"));
+						throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".player.summon.numerical"));
 					} catch (Exception e) {
-						Mod.logger().catching(e);
+						SuperMarioWorld.logger().catching(e);
 					}
 				}
 			} else {

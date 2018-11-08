@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.main.entity.EntityPowerup;
@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class Powerup implements IQuestionBlockItem {
 
-	public static final BufferedImage POWERUP_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/powerups.png"));
+	public static final BufferedImage POWERUP_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/powerups.png"));
 
 	private static final Map<String, Powerup> POWERUPS = Maps.<String, Powerup>newHashMap();
 
@@ -59,7 +59,7 @@ public abstract class Powerup implements IQuestionBlockItem {
 	}
 
 	public String getLocalizedName() {
-		return I18n.format("powerup." + Mod.MOD_ID + "." + this.getUnlocalizedName() + ".name");
+		return I18n.format("powerup." + SuperMarioWorld.MOD_ID + "." + this.getUnlocalizedName() + ".name");
 	}
 
 	@Override

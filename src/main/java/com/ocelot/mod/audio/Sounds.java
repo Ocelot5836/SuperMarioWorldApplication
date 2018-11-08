@@ -3,7 +3,7 @@ package com.ocelot.mod.audio;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -77,7 +77,7 @@ public class Sounds {
 	}
 
 	private static SoundEvent registerSound(String soundName) {
-		ResourceLocation resource = new ResourceLocation(Mod.MOD_ID, soundName);
+		ResourceLocation resource = new ResourceLocation(SuperMarioWorld.MOD_ID, soundName);
 		SoundEvent sound = new SoundEvent(resource).setRegistryName(soundName);
 		return sound;
 	}

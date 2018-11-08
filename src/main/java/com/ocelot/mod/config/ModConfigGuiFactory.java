@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -44,14 +44,14 @@ public class ModConfigGuiFactory implements IModGuiFactory {
 
 	private static class ModConfigGui extends GuiConfig {
 		public ModConfigGui(GuiScreen parentScreen) {
-			super(parentScreen, getConfigElements(), Mod.MOD_ID, false, false, I18n.format("gui." + Mod.MOD_ID + ".config.title"));
+			super(parentScreen, getConfigElements(), SuperMarioWorld.MOD_ID, false, false, I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config.title"));
 		}
 	}
 
 	private static List<IConfigElement> getConfigElements() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		for (ConfigCategory category : ConfigCategory.configs) {
-			list.add(new DummyCategoryElement(I18n.format("gui." + Mod.MOD_ID + ".config.category." + category.getName()), "gui." + Mod.MOD_ID + ".config.category." + category.getName(), category.getClazz()));
+			list.add(new DummyCategoryElement(I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config.category." + category.getName()), "gui." + SuperMarioWorld.MOD_ID + ".config.category." + category.getName(), category.getClazz()));
 		}
 		return list;
 	}
@@ -68,7 +68,7 @@ public class ModConfigGuiFactory implements IModGuiFactory {
 		protected GuiScreen buildChildScreen() {
 			this.category = ModConfig.CATEGORY_SOUNDS;
 			for (ConfigCategory cat : ConfigCategory.configs) {
-				String catName = I18n.format("gui." + Mod.MOD_ID + ".config.category." + cat.getName());
+				String catName = I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config.category." + cat.getName());
 				if (catName.equalsIgnoreCase(configElement.getName())) {
 					this.category = cat;
 					break;
@@ -78,7 +78,7 @@ public class ModConfigGuiFactory implements IModGuiFactory {
 			Configuration config = ModConfig.getConfig();
 			ConfigElement category = new ConfigElement(config.getCategory(this.category.getName()));
 			List<IConfigElement> propertiesOnScreen = category.getChildElements();
-			String windowTitle = I18n.format("gui." + Mod.MOD_ID + ".config.category." + category.getName());
+			String windowTitle = I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config.category." + category.getName());
 			return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart, windowTitle);
 		}
 	}
@@ -93,7 +93,7 @@ public class ModConfigGuiFactory implements IModGuiFactory {
 			Configuration config = ModConfig.getConfig();
 			ConfigElement category = new ConfigElement(config.getCategory(this.category.getName()));
 			List<IConfigElement> propertiesOnScreen = category.getChildElements();
-			String windowTitle = I18n.format("gui." + Mod.MOD_ID + ".config.category." + category.getName());
+			String windowTitle = I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config.category." + category.getName());
 
 			for (int i = 0; i < propertiesOnScreen.size(); i++) {
 				IConfigElement element = propertiesOnScreen.get(i);

@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
@@ -37,7 +37,7 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(ItemKoopaShell.Summonable.class)
 public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamager, IDamagable {
 
-	public static final BufferedImage SHELL_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/shell.png"));
+	public static final BufferedImage SHELL_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/shell.png"));
 
 	private static int[][] colors = { { 0xff007800, 0xff00B800, 0xff00F800 }, { 0xff880000, 0xffB80000, 0xffF80000 }, { 0xff4040D8, 0xff6868D8, 0xff8888F8 }, { 0xffF87800, 0xffF8C000, 0xffF8F800 } };
 	private static int[] delays = { -1, 30 };
@@ -75,7 +75,7 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 		this.slideSpeed = 0.6f;
 		this.airSlideSpeed = 0.6f;
 		if (type == KoopaType.KAMIKAZE) {
-			Game.stop(new IllegalArgumentException(I18n.format("exception." + Mod.MOD_ID + ".item_koopa_shell.illegal_type")), "Error while initializing koopa shell.");
+			Game.stop(new IllegalArgumentException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item_koopa_shell.illegal_type")), "Error while initializing koopa shell.");
 		}
 
 		this.animation = new BufferedAnimation();
@@ -280,17 +280,17 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
 					level.add(new ItemKoopaShell(game, type, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
 				}
 			} else if (args.length > 1) {
 				try {
 					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
 					level.add(new ItemKoopaShell(game, type));
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
 				}
 			} else {
-				throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item_koopa_shell.summon.invalid_shell_type"));
+				throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item_koopa_shell.summon.invalid_shell_type"));
 			}
 		}
 

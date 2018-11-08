@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.entity.fx.particle;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.fx.EntityFX;
 import com.ocelot.mod.game.core.gfx.BufferedAnimation;
@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class DustFX extends EntityFX {
 
-	public static final BufferedImage DUST_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/effect/dust.png"));
+	public static final BufferedImage DUST_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/effect/dust.png"));
 
 	private Sprite sprite;
 	private BufferedAnimation animation;

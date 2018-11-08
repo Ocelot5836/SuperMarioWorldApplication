@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.MarioDamageSource;
@@ -34,7 +34,7 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(Galoomba.Summonable.class)
 public class Galoomba extends Enemy implements IDamagable {
 
-	public static final BufferedImage GALOOMBA_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/galoomba.png"));
+	public static final BufferedImage GALOOMBA_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/galoomba.png"));
 
 	private int currentAction;
 	private Sprite sprite;
@@ -325,10 +325,10 @@ public class Galoomba extends Enemy implements IDamagable {
 					try {
 						level.add(new Galoomba(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
 					} catch (Exception e) {
-						throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".galoomba.summon.numerical"));
+						throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".galoomba.summon.numerical"));
 					}
 				} else {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".galoomba.summon.numerical"));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".galoomba.summon.numerical"));
 				}
 			} else {
 				level.add(new Galoomba(game));

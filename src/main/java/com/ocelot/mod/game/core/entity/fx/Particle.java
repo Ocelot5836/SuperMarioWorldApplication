@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Maps;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.lib.Lib;
@@ -27,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public abstract class Particle extends EntityFX {
 
-	public static final BufferedImage PARTICLE_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/effect/particles.png"));
+	public static final BufferedImage PARTICLE_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/effect/particles.png"));
 	public static final Sprite DEFAULT_SPRITE = new Sprite(PARTICLE_SHEET.getSubimage(0, 0, 8, 8));
 	public static final Sprite CHEESE_SPRITE = new Sprite(PARTICLE_SHEET.getSubimage(56, 56, 8, 8));
 

@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.Maps;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.ErrorState;

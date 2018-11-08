@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.MarioDamageSource;
@@ -21,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class Bowser extends Enemy {
 
-	public static final BufferedImage BOWSER_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/enemy/bowser.png"));
+	public static final BufferedImage BOWSER_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/bowser.png"));
 
 	private static List<BufferedImage[]> sprites;
 

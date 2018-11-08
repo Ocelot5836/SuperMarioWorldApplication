@@ -3,7 +3,7 @@ package com.ocelot.mod.game.core;
 import java.io.File;
 import java.io.FileWriter;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.config.ModConfig;
 
@@ -173,7 +173,7 @@ public abstract class GameTemplate {
 	 *            The exception thrown, null if none
 	 */
 	public static void stop(Throwable e) {
-		stop(e, I18n.format("exception." + Mod.MOD_ID + ".noinfo"));
+		stop(e, I18n.format("exception." + SuperMarioWorld.MOD_ID + ".noinfo"));
 	}
 
 	/**
@@ -185,9 +185,9 @@ public abstract class GameTemplate {
 	 *            The information provided that may be the cause of close or crash
 	 */
 	public static void stop(Throwable e, String info) {
-		Mod.logger().catching(new Throwable(info, e));
+		SuperMarioWorld.logger().catching(new Throwable(info, e));
 		closeInfo = "" + TextFormatting.BLUE + e + "\n" + TextFormatting.DARK_RED + info;
-		errorFile = new File(Loader.instance().getConfigDir(), Mod.MOD_ID + "/latest-crash.log");
+		errorFile = new File(Loader.instance().getConfigDir(), SuperMarioWorld.MOD_ID + "/latest-crash.log");
 
 		try {
 			if (!errorFile.getParentFile().exists()) {
@@ -207,7 +207,7 @@ public abstract class GameTemplate {
 			writer.write(crash.getCompleteReport());
 			writer.close();
 		} catch (Exception e1) {
-			Mod.logger().catching(e1);
+			SuperMarioWorld.logger().catching(e1);
 		}
 
 		closed = true;

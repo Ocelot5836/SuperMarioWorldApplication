@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.gamestate;
 
 import org.lwjgl.input.Keyboard;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Backgrounds;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
@@ -32,7 +32,7 @@ public class TestState extends GameState {
 	public void load() {
 		bg = new Background(Backgrounds.UNDERWATER, 100, 0.1, 0.5);
 		bg.setStartingPosition(0, -144);
-		level = new Level(game, 16, new ResourceLocation(Mod.MOD_ID, "maps/tile_test.map"));
+		level = new Level(game, 16, new ResourceLocation(SuperMarioWorld.MOD_ID, "maps/tile_test.map"));
 		level.getMap().setTween(0.25);
 		level.add(new Galoomba(game, 60, 50));
 		level.add(player = new Player(game));

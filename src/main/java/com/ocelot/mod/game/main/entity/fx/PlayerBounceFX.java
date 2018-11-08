@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Stopwatch;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.fx.EntityFX;
@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class PlayerBounceFX extends EntityFX {
 
-	public static final BufferedImage BOUNCE_IMAGE = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/effect/bounce.png"));
+	public static final BufferedImage BOUNCE_IMAGE = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/effect/bounce.png"));
 
 	private Stopwatch timer;
 	private Sprite sprite;

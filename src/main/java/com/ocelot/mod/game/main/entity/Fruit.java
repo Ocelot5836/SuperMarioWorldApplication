@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.entity;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.SummonException;
@@ -34,7 +34,7 @@ public class Fruit extends Entity {
 		this.animation = new Animation();
 
 		Sprite[] sprites = new Sprite[4];
-		BufferedImage sheet = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/fruit.png"));
+		BufferedImage sheet = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/fruit.png"));
 		for (int i = 0; i < sprites.length; i++) {
 			sprites[i] = new Sprite(sheet.getSubimage(i * 16, 0, 16, 16));
 		}
@@ -63,7 +63,7 @@ public class Fruit extends Entity {
 				try {
 					level.add(new Fruit(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".fruit.summon.numerical"));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".fruit.summon.numerical"));
 				}
 			} else {
 				level.add(new Fruit(game));

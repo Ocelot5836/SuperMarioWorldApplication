@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.LevelTemplate;
@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiOverlay extends MarioGui {
 
-	public static final BufferedImage HUD_SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/gui/hud.png"));
+	public static final BufferedImage HUD_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/gui/hud.png"));
 	private static List<BufferedImage> sprites;
 
 	public static final int COIN = 0;

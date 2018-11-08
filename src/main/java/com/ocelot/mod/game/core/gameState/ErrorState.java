@@ -1,6 +1,6 @@
 package com.ocelot.mod.game.core.gameState;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -35,7 +35,7 @@ public class ErrorState extends GameState {
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		gui.drawCenteredString(mc.fontRenderer, I18n.format("state." + Mod.MOD_ID + ".error.message"), game.getWidth() / 2, game.getHeight() / 2 - mc.fontRenderer.FONT_HEIGHT / 2, 0xffffffff);
+		gui.drawCenteredString(mc.fontRenderer, I18n.format("state." + SuperMarioWorld.MOD_ID + ".error.message"), game.getWidth() / 2, game.getHeight() / 2 - mc.fontRenderer.FONT_HEIGHT / 2, 0xffffffff);
 	}
 
 	@Override

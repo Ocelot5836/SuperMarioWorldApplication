@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.time.StopWatch;
 
 import com.google.common.collect.Lists;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.MobMover;
@@ -60,7 +60,7 @@ public class PlayerMap extends Mob {
 	}
 
 	private void loadSprites() {
-		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/player/mario_map.png")), 16, 24, numFrames));
+		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/player/mario_map.png")), 16, 24, numFrames));
 		this.animation.setFrames(this.sprites.get(0));
 	}
 

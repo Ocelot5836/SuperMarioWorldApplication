@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,7 +50,7 @@ public class ModConfig {
 	 * Initializes the config.
 	 */
 	public static void pre() {
-		File configFile = new File(Loader.instance().getConfigDir(), Mod.MOD_ID + "/" + Mod.MOD_ID + ".cfg");
+		File configFile = new File(Loader.instance().getConfigDir(), SuperMarioWorld.MOD_ID + "/" + SuperMarioWorld.MOD_ID + ".cfg");
 		config = new Configuration(configFile);
 		syncFromFiles();
 	}
@@ -92,24 +92,24 @@ public class ModConfig {
 		}
 
 		Property propertyEnableMarioMusic = config.get(CATEGORY_NAME_SOUNDS, "enable_mario_music", FactorySettings.ENABLE_MARIO_MUSIC);
-		propertyEnableMarioMusic.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_music");
-		propertyEnableMarioMusic.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_music.comment"));
+		propertyEnableMarioMusic.setLanguageKey("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_music");
+		propertyEnableMarioMusic.setComment(I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_music.comment"));
 
 		Property propertyEnableMarioSFX = config.get(CATEGORY_NAME_SOUNDS, "enable_mario_sfx", FactorySettings.ENABLE_MARIO_SFX);
-		propertyEnableMarioSFX.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_sfx");
-		propertyEnableMarioSFX.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_sfx.comment"));
+		propertyEnableMarioSFX.setLanguageKey("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_sfx");
+		propertyEnableMarioSFX.setComment(I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".enable_mario_sfx.comment"));
 
 		Property propertyMarioMusicVolume = config.get(CATEGORY_NAME_SOUNDS, "mario_music_volume", FactorySettings.MARIO_MUSIC_VOLUME_MAX).setConfigEntryClass(NumberSliderEntry.class);
 		propertyMarioMusicVolume.setMinValue(FactorySettings.MARIO_MUSIC_VOLUME_MIN);
 		propertyMarioMusicVolume.setMaxValue(FactorySettings.MARIO_MUSIC_VOLUME_MAX);
-		propertyMarioMusicVolume.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_music_volume");
-		propertyMarioMusicVolume.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_music_volume.comment"));
+		propertyMarioMusicVolume.setLanguageKey("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_music_volume");
+		propertyMarioMusicVolume.setComment(I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_music_volume.comment"));
 
 		Property propertyMarioSFXVolume = config.get(CATEGORY_NAME_SOUNDS, "mario_sfx_volume", FactorySettings.MARIO_SFX_VOLUME_MAX).setConfigEntryClass(NumberSliderEntry.class);
 		propertyMarioSFXVolume.setMinValue(FactorySettings.MARIO_SFX_VOLUME_MIN);
 		propertyMarioSFXVolume.setMaxValue(FactorySettings.MARIO_SFX_VOLUME_MAX);
-		propertyMarioSFXVolume.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_sfx_volume");
-		propertyMarioSFXVolume.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_sfx_volume.comment"));
+		propertyMarioSFXVolume.setLanguageKey("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_sfx_volume");
+		propertyMarioSFXVolume.setComment(I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_SOUNDS + ".mario_sfx_volume.comment"));
 
 		List<String> propertyOrderSounds = new ArrayList<String>();
 		propertyOrderSounds.add(propertyEnableMarioMusic.getName());
@@ -121,8 +121,8 @@ public class ModConfig {
 		Property propertyCrayfishParticleSpawnCount = config.get(CATEGORY_NAME_EXTRAS, "crayfish_particle_spawn_count", FactorySettings.CRAYFISH_PARTICLE_SPAWN_COUNT);
 		propertyCrayfishParticleSpawnCount.setMinValue(FactorySettings.CRAYFISH_PARTICLE_SPAWN_COUNT_MIN);
 		propertyCrayfishParticleSpawnCount.setMaxValue(FactorySettings.CRAYFISH_PARTICLE_SPAWN_COUNT_MAX);
-		propertyCrayfishParticleSpawnCount.setLanguageKey("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_EXTRAS + ".crayfish_particle_spawn_count");
-		propertyCrayfishParticleSpawnCount.setComment(I18n.format("gui." + Mod.MOD_ID + ".config." + CATEGORY_NAME_EXTRAS + ".crayfish_particle_spawn_count.comment"));
+		propertyCrayfishParticleSpawnCount.setLanguageKey("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_EXTRAS + ".crayfish_particle_spawn_count");
+		propertyCrayfishParticleSpawnCount.setComment(I18n.format("gui." + SuperMarioWorld.MOD_ID + ".config." + CATEGORY_NAME_EXTRAS + ".crayfish_particle_spawn_count.comment"));
 
 		List<String> propertyOrderExtras = new ArrayList<String>();
 		propertyOrderExtras.add(propertyCrayfishParticleSpawnCount.getName());
@@ -159,7 +159,7 @@ public class ModConfig {
 	private static class ConfigEventHandler {
 		@SubscribeEvent(priority = EventPriority.LOWEST)
 		public void onConfigChnagedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
-			if (event.getModID().equals(Mod.MOD_ID)) {
+			if (event.getModID().equals(SuperMarioWorld.MOD_ID)) {
 				syncFromGui();
 			}
 		}

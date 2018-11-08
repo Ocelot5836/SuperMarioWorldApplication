@@ -1,6 +1,6 @@
 package com.ocelot.mod.game;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.save.SaveFileManager;
@@ -55,11 +55,11 @@ public class Game extends GameTemplate {
 			gsm.render(gui, mc, mouseX, mouseY, partialTicks);
 			if (currentDisplayedGui != null)
 				currentDisplayedGui.render(gui, mouseX, mouseY, partialTicks);
-			if (Mod.isDebug()) {
+			if (SuperMarioWorld.isDebug()) {
 				gui.drawString(mc.fontRenderer, "Current: " + gsm.getSelectedState().toString(), 2, 2, 0xffffffff);
 			}
 		} else {
-			gui.drawCenteredString(mc.fontRenderer, I18n.format("exception." + Mod.MOD_ID + ".thrown"), WIDTH / 2, HEIGHT / 2 - 8, 0xffdd0000);
+			gui.drawCenteredString(mc.fontRenderer, I18n.format("exception." + SuperMarioWorld.MOD_ID + ".thrown"), WIDTH / 2, HEIGHT / 2 - 8, 0xffdd0000);
 		}
 	}
 

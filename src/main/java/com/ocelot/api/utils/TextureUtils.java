@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -95,7 +95,7 @@ public class TextureUtils {
 	 *            The path to the texture
 	 */
 	public static void bindTexture(String path) {
-		String locationString = Mod.MOD_ID + ":" + path;
+		String locationString = SuperMarioWorld.MOD_ID + ":" + path;
 		if (textures.containsKey(locationString)) {
 			mc.getTextureManager().bindTexture(textures.get(locationString));
 		} else {

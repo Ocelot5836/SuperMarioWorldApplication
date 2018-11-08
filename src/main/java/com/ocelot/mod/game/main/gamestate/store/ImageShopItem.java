@@ -14,7 +14,7 @@ import com.mrcrayfish.device.object.Picture;
 import com.mrcrayfish.device.object.Picture.Size;
 import com.ocelot.api.utils.SoundUtils;
 import com.ocelot.api.utils.TextureUtils;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.application.ApplicationGame;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.lib.Lib;
@@ -28,7 +28,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ImageShopItem extends ShopItem {
 
-	public static final BufferedImage SHOP_IMAGES = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/shop_images.png"));
+	public static final BufferedImage SHOP_IMAGES = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/shop_images.png"));
 
 	private Sprite sprite;
 	private BufferedImage image;

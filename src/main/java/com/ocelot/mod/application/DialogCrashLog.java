@@ -8,7 +8,7 @@ import com.mrcrayfish.device.api.app.Layout.Background;
 import com.mrcrayfish.device.api.app.component.Button;
 import com.mrcrayfish.device.api.app.component.Text;
 import com.mrcrayfish.device.api.app.listener.ClickListener;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;
 
 import net.minecraft.client.Minecraft;
@@ -70,7 +70,7 @@ public class DialogCrashLog extends Dialog {
 				Desktop.getDesktop().open(Game.getErrorFile());
 			} catch (Exception e) {
 				openDialog(new Dialog.Message("Could not open error log"));
-				Mod.logger().catching(e);
+				SuperMarioWorld.logger().catching(e);
 			}
 		});
 		this.addComponent(buttonSaveStackTrace);

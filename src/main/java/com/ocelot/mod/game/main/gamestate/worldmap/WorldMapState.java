@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.GameState;
@@ -20,8 +20,8 @@ import net.minecraft.util.ResourceLocation;
 @DebugSelectStateLevel
 public class WorldMapState extends GameState {
 
-	public static final BufferedImage WORLD_MAP_ICONS = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/map.png"));
-	public static final BufferedImage WORLD_MAP_PATHS = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/path.png"));
+	public static final BufferedImage WORLD_MAP_ICONS = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/map.png"));
+	public static final BufferedImage WORLD_MAP_PATHS = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/path.png"));
 
 	private WorldMap map;
 

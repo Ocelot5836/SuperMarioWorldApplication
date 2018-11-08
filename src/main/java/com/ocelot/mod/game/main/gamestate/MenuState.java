@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.time.StopWatch;
 import org.lwjgl.input.Keyboard;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -33,7 +33,7 @@ public class MenuState extends GameState {
 	@Override
 	public void load() {
 		timer = StopWatch.createStarted();
-		level = new Level(game, 16, new ResourceLocation(Mod.MOD_ID, "maps/test.map"));
+		level = new Level(game, 16, new ResourceLocation(SuperMarioWorld.MOD_ID, "maps/test.map"));
 		level.getMap().setTween(0.25);
 		level.add(player = new Player(game, 0, 50).enableKeyboardInput(false));
 		bot = new MobMover(player).addPos(200, 0, 2, 0).addPos(-150, 0).addPos(50, 0, 1, 0);

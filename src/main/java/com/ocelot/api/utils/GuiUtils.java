@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -189,7 +189,7 @@ public class GuiUtils {
 			GlStateManager.disableTexture2D();
 			GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
 		} else {
-			Mod.logger().warn("Trying to render an entity that is null!");
+			SuperMarioWorld.logger().warn("Trying to render an entity that is null!");
 		}
 	}
 

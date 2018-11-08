@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.gamestate.level;
 
 import org.lwjgl.input.Keyboard;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.GameState;
@@ -32,7 +32,7 @@ public class YoshiHouseState extends GameState {
 
 	@Override
 	public void load() {
-		template = new LevelTemplate(game, new ResourceLocation(Mod.MOD_ID, "levels/yoshihouse"));
+		template = new LevelTemplate(game, new ResourceLocation(SuperMarioWorld.MOD_ID, "levels/yoshihouse"));
 
 		template.getLevel().getMap().setTween(1).setPosition(0, 58);
 		template.getLevel().add(Powerup.MUSHROOM.createInstance(game, 100, 50));

@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 
 import org.lwjgl.input.Keyboard;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
@@ -35,7 +35,7 @@ public class DemoLevelState extends BasicLevel {
 
 	@Override
 	public void load() {
-		super.init(new LevelTemplate(game, new ResourceLocation(Mod.MOD_ID, "levels/demo")));
+		super.init(new LevelTemplate(game, new ResourceLocation(SuperMarioWorld.MOD_ID, "levels/demo")));
 		level.getLevel().getMap().setTween(0.25);
 
 		for (int i = 0; i < 10; i++) {

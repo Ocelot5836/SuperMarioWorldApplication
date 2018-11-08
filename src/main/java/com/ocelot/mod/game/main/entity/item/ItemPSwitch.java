@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Stopwatch;
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -35,7 +35,7 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 	public static final int SWITCH_TIME = 10000;
 	public static final int DISPLAY_TIME = 200;
 
-	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/entity/item/pswitch.png"));
+	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/pswitch.png"));
 	private static BufferedImage[] sprites;
 
 	private Sprite sprite;
@@ -164,17 +164,17 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
 					level.add(new ItemKoopaShell(game, type, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
 				}
 			} else if (args.length > 1) {
 				try {
 					KoopaType type = KoopaType.byId(Integer.parseInt(args[0]));
 					level.add(new ItemKoopaShell(game, type));
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
 				}
 			} else {
-				throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item_koopa_shell.summon.invalid_shell_type"));
+				throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item_koopa_shell.summon.invalid_shell_type"));
 			}
 		}
 

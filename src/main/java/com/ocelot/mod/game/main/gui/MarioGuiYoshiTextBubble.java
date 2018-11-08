@@ -2,7 +2,7 @@ package com.ocelot.mod.game.main.gui;
 
 import java.awt.image.BufferedImage;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class MarioGuiYoshiTextBubble extends MarioGui {
 
-	private static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(Mod.MOD_ID, "textures/level/yoshihouse/text.png"));
+	private static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/level/yoshihouse/text.png"));
 	private static final Sprite[] FRAMES;
 	private static final Sprite FULL = new Sprite(SHEET.getSubimage(96, 142, 160, 79));
 

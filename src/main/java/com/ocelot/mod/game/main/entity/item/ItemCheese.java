@@ -1,6 +1,6 @@
 package com.ocelot.mod.game.main.entity.item;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.EntityItem;
 import com.ocelot.mod.game.core.entity.IItemCarriable;
@@ -81,7 +81,7 @@ public class ItemCheese extends EntityItem implements IItemCarriable {
 				try {
 					level.add(new ItemCheese(game, Double.parseDouble(args[0]), Double.parseDouble(args[1])));
 				} catch (Exception e) {
-					throwSummonException(I18n.format("exception." + Mod.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
+					throwSummonException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item.summon.numerical", this.getRegistryName()));
 				}
 			} else {
 				level.add(new ItemCheese(game));

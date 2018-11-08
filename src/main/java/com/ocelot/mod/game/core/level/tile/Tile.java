@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.ocelot.mod.Mod;
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.gfx.Sprite;
@@ -46,10 +46,10 @@ public abstract class Tile {
 	/** All of the registered tiles */
 	public static final Tile[] TILES = new Tile[256];
 
-	public static final ResourceLocation TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/tiles.png");
+	public static final ResourceLocation TILES_LOCATION = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/tiles.png");
 	public static final BufferedImage TILES_SHEET = Lib.loadImage(TILES_LOCATION);
 
-	public static final ResourceLocation CONNECTED_TILES_LOCATION = new ResourceLocation(Mod.MOD_ID, "textures/connected_tiles.png");
+	public static final ResourceLocation CONNECTED_TILES_LOCATION = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/connected_tiles.png");
 	public static final BufferedImage CONNECTED_TILES_SHEET = Lib.loadImage(CONNECTED_TILES_LOCATION);
 
 	public static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 16, 16);
@@ -286,7 +286,7 @@ public abstract class Tile {
 	 * @return The name before it is localized
 	 */
 	public String getUnlocalizedName() {
-		return "tile." + Mod.MOD_ID + "." + this.unlocalizedName + ".name";
+		return "tile." + SuperMarioWorld.MOD_ID + "." + this.unlocalizedName + ".name";
 	}
 
 	/**
