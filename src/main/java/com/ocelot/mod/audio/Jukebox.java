@@ -1,8 +1,5 @@
 package com.ocelot.mod.audio;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
 import com.ocelot.mod.config.ModConfig;
 
 import net.minecraft.client.Minecraft;
@@ -23,8 +20,38 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class Jukebox {
 
-	private static List<MarioMusic> musics = Lists.newArrayList();
-	private static List<MarioSFX> soundEffects = Lists.newArrayList();
+	private static MarioMusic music = null;
+	private static MarioSFX[] soundEffects = new MarioSFX[5];
+
+	/**
+	 * Adds the specified sound effect to the batch of playing sound effects.
+	 * 
+	 * @param soundEffect
+	 *            The sound effect to play
+	 * @return Whether or not the sound could be added to the batch
+	 */
+	private static boolean addSoundEffect(MarioSFX soundEffect) {
+		for (int i = 0; i < soundEffects.length; i++) {
+			MarioSFX sound = soundEffects[i];
+			if (!Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(sound)) {
+				sound = null;
+			}
+
+			if (sound == null) {
+				soundEffects[i] = soundEffect;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Stops all music and sound effects.
+	 */
+	public static void stop() {
+		stopMusic();
+		stopSoundEffects();
+	}
 
 	/**
 	 * Plays a piece of music.
@@ -32,7 +59,6 @@ public class Jukebox {
 	 * @param music
 	 *            The music to play
 	 */
-	@SideOnly(Side.CLIENT)
 	public static void playMusic(ResourceLocation music) {
 		playMusic(new MarioMusic(music));
 	}
@@ -43,23 +69,24 @@ public class Jukebox {
 	 * @param music
 	 *            The music to play
 	 */
-	@SideOnly(Side.CLIENT)
 	private static void playMusic(MarioMusic music) {
 		if (ModConfig.enableMarioMusic) {
+			stopMusic();
 			Minecraft.getMinecraft().getSoundHandler().playSound(music);
-			musics.add(music);
+			Jukebox.music = music;
 		}
 	}
 
 	/**
 	 * Stops all currently playing music.
 	 */
-	@SideOnly(Side.CLIENT)
 	public static void stopMusic() {
-		for (int i = 0; i < musics.size(); i++) {
-			MarioMusic music = musics.remove(i);
-			Minecraft.getMinecraft().getSoundHandler().stopSound(music);
+		if (music != null) {
+			if (Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(music)) {
+				Minecraft.getMinecraft().getSoundHandler().stopSound(music);
+			}
 			music.stop();
+			music = null;
 		}
 	}
 
@@ -70,14 +97,8 @@ public class Jukebox {
 	 *            The sound to check for
 	 * @return Whether or not it is playing
 	 */
-	@SideOnly(Side.CLIENT)
 	public static boolean isMusicPlaying(ResourceLocation sound) {
-		for (int i = 0; i < musics.size(); i++) {
-			if (musics.get(i).getSoundLocation().equals(sound)) {
-				return true;
-			}
-		}
-		return false;
+		return music != null ? music.getSoundLocation().equals(sound) : false;
 	}
 
 	/**
@@ -86,33 +107,36 @@ public class Jukebox {
 	 * @param music
 	 *            The sound effect to play
 	 */
-	@SideOnly(Side.CLIENT)
 	public static void playSoundEffect(ResourceLocation sound, float pitch, float volume) {
 		playSoundEffect(new MarioSFX(sound, pitch, volume));
 	}
 
 	/**
-	 * Plays a sound efefct.
+	 * Plays a sound effect.
 	 * 
 	 * @param sound
 	 *            The sound effect to play
 	 */
-	@SideOnly(Side.CLIENT)
 	private static void playSoundEffect(MarioSFX sound) {
 		if (ModConfig.enableMarioSFX) {
-			Minecraft.getMinecraft().getSoundHandler().playSound(sound);
-			soundEffects.add(sound);
+			if (!Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(sound) && addSoundEffect(sound)) {
+				Minecraft.getMinecraft().getSoundHandler().playSound(sound);
+			}
 		}
 	}
 
 	/**
 	 * Stops all currently playing sound effects.
 	 */
-	@SideOnly(Side.CLIENT)
 	public static void stopSoundEffects() {
-		for (int i = 0; i < soundEffects.size(); i++) {
-			MarioSFX music = soundEffects.remove(i);
-			Minecraft.getMinecraft().getSoundHandler().stopSound(music);
+		for (int i = 0; i < soundEffects.length; i++) {
+			MarioSFX soundEffect = soundEffects[i];
+			if (soundEffect != null) {
+				if (Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(soundEffect)) {
+					Minecraft.getMinecraft().getSoundHandler().stopSound(soundEffect);
+				}
+				soundEffect = null;
+			}
 		}
 	}
 
@@ -123,10 +147,10 @@ public class Jukebox {
 	 *            The sound to check for
 	 * @return Whether or not it is playing
 	 */
-	@SideOnly(Side.CLIENT)
 	public static boolean isSoundEffectPlaying(ResourceLocation sound) {
-		for (int i = 0; i < soundEffects.size(); i++) {
-			if (soundEffects.get(i).getSoundLocation().equals(sound)) {
+		for (int i = 0; i < soundEffects.length; i++) {
+			MarioSFX soundEffect = soundEffects[i];
+			if (soundEffect != null && soundEffect.getSoundLocation().equals(sound)) {
 				return true;
 			}
 		}
