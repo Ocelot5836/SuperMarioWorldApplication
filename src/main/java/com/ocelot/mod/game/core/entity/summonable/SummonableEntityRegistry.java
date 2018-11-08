@@ -21,6 +21,7 @@ import com.ocelot.mod.game.Game;
 public class SummonableEntityRegistry {
 
 	private static Map<String, IFileSummonable> summonables = Maps.<String, IFileSummonable>newHashMap();
+	@Deprecated
 	private static List<Class<? extends FileSummonableEntity>> classes = Lists.<Class<? extends FileSummonableEntity>>newArrayList();
 
 	/**
@@ -29,6 +30,7 @@ public class SummonableEntityRegistry {
 	 * @param clazz
 	 *            The class to check
 	 */
+	@Deprecated
 	public static void registerClass(Class clazz) {
 		classes.add(clazz);
 	}
