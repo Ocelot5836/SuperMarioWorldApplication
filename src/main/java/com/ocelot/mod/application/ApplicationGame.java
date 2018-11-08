@@ -3,11 +3,8 @@ package com.ocelot.mod.application;
 import org.lwjgl.opengl.GL11;
 
 import com.mrcrayfish.device.api.app.Application;
-import com.mrcrayfish.device.api.app.Dialog;
 import com.mrcrayfish.device.api.app.Layout;
-import com.mrcrayfish.device.api.io.File;
 import com.mrcrayfish.device.core.Laptop;
-import com.mrcrayfish.device.core.io.FileSystem;
 import com.mrcrayfish.device.util.GLHelper;
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Jukebox;
@@ -19,8 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -35,7 +30,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ApplicationGame extends Application {
 
 	private static ApplicationGame app;
-	
+
 	private Layout layout;
 	private GameTemplate game;
 
@@ -110,8 +105,8 @@ public class ApplicationGame extends Application {
 			}
 		}
 	}
-	
-	 @Override
+
+	@Override
 	public void handleMouseRelease(int mouseX, int mouseY, int mouseButton) {
 		super.handleMouseRelease(mouseX, mouseY, mouseButton);
 		if (!Game.isClosed()) {
@@ -122,8 +117,8 @@ public class ApplicationGame extends Application {
 			}
 		}
 	}
-	 
-	 @Override
+
+	@Override
 	public void handleMouseScroll(int mouseX, int mouseY, boolean direction) {
 		super.handleMouseScroll(mouseX, mouseY, direction);
 		if (!Game.isClosed()) {
@@ -185,14 +180,12 @@ public class ApplicationGame extends Application {
 		game.onClose();
 		MemoryLib.clear();
 		markDirty();
-		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			Jukebox.stopMusic();
-		}
+		Jukebox.stop();
 		layout.clear();
 		layout = null;
 		game = null;
 	}
-	
+
 	public static ApplicationGame getApp() {
 		return app;
 	}
