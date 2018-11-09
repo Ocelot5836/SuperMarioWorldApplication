@@ -71,6 +71,7 @@ public class SuperMarioWorld {
 
 		ModConfig.pre();
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			SummonableEntityRegistry.init(event.getAsmData());
 			ModConfig.clientPre();
 			Lib.pre();
 		}
@@ -86,7 +87,6 @@ public class SuperMarioWorld {
 	@EventHandler
 	public void post(FMLPostInitializationEvent event) {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			SummonableEntityRegistry.registerAllSummonables();
 			registerShopItems();
 		}
 	}
@@ -96,16 +96,6 @@ public class SuperMarioWorld {
 	 */
 	@SideOnly(Side.CLIENT)
 	private static void registerGame() {
-		SummonableEntityRegistry.registerClass(Fruit.class);
-		SummonableEntityRegistry.registerClass(Player.class);
-		SummonableEntityRegistry.registerClass(Koopa.class);
-		SummonableEntityRegistry.registerClass(Galoomba.class);
-		SummonableEntityRegistry.registerClass(ItemCheese.class);
-		SummonableEntityRegistry.registerClass(ItemCracker.class);
-		SummonableEntityRegistry.registerClass(ItemCrayfish.class);
-		SummonableEntityRegistry.registerClass(ItemKoopaShell.class);
-		SummonableEntityRegistry.registerClass(ItemPSwitch.class);
-
 		Laptop.addWallpaper(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/app/laptop_wallpaper_mario_green_hills.png"));
 		Laptop.addWallpaper(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/app/laptop_wallpaper_mario_snow_hills.png"));
 		Laptop.addWallpaper(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/app/laptop_wallpaper_mario_jungle_vines.png"));

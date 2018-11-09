@@ -1,12 +1,12 @@
 package com.ocelot.mod.game.core.entity.summonable;
 
-import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;
+
+import net.minecraftforge.fml.common.discovery.ASMDataTable;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -21,41 +21,35 @@ import com.ocelot.mod.game.Game;
 public class SummonableEntityRegistry {
 
 	private static Map<String, IFileSummonable> summonables = Maps.<String, IFileSummonable>newHashMap();
-	@Deprecated
-	private static List<Class<? extends FileSummonableEntity>> classes = Lists.<Class<? extends FileSummonableEntity>>newArrayList();
 
 	/**
-	 * Adds a class to the registry loop.
+	 * Sets the classes to be registered.
 	 * 
-	 * @param clazz
-	 *            The class to check
+	 * @param table
+	 *            The table to get the data from
 	 */
-	@Deprecated
-	public static void registerClass(Class clazz) {
-		classes.add(clazz);
-	}
-
-	/**
-	 * Registers the summonable entities based on the classes list.
-	 */
-	public static void registerAllSummonables() {
-		for (Class<? extends FileSummonableEntity> clazz : classes) {
-			if (clazz.isAnnotationPresent(FileSummonableEntity.class)) {
-				FileSummonableEntity fse = clazz.getAnnotation(FileSummonableEntity.class);
-				Class<? extends IFileSummonable> summonableClazz = fse.value();
-				try {
-					IFileSummonable summonable = summonableClazz.newInstance();
-					registerSummonable(summonable.getRegistryName(), summonable);
-				} catch (InstantiationException e) {
-					throw new RuntimeException("Class " + summonableClazz.getName() + " is missing a default contructor");
-				} catch (Exception e) {
-					SuperMarioWorld.logger().catching(e);
+	public static void init(ASMDataTable table) {
+		table.getAll(FileSummonableEntity.class.getCanonicalName()).forEach((entity) -> {
+			try {
+				Class clazz = Class.forName(entity.getClassName());
+				if (clazz.isAnnotationPresent(FileSummonableEntity.class)) {
+					FileSummonableEntity fse = (FileSummonableEntity) clazz.getAnnotation(FileSummonableEntity.class);
+					Class<? extends IFileSummonable> summonableClazz = fse.value();
+					try {
+						IFileSummonable summonable = summonableClazz.newInstance();
+						registerSummonable(summonable.getRegistryName(), summonable);
+					} catch (InstantiationException e) {
+						throw new RuntimeException("Class " + summonableClazz.getName() + " is missing a default contructor");
+					} catch (Exception e) {
+						SuperMarioWorld.logger().catching(e);
+					}
+				} else {
+					throw new RuntimeException("Class " + clazz.getName() + " does not have the @FileSummonableEntity annotation");
 				}
-			} else {
-				throw new RuntimeException("Class " + clazz.getName() + " does not have the @FileSummonableEntity annotation");
+			} catch (ClassNotFoundException e) {
+				SuperMarioWorld.logger().warn("Could not find class \'" + entity.getClassName() + "\'", e);
 			}
-		}
-		classes.clear();
+		});
 	}
 
 	/**
