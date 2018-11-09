@@ -54,7 +54,7 @@ public class MarioGuiPlayerCrayfishHello extends MarioGui {
 			FULL.render(width / 2 - FULL.getWidth() / 2, height / 2 - FULL.getHeight() / 2);
 			mc.fontRenderer.drawSplitString(message, width / 2 - FULL.getWidth() / 2 + 5, height / 2 - FULL.getHeight() / 2 + 5, 150, 0xffffff);
 		} else {
-			Sprite sprite = animation.getSprite();
+			Sprite sprite = animation.get();
 			sprite.render(width / 2 - sprite.getWidth() / 2, height / 2 - sprite.getHeight() / 2);
 		}
 	}

@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.core.level.tile;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,6 @@ import com.ocelot.mod.game.main.tile.TileQuestionBlock;
 import com.ocelot.mod.game.main.tile.TileStone;
 import com.ocelot.mod.game.main.tile.TileWater;
 import com.ocelot.mod.lib.AxisAlignedBB;
-import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -46,11 +44,8 @@ public abstract class Tile {
 	/** All of the registered tiles */
 	public static final Tile[] TILES = new Tile[256];
 
-	public static final ResourceLocation TILES_LOCATION = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/tiles.png");
-	public static final BufferedImage TILES_SHEET = Lib.loadImage(TILES_LOCATION);
-
-	public static final ResourceLocation CONNECTED_TILES_LOCATION = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/connected_tiles.png");
-	public static final BufferedImage CONNECTED_TILES_SHEET = Lib.loadImage(CONNECTED_TILES_LOCATION);
+	public static final ResourceLocation TILES_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/tiles.png");
+	public static final ResourceLocation CONNECTED_TILES_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/connected_tiles.png");
 
 	public static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 16, 16);
 
@@ -59,11 +54,11 @@ public abstract class Tile {
 
 	public static final Tile TEST_DIRT = new BasicTile(new ItemStack(Blocks.DIRT), "test_dirt").setSolid(); // 2
 
-	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET.getSubimage(0, 0, 16, 16)), "yoshi_grass").setSolid(); // 3
-	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET.getSubimage(16, 0, 16, 16)), "yoshi_dirt").setSolid(); // 4
+	public static final Tile YOSHI_HOUSE_GRASS = new BasicTile(new Sprite(TILES_SHEET, 0, 0, 16, 16, 256, 416), "yoshi_grass").setSolid(); // 3
+	public static final Tile YOSHI_HOUSE_DIRT = new BasicTile(new Sprite(TILES_SHEET, 16, 0, 16, 16, 256, 416), "yoshi_dirt").setSolid(); // 4
 	public static final Tile INFO_BOX = new TileInfoBox(); // 5
 	public static final Tile COIN = new TileCoin(CoinType.NORMAL); // 6
-	public static final Tile GRASS = new AdvancedConnectedTile("grass", CONNECTED_TILES_SHEET.getSubimage(0, 81, 192, 64)).setSolid(); // 7
+	public static final Tile GRASS = new AdvancedConnectedTile("grass", CONNECTED_TILES_SHEET, 0, 81, 256, 256).setSolid(); // 7
 	public static final Tile GRASS_WALL = new TileGrassWall(); // 8
 	public static final Tile QUESTION_BLOCK = new TileQuestionBlock(); // 9
 	public static final Tile BLUE_COIN = new TileCoin(CoinType.BLUE); // 10
@@ -71,7 +66,7 @@ public abstract class Tile {
 	public static final Tile STONE = new TileStone(); // 12
 	public static final Tile WATER = new TileWater(false); // 13
 	public static final Tile INVISIBLE_WATER = new TileWater(true); // 14
-	public static final Tile EMPTY_QUESTION_BLOCK = new BasicTile(new Sprite(TILES_SHEET.getSubimage(64, 80, 16, 16)), "question_block_empty").setSolid(); // 15
+	public static final Tile EMPTY_QUESTION_BLOCK = new BasicTile(new Sprite(TILES_SHEET, 64, 80, 16, 16, 256, 416), "question_block_empty").setSolid(); // 15
 
 	private static int nextId = 0;
 
@@ -150,7 +145,7 @@ public abstract class Tile {
 	 */
 	public void onEntityCollision(int x, int y, Entity entity, EnumDirection hitDirection) {
 	}
-	
+
 	/**
 	 * Called when an entity intersects/enters with this tile.
 	 * 

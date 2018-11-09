@@ -19,7 +19,7 @@ import net.minecraft.client.gui.Gui;
  */
 public class AnimatedTile extends BasicTile {
 
-	protected Animation animation;
+	protected Animation<Sprite> animation;
 
 	/**
 	 * Creates a new animation and sets the sprites.
@@ -43,7 +43,7 @@ public class AnimatedTile extends BasicTile {
 
 	@Override
 	public void render(double x, double y, TileMap tileMap, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		this.sprite = this.animation.getSprite();
+		this.sprite = this.animation.get();
 		super.render(x, y, tileMap, gui, mc, mouseX, mouseY, partialTicks);
 	}
 }

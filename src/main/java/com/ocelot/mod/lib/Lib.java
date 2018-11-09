@@ -99,54 +99,6 @@ public class Lib implements IResourceManagerReloadListener {
 	}
 
 	/**
-	 * Flips a sprite horizontally.
-	 * 
-	 * @param sprite
-	 *            The sprite to flip
-	 */
-	public static Sprite flipHorizontal(Sprite sprite) {
-		if (MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.containsKey(sprite.getTextureData())) {
-			sprite.setData(MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.get(sprite.getTextureData()));
-			return sprite;
-		}
-
-		if (sprite.getType() == Sprite.EnumType.BUFFERED_IMAGE) {
-			BufferedImage returned = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_ARGB);
-			for (int y = 0; y < returned.getHeight(); y++) {
-				for (int x = 0; x < returned.getWidth(); x++) {
-					returned.setRGB(sprite.getWidth() - x - 1, y, sprite.getTextureData()[x + y * sprite.getWidth()]);
-				}
-			}
-			sprite.setData(returned);
-			MemoryLib.FLIP_SPRITE_HORIZONTAL_IMAGES.put(sprite.getTextureData(), returned);
-		} else {
-			SuperMarioWorld.logger().warn("Can not flip sprite with type " + sprite.getType());
-		}
-		return sprite;
-	}
-
-	/**
-	 * Flips a buffered image horizontally.
-	 * 
-	 * @param image
-	 *            The image to flip
-	 */
-	public static BufferedImage flipHorizontal(BufferedImage image) {
-		if (MemoryLib.FLIP_BUFFERED_IMAGE_HORIZONTAL_IMAGES.containsKey(image)) {
-			return MemoryLib.FLIP_BUFFERED_IMAGE_HORIZONTAL_IMAGES.get(image);
-		}
-
-		BufferedImage returned = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		for (int y = 0; y < returned.getHeight(); y++) {
-			for (int x = 0; x < returned.getWidth(); x++) {
-				returned.setRGB(image.getWidth() - x - 1, y, image.getRGB(x, y));
-			}
-		}
-		MemoryLib.FLIP_BUFFERED_IMAGE_HORIZONTAL_IMAGES.put(image, returned);
-		return returned;
-	}
-
-	/**
 	 * Loads a buffered image image from file into memory.
 	 * 
 	 * <br>

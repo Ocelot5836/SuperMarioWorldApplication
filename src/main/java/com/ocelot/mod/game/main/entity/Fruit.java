@@ -53,7 +53,7 @@ public class Fruit extends Entity {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mc, mouseX, mouseY, partialTicks);
 
-		animation.getSprite().render(this.x - this.getTileMapX() - this.cwidth / 2, this.y - this.getTileMapY() - this.cheight / 2);
+		animation.get().render(this.x - this.getTileMapX() - this.cwidth / 2, this.y - this.getTileMapY() - this.cheight / 2);
 	}
 
 	public static class Summonable implements IFileSummonable {

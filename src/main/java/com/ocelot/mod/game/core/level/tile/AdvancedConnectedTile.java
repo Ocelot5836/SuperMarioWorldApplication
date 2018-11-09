@@ -7,6 +7,7 @@ import com.ocelot.mod.game.core.level.TileMap;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -20,17 +21,17 @@ import net.minecraft.client.gui.Gui;
  */
 public class AdvancedConnectedTile extends ConnectedTile {
 
-	public AdvancedConnectedTile(String unlocalizedName, BufferedImage sheet) {
-		this(unlocalizedName, sheet, 16);
+	public AdvancedConnectedTile(String unlocalizedName, ResourceLocation sheet, int u, int v, int textureWidth, int textureHeight) {
+		this(unlocalizedName, sheet, u, v, textureWidth, textureHeight, 16);
 	}
 
-	public AdvancedConnectedTile(String unlocalizedName, BufferedImage sheet, int tileSize) {
+	public AdvancedConnectedTile(String unlocalizedName, ResourceLocation sheet, int u, int v, int textureWidth, int textureHeight, int tileSize) {
 		super(unlocalizedName);
 		this.sprites = new Sprite[48];
 
 		for (int y = 0; y < 4; y++) {
 			for (int x = 0; x < 12; x++) {
-				this.sprites[x + y * 12] = new Sprite(sheet.getSubimage(x * tileSize, y * tileSize, tileSize, tileSize));
+				this.sprites[x + y * 12] = new Sprite(sheet, u + x * tileSize, v + y * tileSize, tileSize, tileSize, textureWidth, textureHeight);
 			}
 		}
 	}

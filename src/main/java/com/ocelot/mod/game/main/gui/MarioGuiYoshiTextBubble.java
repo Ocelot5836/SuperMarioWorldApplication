@@ -49,7 +49,7 @@ public class MarioGuiYoshiTextBubble extends MarioGui {
 		if (animation.hasPlayedOnce()) {
 			FULL.render(width / 2 - FULL.getWidth() / 2, height / 2 - FULL.getHeight() / 2);
 		} else {
-			Sprite sprite = animation.getSprite();
+			Sprite sprite = animation.get();
 			sprite.render(width / 2 - sprite.getWidth() / 2, height / 2 - sprite.getHeight() / 2);
 		}
 	}

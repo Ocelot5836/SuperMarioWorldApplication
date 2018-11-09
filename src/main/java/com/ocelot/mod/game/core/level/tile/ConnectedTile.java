@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.core.level.tile;
 
-import java.awt.image.BufferedImage;
-
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.PropertyString;
@@ -9,6 +7,7 @@ import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -31,16 +30,20 @@ public class ConnectedTile extends BasicTile {
 		super(unlocalizedName);
 	}
 
-	public ConnectedTile(String unlocalizedName, BufferedImage sheet) {
+	public ConnectedTile(String unlocalizedName, ResourceLocation sheet, int u, int v, int textureWidth, int textureHeight) {
+		this(unlocalizedName, sheet, u, v, textureWidth, textureHeight, 16);
+	}
+
+	public ConnectedTile(String unlocalizedName, ResourceLocation sheet, int u, int v, int textureWidth, int textureHeight, int tileSize) {
 		super(unlocalizedName);
 		this.sprites = new Sprite[13];
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
-				sprites[x + y * 3] = new Sprite(sheet.getSubimage(x * 16, y * 16, 16, 16));
+				sprites[x + y * 3] = new Sprite(sheet, u + x * tileSize, v + y * tileSize, tileSize, tileSize, textureWidth, textureHeight);
 			}
 		}
 		for (int i = 0; i < 4; i++) {
-			sprites[i + 9] = new Sprite(sheet.getSubimage((i % 2) * 16, (i / 2) * 16 + 48, 16, 16));
+			sprites[i + 9] = new Sprite(sheet, u + (i % 2) * tileSize, v + (i / 2) * tileSize + tileSize * 3, tileSize, tileSize, textureWidth, textureHeight);
 		}
 	}
 

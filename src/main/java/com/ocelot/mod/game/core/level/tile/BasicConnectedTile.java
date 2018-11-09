@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.core.level.tile;
 
-import java.awt.image.BufferedImage;
-
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.property.PropertyBoolean;
@@ -9,6 +7,7 @@ import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -33,37 +32,16 @@ public class BasicConnectedTile extends BasicTile {
 
 	protected Sprite[] sprites;
 
-	/**
-	 * The harder constructor.
-	 * 
-	 * @param sprites
-	 *            The sprites in order of TL, TM, TR, ML, MM, MR, BL, BM, BR. There MUST be at least 9 sprites in the array!
-	 */
-	public BasicConnectedTile(String unlocalizedName, Sprite... sprites) {
-		super(unlocalizedName);
-		this.sprites = new Sprite[9];
-
-		if (sprites.length < this.sprites.length) {
-			throw new IllegalArgumentException("Sprites for connected tile " + this.getLocalizedName() + " are not valid.");
-		}
-
-		for (int i = 0; i < this.sprites.length; i++) {
-			this.sprites[i] = sprites[i];
-		}
+	public BasicConnectedTile(String unlocalizedName, ResourceLocation sheet, int u, int v, int textureWidth, int textureHeight) {
+		this(unlocalizedName, sheet, u, v, textureWidth, textureHeight, 16);
 	}
 
-	/**
-	 * The easier of the two constructors because it automatically adds the sprites.
-	 * 
-	 * @param sheet
-	 *            The sheet is the 9 sprites linked as if they were a 3x3 in the world
-	 */
-	public BasicConnectedTile(String unlocalizedName, BufferedImage sheet) {
+	public BasicConnectedTile(String unlocalizedName, ResourceLocation sheet, int u, int v, int textureWidth, int textureHeight, int tileSize) {
 		super(unlocalizedName);
 		this.sprites = new Sprite[9];
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
-				sprites[x + y * 3] = new Sprite(sheet.getSubimage(x * 16, y * 16, 16, 16));
+				sprites[x + y * 3] = new Sprite(sheet, u + x * tileSize, v + y * tileSize, tileSize, tileSize, textureWidth, textureHeight);
 			}
 		}
 	}

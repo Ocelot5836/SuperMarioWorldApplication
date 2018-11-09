@@ -27,11 +27,6 @@ public class MemoryLib {
 	public static final Map<String, Comparator> GET_NEAREST_PLAYER_POINT = Maps.<String, Comparator>newHashMap();
 
 	public static final Map<ResourceLocation, BufferedImage> LOADED_IMAGES = Maps.<ResourceLocation, BufferedImage>newHashMap();
-	public static final Map<int[], BufferedImage> FLIP_SPRITE_HORIZONTAL_IMAGES = Maps.<int[], BufferedImage>newHashMap();
-	public static final Map<BufferedImage, BufferedImage> FLIP_BUFFERED_IMAGE_HORIZONTAL_IMAGES = Maps.<BufferedImage, BufferedImage>newHashMap();
-
-	public static final Map<BufferedImage, DynamicTexture> SPRITE_DYNAMIC_TEXTURES = Maps.<BufferedImage, DynamicTexture>newHashMap();
-	public static final Map<DynamicTexture, ResourceLocation> SPRITE_DYNAMIC_TEXTURE_LOCATIONS = Maps.<DynamicTexture, ResourceLocation>newHashMap();
 
 	public static final Map<String, BufferedImage> COLORIZER_REPLACE_BUFFERED_PIXELS = Maps.<String, BufferedImage>newHashMap();
 
@@ -45,11 +40,6 @@ public class MemoryLib {
 		GET_NEAREST_PLAYER_POINT.clear();
 
 		LOADED_IMAGES.clear();
-		FLIP_SPRITE_HORIZONTAL_IMAGES.clear();
-		FLIP_BUFFERED_IMAGE_HORIZONTAL_IMAGES.clear();
-
-		SPRITE_DYNAMIC_TEXTURES.clear();
-		SPRITE_DYNAMIC_TEXTURE_LOCATIONS.clear();
 
 		COLORIZER_REPLACE_BUFFERED_PIXELS.clear();
 	}

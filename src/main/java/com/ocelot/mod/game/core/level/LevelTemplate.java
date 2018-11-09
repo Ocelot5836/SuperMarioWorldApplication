@@ -177,13 +177,15 @@ public class LevelTemplate {
 							continue;
 						}
 					} else if (types[0].equalsIgnoreCase("ResourceLoc")) {
-						if (types.length > 5) {
+						if (types.length > 7) {
 							String backgroundLoc = types[1];
 							int u = Integer.parseInt(types[2]);
 							int v = Integer.parseInt(types[3]);
 							int width = Integer.parseInt(types[4]);
 							int height = Integer.parseInt(types[5]);
-							Sprite backgroundImage = new Sprite(new ResourceLocation(backgroundLoc), u, v, width, height);
+							int textureWidth = Integer.parseInt(types[6]);
+							int textureHeight = Integer.parseInt(types[7]);
+							Sprite backgroundImage = new Sprite(new ResourceLocation(backgroundLoc), u, v, width, height, textureWidth, textureHeight);
 
 							Background background = new Background(backgroundImage, Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 							background.setStartingPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));

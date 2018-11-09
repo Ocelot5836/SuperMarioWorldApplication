@@ -27,9 +27,9 @@ import net.minecraft.util.ResourceLocation;
  */
 public abstract class Particle extends EntityFX {
 
-	public static final BufferedImage PARTICLE_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/effect/particles.png"));
-	public static final Sprite DEFAULT_SPRITE = new Sprite(PARTICLE_SHEET.getSubimage(0, 0, 8, 8));
-	public static final Sprite CHEESE_SPRITE = new Sprite(PARTICLE_SHEET.getSubimage(56, 56, 8, 8));
+	public static final ResourceLocation PARTICLE_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/effect/particles.png");
+	public static final Sprite DEFAULT_SPRITE = new Sprite(PARTICLE_SHEET, 0, 0, 8, 8, 64, 64);
+	public static final Sprite CHEESE_SPRITE = new Sprite(PARTICLE_SHEET, 56, 56, 8, 8, 64, 64);
 
 	protected static final Map<Integer, Sprite> SPRITES = Maps.<Integer, Sprite>newHashMap();
 
