@@ -1,5 +1,7 @@
 package com.ocelot.mod.game.core.gfx;
 
+import javax.annotation.Nullable;
+
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
  * 
@@ -9,10 +11,12 @@ package com.ocelot.mod.game.core.gfx;
  * An animation that uses sprites.
  * 
  * @author Ocelot5836
+ * @param <T>
+ *            The type of object that is returned from the animation
  */
-public class Animation {
+public class Animation<T> {
 
-	private Sprite[] frames;
+	private T[] frames;
 	private int currentFrame;
 
 	private long startTime;
@@ -21,7 +25,7 @@ public class Animation {
 	private int numTimesPlayed;
 
 	public Animation() {
-		this.frames = new Sprite[0];
+		this.frames = null;
 		this.currentFrame = 0;
 		this.delay = -1;
 		this.numTimesPlayed = 0;
@@ -31,7 +35,7 @@ public class Animation {
 	 * Updates the animation.
 	 */
 	public void update() {
-		if (delay < 0)
+		if (delay < 0 || frames == null)
 			return;
 
 		long elapsed = (System.nanoTime() - startTime) / 1000000;
@@ -64,14 +68,16 @@ public class Animation {
 	/**
 	 * @return The current sprite to be displayed
 	 */
-	public Sprite getSprite() {
-		return frames[currentFrame];
+	@Nullable
+	public T get() {
+		return frames == null ? null : frames[currentFrame];
 	}
 
 	/**
 	 * @return The frames
 	 */
-	public Sprite[] getFrames() {
+	@Nullable
+	public T[] getFrames() {
 		return frames;
 	}
 
@@ -95,7 +101,7 @@ public class Animation {
 	 * @param frames
 	 *            The frames in the animation
 	 */
-	public void setFrames(Sprite... frames) {
+	public void setFrames(T... frames) {
 		this.frames = frames;
 		this.restart();
 	}

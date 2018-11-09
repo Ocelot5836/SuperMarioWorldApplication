@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.GlStateManager;
 public class Background {
 
 	private Sprite[] images;
-	private Animation animation;
+	private Animation<Sprite> animation;
 
 	private double lastX;
 	private double lastY;
@@ -164,7 +164,7 @@ public class Background {
 	public void render() {
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(1 / this.heightScale, 1 / this.heightScale, 0);
-		Sprite image = this.animation.getSprite();
+		Sprite image = this.animation.get();
 		double x = -(this.lastX + (this.x - this.lastX) * Minecraft.getMinecraft().getRenderPartialTicks()) + this.startX;
 		double y = -(this.lastY + (this.y - this.lastY) * Minecraft.getMinecraft().getRenderPartialTicks()) + this.startY;
 		if (this.heightScale < 0) {
