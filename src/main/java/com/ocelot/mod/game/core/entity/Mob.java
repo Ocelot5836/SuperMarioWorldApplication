@@ -70,7 +70,7 @@ public abstract class Mob extends Entity {
 	public void initAI() {
 	}
 
-	public void registerAI(AI ai) {
+	protected void registerAI(AI ai) {
 		for (AI currentAi : ais) {
 			if (currentAi.getName().equalsIgnoreCase(ai.getName())) {
 				SuperMarioWorld.logger().warn("Duplicate AI \'" + ai.getName() + "\' for mob \'" + this.getClass().getName() + "\'");
