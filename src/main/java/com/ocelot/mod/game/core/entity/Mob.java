@@ -3,11 +3,12 @@ package com.ocelot.mod.game.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.MarioDamageSource;
-import com.ocelot.mod.game.core.entity.ai.IAI;
+import com.ocelot.mod.game.core.entity.ai.AI;
 import com.ocelot.mod.game.main.tile.TileWater;
 
 /**
@@ -59,23 +60,24 @@ public abstract class Mob extends Entity {
 	/** Whether or not the entity has entered the water form above */
 	protected boolean enteredWaterFromAbove;
 
-	private List<IAI> ais;
+	private List<AI> ais;
 
 	public Mob(GameTemplate game) {
 		super(game);
-		this.ais = new ArrayList<IAI>();
+		this.ais = new ArrayList<AI>();
 	}
 
 	public void initAI() {
 	}
 
-	public void registerAI(IAI ai) {
-		for (IAI currentAi : ais) {
+	public void registerAI(AI ai) {
+		for (AI currentAi : ais) {
 			if (currentAi.getName().equalsIgnoreCase(ai.getName())) {
+				SuperMarioWorld.logger().warn("Duplicate AI \'" + ai.getName() + "\' for mob \'" + this.getClass().getName() + "\'");
 				return;
 			}
 		}
-		
+
 		if (ai == null) {
 			Game.stop(new RuntimeException("AI for entity " + this.toString() + " was found to be null. This should NOT happen. Please to report to the mod author about this if you encounter it."), "Fatal Error Occured");
 		} else {
@@ -89,7 +91,7 @@ public abstract class Mob extends Entity {
 	public void update() {
 		super.update();
 
-		for (IAI ai : ais) {
+		for (AI ai : ais) {
 			ai.update();
 		}
 

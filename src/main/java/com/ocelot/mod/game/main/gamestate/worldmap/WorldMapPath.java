@@ -61,7 +61,6 @@ public class WorldMapPath {
 	protected void update() {
 	}
 
-	@SuppressWarnings("unused")
 	protected void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		GL11.glLineWidth(1.5f);
 		GlStateManager.color(1, 0, 0, 1);

@@ -132,34 +132,34 @@ public class RenderHelper {
 	public static void drawScaledCustomSizeModalRect(double x, double y, double u, double v, double uWidth, double vHeight, double width, double height, double tileWidth, double tileHeight, int flip) {
 		boolean flipX = (flip & 0x01) > 0;
 		boolean flipY = (flip & 0x02) > 0;
-		
+
 		GlStateManager.pushMatrix();
-		
+
 		double zLevel = 0.0;
 		double f = 1.0 / tileWidth;
 		double f1 = 1.0 / tileHeight;
-		
-		if(flipX) {
+
+		if (flipX) {
 			u += uWidth;
 			uWidth = -uWidth;
 		}
-		
-		if(flipY) {
+
+		if (flipY) {
 			v += vHeight;
 			vHeight = -vHeight;
 		}
-		
+
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		
+
 		bufferbuilder.pos(x, (y + height), zLevel).tex((u * f), ((v + vHeight) * f1)).endVertex();
 		bufferbuilder.pos((x + width), (y + height), zLevel).tex(((u + uWidth) * f), ((v + vHeight) * f1)).endVertex();
 		bufferbuilder.pos((x + width), y, zLevel).tex(((u + uWidth) * f), (v * f1)).endVertex();
 		bufferbuilder.pos(x, y, zLevel).tex((u * f), (v * f1)).endVertex();
-		
+
 		tessellator.draw();
-		
+
 		GlStateManager.popMatrix();
 	}
 

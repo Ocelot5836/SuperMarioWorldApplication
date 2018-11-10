@@ -82,32 +82,6 @@ public class Lib implements IResourceManagerReloadListener {
 	 *            The width of each sprite
 	 * @param spriteHeight
 	 *            The height of each sprite
-	 * @param spritesPerRow
-	 *            The number of sprites in each row
-	 * @return The sprites loaded
-	 * @deprecated {@link #loadSpritesFromSprite(ResourceLocation, int, int, int, int, int[])} should be used instead of this since buffered images are being removed
-	 */
-	public static List<BufferedImage[]> loadSpritesFromBufferedImage(BufferedImage image, int spriteWidth, int spriteHeight, int[] spritesPerRow) {
-		List<BufferedImage[]> sprites = new ArrayList<BufferedImage[]>();
-		for (int i = 0; i < spritesPerRow.length; i++) {
-			BufferedImage[] sprite = new BufferedImage[spritesPerRow[i]];
-			for (int j = 0; j < spritesPerRow[i]; j++) {
-				sprite[j] = image.getSubimage(j * spriteWidth, i * spriteHeight, spriteWidth, spriteHeight);
-			}
-			sprites.add(sprite);
-		}
-		return sprites;
-	}
-
-	/**
-	 * Loads all the sprites specified from a buffered image.
-	 * 
-	 * @param image
-	 *            The image to fetch the sprites from
-	 * @param spriteWidth
-	 *            The width of each sprite
-	 * @param spriteHeight
-	 *            The height of each sprite
 	 * @param imageWidth
 	 *            The width of the sprite sheet
 	 * @param imageHeight

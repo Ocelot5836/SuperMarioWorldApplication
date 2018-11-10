@@ -3,7 +3,6 @@ package com.ocelot.mod.audio;
 import javax.annotation.Nullable;
 
 import com.ocelot.mod.config.ModConfig;
-import com.ocelot.mod.lib.MarioCollisionHelper;
 
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
@@ -20,7 +19,7 @@ public class MarioMusic implements ISound {
 
 	private boolean stopped;
 	private int repeatDelay;
-	
+
 	protected Sound sound;
 	@Nullable
 	private SoundEventAccessor soundEvent;
@@ -102,7 +101,7 @@ public class MarioMusic implements ISound {
 	public ISound.AttenuationType getAttenuationType() {
 		return ISound.AttenuationType.NONE;
 	}
-	
+
 	public void stop() {
 		this.stopped = true;
 	}

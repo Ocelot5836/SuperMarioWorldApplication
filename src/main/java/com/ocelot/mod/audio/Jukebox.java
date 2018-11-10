@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class Jukebox {
 	
-	public static final int MAX_SOUND_EFFECTS = 3;
+	public static final int MAX_SOUND_EFFECTS = 2;
 
 	private static MarioMusic music = null;
 	private static MarioSFX[] soundEffects = new MarioSFX[MAX_SOUND_EFFECTS];
@@ -44,6 +44,7 @@ public class Jukebox {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 

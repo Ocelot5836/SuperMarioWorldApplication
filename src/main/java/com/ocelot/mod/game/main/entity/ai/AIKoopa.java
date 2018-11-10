@@ -1,5 +1,6 @@
 package com.ocelot.mod.game.main.entity.ai;
 
+import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.ai.AIBase;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.player.Player;
@@ -15,11 +16,13 @@ public class AIKoopa extends AIBase {
 
 	@Override
 	public void initAI() {
-		this.movingRight = mob.isFacingRight();
+		this.movingRight = this.getMob().isFacingRight();
 	}
 
 	@Override
 	public void update() {
+		Mob mob = this.getMob();
+
 		if (type != KoopaType.KAMIKAZE) {
 			double newX = movingRight ? mob.getMoveSpeed() : -mob.getMoveSpeed();
 			mob.calculateCorners(mob.getX() + newX, mob.getY());
@@ -30,7 +33,7 @@ public class AIKoopa extends AIBase {
 				movingRight = !movingRight;
 			}
 		} else {
-			Player nearestPlayer = level.getNearestPlayer(mob);
+			Player nearestPlayer = this.getLevel().getNearestPlayer(mob);
 			if (nearestPlayer != null) {
 				if (nearestPlayer.getX() <= mob.getX()) {
 					movingRight = false;

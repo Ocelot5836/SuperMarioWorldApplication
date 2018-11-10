@@ -12,7 +12,7 @@ import com.ocelot.mod.game.core.entity.Mob;
  * 
  * @author Ocelot5836
  */
-public interface IAI {
+public interface AI {
 
 	/**
 	 * Initializes the AI.

@@ -6,12 +6,12 @@ import com.ocelot.mod.game.core.level.Level;
 
 import scala.util.Random;
 
-public abstract class AIBase implements IAI {
+public abstract class AIBase implements AI {
 
-	protected GameTemplate game;
-	protected Level level;
-	protected Mob mob;
-	protected Random random;
+	private GameTemplate game;
+	private Level level;
+	private Mob mob;
+	private Random random;
 	
 	public AIBase() {
 		this.random = new Random();
@@ -22,5 +22,21 @@ public abstract class AIBase implements IAI {
 		this.mob = mob;
 		this.game = mob.getGame();
 		this.level = mob.getLevel();
+	}
+	
+	public GameTemplate getGame() {
+		return game;
+	}
+	
+	public Level getLevel() {
+		return level;
+	}
+	
+	public Mob getMob() {
+		return mob;
+	}
+	
+	public Random getRandom() {
+		return random;
 	}
 }
