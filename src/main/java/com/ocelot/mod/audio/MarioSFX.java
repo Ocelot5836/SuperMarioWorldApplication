@@ -2,6 +2,8 @@ package com.ocelot.mod.audio;
 
 import javax.annotation.Nullable;
 
+import com.ocelot.mod.config.ModConfig;
+
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
 import net.minecraft.client.audio.SoundEventAccessor;
@@ -72,7 +74,7 @@ public class MarioSFX implements ISound {
 
 	@Override
 	public float getVolume() {
-		return this.volume * this.sound.getVolume();
+		return (float) ModConfig.marioMusicVolume * this.volume * this.sound.getVolume();
 	}
 
 	@Override

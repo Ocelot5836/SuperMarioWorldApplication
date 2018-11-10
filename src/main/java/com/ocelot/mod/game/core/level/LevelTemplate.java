@@ -65,7 +65,6 @@ public class LevelTemplate {
 			int time = 150;
 			ResourceLocation music = null;
 			ResourceLocation musicFast = null;
-			int startLoop = 0;
 			int endLoop = -1;
 
 			String line = br.readLine();
@@ -106,19 +105,16 @@ public class LevelTemplate {
 							SuperMarioWorld.logger().warn("Could not load music \'" + musicFast + "-music_fast\'");
 						}
 					} else if (type.equalsIgnoreCase("loop")) {
-						if (data.length > 2) {
+						if (data.length > 1) {
 							try {
-								int value = Integer.parseInt(data[1]);
-								int value1 = Integer.parseInt(data[2]);
-								startLoop = value;
-								endLoop = value1;
+								endLoop = Integer.parseInt(data[1]);
 							} catch (NumberFormatException e) {
 								SuperMarioWorld.logger().warn("Could not load " + type + " since it is not an integer");
 								line = br.readLine();
 								continue;
 							}
 						} else {
-							SuperMarioWorld.logger().warn("Could not load " + type + " since it requires two integer parameters");
+							SuperMarioWorld.logger().warn("Could not load " + type + " since it requires one integer parameters");
 							line = br.readLine();
 							continue;
 						}
@@ -136,7 +132,7 @@ public class LevelTemplate {
 				continue;
 			}
 
-			this.properties = new LevelProperties(time, music, musicFast == null ? music : musicFast, startLoop, endLoop);
+			this.properties = new LevelProperties(time, music, musicFast == null ? music : musicFast, endLoop);
 
 			br.close();
 		} catch (Exception e) {

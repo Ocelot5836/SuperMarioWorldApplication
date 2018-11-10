@@ -25,19 +25,17 @@ public class LevelProperties {
 	private ResourceLocation musicFast;
 
 	private boolean playing;
-	private int startLoop;
 	private int endLoop;
 
 	private Stopwatch timer;
 
-	public LevelProperties(long time, ResourceLocation music, ResourceLocation musicFast, int startLoop, int endLoop) {
+	public LevelProperties(long time, ResourceLocation music, ResourceLocation musicFast, int endLoop) {
 		this.time = time;
 		this.currTime = time;
 		this.music = music;
 		this.musicFast = musicFast;
 
 		this.playing = false;
-		this.startLoop = startLoop;
 		this.endLoop = endLoop;
 
 		this.timer = Stopwatch.createStarted();
@@ -58,7 +56,7 @@ public class LevelProperties {
 				if (Jukebox.isMusicPlaying(music)) {
 					if (currTime <= 100) {
 						Jukebox.stopMusic();
-						Jukebox.playMusic(musicFast);
+						Jukebox.playMusic(musicFast, endLoop);
 					}
 				}
 			}
@@ -70,17 +68,17 @@ public class LevelProperties {
 		if (currTime > 100) {
 			if (music != null) {
 				if (endLoop > 0) {
-					Jukebox.playMusic(music);
+					Jukebox.playMusic(music, endLoop);
 				} else {
-					Jukebox.playMusic(music);
+					Jukebox.playMusic(music, endLoop);
 				}
 			}
 		} else {
 			if (musicFast != null) {
 				if (endLoop > 0) {
-					Jukebox.playMusic(musicFast);
+					Jukebox.playMusic(musicFast, endLoop);
 				} else {
-					Jukebox.playMusic(musicFast);
+					Jukebox.playMusic(musicFast, endLoop);
 				}
 			}
 		}

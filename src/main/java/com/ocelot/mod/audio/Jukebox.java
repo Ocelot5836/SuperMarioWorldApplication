@@ -19,9 +19,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @SideOnly(Side.CLIENT)
 public class Jukebox {
+	
+	public static final int MAX_SOUND_EFFECTS = 3;
 
 	private static MarioMusic music = null;
-	private static MarioSFX[] soundEffects = new MarioSFX[5];
+	private static MarioSFX[] soundEffects = new MarioSFX[MAX_SOUND_EFFECTS];
 
 	/**
 	 * Adds the specified sound effect to the batch of playing sound effects.
@@ -58,9 +60,11 @@ public class Jukebox {
 	 * 
 	 * @param music
 	 *            The music to play
+	 * @param repeatDelay
+	 *            The time at which the music will repeat
 	 */
-	public static void playMusic(ResourceLocation music) {
-		playMusic(new MarioMusic(music));
+	public static void playMusic(ResourceLocation music, int repeatDelay) {
+		playMusic(new MarioMusic(music, repeatDelay));
 	}
 
 	/**
@@ -70,7 +74,6 @@ public class Jukebox {
 	 *            The music to play
 	 */
 	private static void playMusic(MarioMusic music) {
-		System.out.println(ModConfig.enableMarioMusic);
 		if (ModConfig.enableMarioMusic) {
 			stopMusic();
 			Minecraft.getMinecraft().getSoundHandler().playSound(music);

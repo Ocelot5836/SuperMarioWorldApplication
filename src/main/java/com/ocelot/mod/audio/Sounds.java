@@ -79,6 +79,7 @@ public class Sounds {
 	private static SoundEvent registerSound(String soundName) {
 		ResourceLocation resource = new ResourceLocation(SuperMarioWorld.MOD_ID, soundName);
 		SoundEvent sound = new SoundEvent(resource).setRegistryName(soundName);
+		SOUNDS.add(sound);
 		return sound;
 	}
 

@@ -3,6 +3,7 @@ package com.ocelot.mod.audio;
 import javax.annotation.Nullable;
 
 import com.ocelot.mod.config.ModConfig;
+import com.ocelot.mod.lib.MarioCollisionHelper;
 
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
@@ -17,28 +18,29 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class MarioMusic implements ISound {
 
-	protected boolean stopped = false;
-
+	private boolean stopped;
+	private int repeatDelay;
+	
 	protected Sound sound;
 	@Nullable
 	private SoundEventAccessor soundEvent;
 	protected ResourceLocation soundLocation;
-	protected float pitch;
-	protected int repeatDelay;
 
-	public MarioMusic(SoundEvent event) {
-		this(event.getSoundName());
+	public MarioMusic(SoundEvent event, int repeatDelay) {
+		this(event.getSoundName(), repeatDelay);
 	}
 
-	public MarioMusic(ResourceLocation soundLocation) {
-		this.pitch = 1.0F;
+	public MarioMusic(ResourceLocation soundLocation, int repeatDelay) {
 		this.soundLocation = soundLocation;
+		this.repeatDelay = repeatDelay;
 	}
 
+	@Override
 	public ResourceLocation getSoundLocation() {
 		return this.soundLocation;
 	}
 
+	@Override
 	public SoundEventAccessor createAccessor(SoundHandler handler) {
 		this.soundEvent = handler.getAccessor(this.soundLocation);
 
@@ -51,51 +53,56 @@ public class MarioMusic implements ISound {
 		return this.soundEvent;
 	}
 
+	@Override
 	public Sound getSound() {
 		return this.sound;
 	}
 
+	@Override
 	public SoundCategory getCategory() {
-		return SoundCategory.MUSIC;
+		return SoundCategory.NEUTRAL;
 	}
 
+	@Override
 	public boolean canRepeat() {
-		return !this.stopped;
+		return !stopped;
 	}
 
+	@Override
 	public int getRepeatDelay() {
-		return this.repeatDelay;
+		return repeatDelay;
 	}
 
+	@Override
 	public float getVolume() {
 		return (float) ModConfig.marioMusicVolume * this.sound.getVolume();
 	}
 
+	@Override
 	public float getPitch() {
-		return this.pitch * this.sound.getPitch();
+		return this.sound.getPitch();
 	}
 
+	@Override
 	public float getXPosF() {
 		return 0;
 	}
 
+	@Override
 	public float getYPosF() {
 		return 0;
 	}
 
+	@Override
 	public float getZPosF() {
 		return 0;
 	}
 
+	@Override
 	public ISound.AttenuationType getAttenuationType() {
 		return ISound.AttenuationType.NONE;
 	}
-
-	public MarioMusic setPitch(float pitch) {
-		this.pitch = pitch;
-		return this;
-	}
-
+	
 	public void stop() {
 		this.stopped = true;
 	}
