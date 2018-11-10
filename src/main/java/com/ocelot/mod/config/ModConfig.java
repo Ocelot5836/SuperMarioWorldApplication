@@ -156,7 +156,9 @@ public class ModConfig {
 		return config;
 	}
 
-	private static class ConfigEventHandler {
+	public static class ConfigEventHandler {
+		private ConfigEventHandler() {
+		}
 		@SubscribeEvent(priority = EventPriority.LOWEST)
 		public static void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if (event.getModID().equals(SuperMarioWorld.MOD_ID)) {

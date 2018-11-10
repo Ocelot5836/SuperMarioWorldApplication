@@ -70,6 +70,7 @@ public class Jukebox {
 	 *            The music to play
 	 */
 	private static void playMusic(MarioMusic music) {
+		System.out.println(ModConfig.enableMarioMusic);
 		if (ModConfig.enableMarioMusic) {
 			stopMusic();
 			Minecraft.getMinecraft().getSoundHandler().playSound(music);

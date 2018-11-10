@@ -12,7 +12,7 @@ package com.ocelot.mod.config;
  */
 public class FactorySettings {
 
-	public static final boolean ENABLE_MARIO_MUSIC = false;
+	public static final boolean ENABLE_MARIO_MUSIC = true;
 	public static final boolean ENABLE_MARIO_SFX = true;
 	public static final int CRAYFISH_PARTICLE_SPAWN_COUNT = 250;
 
