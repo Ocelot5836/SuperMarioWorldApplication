@@ -13,6 +13,7 @@ import com.ocelot.mod.game.main.gamestate.DebugSelectLevelState;
 import com.ocelot.mod.game.main.gamestate.MenuState;
 import com.ocelot.mod.game.main.gamestate.TestState;
 import com.ocelot.mod.game.main.gamestate.level.DemoLevelState;
+import com.ocelot.mod.game.main.gamestate.level.TestLevelState;
 import com.ocelot.mod.game.main.gamestate.level.YoshiHouseState;
 import com.ocelot.mod.game.main.gamestate.store.ShopState;
 import com.ocelot.mod.game.main.gamestate.worldmap.WorldMapState;
@@ -36,6 +37,7 @@ public class GameStateManager {
 	public static final int WORLD_MAP = 5;
 	public static final int YOSHI_HOUSE = 6;
 	public static final int DEMO_LEVEL = 7;
+	public static final int TEST_LEVEL = 8;
 
 	public GameStateManager(GameTemplate game) {
 		this.game = game;
@@ -48,6 +50,7 @@ public class GameStateManager {
 		gameStates.put(WORLD_MAP, "WORLD_MAP");
 		gameStates.put(YOSHI_HOUSE, "YOSHI_HOUSE");
 		gameStates.put(DEMO_LEVEL, "DEMO_LEVEL");
+		gameStates.put(TEST_LEVEL, "TEST_LEVEL");
 
 		this.loadState(DEBUG_SELECT_LEVEL);
 	}
@@ -92,6 +95,8 @@ public class GameStateManager {
 			return new YoshiHouseState(this, game);
 		case DEMO_LEVEL:
 			return new DemoLevelState(this, game);
+		case TEST_LEVEL:
+			return new TestLevelState(this, game);
 		}
 		return new ErrorState(this, game);
 	}

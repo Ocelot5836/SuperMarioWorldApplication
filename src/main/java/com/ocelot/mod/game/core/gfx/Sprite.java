@@ -25,12 +25,12 @@ public class Sprite {
 
 	private TextureAtlasSprite textureAtlasSprite;
 	private ResourceLocation texture;
-	private int u;
-	private int v;
-	private int width;
-	private int height;
-	private int textureWidth;
-	private int textureHeight;
+	private double u;
+	private double v;
+	private double width;
+	private double height;
+	private double textureWidth;
+	private double textureHeight;
 	private EnumType type;
 
 	/**
@@ -58,7 +58,7 @@ public class Sprite {
 	 * @param textureHeight
 	 *            the height of the texture image
 	 */
-	public Sprite(ResourceLocation texture, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+	public Sprite(ResourceLocation texture, double u, double v, double width, double height, double textureWidth, double textureHeight) {
 		this.setData(texture, u, v, width, height, textureWidth, textureHeight);
 	}
 
@@ -128,7 +128,7 @@ public class Sprite {
 	 * @param textureHeight
 	 *            the height of the texture image
 	 */
-	public void setData(ResourceLocation texture, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+	public void setData(ResourceLocation texture, double u, double v, double width, double height, double textureWidth, double textureHeight) {
 		this.texture = texture;
 		this.u = u;
 		this.v = v;
@@ -232,42 +232,42 @@ public class Sprite {
 	/**
 	 * @return The texture x
 	 */
-	public int getU() {
+	public double getU() {
 		return u;
 	}
 
 	/**
 	 * @return The texture y
 	 */
-	public int getV() {
+	public double getV() {
 		return v;
 	}
 
 	/**
 	 * @return The texture width
 	 */
-	public int getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return The texture height
 	 */
-	public int getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
 	/**
 	 * @return The width of the texture image
 	 */
-	public int getTextureWidth() {
+	public double getTextureWidth() {
 		return textureWidth;
 	}
 
 	/**
 	 * @return The height of the texture image
 	 */
-	public int getTextureHeight() {
+	public double getTextureHeight() {
 		return textureHeight;
 	}
 

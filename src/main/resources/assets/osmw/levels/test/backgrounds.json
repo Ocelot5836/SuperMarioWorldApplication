@@ -1,0 +1,12 @@
+[
+	{
+		"type": "BuiltIn",
+		"data": {
+			"name": "STARRY_NIGHT",
+			"moveScale": 0.1,
+			"heightScale": 0.5,
+			"startX": 0,
+			"startY": -144
+		}
+	}
+]

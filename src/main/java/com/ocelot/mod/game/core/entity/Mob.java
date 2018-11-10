@@ -96,7 +96,7 @@ public abstract class Mob extends Entity {
 		}
 
 		if (level != null) {
-			swimming = level.getMap().getTile(((int) x - cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile(((int) x + cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater;
+			swimming = level.getMap().getTile((int) (x - cwidth / 2) / 16, (int) (y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile((int) (x + cwidth / 2) / 16, (int) (y - cheight / 2) / 16) instanceof TileWater;
 		}
 	}
 
@@ -387,6 +387,12 @@ public abstract class Mob extends Entity {
 	 */
 	public void setFalling(boolean falling) {
 		this.falling = falling;
+	}
+	
+	@Override
+	public Entity setDead() {
+		this.ais.clear();
+		return super.setDead();
 	}
 
 	@Override

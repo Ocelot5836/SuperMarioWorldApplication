@@ -31,7 +31,7 @@ public class YoshiHouseState extends GameState {
 
 	@Override
 	public void load() {
-		template = new LevelTemplate(game, new ResourceLocation(SuperMarioWorld.MOD_ID, "levels/yoshihouse"));
+		template = new LevelTemplate(game, new ResourceLocation(SuperMarioWorld.MOD_ID, "yoshihouse"));
 
 		template.getLevel().getMap().setTween(1).setPosition(0, 58);
 		template.getLevel().add(Powerup.MUSHROOM.createInstance(game, 100, 50));

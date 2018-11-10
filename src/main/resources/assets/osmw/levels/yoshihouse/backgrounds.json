@@ -1,0 +1,27 @@
+[
+	{
+		"type": "BuiltIn",
+		"data": {
+			"name": "MUSHROOM_MOUNTAINS",
+			"moveScale": 1,
+			"heightScale": 0.5,
+			"startX": 256,
+			"startY": -75
+		}
+	},
+	{
+		"type": "ResourceLoc",
+		"data": {
+			"sprites": [
+				{
+					"location": "osmw:textures/level/yoshihouse/background1.png",
+					"height": 161
+				}
+			],
+			"moveScale": 1,
+			"heightScale": 1,
+			"startX": 0,
+			"startY": 0
+		}
+	}
+]

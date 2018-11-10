@@ -20,14 +20,14 @@ public class MarioGuiPlayerHello extends MarioGui {
 
 	static {
 		FRAMES = new Sprite[8];
-		FRAMES[0] = new Sprite(SHEET,71, 35, 25, 11,256,256);
-		FRAMES[1] = new Sprite(SHEET,63, 51, 33, 15,256,256);
-		FRAMES[2] = new Sprite(SHEET,47, 71, 49, 23,256,256);
-		FRAMES[3] = new Sprite(SHEET,39, 100, 57, 27,256,256);
-		FRAMES[4] = new Sprite(SHEET,23, 133, 73, 35,256,256);
-		FRAMES[5] = new Sprite(SHEET,0, 174, 96, 47,256,256);
-		FRAMES[6] = new Sprite(SHEET,144, 0, 112, 55,256,256);
-		FRAMES[7] = new Sprite(SHEET,105, 61, 151, 75,256,256);
+		FRAMES[0] = new Sprite(SHEET, 71, 35, 25, 11, 256, 256);
+		FRAMES[1] = new Sprite(SHEET, 63, 51, 33, 15, 256, 256);
+		FRAMES[2] = new Sprite(SHEET, 47, 71, 49, 23, 256, 256);
+		FRAMES[3] = new Sprite(SHEET, 39, 100, 57, 27, 256, 256);
+		FRAMES[4] = new Sprite(SHEET, 23, 133, 73, 35, 256, 256);
+		FRAMES[5] = new Sprite(SHEET, 0, 174, 96, 47, 256, 256);
+		FRAMES[6] = new Sprite(SHEET, 144, 0, 112, 55, 256, 256);
+		FRAMES[7] = new Sprite(SHEET, 105, 61, 151, 75, 256, 256);
 	}
 
 	public MarioGuiPlayerHello() {
@@ -48,7 +48,7 @@ public class MarioGuiPlayerHello extends MarioGui {
 		String message = I18n.format("gui.osmw.hello", Minecraft.getMinecraft().player.getName());
 		if (animation.hasPlayedOnce()) {
 			FULL.render(width / 2 - FULL.getWidth() / 2, height / 2 - FULL.getHeight() / 2);
-			mc.fontRenderer.drawSplitString(message, width / 2 - FULL.getWidth() / 2 + 5, height / 2 - FULL.getHeight() / 2 + 5, 150, 0xffffff);
+			mc.fontRenderer.drawSplitString(message, width / 2 - (int) FULL.getWidth() / 2 + 5, height / 2 - (int) FULL.getHeight() / 2 + 5, 150, 0xffffff);
 		} else {
 			animation.get().render(width / 2 - animation.get().getWidth() / 2, height / 2 - animation.get().getHeight() / 2);
 		}

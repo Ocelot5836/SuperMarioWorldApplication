@@ -39,9 +39,9 @@ public abstract class EntityFX {
 	/** The last y position */
 	protected double lastY;
 	/** The collision width */
-	protected int cwidth;
+	protected double cwidth;
 	/** The collision height */
-	protected int cheight;
+	protected double cheight;
 	/** A random instance */
 	protected Random random;
 
@@ -170,7 +170,7 @@ public abstract class EntityFX {
 	 * 
 	 * @return Whether or not the effect has collided with a tile
 	 */
-	protected boolean hasCollided(double x, double y, int width, int height) {
+	protected boolean hasCollided(double x, double y, double width, double height) {
 		boolean solid = false;
 		for (int c = 0; c < 4; c++) {
 			int xt = (int) (((x - width / 2) - c % 2 * (width / 2)) / tileSize);
@@ -214,14 +214,14 @@ public abstract class EntityFX {
 	/**
 	 * @return The collision width
 	 */
-	public int getWidth() {
+	public double getWidth() {
 		return cwidth;
 	}
 
 	/**
 	 * @return The collision height
 	 */
-	public int getHeight() {
+	public double getHeight() {
 		return cheight;
 	}
 
@@ -304,7 +304,7 @@ public abstract class EntityFX {
 	 * @param height
 	 *            The new collision height
 	 */
-	public void setSize(int width, int height) {
+	public void setSize(double width, double height) {
 		this.cwidth = width;
 		this.cheight = height;
 	}

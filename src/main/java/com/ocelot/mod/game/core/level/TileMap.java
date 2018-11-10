@@ -81,12 +81,13 @@ public class TileMap implements IResourceManagerReloadListener {
 	 *            The location of the map in files
 	 */
 	public void loadMap(ResourceLocation mapLocation) {
+		String fileLocation = "/assets/" + mapLocation.getResourceDomain() + "/levels/" + mapLocation.getResourcePath();
 		this.mapLocation = mapLocation;
 		String loadedTile = "null";
 		int lastX = -1;
 		int lastY = -1;
 		try {
-			InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(mapLocation).getInputStream();
+			InputStream is = TileMap.class.getResourceAsStream(fileLocation);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 			this.numCols = Integer.parseInt(br.readLine());
@@ -118,9 +119,9 @@ public class TileMap implements IResourceManagerReloadListener {
 			
 			br.close();
 		} catch (IOException e) {
-			Game.stop(e, "Could not load map from \'" + mapLocation + "\'");
+			Game.stop(e, "Could not load map from \'" + fileLocation + "\'");
 		} catch (Exception e) {
-			Game.stop(e, "Could not load map " + mapLocation + "! Tile errored at " + loadedTile + "-" + lastX + ":" + lastY);
+			Game.stop(e, "Could not load map " + fileLocation + "! Tile errored at " + loadedTile + "-" + lastX + ":" + lastY);
 		}
 	}
 

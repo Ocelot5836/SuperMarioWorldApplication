@@ -49,9 +49,9 @@ public abstract class Entity {
 	protected double ytemp;
 
 	/** The width of this entity */
-	protected int cwidth;
+	protected double cwidth;
 	/** The height of this entity */
-	protected int cheight;
+	protected double cheight;
 
 	/** Collision variables */
 	public boolean topLeft, topRight, bottomLeft, bottomRight;
@@ -413,14 +413,14 @@ public abstract class Entity {
 	/**
 	 * @return The entity's width
 	 */
-	public int getWidth() {
+	public double getWidth() {
 		return cwidth;
 	}
 
 	/**
 	 * @return The entity's height
 	 */
-	public int getHeight() {
+	public double getHeight() {
 		return cheight;
 	}
 
@@ -621,7 +621,7 @@ public abstract class Entity {
 	 * @param height
 	 *            The new height of the entity
 	 */
-	protected Entity setSize(int width, int height) {
+	protected Entity setSize(double width, double height) {
 		this.cwidth = width;
 		this.cheight = height;
 		return this;

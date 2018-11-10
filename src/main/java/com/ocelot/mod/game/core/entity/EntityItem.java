@@ -62,7 +62,7 @@ public class EntityItem extends Entity {
 	public void update() {
 		super.update();
 
-		inWater = level.getMap().getTile(((int) x - cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile(((int) x + cwidth / 2) / 16, ((int) y - cheight / 2) / 16) instanceof TileWater;
+		inWater = level.getMap().getTile((int) (x - cwidth / 2) / 16, (int) (y - cheight / 2) / 16) instanceof TileWater || level.getMap().getTile((int) (x + cwidth / 2) / 16, (int) (y - cheight / 2) / 16) instanceof TileWater;
 
 		getNextPosition();
 		getNextPosition();

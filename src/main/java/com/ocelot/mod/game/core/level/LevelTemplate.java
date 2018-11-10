@@ -3,9 +3,17 @@ package com.ocelot.mod.game.core.level;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.ocelot.api.utils.JsonHelper;
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Backgrounds;
 import com.ocelot.mod.game.Game;
@@ -18,8 +26,8 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
-import scala.actors.threadpool.Arrays;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -46,174 +54,290 @@ public class LevelTemplate {
 		this.game = game;
 		this.backgrounds = new ArrayList<Background>();
 
-		String worldInfoFile = levelFolder + "/world.osmw";
+		String worldInfoFile = levelFolder + "/world.json";
 		String mapFile = levelFolder + "/tiles.map";
-		String backgroundsFile = levelFolder + "/backgrounds.osmw";
+		String backgroundsFile = levelFolder + "/backgrounds.json";
 		String entitiesFile = levelFolder + "/entities.osmw";
 
+		SuperMarioWorld.logger().info("Loading Level \'" + levelFolder + "\'");
 		this.level = new Level(game, 16, new ResourceLocation(mapFile));
 		this.loadWorldInfo(new ResourceLocation(worldInfoFile));
 		this.loadBackgrounds(new ResourceLocation(backgroundsFile));
 		this.loadEntities(new ResourceLocation(entitiesFile), this.level);
 	}
 
+	private static Sprite createSprite(JsonElement element) {
+		if (element.isJsonObject()) {
+			JsonObject obj = element.getAsJsonObject();
+
+			ResourceLocation texture = TextureMap.LOCATION_MISSING_TEXTURE;
+			double u = 0;
+			double v = 0;
+			double width = 256;
+			double height = 256;
+			double textureWidth = 256;
+			double textureHeight = 256;
+
+			if (obj.has("texture")) {
+				try {
+					texture = new ResourceLocation(JsonHelper.getString(obj, "texture"));
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'texture\' value in JSON must be a string");
+				}
+			}
+
+			if (obj.has("u")) {
+				try {
+					u = JsonHelper.getNumber(obj, "u").doubleValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'u\' value in JSON must be a number");
+				}
+			}
+
+			if (obj.has("v")) {
+				try {
+					v = JsonHelper.getNumber(obj, "v").doubleValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'v\' value in JSON must be a number");
+				}
+			}
+
+			if (obj.has("width")) {
+				try {
+					width = JsonHelper.getNumber(obj, "width").doubleValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'width\' value in JSON must be a number");
+				}
+			}
+
+			if (obj.has("height")) {
+				try {
+					u = JsonHelper.getNumber(obj, "height").doubleValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'height\' value in JSON must be a number");
+				}
+			}
+
+			if (obj.has("textureWidth")) {
+				try {
+					textureWidth = JsonHelper.getNumber(obj, "textureWidth").doubleValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'textureWidth\' value in JSON must be a number");
+				}
+			}
+
+			if (obj.has("textureHeight")) {
+				try {
+					textureWidth = JsonHelper.getNumber(obj, "textureHeight").doubleValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'textureHeight\' value in JSON must be a number");
+				}
+			}
+
+			return new Sprite(texture, u, v, width, height, textureWidth, textureHeight);
+		}
+		return null;
+	}
+
 	private void loadWorldInfo(ResourceLocation worldInfoLocation) {
+		String jsonLocation = "/assets/" + worldInfoLocation.getResourceDomain() + "/levels/" + worldInfoLocation.getResourcePath();
+
 		try {
-			InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(worldInfoLocation).getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			SuperMarioWorld.logger().info("Loading world info JSON from \'" + jsonLocation + "\'");
+			JsonElement json = new JsonParser().parse(IOUtils.toString(LevelTemplate.class.getResourceAsStream(jsonLocation), Charset.defaultCharset()));
+
+			if (!json.isJsonObject())
+				throw new RuntimeException("World info JSON at \'" + jsonLocation + "\' must be a JSON object!");
+
+			JsonObject worldInfoJson = json.getAsJsonObject();
 
 			int time = 150;
 			ResourceLocation music = null;
 			ResourceLocation musicFast = null;
-			int endLoop = -1;
+			int endLoop = 0;
 
-			String line = br.readLine();
-			while (line != null) {
-				if (line.startsWith("#") || line.isEmpty()) {
-					line = br.readLine();
-					continue;
+			if (worldInfoJson.has("time")) {
+				try {
+					time = JsonHelper.getNumber(worldInfoJson, "time").intValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'time\' value in JSON must be a number");
 				}
+			}
 
-				String[] data = line.split(";");
-				if (data.length > 1) {
-					String type = data[0];
-					if (type.equalsIgnoreCase("time")) {
-						try {
-							int value = Integer.parseInt(data[1]);
-							if (value < 0) {
-								SuperMarioWorld.logger().warn("Time value was less than zero. Time will instead use 150s.");
-								value = 150;
-							} else if (value > 999) {
-								SuperMarioWorld.logger().warn("Time max value is 999. Any time above will be lowered down to 999.");
-								value = 999;
-							} else {
-								time = value;
-							}
-						} catch (NumberFormatException e) {
-							SuperMarioWorld.logger().warn("Could not load time since it it not a numerical value");
-						}
-					} else if (type.equalsIgnoreCase("music")) {
-						try {
-							music = new ResourceLocation(data[1]);
-						} catch (Exception e) {
-							SuperMarioWorld.logger().warn("Could not load music \'" + music + "\'");
-						}
-					} else if (type.equalsIgnoreCase("music_fast")) {
-						try {
-							musicFast = new ResourceLocation(data[1]);
-						} catch (Exception e) {
-							SuperMarioWorld.logger().warn("Could not load music \'" + musicFast + "-music_fast\'");
-						}
-					} else if (type.equalsIgnoreCase("loop")) {
-						if (data.length > 1) {
-							try {
-								endLoop = Integer.parseInt(data[1]);
-							} catch (NumberFormatException e) {
-								SuperMarioWorld.logger().warn("Could not load " + type + " since it is not an integer");
-								line = br.readLine();
-								continue;
-							}
-						} else {
-							SuperMarioWorld.logger().warn("Could not load " + type + " since it requires one integer parameters");
-							line = br.readLine();
-							continue;
-						}
-					} else {
-						SuperMarioWorld.logger().warn("Unknown type of function " + type);
-						line = br.readLine();
-						continue;
-					}
-				} else {
-					SuperMarioWorld.logger().warn("Could not load world info with data " + Arrays.toString(data));
-					line = br.readLine();
-					continue;
+			if (worldInfoJson.has("music")) {
+				try {
+					music = new ResourceLocation(JsonHelper.getString(worldInfoJson, "music"));
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'music\' value in JSON must be a string");
 				}
-				line = br.readLine();
-				continue;
+			}
+
+			if (worldInfoJson.has("music_fast")) {
+				try {
+					musicFast = new ResourceLocation(JsonHelper.getString(worldInfoJson, "music_fast"));
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'music_fast\' value in JSON must be a string");
+				}
+			}
+
+			if (worldInfoJson.has("loop")) {
+				try {
+					endLoop = JsonHelper.getNumber(worldInfoJson, "loop").intValue();
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("\'loop\' value in JSON must be a number");
+				}
 			}
 
 			this.properties = new LevelProperties(time, music, musicFast == null ? music : musicFast, endLoop);
-
-			br.close();
+			SuperMarioWorld.logger().info("Loaded world info JSON from \'" + jsonLocation + "\' successfully");
 		} catch (Exception e) {
-			Game.stop(e, "Could not load world info from " + worldInfoLocation + "!");
+			Game.stop(e, "Could not load world info JSON from \'" + jsonLocation + "\'");
 		}
 	}
 
 	private void loadBackgrounds(ResourceLocation backgroundsLocation) {
+		String jsonLocation = "/assets/" + backgroundsLocation.getResourceDomain() + "/levels/" + backgroundsLocation.getResourcePath();
+
 		try {
-			InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(backgroundsLocation).getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			SuperMarioWorld.logger().info("Loading backgrounds JSON from \'" + jsonLocation + "\'");
+			JsonElement json = new JsonParser().parse(IOUtils.toString(LevelTemplate.class.getResourceAsStream(jsonLocation), Charset.defaultCharset()));
 
-			String line = br.readLine();
-			while (line != null) {
-				if (line.startsWith("#") || line.isEmpty()) {
-					line = br.readLine();
-					continue;
-				}
+			if (!json.isJsonArray())
+				throw new RuntimeException("Backgrounds JSON at \'" + jsonLocation + "\' must be a JSON array!");
 
-				String[] data = line.split(";");
-				if (data.length > 4) {
-					String type = data[0];
-					String[] types = type.split("_");
-					if (types[0].equalsIgnoreCase("BuiltIn")) {
-						if (types.length > 1) {
-							types = type.split("_", 2);
-							String backgroundType = types[1];
-							for (int i = 0; i < BACKGROUND_BUILTIN_TYPES.length; i++) {
-								if (backgroundType.equalsIgnoreCase(BACKGROUND_BUILTIN_TYPES[i])) {
-									Sprite[] backgroundImage = BACKGROUND_BUILTIN_IMAGES[i];
-									Background background = new Background(backgroundImage, 100, Double.parseDouble(data[1]), Double.parseDouble(data[2]));
-									background.setStartingPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
-									backgrounds.add(background);
+			JsonArray backgroundsJson = json.getAsJsonArray();
+
+			for (JsonElement backgroundJson : backgroundsJson) {
+				try {
+					if (!backgroundJson.isJsonObject())
+						throw new RuntimeException("Background must be a JSON object!");
+
+					JsonObject backgroundJsonObject = backgroundJson.getAsJsonObject();
+					JsonObject dataObj = null;
+					String type = null;
+					double moveScale = 1;
+					double heightScale = 0.5;
+					double startX = 0;
+					double startY = 0;
+
+					try {
+						type = JsonHelper.getString(backgroundJsonObject, "type");
+					} catch (Exception e) {
+						throw new RuntimeException("Background must have a type string");
+					}
+
+					try {
+						dataObj = JsonHelper.getObj(backgroundJsonObject, "data");
+					} catch (Exception e) {
+						throw new RuntimeException("Background must have a data type obj");
+					}
+
+					if (dataObj.has("moveScale")) {
+						try {
+							moveScale = JsonHelper.getNumber(dataObj, "moveScale").doubleValue();
+						} catch (Exception e) {
+							throw new RuntimeException("Background type \'moveScale\' must be a string");
+						}
+					}
+
+					if (dataObj.has("heightScale")) {
+						try {
+							heightScale = JsonHelper.getNumber(dataObj, "heightScale").doubleValue();
+						} catch (Exception e) {
+							throw new RuntimeException("Background type \'heightScale\' must be a string");
+						}
+					}
+
+					if (dataObj.has("startX")) {
+						try {
+							startX = JsonHelper.getNumber(dataObj, "startX").doubleValue();
+						} catch (Exception e) {
+							throw new RuntimeException("Background type \'startX\' must be a string");
+						}
+					}
+
+					if (dataObj.has("startY")) {
+						try {
+							startY = JsonHelper.getNumber(dataObj, "startY").doubleValue();
+						} catch (Exception e) {
+							throw new RuntimeException("Background type \'startY\' must be a string");
+						}
+					}
+
+					switch (type) {
+					case "BuiltIn":
+						String name = null;
+
+						try {
+							name = JsonHelper.getString(dataObj, "name");
+						} catch (Exception e) {
+							throw new RuntimeException("Background must have a name string");
+						}
+
+						for (int i = 0; i < BACKGROUND_BUILTIN_TYPES.length; i++) {
+							if (name.equalsIgnoreCase(BACKGROUND_BUILTIN_TYPES[i])) {
+								Sprite[] backgroundImage = BACKGROUND_BUILTIN_IMAGES[i];
+								Background background = new Background(backgroundImage, 100, moveScale, heightScale);
+								background.setStartingPosition(startX, startY);
+								backgrounds.add(background);
+							}
+						}
+						break;
+					case "ResourceLocation":
+						List<Sprite> sprites = new ArrayList<Sprite>();
+						int delay = -2;
+
+						if (dataObj.has("delay")) {
+							try {
+								delay = JsonHelper.getNumber(dataObj, "delay").intValue();
+								if(delay < 0)
+									delay = -1;
+							} catch (Exception e) {
+								throw new RuntimeException("Background type \'delay\' must be a number");
+							}
+						}
+
+						if (dataObj.has("sprites")) {
+							if (dataObj.get("sprites").isJsonArray()) {
+								JsonArray spritesArray = dataObj.get("sprites").getAsJsonArray();
+								for (JsonElement spriteElement : spritesArray) {
+									Sprite sprite = createSprite(spriteElement);
+									if (sprite != null) {
+										sprites.add(sprite);
+									} else {
+										SuperMarioWorld.logger().warn("Could not load sprite background JSON: \'" + spriteElement.toString() + "\', SKIPPING");
+									}
 								}
+							} else {
+								throw new RuntimeException("Background type \'sprites\' must be an array");
 							}
 						} else {
-							SuperMarioWorld.logger().warn("Unknown type of parameters " + types);
-							line = br.readLine();
-							continue;
+							throw new RuntimeException("Background must have at least one sprite");
 						}
-					} else if (types[0].equalsIgnoreCase("ResourceLoc")) {
-						if (types.length > 5) {
-							String backgroundLoc = types[1];
-							int u = Integer.parseInt(types[2]);
-							int v = Integer.parseInt(types[3]);
-							int width = Integer.parseInt(types[4]);
-							int height = Integer.parseInt(types[5]);
-							int textureWidth = types.length > 6 ? Integer.parseInt(types[6]) : 256;
-							int textureHeight = types.length > 7 ? Integer.parseInt(types[7]) : 256;
-							Sprite backgroundImage = new Sprite(new ResourceLocation(backgroundLoc), u, v, width, height, textureWidth, textureHeight);
 
-							Background background = new Background(backgroundImage, Double.parseDouble(data[1]), Double.parseDouble(data[2]));
-							background.setStartingPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
-							backgrounds.add(background);
-						} else {
-							SuperMarioWorld.logger().warn("Unknown type of parameters " + Arrays.toString(types));
-							line = br.readLine();
-							continue;
-						}
-					} else {
-						SuperMarioWorld.logger().warn("Unknown type of function " + types[0]);
-						line = br.readLine();
-						continue;
+						Background background = new Background(sprites.toArray(new Sprite[0]), delay == -2 ? sprites.size() > 1 ? 0 : -1 : delay, moveScale, heightScale);
+						background.setStartingPosition(startX, startY);
+						backgrounds.add(background);
+						break;
+					default:
+						break;
 					}
-				} else {
-					SuperMarioWorld.logger().warn("Could not load background with data " + Arrays.toString(data));
-					line = br.readLine();
-					continue;
+				} catch (Exception e) {
+					SuperMarioWorld.logger().warn("Could not load background from JSON: \'" + backgroundJson.toString() + "\', SKIPPING", e);
 				}
-				line = br.readLine();
-				continue;
 			}
-			br.close();
+			SuperMarioWorld.logger().info("Loaded backgrounds JSON from \'" + jsonLocation + "\' successfully");
 		} catch (Exception e) {
-			Game.stop(e, "Could not load backgrounds from " + backgroundsLocation + "!");
+			Game.stop(e, "Could not load backgrounds JSON from \'" + jsonLocation + "\'");
 		}
 	}
 
 	private void loadEntities(ResourceLocation entitiesLocation, Level level) {
+		String fileLocation = "/assets/" + entitiesLocation.getResourceDomain() + "/levels/" + entitiesLocation.getResourcePath();
+
 		try {
-			InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(entitiesLocation).getInputStream();
+			SuperMarioWorld.logger().info("Loading entities OSMW from \'" + fileLocation + "\'");
+			InputStream is = LevelTemplate.class.getResourceAsStream(fileLocation);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 			String line = br.readLine();
@@ -252,8 +376,9 @@ public class LevelTemplate {
 				continue;
 			}
 			br.close();
+			SuperMarioWorld.logger().info("Loaded entities OSMW from \'" + fileLocation + "\' successfully");
 		} catch (Exception e) {
-			Game.stop(e, "Could not load entities from " + entitiesLocation + "!");
+			Game.stop(e, "Could not load entities from \'" + fileLocation + "\'!");
 		}
 	}
 
