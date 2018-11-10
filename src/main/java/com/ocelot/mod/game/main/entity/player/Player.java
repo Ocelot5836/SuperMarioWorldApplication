@@ -136,7 +136,7 @@ public class Player extends Mob implements IDamagable {
 		this.capeAnimation = new Animation<Sprite>();
 		if (sprites == null) {
 			sprites = new ArrayList<Sprite[]>();
-			this.loadSprites();
+			loadSprites();
 		}
 
 		this.runSpeed = 0.02;
@@ -689,11 +689,11 @@ public class Player extends Mob implements IDamagable {
 	}
 
 	private void setAnimation(int animation) {
-		if (animation < 0 || animation >= this.sprites.size()) {
+		if (animation < 0 || animation >= sprites.size()) {
 			animation = 0;
 		}
-		this.animation.setFrames(this.sprites.get(animation));
-		this.animation.setDelay(this.delays[animation]);
+		this.animation.setFrames(sprites.get(animation));
+		this.animation.setDelay(delays[animation]);
 	}
 
 	public void dropCurrentItem(boolean throwItem) {

@@ -38,7 +38,7 @@ public abstract class GameTemplate {
 	public GameTemplate(int width, int height) {
 		this.width = width;
 		this.height = height;
-		this.closed = false;
+		closed = false;
 	}
 
 	/**
@@ -221,7 +221,7 @@ public abstract class GameTemplate {
 	 * @param pitch
 	 *            The pitch of the sound
 	 */
-	public static void playSound(SoundEvent sound, float pitch) {
+	public void playSound(SoundEvent sound, float pitch) {
 		playSound(sound, (float) ModConfig.marioSFXVolume, pitch);
 	}
 
@@ -235,7 +235,7 @@ public abstract class GameTemplate {
 	 * @param pitch
 	 *            The pitch of the sound
 	 */
-	public static void playSound(SoundEvent sound, float volume, float pitch) {
+	public void playSound(SoundEvent sound, float volume, float pitch) {
 		Jukebox.playSoundEffect(sound.getSoundName(), pitch, volume);
 	}
 

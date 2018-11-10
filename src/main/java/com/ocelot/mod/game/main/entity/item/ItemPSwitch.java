@@ -59,12 +59,12 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 
 		this.sprite = new Sprite();
 		if (sprites == null) {
-			this.loadSprites();
+			sprites = new Sprite[2];
+			loadSprites();
 		}
 	}
 
 	private static void loadSprites() {
-		sprites = new Sprite[2];
 		sprites[0] = new Sprite(SHEET, 0, 0, 16, 16, 32, 16);
 		sprites[1] = new Sprite(SHEET, 16, 0, 16, 16, 32, 16);
 	}

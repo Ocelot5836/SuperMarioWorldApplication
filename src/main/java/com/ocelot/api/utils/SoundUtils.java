@@ -2,7 +2,6 @@ package com.ocelot.api.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.init.SoundEvents;
 
 /**
@@ -52,12 +51,5 @@ public class SoundUtils {
 	 */
 	public static void unloadSounds() {
 		mc.getSoundHandler().unloadSounds();
-	}
-
-	/**
-	 * @return The sound used if a sound is missing.
-	 */
-	public static Sound getMissingSound() {
-		return mc.getSoundHandler().MISSING_SOUND;
 	}
 }

@@ -75,8 +75,8 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 		}
 
 		this.animation = new Animation<Sprite>();
-		if (this.sprites == null) {
-			this.sprites = new ArrayList<List<Sprite[]>>();
+		if (sprites == null) {
+			sprites = new ArrayList<List<Sprite[]>>();
 			loadSprites();
 		}
 		setAnimation(IDLE);
@@ -170,12 +170,12 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 	}
 
 	private void setAnimation(int animation) {
-		if (animation < 0 || animation >= this.sprites.get(type.getId()).size()) {
-			this.animation.setFrames(this.sprites.get(type.getId()).get(0));
-			this.animation.setDelay(this.delays[0]);
+		if (animation < 0 || animation >= sprites.get(type.getId()).size()) {
+			this.animation.setFrames(sprites.get(type.getId()).get(0));
+			this.animation.setDelay(delays[0]);
 		}
-		this.animation.setFrames(this.sprites.get(type.getId()).get(animation));
-		this.animation.setDelay(this.delays[animation % this.delays.length]);
+		this.animation.setFrames(sprites.get(type.getId()).get(animation));
+		this.animation.setDelay(delays[animation % delays.length]);
 	}
 
 	@Override

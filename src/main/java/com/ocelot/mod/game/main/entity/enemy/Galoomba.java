@@ -58,8 +58,8 @@ public class Galoomba extends Enemy implements IDamagable {
 		this.animation = new Animation<Sprite>();
 
 		if (sprites == null) {
-			this.sprites = new ArrayList<Sprite[]>();
-			this.loadSprites();
+			sprites = new ArrayList<Sprite[]>();
+			loadSprites();
 		}
 		this.setAnimation(IDLE);
 
@@ -131,12 +131,12 @@ public class Galoomba extends Enemy implements IDamagable {
 	}
 
 	private void setAnimation(int animation) {
-		if (animation < 0 || animation >= this.sprites.size()) {
-			this.animation.setFrames(this.sprites.get(0));
-			this.animation.setDelay(this.delays[0]);
+		if (animation < 0 || animation >= sprites.size()) {
+			this.animation.setFrames(sprites.get(0));
+			this.animation.setDelay(delays[0]);
 		}
-		this.animation.setFrames(this.sprites.get(animation));
-		this.animation.setDelay(this.delays[animation]);
+		this.animation.setFrames(sprites.get(animation));
+		this.animation.setDelay(delays[animation]);
 	}
 
 	@Override

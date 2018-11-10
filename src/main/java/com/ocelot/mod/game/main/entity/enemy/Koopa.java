@@ -90,9 +90,9 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 		}
 
 		this.animation = new Animation<Sprite>();
-		if (this.sprites == null) {
-			this.sprites = new ArrayList<List<Sprite[]>>();
-			this.loadSprites();
+		if (sprites == null) {
+			sprites = new ArrayList<List<Sprite[]>>();
+			loadSprites();
 		}
 		currentAction = IDLE;
 		this.setAnimation(IDLE);
@@ -113,7 +113,7 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 		delays = new int[] { 25, 250, 250, -1, -1, -1 };
 	}
 
-	private void loadSprites() {
+	private static void loadSprites() {
 		for (int i = 0; i < 4; i++) {
 			List<Sprite[]> sprites = new ArrayList<Sprite[]>();
 			Sprite[] walkingNormal = new Sprite[2];
@@ -134,7 +134,7 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 			sprites.add(Lib.asArray(walkingNormal[0]));
 			sprites.add(Lib.asArray(walkingNormal[0]));
 			sprites.add(Lib.asArray(walkingNormal[0]));
-			this.sprites.add(sprites);
+			Koopa.sprites.add(sprites);
 		}
 
 		List<Sprite[]> sprites = new ArrayList<Sprite[]>();
@@ -145,7 +145,7 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 			spinning[i] = new Sprite(KOOPA_SHEET, 80 + xOffset, 112, 16 + i * 16, 16, 112, 288);
 		}
 		sprites.add(spinning);
-		this.sprites.add(sprites);
+		Koopa.sprites.add(sprites);
 	}
 
 	@Override
@@ -210,15 +210,15 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 
 	private void setAnimation(int animation) {
 		if (type == KoopaType.KAMIKAZE) {
-			this.animation.setFrames(this.sprites.get(type.getId()).get(0));
+			this.animation.setFrames(sprites.get(type.getId()).get(0));
 			this.animation.setDelay(0);
 		} else {
-			if (animation < 0 || animation >= this.sprites.get(type.getId()).size()) {
-				this.animation.setFrames(this.sprites.get(type.getId()).get(0));
-				this.animation.setDelay(this.delays[0]);
+			if (animation < 0 || animation >= sprites.get(type.getId()).size()) {
+				this.animation.setFrames(sprites.get(type.getId()).get(0));
+				this.animation.setDelay(delays[0]);
 			}
-			this.animation.setFrames(this.sprites.get(type.getId()).get(animation));
-			this.animation.setDelay(this.delays[animation]);
+			this.animation.setFrames(sprites.get(type.getId()).get(animation));
+			this.animation.setDelay(delays[animation]);
 		}
 	}
 

@@ -68,7 +68,7 @@ public class ImageShopItem extends ShopItem {
 
 		TextureUtils.bindTexture(this.texture);
 		RenderHelper.drawScaledCustomSizeModalRect(x + width / 2 - 8, y + 32, 0, 0, image.getWidth(), image.getHeight(), 16, 16, image.getWidth(), image.getHeight());
-		this.drawButton("Buy", x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, this.canBuy);
+		drawButton("Buy", x + width / 2 - (width - 5) / 2, y + height - 16.5, (int) width - 5, 14, mouseX, mouseY, this.canBuy);
 	}
 
 	@Override

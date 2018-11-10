@@ -67,7 +67,7 @@ public class WorldMapPath {
 		for (int i = 0; i < points.size() - 1; i++) {
 			Vector2f point = points.get(i);
 			Vector2f nextPoint = points.get(i + 1);
-			this.drawLine(point, nextPoint);
+			drawLine(point, nextPoint);
 		}
 		GlStateManager.color(1, 1, 1, 1);
 		this.sprite.render(this.aabb.getX(), this.aabb.getY(), this.aabb.getWidth(), this.aabb.getHeight());
