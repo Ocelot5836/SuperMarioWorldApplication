@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.entity.enemy;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -20,14 +19,13 @@ import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.ai.AIKoopa;
 import com.ocelot.mod.game.main.entity.ai.BasicWalkListener;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.lib.Colorizer;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
@@ -40,18 +38,16 @@ import net.minecraft.util.math.MathHelper;
 @FileSummonableEntity(Koopa.Summonable.class)
 public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListener {
 
-	public static final BufferedImage KOOPA_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/koopa.png"));
+	public static final ResourceLocation KOOPA_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/koopa.png");
 
 	public static final byte WING_BIT = 0x01;
 	public static final byte CLMBING_BIT = 0x02;
 
 	private int currentAction;
-	private Sprite sprite;
-	private BufferedAnimation animation;
+	private Animation<Sprite> animation;
 
-	private static int[][] colors = { { 0xff007800, 0xff00B800, 0xff00F800 }, { 0xff880000, 0xffB80000, 0xffF80000 }, { 0xff4040D8, 0xff6868D8, 0xff8888F8 }, { 0xffF87800, 0xffF8C000, 0xffF8F800 } };
 	private static int[] delays = { 25, 250, 250, -1, -1, -1 };
-	private static List<List<BufferedImage[]>> sprites;
+	private static List<List<Sprite[]>> sprites;
 
 	public static final int TURNING_SIDE = 0;
 	public static final int WALKING_SIDE = 1;
@@ -93,10 +89,9 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 			Game.stop(new IllegalArgumentException("A kamikaze koopa cannot have wings OR climb. These values are both prohibited!"), "Koopa attempted to spawn as kamikaze while having either flying or climbing attributes");
 		}
 
-		this.sprite = new Sprite();
-		this.animation = new BufferedAnimation();
+		this.animation = new Animation<Sprite>();
 		if (this.sprites == null) {
-			this.sprites = new ArrayList<List<BufferedImage[]>>();
+			this.sprites = new ArrayList<List<Sprite[]>>();
 			this.loadSprites();
 		}
 		currentAction = IDLE;
@@ -120,17 +115,20 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 
 	private void loadSprites() {
 		for (int i = 0; i < 4; i++) {
-			List<BufferedImage[]> sprites = new ArrayList<BufferedImage[]>();
-			BufferedImage[] walkingNormal = new BufferedImage[2];
-			BufferedImage[] walkingWinged = new BufferedImage[2];
+			List<Sprite[]> sprites = new ArrayList<Sprite[]>();
+			Sprite[] walkingNormal = new Sprite[2];
+			Sprite[] walkingWinged = new Sprite[2];
 
-			walkingNormal[0] = this.addColor(KOOPA_SHEET.getSubimage(16, 0, 16, 28), i);
-			walkingNormal[1] = this.addColor(KOOPA_SHEET.getSubimage(32, 0, 16, 28), i);
+			int xOffset = 56 * (i % 2);
+			int yOffset = 56 * (i / 2);
 
-			walkingWinged[0] = this.addColor(KOOPA_SHEET.getSubimage(0, 28, 17, 28), i);
-			walkingWinged[1] = this.addColor(KOOPA_SHEET.getSubimage(17, 28, 22, 28), i);
+			walkingNormal[0] = new Sprite(KOOPA_SHEET, 16 + xOffset, yOffset, 16, 28, 112, 288);
+			walkingNormal[1] = new Sprite(KOOPA_SHEET, 32 + xOffset, yOffset, 16, 28, 112, 288);
 
-			sprites.add(Lib.asArray(this.addColor(KOOPA_SHEET.getSubimage(0, 0, 16, 28), i)));
+			walkingWinged[0] = new Sprite(KOOPA_SHEET, 0, 28, 17, 28, 112, 288);
+			walkingWinged[1] = new Sprite(KOOPA_SHEET, 17, 28, 22, 28, 112, 288);
+
+			sprites.add(Lib.asArray(new Sprite(KOOPA_SHEET, 0, 0, 16, 28, 112, 288)));
 			sprites.add(walkingNormal);
 			sprites.add(walkingWinged);
 			sprites.add(Lib.asArray(walkingNormal[0]));
@@ -139,25 +137,15 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 			this.sprites.add(sprites);
 		}
 
-		List<BufferedImage[]> sprites = new ArrayList<BufferedImage[]>();
-		BufferedImage[] spinning = new BufferedImage[8];
-		spinning[0] = this.addColor(KOOPA_SHEET.getSubimage(0, 56, 16, 16), 0xff007800, 0xff00B800, 0xff00F800);
-		spinning[1] = this.addColor(KOOPA_SHEET.getSubimage(0, 56, 16, 16), 0xff880000, 0xffB80000, 0xffF80000);
-		spinning[3] = this.addColor(KOOPA_SHEET.getSubimage(16, 56, 16, 16), 0xf87800, 0xfff8c000, 0xfff8f800);
-		spinning[4] = this.addColor(KOOPA_SHEET.getSubimage(32, 56, 16, 16), 0xff005050, 0xff007878, 0xff00a0a0);
-		spinning[5] = this.addColor(KOOPA_SHEET.getSubimage(32, 56, 16, 16), 0xff707070, 0xffa0a0a0, 0xffc0c0c0);
-		spinning[6] = this.addColor(Lib.flipHorizontal(KOOPA_SHEET.getSubimage(16, 56, 16, 16)), 0xff885818, 0xffd8a038, 0xfff8d870);
-		spinning[7] = this.addColor(Lib.flipHorizontal(KOOPA_SHEET.getSubimage(16, 56, 16, 16)), 0xff283048, 0xff485058, 0xff686858);
+		List<Sprite[]> sprites = new ArrayList<Sprite[]>();
+		Sprite[] spinning = new Sprite[8];
+		for (int i = 0; i < spinning.length; i++) {
+			int xOffset = 0;
+
+			spinning[i] = new Sprite(KOOPA_SHEET, 80 + xOffset, 112, 16 + i * 16, 16, 112, 288);
+		}
 		sprites.add(spinning);
 		this.sprites.add(sprites);
-	}
-
-	private BufferedImage addColor(BufferedImage image, int koopaType) {
-		return this.addColor(image, colors[koopaType][0], colors[koopaType][1], colors[koopaType][2]);
-	}
-
-	private BufferedImage addColor(BufferedImage image, int color1, int color2, int color3) {
-		return Colorizer.replacePixels(Colorizer.replacePixels(Colorizer.replacePixels(image, 0xff464646, color1), 0xff6C6C6C, color2), 0xff919191, color3);
 	}
 
 	@Override
@@ -215,14 +203,9 @@ public class Koopa extends Enemy implements IDamagable, IDamager, BasicWalkListe
 		if (left)
 			facingRight = false;
 
-		sprite.setData(animation.getImage());
-		if (!facingRight) {
-			sprite = Lib.flipHorizontal(sprite);
-		}
-
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight());
+		this.animation.get().render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - this.animation.get().getHeight(), facingRight ? 0x00 : 0x01);
 	}
 
 	private void setAnimation(int animation) {

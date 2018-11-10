@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.core.level.tile.property;
 
-import com.ocelot.mod.game.Game;
-
 public class PropertyString extends PropertyBase<String> {
 
 	private String name;
@@ -21,7 +19,7 @@ public class PropertyString extends PropertyBase<String> {
 	public static PropertyString create(String name, String defaultValue) {
 		return new PropertyString(name, defaultValue);
 	}
-	
+
 	public String getDefaultValue() {
 		return defaultValue;
 	}

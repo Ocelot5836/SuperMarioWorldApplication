@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.core.entity.fx;
 
-import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -9,7 +8,6 @@ import com.google.common.collect.Maps;
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.Sprite;
-import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

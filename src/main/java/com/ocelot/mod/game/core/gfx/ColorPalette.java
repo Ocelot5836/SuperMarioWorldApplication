@@ -1,9 +1,5 @@
 package com.ocelot.mod.game.core.gfx;
 
-import java.awt.image.BufferedImage;
-
-import com.ocelot.mod.lib.Colorizer;
-
 public class ColorPalette {
 
 	public static final ColorPalette TEST = new ColorPalette(0xffff00ff, 0xffffff00, 0xff0000ff, 0xff000000, 0xff00ff00, 0xffffffff, 0xff7f007f, 0xffff7fff, -1, -1, -1, -1);

@@ -69,7 +69,6 @@ public interface IDamagable {
 	 */
 	default void defaultKillEntity(Entity entity) {
 		GameTemplate game = entity.getGame();
-		Level level = entity.getLevel();
 		game.playSound(Sounds.PLAYER_STOMP, 1.0F);
 		entity.setDead();
 	}

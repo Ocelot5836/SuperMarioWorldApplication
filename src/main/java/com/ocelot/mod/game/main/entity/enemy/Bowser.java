@@ -10,7 +10,7 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.MarioDamageSource;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.IDamagable;
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.entity.ai.AIBowser;
 import com.ocelot.mod.lib.Lib;
@@ -25,7 +25,7 @@ public class Bowser extends Enemy {
 
 	private static List<BufferedImage[]> sprites;
 
-	private BufferedAnimation animation;
+	private Animation<Sprite> animation;
 	private Sprite sprite;
 
 	public Bowser(GameTemplate game) {
@@ -37,7 +37,7 @@ public class Bowser extends Enemy {
 		this.setPosition(x, y);
 		this.setSize(32, 32);
 
-		this.animation = new BufferedAnimation();
+		this.animation = new Animation<Sprite>();
 		this.sprite = new Sprite();
 
 		if (sprites == null) {

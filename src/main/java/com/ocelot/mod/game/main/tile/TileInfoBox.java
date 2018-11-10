@@ -26,7 +26,7 @@ public class TileInfoBox extends BasicTile {
 	public static final PropertyDouble BOUNCE = PropertyDouble.create("bounce", 0, 10);
 
 	public TileInfoBox() {
-		super(new Sprite(Tile.TILES_SHEET.getSubimage(32, 0, 16, 16)), "info_box");
+		super(new Sprite(Tile.TILES_SHEET, 32, 0, 16, 16, 256, 416), "info_box");
 		this.setSolid();
 	}
 

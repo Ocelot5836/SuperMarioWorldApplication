@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.main.entity;
 
-import java.awt.image.BufferedImage;
-
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Entity;
@@ -11,7 +9,6 @@ import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -21,7 +18,9 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(Fruit.Summonable.class)
 public class Fruit extends Entity {
 
-	private Animation animation;
+	public static final ResourceLocation TEXTURE = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/fruit.png");
+
+	private Animation<Sprite> animation;
 
 	public Fruit(GameTemplate game) {
 		this(game, 0, 0);
@@ -34,9 +33,8 @@ public class Fruit extends Entity {
 		this.animation = new Animation();
 
 		Sprite[] sprites = new Sprite[4];
-		BufferedImage sheet = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/fruit.png"));
 		for (int i = 0; i < sprites.length; i++) {
-			sprites[i] = new Sprite(sheet.getSubimage(i * 16, 0, 16, 16));
+			sprites[i] = new Sprite(TEXTURE, i * 16, 0, 16, 16, 64, 16);
 		}
 		animation.setFrames(sprites);
 		animation.setDelay(100);

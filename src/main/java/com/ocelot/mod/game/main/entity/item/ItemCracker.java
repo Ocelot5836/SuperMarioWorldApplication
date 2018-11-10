@@ -7,13 +7,10 @@ import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.ISpawnerEntity;
 import com.ocelot.mod.game.core.entity.Spawner;
 import com.ocelot.mod.game.core.entity.SummonException;
-import com.ocelot.mod.game.core.entity.IItemCarriable.ThrowingType;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
-import com.ocelot.mod.game.main.entity.enemy.Koopa;
-import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
@@ -23,7 +20,7 @@ import net.minecraft.client.resources.I18n;
 @FileSummonableEntity(ItemCracker.Summonable.class)
 public class ItemCracker extends EntityItem implements IItemCarriable {
 
-	private Sprite sprite = new Sprite(ItemCrayfish.SHEET.getSubimage(32, 0, 16, 16));
+	private Sprite sprite = new Sprite(ItemCrayfish.SHEET, 32, 0, 16, 16, 48, 16);
 
 	public ItemCracker(GameTemplate game) {
 		this(game, 0, 0);

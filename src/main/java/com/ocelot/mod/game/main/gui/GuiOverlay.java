@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.gui;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +8,14 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.main.entity.powerup.Powerup;
-import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiOverlay extends MarioGui {
 
-	public static final BufferedImage HUD_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/gui/hud.png"));
-	private static List<BufferedImage> sprites;
+	public static final ResourceLocation HUD_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/gui/hud.png");
+	private static List<Sprite> sprites;
 
 	public static final int COIN = 0;
 	public static final int MARIO = 1;
@@ -53,31 +51,28 @@ public class GuiOverlay extends MarioGui {
 	public static final int WHITE_8_TALL = 31;
 	public static final int WHITE_9_TALL = 32;
 
-	private Sprite hudSprite;
-	private Sprite sprite;
-
 	private LevelTemplate level;
+	private Sprite hudSprite;
 
 	public GuiOverlay(LevelTemplate level) {
 		this.level = level;
-		this.hudSprite = new Sprite(HUD_SHEET.getSubimage(1, 1, 256, 150));
-		this.sprite = new Sprite();
+		this.hudSprite = new Sprite(HUD_SHEET, 1, 1, 256, 150, 390, 226);
 
 		if (sprites == null) {
-			sprites = new ArrayList<BufferedImage>();
+			sprites = new ArrayList<Sprite>();
 			initSprites();
 		}
 	}
 
-	private void initSprites() {
-		sprites.add(HUD_SHEET.getSubimage(258, 1, 8, 8));
-		sprites.add(HUD_SHEET.getSubimage(267, 1, 40, 8));
-		sprites.add(HUD_SHEET.getSubimage(308, 1, 40, 8));
+	private static void initSprites() {
+		sprites.add(new Sprite(HUD_SHEET, 258, 1, 8, 8, 390, 226));
+		sprites.add(new Sprite(HUD_SHEET, 267, 1, 40, 8, 390, 226));
+		sprites.add(new Sprite(HUD_SHEET, 308, 1, 40, 8, 390, 226));
 		for (int y = 0; y < 3; y++) {
 			int yOffset = y * 9;
 			for (int x = 0; x < 10; x++) {
 				int xOffset = x * 9;
-				sprites.add(HUD_SHEET.getSubimage(258 + xOffset, 10 + yOffset, 8, y == 2 ? 16 : 8));
+				sprites.add(new Sprite(HUD_SHEET, 258 + xOffset, 10 + yOffset, 8, y == 2 ? 16 : 8, 390, 226));
 			}
 		}
 	}
@@ -93,14 +88,14 @@ public class GuiOverlay extends MarioGui {
 		renderNumber(WHITE_0, player.getProperties().getCoins(), 232, 15);
 		renderNumber(WHITE_0_TALL, (int) player.getProperties().getBonus(), 104, 14);
 		renderNumber(WHITE_0, player.getProperties().getScore(), 232, 23);
-		
+
 		int dragonCoins = player.getProperties().getDragonCoins();
-		for(int i = 0; i < dragonCoins; i++) {
+		for (int i = 0; i < dragonCoins; i++) {
 			renderSprite(COIN, 64 + i * 8, 15);
 		}
-		
+
 		Powerup powerup = player.getProperties().getReserve();
-		if(powerup != Powerup.NULL) {
+		if (powerup != Powerup.NULL) {
 			powerup.render(120, 15, mc, gui, mouseX, mouseY, partialTicks);
 		}
 	}
@@ -109,7 +104,7 @@ public class GuiOverlay extends MarioGui {
 	public void onKeyPressed(int keyCode, char typedChar) {
 	}
 
-	private void renderNumber(int baseId, int number, double x, double y) {
+	private static void renderNumber(int baseId, int number, double x, double y) {
 		String[] digits = Integer.toString(number).split("(?<=.)");
 		for (int i = 0; i < digits.length; i++) {
 			int index = i - digits.length + 1;
@@ -117,9 +112,7 @@ public class GuiOverlay extends MarioGui {
 		}
 	}
 
-	private void renderSprite(int id, double x, double y) {
-		sprite.setData(sprites.get(id % sprites.size()));
-		sprite.render(x, y);
-		sprite.setData();
+	private static void renderSprite(int id, double x, double y) {
+		sprites.get(id % sprites.size()).render(x, y);
 	}
 }

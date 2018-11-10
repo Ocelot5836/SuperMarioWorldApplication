@@ -1,11 +1,8 @@
 package com.ocelot.mod.game.main.gamestate.level;
 
-import java.lang.annotation.Annotation;
-
 import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.SuperMarioWorld;
-import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -41,7 +38,7 @@ public class DemoLevelState extends BasicLevel {
 		for (int i = 0; i < 10; i++) {
 			level.getLevel().add(new Koopa(game, KoopaType.values()[i % 4], 140 + i * 18, 100));
 		}
-		
+
 		level.getLevel().add(new Galoomba(game, 425, 50));
 
 		level.getLevel().add(new ItemCrayfish(game, 400, 50));
@@ -71,7 +68,7 @@ public class DemoLevelState extends BasicLevel {
 		if (keyCode == Keyboard.KEY_T) {
 			load();
 		}
-		
+
 		if (keyCode == Keyboard.KEY_Z) {
 			gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}

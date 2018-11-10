@@ -4,7 +4,6 @@ import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.save.SaveFileManager;
-import com.ocelot.mod.game.main.MarioFontRenderer;
 import com.ocelot.mod.game.main.entity.player.PlayerProperties;
 
 import net.minecraft.client.Minecraft;
@@ -20,7 +19,6 @@ public class Game extends GameTemplate {
 	private GameStateManager gsm;
 	private SaveFileManager saveFileManager;
 	private PlayerProperties playerProperties;
-	private MarioFontRenderer fontRenderer;
 
 	public MarioGui currentDisplayedGui;
 

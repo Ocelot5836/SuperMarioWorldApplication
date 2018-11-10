@@ -61,6 +61,7 @@ public class WorldMapPath {
 	protected void update() {
 	}
 
+	@SuppressWarnings("unused")
 	protected void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		GL11.glLineWidth(1.5f);
 		GlStateManager.color(1, 0, 0, 1);
@@ -75,7 +76,7 @@ public class WorldMapPath {
 		GlStateManager.color(1, 1, 1, 1);
 	}
 
-	private void drawLine(Vector2f point, Vector2f nextPoint) {
+	private static void drawLine(Vector2f point, Vector2f nextPoint) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		GlStateManager.disableTexture2D();

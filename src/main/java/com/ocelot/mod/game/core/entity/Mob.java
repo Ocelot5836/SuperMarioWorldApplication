@@ -75,12 +75,14 @@ public abstract class Mob extends Entity {
 				return;
 			}
 		}
-		if (ai == null)
+		
+		if (ai == null) {
 			Game.stop(new RuntimeException("AI for entity " + this.toString() + " was found to be null. This should NOT happen. Please to report to the mod author about this if you encounter it."), "Fatal Error Occured");
-
-		ai.setMob(this);
-		ai.initAI();
-		ais.add(ai);
+		} else {
+			ai.setMob(this);
+			ai.initAI();
+			ais.add(ai);
+		}
 	}
 
 	@Override

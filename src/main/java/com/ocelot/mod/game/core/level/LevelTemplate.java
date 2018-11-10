@@ -19,6 +19,7 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
+import scala.actors.threadpool.Arrays;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -39,12 +40,10 @@ public class LevelTemplate {
 
 	private GameTemplate game;
 	private Level level;
-	private ResourceLocation levelFolder;
 	private List<Background> backgrounds;
 
 	public LevelTemplate(GameTemplate game, ResourceLocation levelFolder) {
 		this.game = game;
-		this.levelFolder = levelFolder;
 		this.backgrounds = new ArrayList<Background>();
 
 		String worldInfoFile = levelFolder + "/world.osmw";
@@ -53,12 +52,12 @@ public class LevelTemplate {
 		String entitiesFile = levelFolder + "/entities.osmw";
 
 		this.level = new Level(game, 16, new ResourceLocation(mapFile));
-		this.loadWorldInfo(levelFolder, new ResourceLocation(worldInfoFile));
+		this.loadWorldInfo(new ResourceLocation(worldInfoFile));
 		this.loadBackgrounds(new ResourceLocation(backgroundsFile));
 		this.loadEntities(new ResourceLocation(entitiesFile), this.level);
 	}
 
-	private void loadWorldInfo(ResourceLocation levelFolder, ResourceLocation worldInfoLocation) {
+	private void loadWorldInfo(ResourceLocation worldInfoLocation) {
 		try {
 			InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(worldInfoLocation).getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -129,7 +128,7 @@ public class LevelTemplate {
 						continue;
 					}
 				} else {
-					SuperMarioWorld.logger().warn("Could not load world info with data " + line + " -length- " + data.length);
+					SuperMarioWorld.logger().warn("Could not load world info with data " + Arrays.toString(data));
 					line = br.readLine();
 					continue;
 				}
@@ -138,6 +137,8 @@ public class LevelTemplate {
 			}
 
 			this.properties = new LevelProperties(time, music, musicFast == null ? music : musicFast, startLoop, endLoop);
+
+			br.close();
 		} catch (Exception e) {
 			Game.stop(e, "Could not load world info from " + worldInfoLocation + "!");
 		}
@@ -177,21 +178,21 @@ public class LevelTemplate {
 							continue;
 						}
 					} else if (types[0].equalsIgnoreCase("ResourceLoc")) {
-						if (types.length > 7) {
+						if (types.length > 5) {
 							String backgroundLoc = types[1];
 							int u = Integer.parseInt(types[2]);
 							int v = Integer.parseInt(types[3]);
 							int width = Integer.parseInt(types[4]);
 							int height = Integer.parseInt(types[5]);
-							int textureWidth = Integer.parseInt(types[6]);
-							int textureHeight = Integer.parseInt(types[7]);
+							int textureWidth = types.length > 6 ? Integer.parseInt(types[6]) : 256;
+							int textureHeight = types.length > 7 ? Integer.parseInt(types[7]) : 256;
 							Sprite backgroundImage = new Sprite(new ResourceLocation(backgroundLoc), u, v, width, height, textureWidth, textureHeight);
 
 							Background background = new Background(backgroundImage, Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 							background.setStartingPosition(Double.parseDouble(data[3]), Double.parseDouble(data[4]));
 							backgrounds.add(background);
 						} else {
-							SuperMarioWorld.logger().warn("Unknown type of parameters " + types);
+							SuperMarioWorld.logger().warn("Unknown type of parameters " + Arrays.toString(types));
 							line = br.readLine();
 							continue;
 						}
@@ -201,13 +202,14 @@ public class LevelTemplate {
 						continue;
 					}
 				} else {
-					SuperMarioWorld.logger().warn("Could not load background with data " + line + " -length- " + data.length);
+					SuperMarioWorld.logger().warn("Could not load background with data " + Arrays.toString(data));
 					line = br.readLine();
 					continue;
 				}
 				line = br.readLine();
 				continue;
 			}
+			br.close();
 		} catch (Exception e) {
 			Game.stop(e, "Could not load backgrounds from " + backgroundsLocation + "!");
 		}
@@ -253,6 +255,7 @@ public class LevelTemplate {
 				line = br.readLine();
 				continue;
 			}
+			br.close();
 		} catch (Exception e) {
 			Game.stop(e, "Could not load entities from " + entitiesLocation + "!");
 		}

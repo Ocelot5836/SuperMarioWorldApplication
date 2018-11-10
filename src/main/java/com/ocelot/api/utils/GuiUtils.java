@@ -207,8 +207,6 @@ public class GuiUtils {
 	@SideOnly(Side.CLIENT)
 	private static void drawStaticTextureModelRect(float x, float y, int minU, int minV, int maxU, int maxV) {
 		float zLevel = 0;
-		float f = 0.00390625F;
-		float f1 = 0.00390625F;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);

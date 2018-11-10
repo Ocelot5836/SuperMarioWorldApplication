@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.entity.enemy;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import com.ocelot.mod.game.core.MarioDamageSource;
 import com.ocelot.mod.game.core.entity.Entity;
 import com.ocelot.mod.game.core.entity.IDamagable;
 import com.ocelot.mod.game.core.entity.IDamager;
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.entity.ai.AIBasicWalk;
 import com.ocelot.mod.game.main.entity.player.Player;
@@ -23,16 +22,15 @@ import net.minecraft.util.ResourceLocation;
 
 public class Rex extends Enemy implements IDamagable, IDamager {
 
-	public static final BufferedImage REX_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/rex.png"));
+	public static final ResourceLocation REX_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/rex.png");
 
 	private boolean big;
 
 	private int currentAction;
-	private Sprite sprite;
-	private BufferedAnimation animation;
+	private Animation<Sprite> animation;
 
 	private static int[] delays = { -1, 200, 150, -1, 50, 300 };
-	private static List<BufferedImage[]> sprites;
+	private static List<Sprite[]> sprites;
 
 	public static final int IDLE_BIG = 0;
 	public static final int WALKING_SIDE_BIG = 1;
@@ -54,10 +52,9 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 
 		this.big = true;
 
-		this.sprite = new Sprite();
-		this.animation = new BufferedAnimation();
+		this.animation = new Animation<Sprite>();
 		if (this.sprites == null) {
-			this.sprites = new ArrayList<BufferedImage[]>();
+			this.sprites = new ArrayList<Sprite[]>();
 			this.loadSprites();
 		}
 		this.setAnimation(IDLE_BIG);
@@ -71,17 +68,17 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 		this.stopJumpSpeed = 0.3;
 	}
 
-	private void loadSprites() {
-		BufferedImage[] walkingBig = new BufferedImage[] { REX_SHEET.getSubimage(0, 0, 20, 32), REX_SHEET.getSubimage(20, 0, 20, 32) };
-		BufferedImage[] walkingSmall = new BufferedImage[] { REX_SHEET.getSubimage(0, 32, 16, 16), REX_SHEET.getSubimage(0, 48, 16, 16) };
+	private static void loadSprites() {
+		Sprite[] walkingBig = Lib.asArray(new Sprite(REX_SHEET, 0, 0, 20, 32, 40, 64), new Sprite(REX_SHEET, 20, 0, 20, 32, 40, 64));
+		Sprite[] walkingSmall = Lib.asArray(new Sprite(REX_SHEET, 0, 32, 16, 16, 40, 64), new Sprite(REX_SHEET, 0, 48, 16, 16, 40, 64));
 
 		sprites.add(Lib.asArray(walkingBig[0]));
 		sprites.add(walkingBig);
-		sprites.add(Lib.asArray(REX_SHEET.getSubimage(16, 32, 18, 24)));
+		sprites.add(Lib.asArray(new Sprite(REX_SHEET, 16, 32, 18, 24, 40, 64)));
 
 		sprites.add(Lib.asArray(walkingSmall[0]));
 		sprites.add(walkingSmall);
-		sprites.add(Lib.asArray(REX_SHEET.getSubimage(16, 56, 16, 8)));
+		sprites.add(Lib.asArray(new Sprite(REX_SHEET, 16, 56, 16, 8, 40, 64)));
 	}
 
 	@Override
@@ -148,14 +145,9 @@ public class Rex extends Enemy implements IDamagable, IDamager {
 		if (left)
 			facingRight = false;
 
-		sprite.setData(animation.getImage());
-		if (facingRight) {
-			sprite = Lib.flipHorizontal(sprite);
-		}
-
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight());
+		this.animation.get().render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - this.animation.get().getHeight(), facingRight ? 0x01 : 0x00);
 	}
 
 	public void setBig(boolean big) {

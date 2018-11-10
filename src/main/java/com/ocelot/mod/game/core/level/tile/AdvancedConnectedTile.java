@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.core.level.tile;
 
-import java.awt.image.BufferedImage;
-
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.TileMap;
 
@@ -147,15 +145,15 @@ public class AdvancedConnectedTile extends ConnectedTile {
 						sprites[7].render(x, y, 16, 16);
 					}
 				} else if (left) {
-					if(downLeft) {
+					if (downLeft) {
 						sprites[15].render(x, y, 16, 16);
-					}else {
+					} else {
 						sprites[5].render(x, y, 16, 16);
 					}
 				} else if (right) {
-					if(downRight) {
+					if (downRight) {
 						sprites[13].render(x, y, 16, 16);
-					}else {
+					} else {
 						sprites[4].render(x, y, 16, 16);
 					}
 				} else {

@@ -4,7 +4,6 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.IDamager;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.sun.jna.platform.win32.NTSecApi.PLSA_FOREST_TRUST_INFORMATION;
 
 public abstract class Enemy extends Mob implements IDamager {
 

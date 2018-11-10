@@ -3,13 +3,11 @@ package com.ocelot.mod.game.main.tile;
 import com.ocelot.mod.audio.Sounds;
 import com.ocelot.mod.game.core.EnumDirection;
 import com.ocelot.mod.game.core.entity.Entity;
-import com.ocelot.mod.game.core.gfx.ColorPalette;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.tile.AnimatedTile;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.lib.Colorizer;
 
 public class TileCoin extends AnimatedTile {
 
@@ -37,11 +35,7 @@ public class TileCoin extends AnimatedTile {
 	}
 
 	private static Sprite generateSprite(CoinType type, int animationFrame) {
-		if (type == CoinType.NORMAL) {
-			return new Sprite(Colorizer.colorize(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16, 16, 16), ColorPalette.COIN_GOLD));
-		} else {
-			return new Sprite(Colorizer.colorize(Tile.TILES_SHEET.getSubimage(animationFrame * 16, 16, 16, 16), ColorPalette.COIN_BLUE));
-		}
+		return new Sprite(Tile.TILES_SHEET, animationFrame * 16, type == CoinType.NORMAL ? 16 : 32, 16, 16, 256, 416);
 	}
 
 	public enum CoinType {

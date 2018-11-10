@@ -15,12 +15,12 @@ import com.ocelot.mod.game.Game;
 import net.minecraft.util.IStringSerializable;
 
 public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends PropertyBase<T> {
-	
+
 	private String name;
 	private final ImmutableSet<T> allowedValues;
 	private final Map<String, T> nameToValue = Maps.<String, T>newHashMap();
 
-	protected PropertyEnum(String name, Class<T> valueClass, Collection<T> allowedValues) {
+	protected PropertyEnum(String name, Collection<T> allowedValues) {
 		this.name = name;
 		this.allowedValues = ImmutableSet.copyOf(allowedValues);
 
@@ -42,12 +42,13 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
 	public Optional<T> parseValue(String value) {
 		return Optional.<T>fromNullable(this.nameToValue.get(value));
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public boolean equals(Object p_equals_1_) {
 		if (this == p_equals_1_) {
 			return true;
@@ -59,6 +60,7 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		int i = super.hashCode();
 		i = 31 * i + this.allowedValues.hashCode();
@@ -71,14 +73,14 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
 	}
 
 	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Predicate<T> filter) {
-		return create(name, clazz, Collections2.filter(Lists.newArrayList(clazz.getEnumConstants()), filter));
+		return create(name, Collections2.filter(Lists.newArrayList(clazz.getEnumConstants()), filter));
 	}
 
-	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, T... values) {
-		return create(name, clazz, Lists.newArrayList(values));
+	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, T... values) {
+		return create(name, Lists.newArrayList(values));
 	}
 
-	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Collection<T> values) {
-		return new PropertyEnum<T>(name, clazz, values);
+	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Collection<T> values) {
+		return new PropertyEnum<T>(name, values);
 	}
 }

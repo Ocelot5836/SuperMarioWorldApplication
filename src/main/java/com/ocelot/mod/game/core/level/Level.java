@@ -33,8 +33,6 @@ import net.minecraft.util.ResourceLocation;
  */
 public class Level {
 
-	private LevelProperties properties;
-
 	private TileMap tileMap;
 	private List<EntityFX> effects = Lists.<EntityFX>newArrayList();
 	private List<Entity> entities = Lists.<Entity>newArrayList();

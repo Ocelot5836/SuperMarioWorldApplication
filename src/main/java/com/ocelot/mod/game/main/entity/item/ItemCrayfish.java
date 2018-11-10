@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.main.entity.item;
 
-import java.awt.image.BufferedImage;
-
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.config.ModConfig;
 import com.ocelot.mod.game.core.GameTemplate;
@@ -16,7 +14,6 @@ import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.fx.particle.CheeseParticle;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -26,9 +23,9 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(ItemCrayfish.Summonable.class)
 public class ItemCrayfish extends EntityItem implements IItemCarriable {
 
-	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/crayfish.png"));
+	public static final ResourceLocation SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/crayfish.png");
 
-	private Sprite sprite = new Sprite(SHEET.getSubimage(0, 0, 16, 16));
+	private Sprite sprite = new Sprite(SHEET, 0, 0, 16, 16, 48, 16);
 
 	public ItemCrayfish(GameTemplate game) {
 		this(game, 0, 0);

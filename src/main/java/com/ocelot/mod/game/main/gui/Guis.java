@@ -12,6 +12,7 @@ public class Guis implements IGuiHandler {
 	public static final int YOSHI_TEXT_BUBBLE = 0;
 	public static final int PLAYER_HELLO = 1;
 
+	@SuppressWarnings("unused")
 	@Override
 	public MarioGui openGui(int id, Player player) {
 		double x = player.getX();
@@ -21,7 +22,7 @@ public class Guis implements IGuiHandler {
 		if (id == YOSHI_TEXT_BUBBLE)
 			return new MarioGuiYoshiTextBubble();
 		if (id == PLAYER_HELLO)
-			return new MarioGuiPlayerCrayfishHello();
+			return new MarioGuiPlayerHello();
 
 		return null;
 	}

@@ -5,6 +5,7 @@ import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.core.level.tile.property.PropertyBoolean;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
+import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -23,7 +24,7 @@ public class TileWater extends Tile {
 		if (transparent) {
 			this.setShouldNotRender();
 		}
-		this.sprites = new Sprite[] { new Sprite(TILES_SHEET.getSubimage(176, 240, 16, 16)), new Sprite(TILES_SHEET.getSubimage(176, 224, 16, 16)) };
+		this.sprites = Lib.asArray(new Sprite(TILES_SHEET, 176, 240, 16, 16, 256, 416), new Sprite(TILES_SHEET, 176, 224, 16, 16, 256, 416));
 	}
 
 	@Override

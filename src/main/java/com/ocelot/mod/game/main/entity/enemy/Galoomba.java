@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.entity.enemy;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import com.ocelot.mod.game.core.entity.IItemCarriable;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.ai.AIBasicWalk;
@@ -34,14 +33,13 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(Galoomba.Summonable.class)
 public class Galoomba extends Enemy implements IDamagable {
 
-	public static final BufferedImage GALOOMBA_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/galoomba.png"));
+	public static final ResourceLocation GALOOMBA_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/enemy/galoomba.png");
 
 	private int currentAction;
-	private Sprite sprite;
-	private BufferedAnimation animation;
+	private Animation<Sprite> animation;
 
 	private static int[] delays = new int[] { 200, 200, 200, -1 };
-	private static List<BufferedImage[]> sprites;
+	private static List<Sprite[]> sprites;
 
 	public static final int WALKING_SIDE = 0;
 	public static final int JUMPING = 1;
@@ -57,11 +55,10 @@ public class Galoomba extends Enemy implements IDamagable {
 		this.setPosition(x, y);
 		this.setLastPosition(x, y);
 		this.setSize(16, 16);
-		this.sprite = new Sprite();
-		this.animation = new BufferedAnimation();
+		this.animation = new Animation<Sprite>();
 
 		if (sprites == null) {
-			this.sprites = new ArrayList<BufferedImage[]>();
+			this.sprites = new ArrayList<Sprite[]>();
 			this.loadSprites();
 		}
 		this.setAnimation(IDLE);
@@ -75,12 +72,8 @@ public class Galoomba extends Enemy implements IDamagable {
 		this.stopJumpSpeed = 0.3;
 	}
 
-	private Galoomba(GameTemplate game, Galoomba.Item item) {
-		this(game, item.getX(), item.getY());
-	}
-
-	private void loadSprites() {
-		BufferedImage[] walking = Lib.asArray(GALOOMBA_SHEET.getSubimage(0, 0, 16, 16), GALOOMBA_SHEET.getSubimage(16, 0, 16, 16));
+	private static void loadSprites() {
+		Sprite[] walking = Lib.asArray(new Sprite(GALOOMBA_SHEET, 0, 0, 16, 16, 32, 16), new Sprite(GALOOMBA_SHEET, 16, 0, 16, 16, 32, 16));
 		sprites.add(walking);
 		sprites.add(walking);
 		sprites.add(walking);
@@ -132,14 +125,9 @@ public class Galoomba extends Enemy implements IDamagable {
 		if (left)
 			facingRight = false;
 
-		sprite.setData(animation.getImage());
-		if (facingRight) {
-			sprite = Lib.flipHorizontal(sprite);
-		}
-
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight());
+		animation.get().render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - animation.get().getHeight(), facingRight ? 0x01 : 0x00);
 	}
 
 	private void setAnimation(int animation) {
@@ -199,8 +187,7 @@ public class Galoomba extends Enemy implements IDamagable {
 		private int timer;
 
 		private boolean facingRight;
-		private Sprite sprite;
-		private BufferedAnimation animation;
+		private Animation<Sprite> animation;
 
 		private Item(GameTemplate game, Galoomba galoomba) {
 			this(game, galoomba, galoomba.getX(), galoomba.getY());
@@ -213,8 +200,7 @@ public class Galoomba extends Enemy implements IDamagable {
 			this.setLastPosition(x, y);
 			this.galoomba = galoomba;
 
-			this.sprite = new Sprite();
-			this.animation = new BufferedAnimation();
+			this.animation = new Animation<Sprite>();
 			this.animation.setDelay(Galoomba.delays[Galoomba.WALKING_SIDE]);
 			this.animation.setFrames(Galoomba.sprites.get(Galoomba.WALKING_SIDE));
 		}
@@ -256,19 +242,14 @@ public class Galoomba extends Enemy implements IDamagable {
 
 		@Override
 		public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-			sprite.setData(animation.getImage());
-			if (facingRight) {
-				sprite = Lib.flipHorizontal(sprite);
-			}
-
 			double posX = lastX + this.getPartialRenderX();
 			double posY = lastY + this.getPartialRenderY();
 
 			GlStateManager.cullFace(CullFace.FRONT);
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight(), 0);
+			GlStateManager.translate(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() + cheight / 2 - animation.get().getHeight(), 0);
 			GlStateManager.rotate(180, 1, 0, 0);
-			sprite.render(0, -cheight);
+			animation.get().render(0, -cheight, facingRight ? 0x01 : 0x00);
 			GlStateManager.popMatrix();
 			GlStateManager.cullFace(CullFace.BACK);
 		}

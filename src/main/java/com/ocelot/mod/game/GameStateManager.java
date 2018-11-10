@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.Maps;
-import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.ErrorState;
@@ -21,7 +20,6 @@ import com.ocelot.mod.game.main.gamestate.worldmap.WorldMapState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
 public class GameStateManager {
 

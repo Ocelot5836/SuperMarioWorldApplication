@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.entity.player;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.apache.commons.lang3.time.StopWatch;
@@ -10,7 +9,7 @@ import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.MobMover;
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.main.gamestate.worldmap.WorldMap;
 import com.ocelot.mod.lib.Lib;
@@ -19,13 +18,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
+@SuppressWarnings("unused")
 public class PlayerMap extends Mob {
 
 	private WorldMap map;
 	private int currentAction = -1;
-	private Sprite sprite;
-	private List<BufferedImage[]> sprites = Lists.<BufferedImage[]>newArrayList();
-	private BufferedAnimation animation;
+	private List<Sprite[]> sprites = Lists.<Sprite[]>newArrayList();
+	private Animation<Sprite> animation;
 	private int[] numFrames = { 4, 2, 4, 1 };
 	private int[] delays = { 200, 200, 200, -1 };
 
@@ -51,8 +50,7 @@ public class PlayerMap extends Mob {
 		this.maxSpeed = 1.6;
 		this.stopSpeed = 0.4;
 
-		this.sprite = new Sprite();
-		this.animation = new BufferedAnimation();
+		this.animation = new Animation<Sprite>();
 		this.loadSprites();
 
 		this.mover = new MobMover(this);
@@ -60,7 +58,7 @@ public class PlayerMap extends Mob {
 	}
 
 	private void loadSprites() {
-		this.sprites.addAll(Lib.loadSpritesFromBufferedImage(Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/player/mario_map.png")), 16, 24, numFrames));
+		this.sprites.addAll(Lib.loadSpritesFromSprite(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/player/mario_map.png"), 16, 24, 160, 160, numFrames));
 		this.animation.setFrames(this.sprites.get(0));
 	}
 
@@ -112,14 +110,9 @@ public class PlayerMap extends Mob {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mc, mouseX, mouseY, partialTicks);
 
-		sprite.setData(animation.getImage());
-		if (!facingRight && currentAction == WALKING_SIDE) {
-			sprite = Lib.flipHorizontal(sprite);
-		}
-
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - 8, posY - 12);
+		this.animation.get().render(posX - 8, posY - 12, !facingRight && currentAction == WALKING_SIDE ? 0x01 : 0x00);
 	}
 
 	@Override

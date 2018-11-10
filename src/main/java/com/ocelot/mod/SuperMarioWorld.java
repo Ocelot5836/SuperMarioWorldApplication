@@ -9,15 +9,6 @@ import com.ocelot.mod.application.ApplicationGame;
 import com.ocelot.mod.application.MarioPrint;
 import com.ocelot.mod.config.ModConfig;
 import com.ocelot.mod.game.core.entity.summonable.SummonableEntityRegistry;
-import com.ocelot.mod.game.main.entity.Fruit;
-import com.ocelot.mod.game.main.entity.enemy.Galoomba;
-import com.ocelot.mod.game.main.entity.enemy.Koopa;
-import com.ocelot.mod.game.main.entity.item.ItemCheese;
-import com.ocelot.mod.game.main.entity.item.ItemCracker;
-import com.ocelot.mod.game.main.entity.item.ItemCrayfish;
-import com.ocelot.mod.game.main.entity.item.ItemKoopaShell;
-import com.ocelot.mod.game.main.entity.item.ItemPSwitch;
-import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.game.main.gamestate.store.ImageShopItem;
 import com.ocelot.mod.game.main.gamestate.store.ShopItemRegistry;
 import com.ocelot.mod.lib.Lib;
@@ -64,7 +55,7 @@ public class SuperMarioWorld {
 	private static Logger logger;
 
 	@EventHandler
-	public void pre(FMLPreInitializationEvent event) {
+	public static void pre(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
 
 		MinecraftForge.EVENT_BUS.register(new Registry());
@@ -78,14 +69,14 @@ public class SuperMarioWorld {
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public static void init(FMLInitializationEvent event) {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			registerGame();
 		}
 	}
 
 	@EventHandler
-	public void post(FMLPostInitializationEvent event) {
+	public static void post(FMLPostInitializationEvent event) {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			registerShopItems();
 		}

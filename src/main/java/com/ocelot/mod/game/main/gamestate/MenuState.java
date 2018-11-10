@@ -3,7 +3,6 @@ package com.ocelot.mod.game.main.gamestate;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.time.StopWatch;
-import org.lwjgl.input.Keyboard;
 
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.Game;

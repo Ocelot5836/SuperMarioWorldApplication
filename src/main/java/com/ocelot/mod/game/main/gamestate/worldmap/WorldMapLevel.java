@@ -1,8 +1,6 @@
 package com.ocelot.mod.game.main.gamestate.worldmap;
 
-import java.awt.image.BufferedImage;
-
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.lib.Lib;
 
@@ -16,20 +14,18 @@ public class WorldMapLevel implements IWorldMapPoint {
 	private double x;
 	private double y;
 
-	private Sprite sprite;
-	private BufferedAnimation animation;
+	private Animation<Sprite> animation;
 
-	private WorldMapLevel(int levelState, double x, double y, BufferedImage sprite) {
+	private WorldMapLevel(int levelState, double x, double y, Sprite sprite) {
 		this(levelState, x, y, -1, Lib.asArray(sprite));
 	}
 
-	private WorldMapLevel(int levelState, double x, double y, long delay, BufferedImage... frames) {
+	private WorldMapLevel(int levelState, double x, double y, long delay, Sprite... frames) {
 		this.levelState = levelState;
 		this.x = x;
 		this.y = y;
 
-		this.sprite = new Sprite();
-		this.animation = new BufferedAnimation();
+		this.animation = new Animation();
 		this.animation.setDelay(delay);
 		this.animation.setFrames(frames);
 	}
@@ -41,8 +37,7 @@ public class WorldMapLevel implements IWorldMapPoint {
 
 	@Override
 	public void render(double width, double height, Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		this.sprite.setData(this.animation.getImage());
-		this.sprite.render(this.x, this.y, width, height);
+		this.animation.get().render(this.x, this.y, width, height);
 	}
 
 	@Override

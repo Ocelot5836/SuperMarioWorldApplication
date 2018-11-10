@@ -1,7 +1,6 @@
 package com.ocelot.mod.game.core.entity;
 
 import com.ocelot.mod.game.core.EnumDirection;
-import com.ocelot.mod.game.main.entity.player.Player;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>

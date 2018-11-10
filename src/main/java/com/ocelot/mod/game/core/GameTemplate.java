@@ -221,7 +221,7 @@ public abstract class GameTemplate {
 	 * @param pitch
 	 *            The pitch of the sound
 	 */
-	public void playSound(SoundEvent sound, float pitch) {
+	public static void playSound(SoundEvent sound, float pitch) {
 		playSound(sound, (float) ModConfig.marioSFXVolume, pitch);
 	}
 
@@ -235,7 +235,7 @@ public abstract class GameTemplate {
 	 * @param pitch
 	 *            The pitch of the sound
 	 */
-	public void playSound(SoundEvent sound, float volume, float pitch) {
+	public static void playSound(SoundEvent sound, float volume, float pitch) {
 		Jukebox.playSoundEffect(sound.getSoundName(), pitch, volume);
 	}
 

@@ -422,10 +422,14 @@ public abstract class Tile {
 	}
 
 	@Override
+	public int hashCode() {
+		return 31 * this.id;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Tile) {
-			Tile tile = (Tile) obj;
-			return tile.getId() == this.getId();
+			return this.id == ((Tile) obj).id;
 		}
 		return super.equals(obj);
 	}

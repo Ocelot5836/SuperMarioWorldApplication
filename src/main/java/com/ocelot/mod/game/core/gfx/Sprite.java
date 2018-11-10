@@ -214,15 +214,12 @@ public class Sprite {
 	 *            The way that the image should flip
 	 */
 	public void render(double x, double y, double width, double height, int flip) {
-		boolean flipX = false;
-		boolean flipY = false;
-
 		TextureUtils.bindTexture(this.getTexture());
 		if (this.type == EnumType.TEXTURE_ATLAS_SPRITE || this.type == EnumType.MISSING) {
 			RenderHelper.drawTexturedModalRect(x, y, this.textureAtlasSprite, width, height);
 			return;
 		}
-		RenderHelper.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, this.textureWidth, this.textureHeight);
+		RenderHelper.drawScaledCustomSizeModalRect(x, y, this.getU(), this.getV(), this.getWidth(), this.getHeight(), width, height, this.textureWidth, this.textureHeight, flip);
 	}
 
 	/**

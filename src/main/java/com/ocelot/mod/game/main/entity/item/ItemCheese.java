@@ -20,7 +20,7 @@ import net.minecraft.client.resources.I18n;
 @FileSummonableEntity(ItemCheese.Summonable.class)
 public class ItemCheese extends EntityItem implements IItemCarriable {
 
-	private Sprite sprite = new Sprite(ItemCrayfish.SHEET.getSubimage(16, 0, 16, 16));
+	private Sprite sprite = new Sprite(ItemCrayfish.SHEET, 16, 0, 16, 16, 48, 16);
 
 	public ItemCheese(GameTemplate game) {
 		this(game, 100, 50);

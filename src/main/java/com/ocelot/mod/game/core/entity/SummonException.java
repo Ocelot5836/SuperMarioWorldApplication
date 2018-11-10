@@ -13,6 +13,8 @@ import com.ocelot.mod.game.core.level.LevelTemplate;
  * @author Ocelot5836
  */
 public class SummonException extends Exception {
+	
+	private static final long serialVersionUID = 1L;
 
 	public SummonException() {
 		this("Attempted to summon an entity with improper arguments.");

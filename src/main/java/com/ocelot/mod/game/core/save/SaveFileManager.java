@@ -7,6 +7,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public class SaveFileManager implements INBTSerializable<NBTTagCompound> {
 
+	@SuppressWarnings("unused")
 	private GameTemplate game;
 	private NBTTagCompound[] saves;
 	private int saveFile;

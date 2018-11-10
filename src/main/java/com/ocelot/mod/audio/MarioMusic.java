@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import com.ocelot.mod.config.ModConfig;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
 import net.minecraft.client.audio.SoundEventAccessor;
@@ -19,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MarioMusic implements ISound {
 
 	protected boolean stopped = false;
-	
+
 	protected Sound sound;
 	@Nullable
 	private SoundEventAccessor soundEvent;
@@ -91,7 +90,7 @@ public class MarioMusic implements ISound {
 	public ISound.AttenuationType getAttenuationType() {
 		return ISound.AttenuationType.NONE;
 	}
-	
+
 	public MarioMusic setPitch(float pitch) {
 		this.pitch = pitch;
 		return this;

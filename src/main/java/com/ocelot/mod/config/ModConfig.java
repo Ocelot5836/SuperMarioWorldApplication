@@ -132,8 +132,8 @@ public class ModConfig {
 			enableMarioMusic = propertyEnableMarioMusic.getBoolean();
 			enableMarioSFX = propertyEnableMarioSFX.getBoolean();
 
-			marioMusicVolume = (double) propertyMarioMusicVolume.getInt();
-			marioSFXVolume = (double) propertyMarioSFXVolume.getInt();
+			marioMusicVolume = propertyMarioMusicVolume.getInt();
+			marioSFXVolume = propertyMarioSFXVolume.getInt();
 
 			crayfishParticleSpawnCount = propertyCrayfishParticleSpawnCount.getInt();
 		}
@@ -158,7 +158,7 @@ public class ModConfig {
 
 	private static class ConfigEventHandler {
 		@SubscribeEvent(priority = EventPriority.LOWEST)
-		public void onConfigChnagedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
+		public static void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if (event.getModID().equals(SuperMarioWorld.MOD_ID)) {
 				syncFromGui();
 			}

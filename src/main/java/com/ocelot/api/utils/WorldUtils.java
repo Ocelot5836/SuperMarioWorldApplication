@@ -140,7 +140,7 @@ public class WorldUtils {
 	 * @param zPos
 	 *            The x pos of the box
 	 */
-	private void renderBox(Tessellator tessellator, BufferBuilder buffer, double x, double y, double z, double x1, double y1, double z1, int xPos, int yPos, int zPos) {
+	public static void renderBox(Tessellator tessellator, BufferBuilder buffer, double x, double y, double z, double x1, double y1, double z1, int xPos, int yPos, int zPos) {
 		GlStateManager.glLineWidth(2.0F);
 		buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
 		buffer.pos(x, y, z).color((float) yPos, (float) yPos, (float) yPos, 0.0F).endVertex();

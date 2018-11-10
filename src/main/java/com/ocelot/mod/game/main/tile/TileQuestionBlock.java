@@ -15,7 +15,6 @@ import com.ocelot.mod.game.core.level.tile.property.PropertyDouble;
 import com.ocelot.mod.game.core.level.tile.property.PropertyString;
 import com.ocelot.mod.game.core.level.tile.property.TileStateContainer;
 import com.ocelot.mod.game.main.entity.fx.CoinFX;
-import com.ocelot.mod.game.main.entity.item.ItemCoin;
 import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
@@ -30,14 +29,8 @@ public class TileQuestionBlock extends AnimatedTile {
 	public static final PropertyDouble BOUNCE = PropertyDouble.create("bounce", 0, 10);
 
 	public TileQuestionBlock() {
-		super("question_box", 100, new Sprite(Tile.TILES_SHEET.getSubimage(0, 80, 16, 16)), new Sprite(Tile.TILES_SHEET.getSubimage(16, 80, 16, 16)), new Sprite(Tile.TILES_SHEET.getSubimage(32, 80, 16, 16)), new Sprite(Tile.TILES_SHEET.getSubimage(48, 80, 16, 16)));
+		super("question_box", 100, new Sprite(Tile.TILES_SHEET, 0, 80, 16, 16, 256, 416), new Sprite(Tile.TILES_SHEET,16, 80, 16, 16, 256, 416), new Sprite(Tile.TILES_SHEET,32, 80, 16, 16, 256, 416), new Sprite(Tile.TILES_SHEET,48, 80, 16, 16, 256, 416));
 		this.setSolid();
-	}
-
-	private void dropItem(Player player, Entity entity) {
-		Level level = player.getLevel();
-		entity.getGame().playSound(Sounds.POWERUP_APPEAR, 1.0F);
-		level.add(entity);
 	}
 
 	@Override
@@ -88,6 +81,12 @@ public class TileQuestionBlock extends AnimatedTile {
 	@Override
 	public TileStateContainer createContainer() {
 		return new TileStateContainer(this, ITEM, BOUNCE);
+	}
+
+	private static void dropItem(Player player, Entity entity) {
+		Level level = player.getLevel();
+		entity.getGame().playSound(Sounds.POWERUP_APPEAR, 1.0F);
+		level.add(entity);
 	}
 
 	public static void setItem(TileMap map, int x, int y, IQuestionBlockItem item) {

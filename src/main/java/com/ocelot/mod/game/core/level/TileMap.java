@@ -115,6 +115,8 @@ public class TileMap implements IResourceManagerReloadListener {
 			for (int i = 0; i < map.length; i++) {
 				Tile.TILES[map[i]].onAdd(this);
 			}
+			
+			br.close();
 		} catch (IOException e) {
 			Game.stop(e, "Could not load map from \'" + mapLocation + "\'");
 		} catch (Exception e) {

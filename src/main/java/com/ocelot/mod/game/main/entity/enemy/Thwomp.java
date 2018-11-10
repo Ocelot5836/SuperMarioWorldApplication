@@ -28,6 +28,7 @@ public class Thwomp extends Enemy {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean isPlayerCloseEnough() {
 		List<Player>players=level.getPlayers();
 		for(int i = 0; i < players.size(); i++) {

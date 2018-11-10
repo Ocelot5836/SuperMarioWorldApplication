@@ -15,7 +15,7 @@ public class PowerupMushroom extends Powerup {
 
 	public PowerupMushroom() {
 		super("mushroom", "mushroom");
-		this.sprite = new Sprite(POWERUP_SHEET.getSubimage(0, 0, 16, 16));
+		this.sprite = new Sprite(POWERUP_SHEET, 0, 0, 16, 16, 64, 16);
 	}
 
 	@Override

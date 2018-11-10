@@ -9,7 +9,6 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.core.level.tile.Tile;
-import com.ocelot.mod.game.main.entity.enemy.Bowser;
 import com.ocelot.mod.game.main.entity.enemy.Rex;
 import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
@@ -65,7 +64,7 @@ public class YoshiHouseState extends GameState {
 		if (keyCode == Keyboard.KEY_T) {
 			load();
 		}
-		
+
 		if (keyCode == Keyboard.KEY_Z) {
 			gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}
@@ -82,13 +81,13 @@ public class YoshiHouseState extends GameState {
 		template.onMousePressed(mouseButton, mouseX, mouseY);
 		overlay.onMousePressed(mouseButton, mouseX, mouseY);
 	}
-	
+
 	@Override
 	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
 		template.onMouseReleased(mouseButton, mouseX, mouseY);
 		overlay.onMouseReleased(mouseButton, mouseX, mouseY);
 	}
-	
+
 	@Override
 	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
 		template.onMouseScrolled(direction, mouseX, mouseY);

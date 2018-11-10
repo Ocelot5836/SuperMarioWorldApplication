@@ -1,7 +1,5 @@
 package com.ocelot.mod.game.core.level.tile.property;
 
-import com.ocelot.mod.game.Game;
-
 public class PropertyBoolean extends PropertyBase<Boolean> {
 
 	private String name;
@@ -15,7 +13,7 @@ public class PropertyBoolean extends PropertyBase<Boolean> {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public static PropertyBoolean create(String name) {
 		return new PropertyBoolean(name);
 	}

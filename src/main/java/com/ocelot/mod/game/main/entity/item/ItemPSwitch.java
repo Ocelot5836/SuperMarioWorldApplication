@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.entity.item;
 
-import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Stopwatch;
@@ -22,7 +21,6 @@ import com.ocelot.mod.game.core.level.TileMap;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -35,8 +33,8 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 	public static final int SWITCH_TIME = 10000;
 	public static final int DISPLAY_TIME = 200;
 
-	public static final BufferedImage SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/pswitch.png"));
-	private static BufferedImage[] sprites;
+	public static final ResourceLocation SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/pswitch.png");
+	private static Sprite[] sprites;
 
 	private Sprite sprite;
 
@@ -65,10 +63,10 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 		}
 	}
 
-	private void loadSprites() {
-		sprites = new BufferedImage[2];
-		sprites[0] = SHEET.getSubimage(0, 0, 16, 16);
-		sprites[1] = SHEET.getSubimage(16, 0, 16, 16);
+	private static void loadSprites() {
+		sprites = new Sprite[2];
+		sprites[0] = new Sprite(SHEET, 0, 0, 16, 16, 32, 16);
+		sprites[1] = new Sprite(SHEET, 16, 0, 16, 16, 32, 16);
 	}
 
 	@Override
@@ -90,9 +88,9 @@ public class ItemPSwitch extends EntityItem implements IItemCarriable, IDamagabl
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		if (this.watch.elapsed(TimeUnit.MILLISECONDS) < DISPLAY_TIME) {
 			if (this.watch.elapsed(TimeUnit.MILLISECONDS) > 0) {
-				sprite.setData(sprites[1]);
+				sprite = sprites[1];
 			} else {
-				sprite.setData(sprites[0]);
+				sprite = sprites[0];
 			}
 			double posX = lastX + this.getPartialRenderX();
 			double posY = lastY + this.getPartialRenderY();

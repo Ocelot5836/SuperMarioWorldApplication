@@ -15,7 +15,7 @@ public class PowerupFeather extends Powerup {
 
 	public PowerupFeather() {
 		super("feather", "feather");
-		this.sprite = new Sprite(POWERUP_SHEET.getSubimage(32, 0, 16, 16));
+		this.sprite = new Sprite(POWERUP_SHEET,32, 0, 16, 16, 64, 16);
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 import com.ocelot.mod.game.main.gui.GuiOverlay;
 
 import net.minecraft.client.Minecraft;
@@ -31,8 +30,8 @@ public abstract class BasicLevel extends GameState {
 	public void update() {
 		level.update();
 		overlay.update();
-		
-		if(player.getProperties().isDead() || level.getProperties().getCurrTime() <= 0) {
+
+		if (player.getProperties().isDead() || level.getProperties().getCurrTime() <= 0) {
 			player.onDeath(this);
 		}
 	}
@@ -60,13 +59,13 @@ public abstract class BasicLevel extends GameState {
 		level.onMousePressed(mouseButton, mouseX, mouseY);
 		overlay.onMousePressed(mouseButton, mouseX, mouseY);
 	}
-	
+
 	@Override
 	public void onMouseReleased(int mouseButton, int mouseX, int mouseY) {
 		level.onMouseReleased(mouseButton, mouseX, mouseY);
 		overlay.onMouseReleased(mouseButton, mouseX, mouseY);
 	}
-	
+
 	@Override
 	public void onMouseScrolled(boolean direction, int mouseX, int mouseY) {
 		level.onMouseScrolled(direction, mouseX, mouseY);

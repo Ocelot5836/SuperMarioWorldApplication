@@ -2,7 +2,6 @@ package com.ocelot.mod.game.core.entity;
 
 import com.ocelot.mod.game.Game;
 import com.ocelot.mod.game.core.GameTemplate;
-import com.ocelot.mod.game.core.entity.fx.EntityFX;
 import com.ocelot.mod.game.core.level.Level;
 
 /**

@@ -1,13 +1,10 @@
 package com.ocelot.mod.game.main.entity.fx;
 
-import java.awt.image.BufferedImage;
-
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.fx.EntityFX;
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
-import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -15,12 +12,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class CloudFX extends EntityFX {
 
-	public static final BufferedImage CLOUD_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/effect/cloud.png"));
+	public static final ResourceLocation CLOUD_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/effect/cloud.png");
 
-	private Sprite sprite;
-	private BufferedAnimation animation;
+	private Animation<Sprite> animation;
 
-	private static BufferedImage[] sprites;
+	private static Sprite[] sprites;
 
 	public CloudFX(GameTemplate game) {
 		super(game);
@@ -31,8 +27,7 @@ public class CloudFX extends EntityFX {
 		this.setPosition(x, y);
 		this.setLastPosition(x, y);
 
-		this.sprite = new Sprite();
-		this.animation = new BufferedAnimation();
+		this.animation = new Animation<Sprite>();
 		if (sprites == null) {
 			loadSprites();
 		}
@@ -41,17 +36,17 @@ public class CloudFX extends EntityFX {
 		loadSprites();
 	}
 
-	private void loadSprites() {
-		sprites = new BufferedImage[7];
+	private static void loadSprites() {
+		sprites = new Sprite[7];
 
 		for (int i = 0; i < 4; i++) {
-			sprites[i] = CLOUD_SHEET.getSubimage(48 - 16 * i, 0, 16, 16);
+			sprites[i] = new Sprite(CLOUD_SHEET,48 - 16 * i, 0, 16, 16, 64, 16);
 		}
 
-		sprites[4] = CLOUD_SHEET.getSubimage(0, 0, 16, 16);
+		sprites[4] = new Sprite(CLOUD_SHEET,0, 0, 16, 16, 64, 16);
 
 		for (int i = 4; i < sprites.length; i++) {
-			sprites[i] = CLOUD_SHEET.getSubimage(16 * (i - 4), 0, 16, 16);
+			sprites[i] = new Sprite(CLOUD_SHEET,16 * (i - 4), 0, 16, 16, 64, 16);
 		}
 	}
 
@@ -68,10 +63,8 @@ public class CloudFX extends EntityFX {
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		this.sprite.setData(animation.getImage());
-
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - this.getTileMapX() - sprite.getWidth() / 2, posY - this.getTileMapY() + cheight / 2 - sprite.getHeight() / 2);
+		this.animation.get().render(posX - this.getTileMapX() - this.animation.get().getWidth() / 2, posY - this.getTileMapY() + cheight / 2 - this.animation.get().getHeight() / 2);
 	}
 }

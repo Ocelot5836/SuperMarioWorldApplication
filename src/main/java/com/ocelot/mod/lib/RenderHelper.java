@@ -2,9 +2,7 @@ package com.ocelot.mod.lib;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -123,17 +121,46 @@ public class RenderHelper {
 	 * @see Gui#drawScaledCustomSizeModalRect(int, int, float, float, int, int, int, int, float, float)
 	 */
 	public static void drawScaledCustomSizeModalRect(double x, double y, double u, double v, double uWidth, double vHeight, double width, double height, double tileWidth, double tileHeight) {
+		drawScaledCustomSizeModalRect(x, y, u, v, uWidth, vHeight, width, height, tileWidth, tileHeight, 0x00);
+	}
+
+	/**
+	 * The exact same as the {@link Gui} method, except that is takes in doubles instead of integers.
+	 * 
+	 * @see Gui#drawScaledCustomSizeModalRect(int, int, float, float, int, int, int, int, float, float)
+	 */
+	public static void drawScaledCustomSizeModalRect(double x, double y, double u, double v, double uWidth, double vHeight, double width, double height, double tileWidth, double tileHeight, int flip) {
+		boolean flipX = (flip & 0x01) > 0;
+		boolean flipY = (flip & 0x02) > 0;
+		
+		GlStateManager.pushMatrix();
+		
 		double zLevel = 0.0;
 		double f = 1.0 / tileWidth;
 		double f1 = 1.0 / tileHeight;
+		
+		if(flipX) {
+			u += uWidth;
+			uWidth = -uWidth;
+		}
+		
+		if(flipY) {
+			v += vHeight;
+			vHeight = -vHeight;
+		}
+		
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		
 		bufferbuilder.pos(x, (y + height), zLevel).tex((u * f), ((v + vHeight) * f1)).endVertex();
 		bufferbuilder.pos((x + width), (y + height), zLevel).tex(((u + uWidth) * f), ((v + vHeight) * f1)).endVertex();
 		bufferbuilder.pos((x + width), y, zLevel).tex(((u + uWidth) * f), (v * f1)).endVertex();
 		bufferbuilder.pos(x, y, zLevel).tex((u * f), (v * f1)).endVertex();
+		
 		tessellator.draw();
+		
+		GlStateManager.popMatrix();
 	}
 
 	/**

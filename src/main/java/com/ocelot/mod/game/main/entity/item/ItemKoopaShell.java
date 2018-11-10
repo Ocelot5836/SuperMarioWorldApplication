@@ -1,6 +1,5 @@
 package com.ocelot.mod.game.main.entity.item;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +18,13 @@ import com.ocelot.mod.game.core.entity.Mob;
 import com.ocelot.mod.game.core.entity.SummonException;
 import com.ocelot.mod.game.core.entity.summonable.FileSummonableEntity;
 import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
-import com.ocelot.mod.game.core.gfx.BufferedAnimation;
+import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
 import com.ocelot.mod.game.main.entity.enemy.Koopa;
 import com.ocelot.mod.game.main.entity.enemy.Koopa.KoopaType;
 import com.ocelot.mod.game.main.entity.fx.PlayerBounceFX;
 import com.ocelot.mod.game.main.entity.player.Player;
-import com.ocelot.mod.lib.Colorizer;
 import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
@@ -37,15 +35,13 @@ import net.minecraft.util.ResourceLocation;
 @FileSummonableEntity(ItemKoopaShell.Summonable.class)
 public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamager, IDamagable {
 
-	public static final BufferedImage SHELL_SHEET = Lib.loadImage(new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/shell.png"));
+	public static final ResourceLocation SHELL_SHEET = new ResourceLocation(SuperMarioWorld.MOD_ID, "textures/entity/item/shell.png");
 
-	private static int[][] colors = { { 0xff007800, 0xff00B800, 0xff00F800 }, { 0xff880000, 0xffB80000, 0xffF80000 }, { 0xff4040D8, 0xff6868D8, 0xff8888F8 }, { 0xffF87800, 0xffF8C000, 0xffF8F800 } };
 	private static int[] delays = { -1, 30 };
-	private static List<List<BufferedImage[]>> sprites;
+	private static List<List<Sprite[]>> sprites;
 
 	private int currentAction;
-	private BufferedAnimation animation;
-	private Sprite sprite;
+	private Animation<Sprite> animation;
 
 	public static final int IDLE = 0;
 	public static final int SPINNING = 1;
@@ -78,38 +74,34 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 			Game.stop(new IllegalArgumentException(I18n.format("exception." + SuperMarioWorld.MOD_ID + ".item_koopa_shell.illegal_type")), "Error while initializing koopa shell.");
 		}
 
-		this.animation = new BufferedAnimation();
-		this.sprite = new Sprite();
+		this.animation = new Animation<Sprite>();
 		if (this.sprites == null) {
-			this.sprites = new ArrayList<List<BufferedImage[]>>();
+			this.sprites = new ArrayList<List<Sprite[]>>();
 			loadSprites();
 		}
 		setAnimation(IDLE);
 	}
 
-	private void loadSprites() {
-		for (int i = 0; i < 4; i++) {
-			List<BufferedImage[]> images = new ArrayList<BufferedImage[]>();
+	private static void loadSprites() {
+		boolean mario = false;
 
-			BufferedImage[] spinning = new BufferedImage[4];
-			spinning[0] = this.addColor(SHELL_SHEET.getSubimage(0, 0, 16, 16), i);
-			spinning[1] = this.addColor(SHELL_SHEET.getSubimage(16, 0, 16, 16), i);
-			spinning[2] = this.addColor(SHELL_SHEET.getSubimage(32, 0, 16, 16), i);
-			spinning[3] = Lib.flipHorizontal(spinning[1]);
+		for (int i = 0; i < 4; i++) {
+			List<Sprite[]> images = new ArrayList<Sprite[]>();
+
+			int offsetX = mario ? 64 : 0;
+			int offsetY = i * 16;
+
+			Sprite[] spinning = new Sprite[4];
+			spinning[0] = new Sprite(SHELL_SHEET, offsetX, offsetY, 16, 16, 128, 64);
+			spinning[1] = new Sprite(SHELL_SHEET, 16 + offsetX, offsetY, 16, 16, 128, 64);
+			spinning[2] = new Sprite(SHELL_SHEET, 32 + offsetX, offsetY, 16, 16, 128, 64);
+			spinning[3] = new Sprite(SHELL_SHEET, 48 + offsetX, offsetY, 16, 16, 128, 64);
 
 			images.add(Lib.asArray(spinning[0]));
 			images.add(spinning);
 
 			sprites.add(images);
 		}
-	}
-
-	private BufferedImage addColor(BufferedImage image, int koopaType) {
-		return this.addColor(image, colors[koopaType][0], colors[koopaType][1], colors[koopaType][2]);
-	}
-
-	private BufferedImage addColor(BufferedImage image, int color1, int color2, int color3) {
-		return Colorizer.replacePixels(Colorizer.replacePixels(Colorizer.replacePixels(image, 0xff464646, color1), 0xff6C6C6C, color2), 0xff919191, color3);
 	}
 
 	@Override
@@ -168,11 +160,9 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		sprite.setData(animation.getImage());
-
 		double posX = lastX + this.getPartialRenderX();
 		double posY = lastY + this.getPartialRenderY();
-		sprite.render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() - cheight / 2);
+		this.animation.get().render(posX - this.getTileMapX() - cwidth / 2, posY - this.getTileMapY() - cheight / 2);
 	}
 
 	public Player getThrowingPlayer() {
@@ -254,6 +244,10 @@ public class ItemKoopaShell extends EntityItem implements IItemCarriable, IDamag
 			}
 		}
 		return false;
+	}
+	
+	public int getNumEnemiesHit() {
+		return numEnemiesHit;
 	}
 
 	@Override

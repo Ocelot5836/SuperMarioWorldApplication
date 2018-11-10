@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 
 /**

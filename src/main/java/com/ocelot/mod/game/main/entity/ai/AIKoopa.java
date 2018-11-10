@@ -32,10 +32,7 @@ public class AIKoopa extends AIBase {
 		} else {
 			Player nearestPlayer = level.getNearestPlayer(mob);
 			if (nearestPlayer != null) {
-				double playerX = nearestPlayer.getX();
-				double playerY = nearestPlayer.getY();
-
-				if (playerX <= mob.getX()) {
+				if (nearestPlayer.getX() <= mob.getX()) {
 					movingRight = false;
 				} else {
 					movingRight = true;
