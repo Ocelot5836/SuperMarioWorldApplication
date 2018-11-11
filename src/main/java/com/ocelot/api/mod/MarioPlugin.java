@@ -3,6 +3,7 @@ package com.ocelot.api.mod;
 import com.ocelot.mod.game.GameStateManager;
 
 /**
+ * A plugin allows a user to create entities, levels, maps, etc within the Super Mario World Application. This will only be detected if you add the {@link SMWMod} annotation to a class implementing this.
  * 
  * @author Ocelot5836
  */
