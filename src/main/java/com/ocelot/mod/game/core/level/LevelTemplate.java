@@ -284,7 +284,7 @@ public class LevelTemplate {
 							}
 						}
 						break;
-					case "ResourceLocation":
+					case "ResourceLoc":
 						List<Sprite> sprites = new ArrayList<Sprite>();
 						int delay = -2;
 

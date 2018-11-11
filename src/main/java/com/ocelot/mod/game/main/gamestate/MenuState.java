@@ -11,7 +11,7 @@ import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.entity.MobMover;
 import com.ocelot.mod.game.core.gameState.GameState;
-import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.core.level.LevelTemplate;
 import com.ocelot.mod.game.main.entity.player.Player;
 
 import net.minecraft.client.Minecraft;
@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 public class MenuState extends GameState {
 
 	private StopWatch timer;
-	private Level level;
+	private LevelTemplate level;
 	private Player player;
 	private MobMover bot;
 
@@ -33,9 +33,9 @@ public class MenuState extends GameState {
 	@Override
 	public void load() {
 		timer = StopWatch.createStarted();
-		level = new Level(this.getGame(), 16, new ResourceLocation(SuperMarioWorld.MOD_ID, "maps/test.map"));
-		level.getMap().setTween(0.25);
-		level.add(player = new Player(this.getGame()).enableKeyboardInput(false));
+		level = new LevelTemplate(this.getGame(), new ResourceLocation(SuperMarioWorld.MOD_ID, "menu"));
+		level.getLevel().getMap().setTween(0.25);
+		level.getLevel().add(player = new Player(this.getGame()).enableKeyboardInput(false));
 		bot = new MobMover(player).addPos(200, 0, 2, 0).addPos(-150, 0).addPos(50, 0, 1, 0);
 	}
 
@@ -44,7 +44,7 @@ public class MenuState extends GameState {
 		level.update();
 		bot.update(timer.getTime());
 
-		level.getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
+		level.getLevel().getMap().setPosition(player.getX() - Game.WIDTH / 2, 0);
 
 		if (this.getMenuTime() == 1) {
 			player.setJumping(true);
@@ -59,7 +59,7 @@ public class MenuState extends GameState {
 	@Override
 	public void onKeyPressed(int keyCode, char typedChar) {
 		level.onKeyPressed(keyCode, typedChar);
-		
+
 		if (keyCode == Keyboard.KEY_T) {
 			load();
 		}
