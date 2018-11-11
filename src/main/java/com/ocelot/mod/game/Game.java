@@ -1,5 +1,6 @@
 package com.ocelot.mod.game;
 
+import com.ocelot.api.mod.SuperMarioWorldModLoader;
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
@@ -34,6 +35,8 @@ public class Game extends GameTemplate {
 		// this.fontRenderer = new MarioFontRenderer(fontSheet, charFileLocation, fontFileLocation);
 
 		this.currentDisplayedGui = null;
+		
+		SuperMarioWorldModLoader.getModList().forEach((entry) -> entry.registerGameStates(this.gsm));
 	}
 
 	@Override

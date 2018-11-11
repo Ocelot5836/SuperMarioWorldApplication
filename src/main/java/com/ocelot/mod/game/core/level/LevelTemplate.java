@@ -23,6 +23,7 @@ import com.ocelot.mod.game.core.entity.summonable.IFileSummonable;
 import com.ocelot.mod.game.core.entity.summonable.SummonableEntityRegistry;
 import com.ocelot.mod.game.core.gfx.Background;
 import com.ocelot.mod.game.core.gfx.Sprite;
+import com.ocelot.mod.lib.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -41,7 +42,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class LevelTemplate {
 
-	private static final Sprite[][] BACKGROUND_BUILTIN_IMAGES = new Sprite[][] { { Backgrounds.GREEN_HILLS }, { Backgrounds.SNOW_HILLS }, { Backgrounds.JUNGLE_VINES }, { Backgrounds.MUSHROOM_MOUNTAINS }, { Backgrounds.GREEN_MOUNTAIN_TOPS }, { Backgrounds.WHITE_MOUNTAINS }, { Backgrounds.GREEN_MOUNTAINS }, { Backgrounds.CASTLE }, Backgrounds.CAVES, Backgrounds.ICY_CAVES, Backgrounds.UNDERWATER, Backgrounds.GHOST_HOUSE, Backgrounds.CASTLE_ANIMATED, Backgrounds.STARRY_NIGHT };
+	private static final Sprite[][] BACKGROUND_BUILTIN_IMAGES = new Sprite[][] { Lib.asArray(Backgrounds.GREEN_HILLS), Lib.asArray(Backgrounds.SNOW_HILLS), Lib.asArray(Backgrounds.JUNGLE_VINES), Lib.asArray(Backgrounds.MUSHROOM_MOUNTAINS), Lib.asArray(Backgrounds.GREEN_MOUNTAIN_TOPS), Lib.asArray(Backgrounds.WHITE_MOUNTAINS), Lib.asArray(Backgrounds.GREEN_MOUNTAINS), Lib.asArray(Backgrounds.CASTLE), Backgrounds.CAVES, Backgrounds.ICY_CAVES, Backgrounds.UNDERWATER, Backgrounds.GHOST_HOUSE, Backgrounds.CASTLE_ANIMATED, Backgrounds.STARRY_NIGHT };
 	private static final String[] BACKGROUND_BUILTIN_TYPES = new String[] { "GREEN_HILLS", "SNOW_HILLS", "JUNGLE_VINES", "MUSHROOM_MOUNTAINS", "GREEN_MOUNTAIN_TOPS", "WHITE_MOUNTAINS", "GREEN_MOUNTAINS", "CASTLE", "CAVES", "ICY_CAVES", "UNDERWATER", "GHOST_HOUSE", "CASTLE_ANIMATED", "STARRY_NIGHT" };
 
 	private LevelProperties properties;
@@ -290,7 +291,7 @@ public class LevelTemplate {
 						if (dataObj.has("delay")) {
 							try {
 								delay = JsonHelper.getNumber(dataObj, "delay").intValue();
-								if(delay < 0)
+								if (delay < 0)
 									delay = -1;
 							} catch (Exception e) {
 								throw new RuntimeException("Background type \'delay\' must be a number");

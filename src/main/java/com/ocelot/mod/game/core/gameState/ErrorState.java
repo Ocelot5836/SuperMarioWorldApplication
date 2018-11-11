@@ -30,7 +30,7 @@ public class ErrorState extends GameState {
 
 	@Override
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-		gui.drawCenteredString(mc.fontRenderer, I18n.format("state." + SuperMarioWorld.MOD_ID + ".error.message"), game.getWidth() / 2, game.getHeight() / 2 - mc.fontRenderer.FONT_HEIGHT / 2, 0xffffffff);
+		gui.drawCenteredString(mc.fontRenderer, I18n.format("state." + SuperMarioWorld.MOD_ID + ".error.message"), this.getGame().getWidth() / 2, this.getGame().getHeight() / 2 - mc.fontRenderer.FONT_HEIGHT / 2, 0xffffffff);
 	}
 
 	@Override

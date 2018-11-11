@@ -1,8 +1,8 @@
 package com.ocelot.mod.game.main.gamestate;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import com.ocelot.mod.SuperMarioWorld;
@@ -17,7 +17,7 @@ import net.minecraft.client.resources.I18n;
 
 public class DebugSelectLevelState extends GameState {
 
-	private Map<Integer, GameState> levels;
+	private List<String> levels;
 
 	public DebugSelectLevelState(GameStateManager gsm, GameTemplate game) {
 		super(gsm, game);
@@ -25,12 +25,11 @@ public class DebugSelectLevelState extends GameState {
 
 	@Override
 	public void load() {
-		levels = new HashMap<Integer, GameState>();
+		levels = new ArrayList<String>();
 
-		for (Integer key : gsm.getGameStates().keySet()) {
-			GameState state = gsm.createNewState(key);
-			if (state.getClass().isAnnotationPresent(DebugSelectStateLevel.class)) {
-				levels.put(key, state);
+		for (Entry<String, Class<? extends GameState>> entry : this.getGsm().getGameStates()) {
+			if (entry.getValue().isAnnotationPresent(DebugSelectStateLevel.class)) {
+				levels.add(entry.getKey());
 			}
 		}
 	}
@@ -43,13 +42,11 @@ public class DebugSelectLevelState extends GameState {
 	public void render(Gui gui, Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		Gui.drawRect(3, 12, 3 + Game.WIDTH - 6, 12 + Game.HEIGHT - 16, Color.DARK_GRAY.getRGB());
 		mc.fontRenderer.drawString(I18n.format("state." + SuperMarioWorld.MOD_ID + ".select.selectlevel"), Game.WIDTH / 2 - mc.fontRenderer.getStringWidth(I18n.format("state." + SuperMarioWorld.MOD_ID + ".select.selectlevel")) / 2, 18, 0xffffff);
-		int i = 0;
-		for (Entry<Integer, GameState> e : levels.entrySet()) {
-			GameState level = e.getValue();
+		for (int i = 0; i < this.levels.size(); i++) {
+			String registryName = this.levels.get(i);
 			int x = 5 + (i / 40) * 32;
 			int y = 30 + (i % 40) * 12;
-			mc.fontRenderer.drawString(level.toString(), x, y, mouseX >= x - 1 && mouseX < x + mc.fontRenderer.getStringWidth(level.toString()) + 1 && mouseY >= y - 1 && mouseY < y + mc.fontRenderer.FONT_HEIGHT + 1 ? 0xff7700 : 0xffffff, false);
-			i++;
+			mc.fontRenderer.drawString(registryName, x, y, mouseX >= x - 1 && mouseX < x + mc.fontRenderer.getStringWidth(registryName) + 1 && mouseY >= y - 1 && mouseY < y + mc.fontRenderer.FONT_HEIGHT + 1 ? 0xff7700 : 0xffffff, false);
 		}
 	}
 
@@ -64,16 +61,14 @@ public class DebugSelectLevelState extends GameState {
 	@Override
 	public void onMousePressed(int mouseButton, int mouseX, int mouseY) {
 		if (mouseButton == 0) {
-			int i = 0;
-			for (Entry<Integer, GameState> e : levels.entrySet()) {
-				GameState level = e.getValue();
+			for (int i = 0; i < this.levels.size(); i++) {
+				String registryName = this.levels.get(i);
 				int x = 5 + (i / 40) * 32;
 				int y = 30 + (i % 40) * 12;
-				if (mouseX >= x - 1 && mouseX < x + Minecraft.getMinecraft().fontRenderer.getStringWidth(level.toString()) + 1 && mouseY >= y - 1 && mouseY < y + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT + 1) {
-					gsm.setState(e.getKey());
+				if (mouseX >= x - 1 && mouseX < x + Minecraft.getMinecraft().fontRenderer.getStringWidth(registryName) + 1 && mouseY >= y - 1 && mouseY < y + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT + 1) {
+					this.getGsm().setState(registryName);
 					break;
 				}
-				i++;
 			}
 		}
 	}

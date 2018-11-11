@@ -31,26 +31,26 @@ public class DemoLevelState extends BasicLevel {
 
 	@Override
 	public void load() {
-		super.init(new LevelTemplate(this.game, new ResourceLocation(SuperMarioWorld.MOD_ID, "demo")));
-		this.level.getLevel().getMap().setTween(0.25);
+		super.init(new LevelTemplate(this.getGame(), new ResourceLocation(SuperMarioWorld.MOD_ID, "demo")));
+		this.getLevelTemplate().getLevel().getMap().setTween(0.25);
 
 		for (int i = 0; i < 10; i++) {
-			this.level.getLevel().add(new Koopa(this.game, KoopaType.values()[i % 4], 140 + i * 18, 100));
+			this.getLevelTemplate().getLevel().add(new Koopa(this.getGame(), KoopaType.values()[i % 4], 140 + i * 18, 100));
 		}
 
-		this.level.getLevel().add(new Galoomba(this.game, 425, 50));
+		this.getLevelTemplate().getLevel().add(new Galoomba(this.getGame(), 425, 50));
 
-		this.level.getLevel().add(new ItemCrayfish(this.game, 400, 50));
-		this.level.getLevel().add(new ItemCheese(this.game, 420, 50));
-		this.level.getLevel().add(new ItemCracker(this.game, 440, 50));
-		this.level.getLevel().add(new ItemPSwitch(this.game, 460, 50));
+		this.getLevelTemplate().getLevel().add(new ItemCrayfish(this.getGame(), 400, 50));
+		this.getLevelTemplate().getLevel().add(new ItemCheese(this.getGame(), 420, 50));
+		this.getLevelTemplate().getLevel().add(new ItemCracker(this.getGame(), 440, 50));
+		this.getLevelTemplate().getLevel().add(new ItemPSwitch(this.getGame(), 460, 50));
 
-		if (this.level.getLevel().getMap().getTile(35, 2) == Tile.INFO_BOX) {
-			this.level.getLevel().getMap().setValue(35, 2, TileInfoBox.TEXT, TileInfoBox.TextType.MR_CRAYFISH_HELLO);
+		if (this.getLevelTemplate().getLevel().getMap().getTile(35, 2) == Tile.INFO_BOX) {
+			this.getLevelTemplate().getLevel().getMap().setValue(35, 2, TileInfoBox.TEXT, TileInfoBox.TextType.MR_CRAYFISH_HELLO);
 		}
-		TileQuestionBlock.setItem(this.level.getLevel().getMap(), 36, 2, Powerup.FEATHER);
+		TileQuestionBlock.setItem(this.getLevelTemplate().getLevel().getMap(), 36, 2, Powerup.FEATHER);
 
-		setPlayer(this.level.getLevel().getPlayers().get(0));
+		setPlayer(this.getLevelTemplate().getLevel().getPlayers().get(0));
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class DemoLevelState extends BasicLevel {
 		}
 
 		if (keyCode == Keyboard.KEY_Z) {
-			this.gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
+			this.getGsm().setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}
 	}
 }

@@ -59,7 +59,7 @@ public class ShopState extends GameState {
 			int y = i / width;
 			double renderX = x + x * padding + x * cellWidth + gridX;
 			double renderY = y + y * padding + gridY;
-			items.get(i).render(game.getWidth() / 2 - (width * cellWidth + width * padding) / 2 + renderX, renderY, cellWidth, cellHeight, gui, mc, mouseX, mouseY, partialTicks);
+			items.get(i).render(this.getGame().getWidth() / 2 - (width * cellWidth + width * padding) / 2 + renderX, renderY, cellWidth, cellHeight, gui, mc, mouseX, mouseY, partialTicks);
 		}
 		GlStateManager.popMatrix();
 	}

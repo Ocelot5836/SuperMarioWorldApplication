@@ -20,10 +20,10 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class GameState {
 
 	/** The game state manager instance */
-	public GameStateManager gsm;
+	private GameStateManager gsm;
 	/** The game instance */
-	public GameTemplate game;
-
+	private GameTemplate game;
+	
 	/**
 	 * Creates a new game state.
 	 * 
@@ -151,6 +151,20 @@ public abstract class GameState {
 	 *            The tag compound to save to
 	 */
 	public void save(NBTTagCompound nbt) {
+	}
+	
+	/**
+	 * @return The game state manager
+	 */
+	public GameStateManager getGsm() {
+		return gsm;
+	}
+	
+	/**
+	 * @return The game instance
+	 */
+	public GameTemplate getGame() {
+		return game;
 	}
 
 	@Override

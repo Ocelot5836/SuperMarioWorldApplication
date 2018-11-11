@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import com.mrcrayfish.device.api.ApplicationManager;
 import com.mrcrayfish.device.api.print.PrintingManager;
 import com.mrcrayfish.device.core.Laptop;
+import com.ocelot.api.mod.SuperMarioWorldModLoader;
 import com.ocelot.mod.application.ApplicationGame;
 import com.ocelot.mod.application.MarioPrint;
 import com.ocelot.mod.config.ModConfig;
@@ -61,6 +62,7 @@ public class SuperMarioWorld {
 		MinecraftForge.EVENT_BUS.register(new Registry());
 
 		ModConfig.pre();
+		SuperMarioWorldModLoader.load(event.getAsmData());
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			SummonableEntityRegistry.init(event.getAsmData());
 			ModConfig.clientPre();
@@ -106,10 +108,12 @@ public class SuperMarioWorld {
 		ApplicationManager.registerApplication(GAME_ID, ApplicationGame.class);
 
 		PrintingManager.registerPrint(new ResourceLocation(MOD_ID, "mario_screenshot"), MarioPrint.Print.class);
+
+		SuperMarioWorldModLoader.getModList().forEach((entry) -> entry.register());
 	}
 
 	/**
-	 * Registers all the ship items
+	 * Registers all the shop items.
 	 */
 	@SideOnly(Side.CLIENT)
 	private static void registerShopItems() {

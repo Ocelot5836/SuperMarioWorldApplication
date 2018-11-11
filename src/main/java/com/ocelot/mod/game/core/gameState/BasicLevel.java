@@ -13,9 +13,9 @@ import net.minecraft.client.gui.Gui;
 
 public abstract class BasicLevel extends GameState {
 
-	protected LevelTemplate level;
-	protected Player player;
-	protected MarioGui overlay;
+	private LevelTemplate level;
+	private Player player;
+	private MarioGui overlay;
 
 	public BasicLevel(GameStateManager gsm, GameTemplate game) {
 		super(gsm, game);
@@ -82,8 +82,20 @@ public abstract class BasicLevel extends GameState {
 		this.level.getLevel().onLoseFocus();
 	}
 
+	protected LevelTemplate getLevelTemplate() {
+		return level;
+	}
+
+	protected MarioGui getOverlay() {
+		return overlay;
+	}
+
+	protected Player getPlayer() {
+		return player;
+	}
+
 	protected void setPlayer(Player player) {
 		this.player = player;
-		this.overlay.setSizeAndWorld(game, player);
+		this.overlay.setSizeAndWorld(this.getGame(), player);
 	}
 }

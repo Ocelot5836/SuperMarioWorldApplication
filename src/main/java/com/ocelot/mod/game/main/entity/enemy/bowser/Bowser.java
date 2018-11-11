@@ -59,6 +59,7 @@ public class Bowser extends Enemy {
 		this.animation.get().render(posX - this.getTileMapX() - cwidth / 2 - 2, posY - this.getTileMapY() + cheight / 2 - this.animation.get().getHeight());
 	}
 
+	@SuppressWarnings("unused")
 	private void setAnimation(int animation) {
 		if (animation < 0 || animation >= sprites.size()) {
 			this.animation.setFrames(sprites.get(0));

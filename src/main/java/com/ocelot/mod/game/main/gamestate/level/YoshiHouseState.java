@@ -31,17 +31,17 @@ public class YoshiHouseState extends GameState {
 
 	@Override
 	public void load() {
-		template = new LevelTemplate(game, new ResourceLocation(SuperMarioWorld.MOD_ID, "yoshihouse"));
+		template = new LevelTemplate(getGame(), new ResourceLocation(SuperMarioWorld.MOD_ID, "yoshihouse"));
 
 		template.getLevel().getMap().setTween(1).setPosition(0, 58);
-		template.getLevel().add(Powerup.MUSHROOM.createInstance(game, 100, 50));
-		template.getLevel().add(new Rex(game, 50, 50));
+		template.getLevel().add(Powerup.MUSHROOM.createInstance(getGame(), 100, 50));
+		template.getLevel().add(new Rex(getGame(), 50, 50));
 
 		if (template.getLevel().getMap().getTile(8, 7) == Tile.INFO_BOX) {
 			template.getLevel().getMap().setValue(8, 7, TileInfoBox.TEXT, TileInfoBox.TextType.YOSHI_HOUSE);
 		}
 
-		overlay = new GuiOverlay(template).setSizeAndWorld(game, template.getLevel().getPlayers().get(0));
+		overlay = new GuiOverlay(template).setSizeAndWorld(getGame(), template.getLevel().getPlayers().get(0));
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class YoshiHouseState extends GameState {
 		}
 
 		if (keyCode == Keyboard.KEY_Z) {
-			gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
+			this.getGsm().setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}
 	}
 

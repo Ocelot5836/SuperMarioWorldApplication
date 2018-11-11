@@ -9,6 +9,7 @@ import net.minecraft.client.gui.Gui;
 
 public class WorldMapLevel implements IWorldMapPoint {
 
+	@SuppressWarnings("unused")
 	private int levelState;
 
 	private double x;

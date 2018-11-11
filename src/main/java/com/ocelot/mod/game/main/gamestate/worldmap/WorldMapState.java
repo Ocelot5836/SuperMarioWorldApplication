@@ -49,7 +49,7 @@ public class WorldMapState extends GameState {
 		this.map.onKeyPressed(keyCode, typedChar);
 
 		if (keyCode == Keyboard.KEY_Z) {
-			this.gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
+			this.getGsm().setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}
 
 		if (keyCode == Keyboard.KEY_T) {

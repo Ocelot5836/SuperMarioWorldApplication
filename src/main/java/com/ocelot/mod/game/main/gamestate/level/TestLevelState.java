@@ -7,7 +7,6 @@ import com.ocelot.mod.game.GameStateManager;
 import com.ocelot.mod.game.core.GameTemplate;
 import com.ocelot.mod.game.core.gameState.BasicLevel;
 import com.ocelot.mod.game.core.level.LevelTemplate;
-import com.ocelot.mod.game.main.entity.player.Player;
 import com.ocelot.mod.game.main.gamestate.DebugSelectStateLevel;
 
 import net.minecraft.util.ResourceLocation;
@@ -21,10 +20,10 @@ public class TestLevelState extends BasicLevel {
 
 	@Override
 	public void load() {
-		super.init(new LevelTemplate(this.game, new ResourceLocation(SuperMarioWorld.MOD_ID, "test")));
-		this.level.getLevel().getMap().setTween(0.25);
+		super.init(new LevelTemplate(this.getGame(), new ResourceLocation(SuperMarioWorld.MOD_ID, "test")));
+		this.getLevelTemplate().getLevel().getMap().setTween(0.25);
 
-		this.setPlayer(this.level.getLevel().getPlayers().get(0));
+		this.setPlayer(this.getLevelTemplate().getLevel().getPlayers().get(0));
 	}
 
 	@Override
@@ -36,7 +35,7 @@ public class TestLevelState extends BasicLevel {
 		}
 
 		if (keyCode == Keyboard.KEY_Z) {
-			this.gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
+			this.getGsm().setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}
 	}
 }

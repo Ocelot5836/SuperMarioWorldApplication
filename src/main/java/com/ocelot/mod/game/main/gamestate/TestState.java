@@ -32,10 +32,10 @@ public class TestState extends GameState {
 	public void load() {
 		bg = new Background(Backgrounds.UNDERWATER, 100, 0.1, 0.5);
 		bg.setStartingPosition(0, -144);
-		level = new Level(game, 16, new ResourceLocation(SuperMarioWorld.MOD_ID, "maps/tile_test.map"));
+		level = new Level(this.getGame(), 16, new ResourceLocation(SuperMarioWorld.MOD_ID, "maps/tile_test.map"));
 		level.getMap().setTween(0.25);
-		level.add(new Galoomba(game, 60, 50));
-		level.add(player = new Player(game));
+		level.add(new Galoomba(this.getGame(), 60, 50));
+		level.add(player = new Player(this.getGame()));
 		player.setPosition(50, 50);
 	}
 
@@ -62,7 +62,7 @@ public class TestState extends GameState {
 		}
 
 		if (keyCode == Keyboard.KEY_Z) {
-			gsm.setState(GameStateManager.DEBUG_SELECT_LEVEL);
+			this.getGsm().setState(GameStateManager.DEBUG_SELECT_LEVEL);
 		}
 	}
 

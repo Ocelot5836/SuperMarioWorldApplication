@@ -12,12 +12,10 @@
 	{
 		"type": "ResourceLoc",
 		"data": {
-			"sprites": [
-				{
-					"location": "osmw:textures/level/yoshihouse/background1.png",
-					"height": 161
-				}
-			],
+			"sprites": [{
+				"texture": "osmw:textures/level/yoshihouse/background1.png",
+				"height": 161
+			}],
 			"moveScale": 1,
 			"heightScale": 1,
 			"startX": 0,
