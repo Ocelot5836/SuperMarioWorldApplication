@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import com.google.common.base.Stopwatch;
 import com.ocelot.mod.SuperMarioWorld;
@@ -27,6 +28,7 @@ import com.ocelot.mod.game.core.gameState.GameState;
 import com.ocelot.mod.game.core.gfx.Animation;
 import com.ocelot.mod.game.core.gfx.Sprite;
 import com.ocelot.mod.game.core.level.Level;
+import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.fx.particle.DustFX;
 import com.ocelot.mod.game.main.entity.powerup.Powerup;
 import com.ocelot.mod.game.main.gui.Guis;
@@ -187,36 +189,34 @@ public class Player extends Mob implements IDamagable {
 		sprites.add(Lib.asArray(walkingItemSmall[1]));
 		sprites.add(Lib.asArray(new Sprite(SMALL_SHEET, 86, 26, 16, 24, 238, 101)));
 
-		// TODO complete conversion of these player sprites
-		
-		// BufferedImage[] walkingBig = Lib.asArray(BIG_SHEET.getSubimage(1, 1, 16, 32), BIG_SHEET.getSubimage(18, 1, 16, 32), BIG_SHEET.getSubimage(35, 1, 16, 32));
-		// BufferedImage[] walkingItemBig = Lib.asArray(BIG_SHEET.getSubimage(52, 1, 16, 32), BIG_SHEET.getSubimage(69, 1, 16, 32), BIG_SHEET.getSubimage(86, 1, 16, 32), BIG_SHEET.getSubimage(69, 1, 16, 32));
-		// BufferedImage[] spinningBig = Lib.asArray(Lib.flipHorizontal(walkingBig[0]), BIG_SHEET.getSubimage(222, 1, 16, 32), walkingBig[0], BIG_SHEET.getSubimage(1, 34, 16, 32));
-		// BufferedImage[] runningBig = Lib.asArray(BIG_SHEET.getSubimage(1, 67, 24, 32), BIG_SHEET.getSubimage(26, 67, 24, 32), BIG_SHEET.getSubimage(51, 67, 24, 32));
-		// BufferedImage[] swimmingStrokeBig = Lib.asArray(BIG_SHEET.getSubimage(101, 67, 24, 32), BIG_SHEET.getSubimage(126, 67, 24, 32), BIG_SHEET.getSubimage(151, 67, 24, 32), BIG_SHEET.getSubimage(126, 67, 24, 32));
-		// BufferedImage[] swimmingBig = Lib.asArray(BIG_SHEET.getSubimage(176, 67, 24, 32), BIG_SHEET.getSubimage(1, 100, 24, 32), BIG_SHEET.getSubimage(26, 100, 24, 32), BIG_SHEET.getSubimage(1, 100, 24, 32));
-		//
-		// sprites.add(Lib.asArray(walkingBig[0]));
-		// sprites.add(walkingBig);
-		// sprites.add(Lib.asArray(walkingItemBig[0]));
-		// sprites.add(walkingItemBig);
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(103, 1, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(120, 1, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(137, 1, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(154, 1, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(171, 1, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(188, 1, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(205, 1, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(205, 100, 32, 32)));
-		// sprites.add(spinningBig);
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(18, 34, 32, 32)));
-		// sprites.add(runningBig);
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(76, 67, 24, 32)));
-		// sprites.add(swimmingStrokeBig);
-		// sprites.add(swimmingBig);
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(35, 34, 16, 32)));
-		// sprites.add(Lib.asArray(BIG_SHEET.getSubimage(154, 34, 16, 32)));
-		// sprites.add(Lib.asArray(walkingItemBig[2]));
+		Sprite[] walkingBig = Lib.asArray(new Sprite(BIG_SHEET, 1, 1, 16, 32, 238, 133), new Sprite(BIG_SHEET, 18, 1, 16, 32, 238, 133), new Sprite(BIG_SHEET, 35, 1, 16, 32, 238, 133));
+		Sprite[] walkingItemBig = Lib.asArray(new Sprite(BIG_SHEET, 52, 1, 16, 32, 238, 133), new Sprite(BIG_SHEET, 69, 1, 16, 32, 238, 133), new Sprite(BIG_SHEET, 86, 1, 16, 32, 238, 133), new Sprite(BIG_SHEET, 69, 1, 16, 32, 238, 133));
+		Sprite[] spinningBig = Lib.asArray(new Sprite(BIG_SHEET, 205, 34, 16, 32, 238, 133), new Sprite(BIG_SHEET, 222, 1, 16, 32, 238, 133), walkingBig[0], new Sprite(BIG_SHEET, 1, 34, 16, 32, 238, 133));
+		Sprite[] runningBig = Lib.asArray(new Sprite(BIG_SHEET, 1, 67, 24, 32, 238, 133), new Sprite(BIG_SHEET, 26, 67, 24, 32, 238, 133), new Sprite(BIG_SHEET, 51, 67, 24, 32, 238, 133));
+		Sprite[] swimmingStrokeBig = Lib.asArray(new Sprite(BIG_SHEET, 101, 67, 24, 32, 238, 133), new Sprite(BIG_SHEET, 126, 67, 24, 32, 238, 133), new Sprite(BIG_SHEET, 151, 67, 24, 32, 238, 133), new Sprite(BIG_SHEET, 126, 67, 24, 32, 238, 133));
+		Sprite[] swimmingBig = Lib.asArray(new Sprite(BIG_SHEET, 176, 67, 24, 32, 238, 133), new Sprite(BIG_SHEET, 1, 100, 24, 32, 238, 133), new Sprite(BIG_SHEET, 26, 100, 24, 32, 238, 133), new Sprite(BIG_SHEET, 1, 100, 24, 32, 238, 133));
+
+		sprites.add(Lib.asArray(walkingBig[0]));
+		sprites.add(walkingBig);
+		sprites.add(Lib.asArray(walkingItemBig[0]));
+		sprites.add(walkingItemBig);
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 103, 1, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 120, 1, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 137, 1, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 154, 1, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 171, 1, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 188, 1, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 205, 1, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 205, 100, 32, 32, 238, 133)));
+		sprites.add(spinningBig);
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 18, 34, 32, 32, 238, 133)));
+		sprites.add(runningBig);
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 76, 67, 24, 32, 238, 133)));
+		sprites.add(swimmingStrokeBig);
+		sprites.add(swimmingBig);
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 35, 34, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(new Sprite(BIG_SHEET, 154, 34, 16, 32, 238, 133)));
+		sprites.add(Lib.asArray(walkingItemBig[2]));
 	}
 
 	@Override
@@ -671,13 +671,13 @@ public class Player extends Mob implements IDamagable {
 		super.render(gui, mc, mouseX, mouseY, partialTicks);
 
 		// TODO add a tile map editor using this code
-		// if (Mouse.isButtonDown(0)) {
-		// tileMap.setTile((int) ((mouseX + this.getTileMapX()) / 16), (int) ((mouseY + this.getTileMapY()) / 16), Tile.GRASS);
-		// }
-		//
-		// if (Mouse.isButtonDown(1)) {
-		// tileMap.setTile((int) ((mouseX + this.getTileMapX()) / 16), (int) ((mouseY + this.getTileMapY()) / 16), Tile.AIR);
-		// }
+		if (Mouse.isButtonDown(0)) {
+			tileMap.setTile((int) ((mouseX + this.getTileMapX()) / 16), (int) ((mouseY + this.getTileMapY()) / 16), Tile.GRASS);
+		}
+
+		if (Mouse.isButtonDown(1)) {
+			tileMap.setTile((int) ((mouseX + this.getTileMapX()) / 16), (int) ((mouseY + this.getTileMapY()) / 16), Tile.AIR);
+		}
 
 		if (item != null) {
 			item.render(gui, mc, mouseX, mouseY, partialTicks);
