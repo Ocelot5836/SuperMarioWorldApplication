@@ -39,7 +39,7 @@ public class SuperMarioWorldModLoader {
 			} catch (ClassNotFoundException e) {
 				SuperMarioWorld.logger().warn("Could not find class \'" + entry.getClassName() + "\'", e);
 			} catch (InstantiationException e) {
-				SuperMarioWorld.logger().warn("Could not instantiate class \'" + entry.getClassName() + "\'. Make sure you have an empty constructer!", e);
+				SuperMarioWorld.logger().warn("Could not instantiate class \'" + entry.getClassName() + "\'. Make sure you have an empty constructor!", e);
 			} catch (IllegalAccessException e) {
 				SuperMarioWorld.logger().warn("Could not access class \'" + entry.getClassName() + "\'", e);
 			}

@@ -2,7 +2,11 @@ package com.ocelot.mod.game.core;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
+import com.ocelot.api.mod.GameTemplateListener;
 import com.ocelot.mod.SuperMarioWorld;
 import com.ocelot.mod.audio.Jukebox;
 import com.ocelot.mod.config.ModConfig;
@@ -34,10 +38,12 @@ public abstract class GameTemplate {
 
 	protected int width;
 	protected int height;
+	private List<GameTemplateListener> listeners;
 
 	public GameTemplate(int width, int height) {
 		this.width = width;
 		this.height = height;
+		this.listeners = new ArrayList<GameTemplateListener>();
 		closed = false;
 	}
 
@@ -150,6 +156,28 @@ public abstract class GameTemplate {
 	 * Called when the application is closed.
 	 */
 	public void onClose() {
+	}
+
+	/**
+	 * Calls code for every single listener.
+	 * 
+	 * @param method
+	 *            The action to call
+	 */
+	public void forListeners(Consumer<GameTemplateListener> method) {
+		for (GameTemplateListener listener : this.listeners) {
+			method.accept(listener);
+		}
+	}
+
+	/**
+	 * Adds a listener to the listeners list.
+	 * 
+	 * @param listener
+	 *            The listener to add
+	 */
+	public void addListener(GameTemplateListener listener) {
+		this.listeners.add(listener);
 	}
 
 	/**

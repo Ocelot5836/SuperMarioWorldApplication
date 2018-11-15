@@ -12,7 +12,7 @@ import com.ocelot.mod.game.main.entity.player.Player;
  * 
  * @author Ocelot5836
  */
-public interface IGuiHandler {
+public interface GuiHandler {
 
 	/**
 	 * Opens a gui onto the screen.

@@ -45,19 +45,19 @@ public class GameStateManager {
 	public GameStateManager(GameTemplate game) {
 		this.game = game;
 
-		register(TestState.class, TEST);
-		register(ShopState.class, SHOP);
-		register(DebugSelectLevelState.class, DEBUG_SELECT_LEVEL);
-		register(MenuState.class, MENU);
-		register(WorldMapState.class, WORLD_MAP);
-		register(YoshiHouseState.class, YOSHI_HOUSE);
-		register(DemoLevelState.class, DEMO_LEVEL);
-		register(TestLevelState.class, TEST_LEVEL);
+		registerGameState(TestState.class, TEST);
+		registerGameState(ShopState.class, SHOP);
+		registerGameState(DebugSelectLevelState.class, DEBUG_SELECT_LEVEL);
+		registerGameState(MenuState.class, MENU);
+		registerGameState(WorldMapState.class, WORLD_MAP);
+		registerGameState(YoshiHouseState.class, YOSHI_HOUSE);
+		registerGameState(DemoLevelState.class, DEMO_LEVEL);
+		registerGameState(TestLevelState.class, TEST_LEVEL);
 
 		this.loadState(DEBUG_SELECT_LEVEL);
 	}
 
-	public void register(Class<? extends GameState> clazz, String registryName) {
+	public void registerGameState(Class<? extends GameState> clazz, String registryName) {
 		if (!gameStates.containsKey(registryName)) {
 			gameStates.put(registryName, clazz);
 		} else {

@@ -1,11 +1,11 @@
 package com.ocelot.mod.game.main.gui;
 
-import com.ocelot.mod.game.core.gfx.gui.IGuiHandler;
+import com.ocelot.mod.game.core.gfx.gui.GuiHandler;
 import com.ocelot.mod.game.core.gfx.gui.MarioGui;
 import com.ocelot.mod.game.core.level.tile.Tile;
 import com.ocelot.mod.game.main.entity.player.Player;
 
-public class Guis implements IGuiHandler {
+public class Guis implements GuiHandler {
 
 	public static final Guis INSTANCE = new Guis();
 
